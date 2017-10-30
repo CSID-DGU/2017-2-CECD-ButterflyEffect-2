@@ -19,7 +19,7 @@ using namespace std;
 using namespace cv;
 
 #define PORT_NUM "9000"
-#define ADDR "172.0.0.1"
+#define ADDR "127.0.0.1"
 #define BUFFER_SIZE 2000
 /*Rect  ... 전역변*/
 

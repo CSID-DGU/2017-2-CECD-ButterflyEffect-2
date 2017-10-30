@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/sy0814k/UDP1009/Client.cpp" "/home/sy0814k/UDP1009/CMakeFiles/client.dir/Client.cpp.o"
-  "/home/sy0814k/UDP1009/PracticalSocket.cpp" "/home/sy0814k/UDP1009/CMakeFiles/client.dir/PracticalSocket.cpp.o"
+  "/home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/Client.cpp" "/home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/CMakeFiles/client.dir/Client.cpp.o"
+  "/home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/PracticalSocket.cpp" "/home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/CMakeFiles/client.dir/PracticalSocket.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

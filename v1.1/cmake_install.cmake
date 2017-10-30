@@ -1,4 +1,4 @@
-# Install script for directory: /home/sy0814k/UDP1009
+# Install script for directory: /home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/sy0814k/UDP1009/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

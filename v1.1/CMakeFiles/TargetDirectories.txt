@@ -1,0 +1,4 @@
+/home/sy0814k/UDP1009/CMakeFiles/rebuild_cache.dir
+/home/sy0814k/UDP1009/CMakeFiles/edit_cache.dir
+/home/sy0814k/UDP1009/CMakeFiles/client.dir
+/home/sy0814k/UDP1009/CMakeFiles/server.dir

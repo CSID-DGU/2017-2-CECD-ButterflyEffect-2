@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1
+CMAKE_SOURCE_DIR = /home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1
+CMAKE_BINARY_DIR = /home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1
 
 # Include any dependencies generated for this target.
 include CMakeFiles/client.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/client.dir/flags.make
 
 CMakeFiles/client.dir/Client.cpp.o: CMakeFiles/client.dir/flags.make
 CMakeFiles/client.dir/Client.cpp.o: Client.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/client.dir/Client.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/Client.cpp.o -c /home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/Client.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/client.dir/Client.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/Client.cpp.o -c /home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/Client.cpp
 
 CMakeFiles/client.dir/Client.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/Client.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/Client.cpp > CMakeFiles/client.dir/Client.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/Client.cpp > CMakeFiles/client.dir/Client.cpp.i
 
 CMakeFiles/client.dir/Client.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/Client.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/Client.cpp -o CMakeFiles/client.dir/Client.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/Client.cpp -o CMakeFiles/client.dir/Client.cpp.s
 
 CMakeFiles/client.dir/Client.cpp.o.requires:
 
@@ -83,16 +83,16 @@ CMakeFiles/client.dir/Client.cpp.o.provides.build: CMakeFiles/client.dir/Client.
 
 CMakeFiles/client.dir/PracticalSocket.cpp.o: CMakeFiles/client.dir/flags.make
 CMakeFiles/client.dir/PracticalSocket.cpp.o: PracticalSocket.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/client.dir/PracticalSocket.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/PracticalSocket.cpp.o -c /home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/PracticalSocket.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/client.dir/PracticalSocket.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/PracticalSocket.cpp.o -c /home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/PracticalSocket.cpp
 
 CMakeFiles/client.dir/PracticalSocket.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/PracticalSocket.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/PracticalSocket.cpp > CMakeFiles/client.dir/PracticalSocket.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/PracticalSocket.cpp > CMakeFiles/client.dir/PracticalSocket.cpp.i
 
 CMakeFiles/client.dir/PracticalSocket.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/PracticalSocket.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/PracticalSocket.cpp -o CMakeFiles/client.dir/PracticalSocket.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/PracticalSocket.cpp -o CMakeFiles/client.dir/PracticalSocket.cpp.s
 
 CMakeFiles/client.dir/PracticalSocket.cpp.o.requires:
 
@@ -159,7 +159,7 @@ client: /usr/local/lib/libopencv_objdetect.so.3.3.0
 client: /usr/local/lib/libopencv_imgproc.so.3.3.0
 client: /usr/local/lib/libopencv_core.so.3.3.0
 client: CMakeFiles/client.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable client"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/client.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -177,6 +177,6 @@ CMakeFiles/client.dir/clean:
 .PHONY : CMakeFiles/client.dir/clean
 
 CMakeFiles/client.dir/depend:
-	cd /home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1 && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1 /home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1 /home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1 /home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1 /home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/CMakeFiles/client.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1 && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1 /home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1 /home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1 /home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1 /home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/CMakeFiles/client.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/client.dir/depend
 

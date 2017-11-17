@@ -14,20 +14,22 @@
 #include <pthread.h>
 #include <sstream>
 #include <vector>
-
-using namespace std;
-using namespace cv;
-
 #define PORT_NUM "9000"
 #define ADDR "127.0.0.1"
 #define BUFFER_SIZE 2000
+using namespace std;
+using namespace cv;
 /*Rect  ... 전역변*/
 
 Rect rect;
 
+//뮤텍스
 pthread_mutex_t count_mutex;
+
 int sock;
 int point[4];
+
+//직사각형 좌표
 void setPoint(int x1, int y1, int x2, int y2){
     pthread_mutex_lock(&count_mutex);
     rect.x = x1;
@@ -37,10 +39,22 @@ void setPoint(int x1, int y1, int x2, int y2){
     pthread_mutex_unlock(&count_mutex);
 }
 
+//몸, 손 좌표
+typedef struct Point{
+    double x, y;
+}Point;
 
+//각도 리턴
+double getDegree(Point first, Point second){
+    double degree, dx, dy, radian;
+    dx = first.x - second.x;
+    dy = first.y - second.y;
+    radian = atan2(dy, dx);
+    degree = (radian*180)/ PI;
+    return degree;
+}
 
 void *DataHandler(void *ptr){
-    cout<<"!!!0.5!!!" <<endl;
     while(true){
         char server_reply[BUFFER_SIZE];
         memset(server_reply, '\0', sizeof(server_reply));
@@ -49,9 +63,6 @@ void *DataHandler(void *ptr){
                 cout<<"2" <<endl;
         cout<<"data :" << server_reply <<endl;
         }
-     //   cout<<"data :" << server_reply <<endl;
-        //parsing
-        //server_reply[byte_Num] = '\0';
         cout<<"data :" << server_reply <<endl;
         string str(server_reply);
         string token;
@@ -67,15 +78,13 @@ void *DataHandler(void *ptr){
 }
 
 int main() {
-
-
     string servAddress = ADDR; // First arg: server address
 
     unsigned short servPort = Socket::resolveService(PORT_NUM, "udp");
 
     try {
-/*tcp 연결*/
-/*thread 생성부분 ... thread에서는 recv하여 전역변수 수정*/
+	/*tcp 연결*/
+	/*thread 생성부분 ... thread에서는 recv하여 전역변수 수정*/
         //tcp
         sockaddr_in server;
         pthread_t client_thread;

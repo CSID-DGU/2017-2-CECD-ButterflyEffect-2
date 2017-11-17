@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/PracticalSocket.cpp
+/home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/PracticalSocket.cpp
 PracticalSocket.h
-/home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/PracticalSocket.h
+/home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/PracticalSocket.h
 winsock.h
 -
 sys/types.h
@@ -28,7 +28,7 @@ errno.h
 string.h
 -
 
-/home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/PracticalSocket.h
+/home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/PracticalSocket.h
 cstdlib
 -
 exception
@@ -36,9 +36,9 @@ exception
 string
 -
 
-/home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/Server.cpp
+/home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/Server.cpp
 PracticalSocket.h
-/home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/PracticalSocket.h
+/home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/PracticalSocket.h
 iostream
 -
 cstdlib
@@ -72,11 +72,11 @@ opencv/cv.h
 pthread.h
 -
 opencv2/opencv.hpp
-/home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/opencv2/opencv.hpp
+/home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/opencv2/opencv.hpp
 config.h
-/home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/config.h
+/home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/config.h
 
-/home/sy0814k/bf/2017-2-CECD-ButterflyEffect-2/v1.1/config.h
+/home/sy0814k/Desktop/workspace/2017-2-CECD-ButterflyEffect-2/v1.1/config.h
 
 /usr/local/include/opencv/cv.h
 opencv2/core/core_c.h

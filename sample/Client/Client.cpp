@@ -14,8 +14,6 @@
 #include <pthread.h>
 #include <sstream>
 #include <vector>
-#define OBJECT_SIZE 30
-
 using namespace std;
 using namespace cv;
 
@@ -23,84 +21,91 @@ using namespace cv;
 //#define ADDR "127.0.0.1"
 #define ADDR "13.124.244.68"
 #define BUFFER_SIZE 2000
-/*Rect  ... 전역변*/
+#define PI 3.141592
+#define OBJECT_SIZE 30
 
 struct Pt{
     float x, y;
 };
+
 struct UserPoint{
 	struct Pt body;
 	struct Pt rightHand;
 };
-Rect rect;
+
 vector<UserPoint> keyPoints;
 pthread_mutex_t count_mutex;
 int sock;
 int point[4];
-int pre_X, pre_Y, cur_X, cur_Y, new_X, new_Y;
-
-void setPoint(int x1, int y1, int x2, int y2){
-    pthread_mutex_lock(&count_mutex);
-    rect.x = x1;
-    rect.y = y1;
-    rect.width = abs(x2-x1);
-    rect.height = abs(y2-y1);
-    pthread_mutex_unlock(&count_mutex);
+int cur_X, cur_Y;
+float theta;
+int key_Idx = 0;
+//사용자의 오른쪽 손과 몸통 좌표의 차를 이용하여 각도를 구한다.
+float getDegree(int idx){
+	float degree, dx, dy, radian;
+	if(!keyPoints[idx].righthand.x && !keyPoints[idx].righthand.y && !keyPoints[idx].body.x && !keyPoints[idx].body.y){
+		key_Idx--;
+		return theta;
+	}else{
+		dx = keyPoints[idx].righthand.x - keyPoints[idx].body.x;
+		dy = keyPoints[idx].righthand.y - keyPoints[idx].body.y;
+		radian = atan(dy/dx);
+		degree = (radian*180)/PI;
+		return degree;
+	}
 }
 
 void *DataHandler(void *ptr){
-    cout<<"!!!0.5!!!" <<endl;
     while(true){
         char server_reply[BUFFER_SIZE];
         memset(server_reply, '\0', sizeof(server_reply));
         int byte_Num;
         if(byte_Num = recv(sock, server_reply, BUFFER_SIZE, 0) < 0){
-                cout<<"2" <<endl;
-        cout<<"data :" << server_reply <<endl;
+			cout << "receive error!!" << endl;
         }
-     	//cout<<"data :" << server_reply <<endl;
         //parsing
-        //server_reply[byte_Num] = '\0';
-        cout<<"data :" << server_reply <<endl;
-        
+        cout <<"data :" << server_reply << endl;
         string str(server_reply);
         string token;
         stringstream stream(str);
         int i = 0;
-        stream>>token;
+        stream >> token;
         int size = std::stoi(token);
-        for(int i=0;i<size;i++){
+        for(i=0; i < size; i++){
             UserPoint userPoint;
-            stream>>token;
+            stream >> token;
             userPoint.body.x = std::stoi(token);
-            stream>>token;
+            stream >> token;
             userPoint.body.y = std::stoi(token);
-        
-            stream>>token;
+            stream >> token;
             userPoint.rightHand.x = std::stoi(token);
-            stream>>token;
+            stream >> token;
             userPoint.rightHand.y = std::stoi(token);
             keyPoints.push_back(userPoint);
         }
-        for(int i=0;i<size;i++){
-            cout<<"keyPoints:"<<(i+1)<<endl;
-            cout<<"body:"<<keyPoints[i].body.x<<","<<keyPoints[i].body.y<<endl;
-            cout<<"rightHand:"<<keyPoints[i].rightHand.x<<","<<keyPoints[i].rightHand.y<<endl;
-        }
-		
+		/*
+        for(i=0; i<size; i++){
+            cout << "keyPoints:" << (i+1) << endl;
+            cout << "body:" << keyPoints[i].body.x <<"," << keyPoints[i].body.y<<endl;
+            cout << "rightHand:" << keyPoints[i].rightHand.x << "," << keyPoints[i].rightHand.y<<endl;
+        }*/
+
+		//theta = getDegree(key_Idx++); 오픈포즈 속도 문제가 해결되면 이 코드를 사용하면 객체가 이동함.
+		theta = 30;
     }
 }
 
 void init(){
-	pre_X = 0; pre_Y = 0;
-	cur_X = 50; cur_Y = 50;
-	new_X = 0; new_Y = 0;
+	cur_X = 100;
+	cur_Y = 100;
+	theta = 0;
 }
 
-int main(){
+int main() {
+	init();
+	int d = 3;
     string servAddress = ADDR; // First arg: server address
     unsigned short servPort = Socket::resolveService(PORT_NUM, "udp");
-	
     try {
 		/*tcp 연결*/
 		/*thread 생성부분 ... thread에서는 recv하여 전역변수 수정*/
@@ -143,8 +148,6 @@ int main(){
         }
 
         clock_t last_cycle = clock();
-
-		init();
         while (1) {
             cap >> frame;
             if(frame.size().width==0)continue;//simple integrity check; skip erroneous data...
@@ -152,10 +155,10 @@ int main(){
             vector < int > compression_params;
             compression_params.push_back(CV_IMWRITE_JPEG_QUALITY);
             compression_params.push_back(jpegqual);
-
             imencode(".jpg", send, encoded, compression_params);
-            /*Rect 이용 사각형 그리기*/
-            //rectangle(send, Point(rect.x, rect.y),Point(rect.x +rect.width, rect.y + rect.height),Scalar(0, 255, 0), 5);
+
+			cur_X += d*cos(theta/180*PI);
+			cur_Y -= d*sin(theta/180*PI);
 			circle(send, Point(cur_X, cur_Y), OBJECT_SIZE, Scalar(255, 0, 0), -1);
             imshow("send", send);
             int total_pack = 1 + (encoded.size() - 1) / PACK_SIZE;
@@ -171,17 +174,15 @@ int main(){
 
             clock_t next_cycle = clock();
             double duration = (next_cycle - last_cycle) / (double) CLOCKS_PER_SEC;
-         	//cout << "\teffective FPS:" << (1 / duration) << " \tkbps:" << (PACK_SIZE * total_pack / duration / 1024 * 8) << endl;
+			//cout << "\teffective FPS:" << (1 / duration) << " \tkbps:" << (PACK_SIZE * total_pack / duration / 1024 * 8) << endl;
 
-         	//cout << next_cycle - last_cycle;
             last_cycle = next_cycle;
         }
-        //Destructor closes the socket
+			//Destructor closes the socket
 
-    } catch (SocketException & e) {
+    }catch (SocketException & e) {
         cerr << e.what() << endl;
         exit(1);
     }
-
     return 0;
 }

@@ -103,7 +103,7 @@ void init(){
 
 int main() {
 	init();
-	int d = 3;
+	int d = 1;
     string servAddress = ADDR; // First arg: server address
     unsigned short servPort = Socket::resolveService(PORT_NUM, "udp");
     try {

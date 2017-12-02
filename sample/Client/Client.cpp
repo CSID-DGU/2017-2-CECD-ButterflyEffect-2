@@ -43,12 +43,12 @@ int key_Idx = 0;
 //사용자의 오른쪽 손과 몸통 좌표의 차를 이용하여 각도를 구한다.
 float getDegree(int idx){
 	float degree, dx, dy, radian;
-	if(!keyPoints[idx].righthand.x && !keyPoints[idx].righthand.y && !keyPoints[idx].body.x && !keyPoints[idx].body.y){
+	if(!keyPoints[idx].rightHand.x && !keyPoints[idx].rightHand.y && !keyPoints[idx].body.x && !keyPoints[idx].body.y){
 		key_Idx--;
 		return theta;
 	}else{
-		dx = keyPoints[idx].righthand.x - keyPoints[idx].body.x;
-		dy = keyPoints[idx].righthand.y - keyPoints[idx].body.y;
+		dx = keyPoints[idx].rightHand.x - keyPoints[idx].body.x;
+		dy = keyPoints[idx].rightHand.y - keyPoints[idx].body.y;
 		radian = atan(dy/dx);
 		degree = (radian*180)/PI;
 		return degree;

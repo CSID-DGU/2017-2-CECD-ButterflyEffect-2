@@ -117,6 +117,20 @@ float getDegree(int idx){
 	}
 }
 
+float getDirectDegree(Pt first, Pt second){
+    float degree, dx, dy , radian;
+    dx = first.x - second.x;
+    dy = first.y - second.y;
+
+    cout<<"first:("<<first.x<<","<<first.y<<")"<<endl;
+    cout<<"second:("<<second.x<<","<<second.y<<")"<<endl;
+    radian = atan2(dy, dx);
+    degree = (radian*180)/PI;
+   // cout<<"degree:"<<degree<<endl;
+    return degree;
+}
+
+
 void *DataHandler(void *ptr){
     while(true){
         char server_reply[BUFFER_SIZE];
@@ -133,6 +147,7 @@ void *DataHandler(void *ptr){
         int i = 0;
         stream >> token;
         int size = std::stoi(token);
+        cout<<"size:"<<keyPoints.size()<<endl;
         for(i=0; i < size; i++){
             UserPoint userPoint;
             stream >> token;
@@ -143,7 +158,8 @@ void *DataHandler(void *ptr){
             userPoint.rightHand.x = std::stoi(token);
             stream >> token;
             userPoint.rightHand.y = std::stoi(token);
-            keyPoints.push_back(userPoint);
+            //keyPoints.push_back(userPoint);
+            keyPoints[i] = userPoint;
         }
 		/*
         for(i=0; i<size; i++){
@@ -153,7 +169,7 @@ void *DataHandler(void *ptr){
         }*/
 
 		//theta = getDegree(key_Idx++); 오픈포즈 속도 문제가 해결되면 이 코드를 사용하면 객체가 이동함.
-		theta = 30;
+		//theta = 30;
     }
 }
 
@@ -161,6 +177,10 @@ void init(){
 	cur_X = 100;
 	cur_Y = 100;
 	theta = 0;
+    UserPoint initPoint;
+    initPoint.body.x = 0; initPoint.body.y = 0;
+    initPoint.rightHand.x = 0; initPoint.rightHand.y = 0;
+    keyPoints.push_back(initPoint);
 }
 
 int main() {
@@ -225,7 +245,7 @@ int main() {
             imencode(".jpg", send, encoded, compression_params);
 
             //drawing worms
-            worms.setTheta(30);
+            worms.setTheta(getDirectDegree(keyPoints[0].rightHand,keyPoints[0].body));
             worms.move();
             drawing(send, image);
             imshow("send", send);

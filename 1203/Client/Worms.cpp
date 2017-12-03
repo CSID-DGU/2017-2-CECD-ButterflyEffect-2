@@ -42,3 +42,6 @@ int Worms::getColor(){
 int Worms::getHeadColor(){
 	return this->headColor;
 }
+float Worms::getTheta(){
+	return this->theta;
+}

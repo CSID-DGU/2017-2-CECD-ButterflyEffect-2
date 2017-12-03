@@ -17,7 +17,9 @@ public:
 	void setTheta(float theta);
 	int getColor();
 	int getHeadColor();
+	float getTheta();	
 	vector<Pt> getBody();
+	
 private:
 	float theta; //지렁이 현재 각도
 	int headColor;

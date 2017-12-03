@@ -1,0 +1,3 @@
+/home/hansb/sample/Client/CMakeFiles/rebuild_cache.dir
+/home/hansb/sample/Client/CMakeFiles/edit_cache.dir
+/home/hansb/sample/Client/CMakeFiles/client.dir

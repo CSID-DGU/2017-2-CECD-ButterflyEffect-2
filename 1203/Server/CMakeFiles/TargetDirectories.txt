@@ -1,0 +1,4 @@
+/home/hansb/openpose/examples/user_codesendPos/CMakeFiles/edit_cache.dir
+/home/hansb/openpose/examples/user_codesendPos/CMakeFiles/Client.bin.dir
+/home/hansb/openpose/examples/user_codesendPos/CMakeFiles/rebuild_cache.dir
+/home/hansb/openpose/examples/user_codesendPos/CMakeFiles/Server.bin.dir

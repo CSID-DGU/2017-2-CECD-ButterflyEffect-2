@@ -20,14 +20,14 @@ int main(){
 		cout << "배경 이미지 불러오기 실패." << endl;
 		return 0;
 	}
-	Mat image = imread("images/worm.png", -1);
+	Mat image = imread("images/head.png", -1);
 	if(image.empty()){
 		cout << "이미지 불러오기 실패." << endl;
 		return 0;
 	}
 	theta = 30;
 	circle(background, Point(100, 100), 30, Scalar(255, 0, 0), -1);
-	DrawImage(image, background, Point(0, 0), 10, 4);
+	DrawImage(image, background, Point(0, 0), 1.0, 1.5);
 	imshow("mask", background);
 	//waitKey("result.png", background);
 	waitKey();

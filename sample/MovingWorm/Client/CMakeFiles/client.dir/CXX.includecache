@@ -6,13 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203_2/Client/Client.cpp
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/Client.cpp
 opencv2/opencv.hpp
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203_2/Client/opencv2/opencv.hpp
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/opencv2/opencv.hpp
 config.h
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203_2/Client/config.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/config.h
 PracticalSocket.h
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203_2/Client/PracticalSocket.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/PracticalSocket.h
 iostream
 -
 cstdlib
@@ -40,15 +40,15 @@ sstream
 vector
 -
 Point.h
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203_2/Client/Point.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/Point.h
 Worms.h
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203_2/Client/Worms.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/Worms.h
 
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203_2/Client/Point.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/Point.h
 
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203_2/Client/PracticalSocket.cpp
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/PracticalSocket.cpp
 PracticalSocket.h
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203_2/Client/PracticalSocket.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/PracticalSocket.h
 winsock.h
 -
 sys/types.h
@@ -68,7 +68,7 @@ errno.h
 string.h
 -
 
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203_2/Client/PracticalSocket.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/PracticalSocket.h
 cstdlib
 -
 exception
@@ -76,13 +76,13 @@ exception
 string
 -
 
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203_2/Client/Worms.cpp
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/Worms.cpp
 Worms.h
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203_2/Client/Worms.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/Worms.h
 cmath
 -
 
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203_2/Client/Worms.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/Worms.h
 iostream
 -
 string
@@ -90,7 +90,7 @@ string
 vector
 -
 Point.h
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203_2/Client/Point.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/Point.h
 
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203_2/Client/config.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/config.h
 

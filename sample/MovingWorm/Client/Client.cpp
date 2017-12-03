@@ -32,7 +32,7 @@ int sock;
 int point[4];
 int cur_X, cur_Y;
 Worms worms;
-float theta;
+float theta = 1;
 int key_Idx = 0;
 
 //이미지 회전 함수
@@ -47,11 +47,9 @@ Mat ImageRotate(Mat src, double degree, Point2d base){
 void DrawImage(Mat src, Mat frame, Point p, double degree, double size){
 	Mat dst;
 	Mat mask;
-	if(degree != 0){
-		//이미지 각도에 맞게 회전
-		Point2d mid(src.cols/size, src.rows/size);
-		dst = ImageRotate(src, degree, mid);
-	}
+	//이미지 각도에 맞게 회전
+	Point2d mid(src.cols/2, src.rows/2);
+	dst = ImageRotate(src, degree, mid);
 
 	//프레임에 이미지 붙이기
 	Rect target_roi(p.x, p.y, dst.cols/size, dst.rows/size);
@@ -91,16 +89,17 @@ void DrawImage(Mat src, Mat frame, Point p, double degree, double size){
 
 //drawing worms on the frame
 void drawing(Mat frame, Mat image){
-	vector<Pt> bodys = worms.getBody();
-	for(int i = bodys.size() - 1;i >= 0; i--){
-		if(i == 0)	
-			//circle(frame, Point(bodys[i].x, bodys[i].y), OBJECT_SIZE, Scalar(255, 255, 255), -1);
-			DrawImage(image, frame, Point(bodys[i].x-(image.cols/4), bodys[i].y-(image.rows/4)), 1.0, 1.5);
+	vector<Pt> bodies = worms.getBody();
+	for(int i = bodies.size() - 1;i >= 0; i--){
+		if(i == 0){	
+			//circle(frame, Point(bodies[i].x, bodies[i].y), OBJECT_SIZE, Scalar(255, 255, 255), -1);
+			cout << "현재 각도>> " << worms.getTheta() << endl;
+			DrawImage(image, frame, Point(bodies[i].x-(image.cols/4), bodies[i].y-(image.rows/4)), (double)worms.getTheta(), 1.5);
+		}
 		else
-			circle(frame, Point(bodys[i].x, bodys[i].y), OBJECT_SIZE, Scalar(0, 255, 0), -1);
-		cout << "body:" << i << " (" << bodys[i].x << "," << bodys[i].y << ")" << endl;
-	}
-			
+			circle(frame, Point(bodies[i].x, bodies[i].y), OBJECT_SIZE, Scalar(0, 255, 0), -1);
+		//cout << "body:" << i << " (" << bodies[i].x << "," << bodies[i].y << ")" << endl;
+	}		
 }
 
 //사용자의 오른쪽 손과 몸통 좌표의 차를 이용하여 각도를 구한다.
@@ -226,7 +225,7 @@ int main() {
             imencode(".jpg", send, encoded, compression_params);
 
             //drawing worms
-            worms.setTheta(theta);
+            worms.setTheta(30);
             worms.move();
             drawing(send, image);
             imshow("send", send);

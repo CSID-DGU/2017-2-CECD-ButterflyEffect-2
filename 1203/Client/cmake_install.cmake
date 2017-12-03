@@ -1,4 +1,4 @@
-# Install script for directory: /home/hansb/sample/Client
+# Install script for directory: /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/hansb/sample/Client/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

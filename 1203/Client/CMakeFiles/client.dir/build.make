@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hansb/sample/Client
+CMAKE_SOURCE_DIR = /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hansb/sample/Client
+CMAKE_BINARY_DIR = /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client
 
 # Include any dependencies generated for this target.
 include CMakeFiles/client.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/client.dir/flags.make
 
 CMakeFiles/client.dir/Client.cpp.o: CMakeFiles/client.dir/flags.make
 CMakeFiles/client.dir/Client.cpp.o: Client.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hansb/sample/Client/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/client.dir/Client.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/Client.cpp.o -c /home/hansb/sample/Client/Client.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/client.dir/Client.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/Client.cpp.o -c /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/Client.cpp
 
 CMakeFiles/client.dir/Client.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/Client.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hansb/sample/Client/Client.cpp > CMakeFiles/client.dir/Client.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/Client.cpp > CMakeFiles/client.dir/Client.cpp.i
 
 CMakeFiles/client.dir/Client.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/Client.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hansb/sample/Client/Client.cpp -o CMakeFiles/client.dir/Client.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/Client.cpp -o CMakeFiles/client.dir/Client.cpp.s
 
 CMakeFiles/client.dir/Client.cpp.o.requires:
 
@@ -83,16 +83,16 @@ CMakeFiles/client.dir/Client.cpp.o.provides.build: CMakeFiles/client.dir/Client.
 
 CMakeFiles/client.dir/PracticalSocket.cpp.o: CMakeFiles/client.dir/flags.make
 CMakeFiles/client.dir/PracticalSocket.cpp.o: PracticalSocket.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hansb/sample/Client/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/client.dir/PracticalSocket.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/PracticalSocket.cpp.o -c /home/hansb/sample/Client/PracticalSocket.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/client.dir/PracticalSocket.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/PracticalSocket.cpp.o -c /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/PracticalSocket.cpp
 
 CMakeFiles/client.dir/PracticalSocket.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/PracticalSocket.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hansb/sample/Client/PracticalSocket.cpp > CMakeFiles/client.dir/PracticalSocket.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/PracticalSocket.cpp > CMakeFiles/client.dir/PracticalSocket.cpp.i
 
 CMakeFiles/client.dir/PracticalSocket.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/PracticalSocket.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hansb/sample/Client/PracticalSocket.cpp -o CMakeFiles/client.dir/PracticalSocket.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/PracticalSocket.cpp -o CMakeFiles/client.dir/PracticalSocket.cpp.s
 
 CMakeFiles/client.dir/PracticalSocket.cpp.o.requires:
 
@@ -107,16 +107,16 @@ CMakeFiles/client.dir/PracticalSocket.cpp.o.provides.build: CMakeFiles/client.di
 
 CMakeFiles/client.dir/Worms.cpp.o: CMakeFiles/client.dir/flags.make
 CMakeFiles/client.dir/Worms.cpp.o: Worms.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/hansb/sample/Client/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/client.dir/Worms.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/Worms.cpp.o -c /home/hansb/sample/Client/Worms.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/client.dir/Worms.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/client.dir/Worms.cpp.o -c /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/Worms.cpp
 
 CMakeFiles/client.dir/Worms.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/Worms.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/hansb/sample/Client/Worms.cpp > CMakeFiles/client.dir/Worms.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/Worms.cpp > CMakeFiles/client.dir/Worms.cpp.i
 
 CMakeFiles/client.dir/Worms.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/Worms.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/hansb/sample/Client/Worms.cpp -o CMakeFiles/client.dir/Worms.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/Worms.cpp -o CMakeFiles/client.dir/Worms.cpp.s
 
 CMakeFiles/client.dir/Worms.cpp.o.requires:
 
@@ -161,7 +161,7 @@ client: /usr/lib/x86_64-linux-gnu/libopencv_imgproc.so.2.4.9
 client: /usr/lib/x86_64-linux-gnu/libopencv_flann.so.2.4.9
 client: /usr/lib/x86_64-linux-gnu/libopencv_core.so.2.4.9
 client: CMakeFiles/client.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/hansb/sample/Client/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable client"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/client.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -180,6 +180,6 @@ CMakeFiles/client.dir/clean:
 .PHONY : CMakeFiles/client.dir/clean
 
 CMakeFiles/client.dir/depend:
-	cd /home/hansb/sample/Client && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hansb/sample/Client /home/hansb/sample/Client /home/hansb/sample/Client /home/hansb/sample/Client /home/hansb/sample/Client/CMakeFiles/client.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client /home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/CMakeFiles/client.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/client.dir/depend
 

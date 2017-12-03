@@ -6,13 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/home/hansb/sample/Client/Client.cpp
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/Client.cpp
 opencv2/opencv.hpp
-/home/hansb/sample/Client/opencv2/opencv.hpp
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/opencv2/opencv.hpp
 config.h
-/home/hansb/sample/Client/config.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/config.h
 PracticalSocket.h
-/home/hansb/sample/Client/PracticalSocket.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/PracticalSocket.h
 iostream
 -
 cstdlib
@@ -40,15 +40,15 @@ sstream
 vector
 -
 Point.h
-/home/hansb/sample/Client/Point.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/Point.h
 Worms.h
-/home/hansb/sample/Client/Worms.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/Worms.h
 
-/home/hansb/sample/Client/Point.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/Point.h
 
-/home/hansb/sample/Client/PracticalSocket.cpp
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/PracticalSocket.cpp
 PracticalSocket.h
-/home/hansb/sample/Client/PracticalSocket.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/PracticalSocket.h
 winsock.h
 -
 sys/types.h
@@ -68,7 +68,7 @@ errno.h
 string.h
 -
 
-/home/hansb/sample/Client/PracticalSocket.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/PracticalSocket.h
 cstdlib
 -
 exception
@@ -76,13 +76,13 @@ exception
 string
 -
 
-/home/hansb/sample/Client/Worms.cpp
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/Worms.cpp
 Worms.h
-/home/hansb/sample/Client/Worms.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/Worms.h
 cmath
 -
 
-/home/hansb/sample/Client/Worms.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/Worms.h
 iostream
 -
 string
@@ -90,7 +90,7 @@ string
 vector
 -
 Point.h
-/home/hansb/sample/Client/Point.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/Point.h
 
-/home/hansb/sample/Client/config.h
+/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/1203/Client/config.h
 

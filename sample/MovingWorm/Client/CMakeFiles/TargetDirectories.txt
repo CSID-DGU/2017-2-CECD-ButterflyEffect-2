@@ -1,3 +1,0 @@
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/CMakeFiles/rebuild_cache.dir
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/CMakeFiles/edit_cache.dir
-/home/ubuntu/Desktop/ICPC/2017-2-CECD-ButterflyEffect-2/sample/MovingWorm/Client/CMakeFiles/client.dir

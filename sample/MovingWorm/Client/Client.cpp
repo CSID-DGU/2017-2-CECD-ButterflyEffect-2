@@ -20,8 +20,8 @@ using namespace std;
 using namespace cv;
 
 #define PORT_NUM "9000"
-#define ADDR "127.0.0.1"
-//#define ADDR "13.124.244.68"
+//#define ADDR "127.0.0.1"
+#define ADDR "52.78.134.45"
 #define BUFFER_SIZE 2000
 #define PI 3.141592
 #define OBJECT_SIZE 30
@@ -88,7 +88,7 @@ void DrawImage(Mat src, Mat frame, Point p, double degree, double size){
 }
 
 //drawing worms on the frame
-void drawing(Mat frame, Mat image){
+void drawing(Mat frame, Mat image, Mat body){
 	vector<Pt> bodies = worms.getBody();
 	for(int i = bodies.size() - 1;i >= 0; i--){
 		if(i == 0){	
@@ -96,8 +96,10 @@ void drawing(Mat frame, Mat image){
 			cout << "현재 각도>> " << worms.getTheta() << endl;
 			DrawImage(image, frame, Point(bodies[i].x-(image.cols/4), bodies[i].y-(image.rows/4)), (double)worms.getTheta(), 1.5);
 		}
-		else
-			circle(frame, Point(bodies[i].x, bodies[i].y), OBJECT_SIZE, Scalar(0, 255, 0), -1);
+		else{
+			//circle(frame, Point(bodies[i].x, bodies[i].y), OBJECT_SIZE, Scalar(0, 255, 0), -1);
+			DrawImage(body, frame, Point(bodies[i].x - (body.cols/4), bodies[i].y - (body.rows/4)), (double)worms.getTheta(), 1.5);
+		}
 		//cout << "body:" << i << " (" << bodies[i].x << "," << bodies[i].y << ")" << endl;
 	}		
 }
@@ -231,6 +233,7 @@ int main() {
         clock_t last_cycle = clock();
 
 		Mat image = imread("images/head.png", -1);
+		Mat body = imread("images/body.png", -1);
 		if(image.empty()){
 			cout << "이미지 불러오기 실패" << endl;
 			return 0;
@@ -247,7 +250,8 @@ int main() {
             //drawing worms
             worms.setTheta(getDirectDegree(keyPoints[0].rightHand,keyPoints[0].body));
             worms.move();
-            drawing(send, image);
+			flip(send, send, 1);
+            drawing(send, image, body);
             imshow("send", send);
            
             int total_pack = 1 + (encoded.size() - 1) / PACK_SIZE;

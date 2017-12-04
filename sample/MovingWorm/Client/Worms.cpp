@@ -4,8 +4,8 @@
 Worms::Worms(int color){
 	this->headColor = 0;
 	this->color = color;
-	this->velocity = 1;
-	for(int i=0;i<100;i++){
+	this->velocity = 5;
+	for(int i=0;i<20;i++){
 		Pt body(100,100);	
 		bodys.push_back(body);
 	}
@@ -18,7 +18,7 @@ void Worms::move(){
 	
 	vector<Pt> temp = bodys;
 
-	bodys[0].x += (velocity) * cos(theta / 180 * 3.14);
+	bodys[0].x += -((velocity) * cos(theta / 180 * 3.14));
 	bodys[0].y += (velocity) * sin(theta / 180 * 3.14);
 	
 	for(int i=1;i<bodys.size();i++){

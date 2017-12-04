@@ -586,7 +586,7 @@ void* transfer(void*)
 int main(int argc, char *argv[]) {
     //unsigned short servPort = atoi(argv[1]); // First arg:  local port
     int FRAME= 0;
-    namedWindow("recv", CV_WINDOW_AUTOSIZE);
+    //namedWindow("recv", CV_WINDOW_AUTOSIZE);
        // Parsing command line flags
     gflags::ParseCommandLineFlags(&argc, &argv, true);
 

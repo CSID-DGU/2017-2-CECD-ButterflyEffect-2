@@ -45,3 +45,9 @@ int Worms::getHeadColor(){
 float Worms::getTheta(){
 	return this->theta;
 }
+void Worms::increaseBody(){
+	for(int i=0;i<5;i++){
+		Pt body(bodys[0].x,bodys[0].y);	
+		bodys.push_back(body);
+	}
+}

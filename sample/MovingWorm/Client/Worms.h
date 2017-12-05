@@ -15,6 +15,7 @@ public:
 	~Worms();
 	void move();
 	void setTheta(float theta);
+	void increaseBody();
 	int getColor();
 	int getHeadColor();
 	float getTheta();	

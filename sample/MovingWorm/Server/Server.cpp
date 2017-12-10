@@ -359,7 +359,7 @@ public:
                                    pt.body.y = poseKeypoints[{person,bodyPart,1}]; 
 
                         }
-                        else if(bodyPart == 4){// right hand
+                        else if(bodyPart == 6){// right hand
                              pt.rightHand.x = poseKeypoints[{person,bodyPart,0}];
                              pt.rightHand.y = poseKeypoints[{person,bodyPart,1}]; 
                         } 

@@ -20,8 +20,8 @@ using namespace std;
 using namespace cv;
 
 #define PORT_NUM "9000"
-#define ADDR "127.0.0.1"
-//#define ADDR "52.78.134.45"
+//#define ADDR "127.0.0.1"
+#define ADDR "61.83.209.185"
 #define BUFFER_SIZE 2000
 #define PI 3.141592
 #define OBJECT_SIZE 30
@@ -37,8 +37,7 @@ Worms worms;
 float theta = 1;
 int key_Idx = 0;
 
-void makeFood(){
-            
+void makeFood(){ 
             Pt food(rand()%FRAME_WIDTH, rand()%FRAME_HEIGHT);
             foods.push_back(food);
 }
@@ -102,20 +101,24 @@ void drawing(Mat frame, Mat image, Mat body){
     for(int i = bodies.size() - 1;i >= 0; i--){
         if(i == 0){ 
             //circle(frame, Point(bodies[i].x, bodies[i].y), OBJECT_SIZE, Scalar(255, 255, 255), -1);
-            cout << "현재 각도>> " << worms.getTheta() + 180 << endl; // ....** have to change
+            cout << "현재 각도>> " << worms.getTheta() << endl;
             DrawImage(image, frame, Point(bodies[i].x-(image.cols/4), bodies[i].y-(image.rows/4)), (double)worms.getTheta(), 1.5);
         }
         else{
-            //circle(frame, Point(bodies[i].x, bodies[i].y), OBJECT_SIZE, Scalar(0, 255, 0), -1);
             DrawImage(body, frame, Point(bodies[i].x - (body.cols/4), bodies[i].y - (body.rows/4)), (double)worms.getTheta(), 1.5);
         }
-        //cout << "body:" << i << " (" << bodies[i].x << "," << bodies[i].y << ")" << endl;
     }       
 
     //drawing foods
     for(int i=0;i<foods.size();i++){
         circle(frame, Point(foods[i].x,foods[i].y),FOOD_SIZE,Scalar(rand()%255,rand()%255,rand()%255),-1);
     }
+
+	//drawing body and hand
+    circle(frame, Point(keyPoints[0].body.x, keyPoints[0].body.y), 30, Scalar(0, 0, 255), -1);
+    circle(frame, Point(keyPoints[0].body.x, keyPoints[0].body.y), 25, Scalar(255, 255, 255), -1);
+    circle(frame, Point(keyPoints[0].rightHand.x, keyPoints[0].rightHand.y), 30, Scalar(0, 0, 255), -1);
+    circle(frame, Point(keyPoints[0].rightHand.x, keyPoints[0].rightHand.y), 25, Scalar(255, 255, 255), -1);
 }
 
 bool isCrashed(Pt p1, Pt p2){
@@ -147,36 +150,18 @@ void crashHandler(){
     }
 }
 
-
-
-//사용자의 오른쪽 손과 몸통 좌표의 차를 이용하여 각도를 구한다.
-float getDegree(int idx){
-    float degree, dx, dy, radian;
-    if(!keyPoints[idx].rightHand.x && !keyPoints[idx].rightHand.y && !keyPoints[idx].body.x && !keyPoints[idx].body.y){
-        key_Idx--;
-        return theta;
-    }else{
-        dx = keyPoints[idx].rightHand.x - keyPoints[idx].body.x;
-        dy = keyPoints[idx].rightHand.y - keyPoints[idx].body.y;
-        radian = atan(dy/dx);
-        degree = (radian*180)/PI;
-        return degree;
-    }
-}
-
 float getDirectDegree(Pt first, Pt second){
     float degree, dx, dy , radian;
     dx = first.x - second.x;
     dy = first.y - second.y;
 
-    cout<<"first:("<<first.x<<","<<first.y<<")"<<endl;
-    cout<<"second:("<<second.x<<","<<second.y<<")"<<endl;
+    cout << "first:(" << first.x << "," << first.y << ")" << endl;
+    cout << "second:(" << second.x << "," << second.y << ")" << endl;
     radian = atan2(dy, dx);
     degree = (radian*180)/PI;
-   // cout<<"degree:"<<degree<<endl;
+
     return degree;
 }
-
 
 void *DataHandler(void *ptr){
     while(true){
@@ -205,18 +190,8 @@ void *DataHandler(void *ptr){
             userPoint.rightHand.x = std::stoi(token);
             stream >> token;
             userPoint.rightHand.y = std::stoi(token);
-            //keyPoints.push_back(userPoint);
             keyPoints[i] = userPoint;
         }
-        /*
-        for(i=0; i<size; i++){
-            cout << "keyPoints:" << (i+1) << endl;
-            cout << "body:" << keyPoints[i].body.x <<"," << keyPoints[i].body.y<<endl;
-            cout << "rightHand:" << keyPoints[i].rightHand.x << "," << keyPoints[i].rightHand.y<<endl;
-        }*/
-
-        //theta = getDegree(key_Idx++); 오픈포즈 속도 문제가 해결되면 이 코드를 사용하면 객체가 이동함.
-        //theta = 30;
     }
 }
 
@@ -234,7 +209,6 @@ void init(){
     
 }
 
-
 int main() {
     init();
     int d = 1;
@@ -242,8 +216,6 @@ int main() {
     unsigned short servPort = Socket::resolveService(PORT_NUM, "udp");
     try {
         /*tcp 연결*/
-        /*thread 생성부분 ... thread에서는 recv하여 전역변수 수정*/
-        //tcp
         sockaddr_in server;
         pthread_t client_thread;
 
@@ -295,12 +267,12 @@ int main() {
             vector < int > compression_params;
             compression_params.push_back(CV_IMWRITE_JPEG_QUALITY);
             compression_params.push_back(jpegqual);
+            flip(send, send, 1);
             imencode(".jpg", send, encoded, compression_params);
 
             //drawing worms
             worms.setTheta(getDirectDegree(keyPoints[0].rightHand,keyPoints[0].body));
             worms.move();
-            flip(send, send, 1);
             drawing(send, image, body);
             crashHandler();
 
@@ -323,8 +295,6 @@ int main() {
 
             last_cycle = next_cycle;
         }
-            //Destructor closes the socket
-
     }catch (SocketException & e) {
         cerr << e.what() << endl;
         exit(1);

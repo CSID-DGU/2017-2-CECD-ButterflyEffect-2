@@ -20,7 +20,7 @@ void Worms::move(){
 	vector<Pt> temp = bodys;
 
 	if(0 + WORMS_HEAD <bodys[0].x && bodys[0].x<FRAME_WIDTH - WORMS_HEAD)
-		bodys[0].x += -((velocity) * cos(theta / 180 * 3.14));
+		bodys[0].x += (velocity) * cos(theta / 180 * 3.14);
 	else
 	{
 		bodys[0].x = START_X;

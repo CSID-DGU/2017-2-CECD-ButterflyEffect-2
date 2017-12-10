@@ -21,7 +21,7 @@ using namespace cv;
 
 #define PORT_NUM "9000"
 //#define ADDR "127.0.0.1"
-#define ADDR "61.83.209.185"
+#define ADDR "13.124.165.41"
 #define BUFFER_SIZE 2000
 #define PI 3.141592
 #define OBJECT_SIZE 30
@@ -283,14 +283,14 @@ int main() {
 			myPoint.x = 800;
 			myPoint.y = 100;		 
 			// Font Face
-			int myFontFace = 1;
+			int myFontFace = 5;
 			// Font Scale
-			double myFontScale = 1.5;
+			double myFontScale = 2;
 			cout << "UserDegree >> " << worms.getTheta() << endl;
             //worms.setTheta(getDirectDegree(keyPoints[0].rightHand,keyPoints[0].body));
             worms.move();
             drawing(send, image, body);
-			cv::putText( send, myText, myPoint, myFontFace, myFontScale, Scalar::all(255) );
+			cv::putText( send, myText, myPoint, myFontFace, myFontScale, Scalar(0,255,0) );
             crashHandler();
 
             imshow("send", send);

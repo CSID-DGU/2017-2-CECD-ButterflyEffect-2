@@ -62,7 +62,7 @@ using namespace cv;
 #include <openpose/headers.hpp>
 std::queue<cv::Mat> frameQueue;
 int tcpsocket;
-
+bool flag = false;
 struct Pt{
     float x, y;
 };
@@ -226,11 +226,12 @@ public:
     std::shared_ptr<std::vector<UserDatum>> workProducer()
     {
         try
-        {
-            // Close program when empty frame
-           // if (mImageFiles.size() <= mCounter)
+        {	
+			while(flag == false){}
+            //Close program when empty frame
+            //if (mImageFiles.size() <= mCounter)
             
-              if(frameQueue.empty())
+			if(frameQueue.empty())
             {
                 //op::log("queue is empty.", op::Priority::High);
                 // This funtion stops this worker, which will eventually stop the whole thread system once all the
@@ -516,7 +517,7 @@ int openPoseTutorialWrapper2()
                                                       FLAGS_write_heatmaps, FLAGS_write_heatmaps_format};
     // Configure wrapper
     opWrapper.configure(wrapperStructPose, wrapperStructFace, wrapperStructHand, op::WrapperStructInput{},
-                        wrapperStructOutput);
+                        wrapperStructOutput, flag);
     // Set to single-thread running (e.g. for debugging purposes)
     // opWrapper.disableMultiThreading();
 

@@ -9,4 +9,6 @@
 
 #define START_X 300
 #define START_Y 500
+#define THETA_C 10
+#define VELOCITY 7
 #endif

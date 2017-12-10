@@ -101,11 +101,10 @@ void drawing(Mat frame, Mat image, Mat body){
     for(int i = bodies.size() - 1;i >= 0; i--){
         if(i == 0){ 
             //circle(frame, Point(bodies[i].x, bodies[i].y), OBJECT_SIZE, Scalar(255, 255, 255), -1);
-            cout << "현재 각도>> " << worms.getTheta() << endl;
             DrawImage(image, frame, Point(bodies[i].x-(image.cols/4), bodies[i].y-(image.rows/4)), (double)worms.getTheta(), 1.5);
         }
-        else{
-            DrawImage(body, frame, Point(bodies[i].x - (body.cols/4), bodies[i].y - (body.rows/4)), (double)worms.getTheta(), 1.5);
+        else if(i%2 == 0){
+			DrawImage(body, frame, Point(bodies[i].x - (body.cols/4), bodies[i].y - (body.rows/4)), (double)worms.getTheta(), 1.5);
         }
     }       
 
@@ -204,7 +203,7 @@ void init(){
     initPoint.rightHand.x = 0; initPoint.rightHand.y = 0;
     keyPoints.push_back(initPoint);
     srand(time(NULL));
-    for(int i=0;i<50;i++)
+    for(int i=0;i<10;i++)
         makeFood();
     
 }
@@ -271,9 +270,27 @@ int main() {
             imencode(".jpg", send, encoded, compression_params);
 
             //drawing worms
-            worms.setTheta(getDirectDegree(keyPoints[0].rightHand,keyPoints[0].body));
+			float userDegree = getDirectDegree(keyPoints[0].rightHand, keyPoints[0].body);
+			
+			if(15 <= userDegree && userDegree <= 90){
+				worms.setTheta(worms.getTheta() + THETA_C);
+			}else if(-90 <= userDegree && userDegree < -15){
+				worms.setTheta(worms.getTheta() - THETA_C);
+			}
+			string myText = to_string(worms.getTheta());
+			//Text Location
+			cv::Point myPoint;
+			myPoint.x = 800;
+			myPoint.y = 100;		 
+			// Font Face
+			int myFontFace = 1;
+			// Font Scale
+			double myFontScale = 1.5;
+			cout << "UserDegree >> " << worms.getTheta() << endl;
+            //worms.setTheta(getDirectDegree(keyPoints[0].rightHand,keyPoints[0].body));
             worms.move();
             drawing(send, image, body);
+			cv::putText( send, myText, myPoint, myFontFace, myFontScale, Scalar::all(255) );
             crashHandler();
 
             imshow("send", send);

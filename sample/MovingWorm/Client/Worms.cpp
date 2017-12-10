@@ -5,7 +5,7 @@
 Worms::Worms(int color){
 	this->headColor = 0;
 	this->color = color;
-	this->velocity = 5;
+	this->velocity = VELOCITY;
 	for(int i=0;i<2;i++){
 		Pt body(START_X,START_Y);	
 		bodys.push_back(body);
@@ -41,7 +41,8 @@ void Worms::move(){
 }
 
 void Worms::setTheta(float theta){
-	this->theta = theta;
+	int _theta = (int)theta;
+	this->theta = _theta % 360;
 }
 
 vector<Pt> Worms::getBody(){

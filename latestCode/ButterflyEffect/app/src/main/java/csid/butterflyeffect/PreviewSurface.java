@@ -51,13 +51,15 @@ public class PreviewSurface extends CameraSurface implements
 
         try {
             if (image != null) {
+
                // image.compressToJpeg(new Rect(0, 0, size.width, size.height),80, outstream);
-                image.compressToJpeg(new Rect(0, 0, Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT),80, outstream);
+                image.compressToJpeg(new Rect(0, 0, Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT),60, outstream);
                 outstream.flush();
                 //start thread to send image data
-                Thread th = new SendDataThread(outstream, Constants.ADDR, Constants.PORT_NUM);
+                MainActivity.mSocket.sendUdpPacket(outstream);
+                //Thread th = new SendDataThread(outstream, Constants.ADDR, Constants.PORT_NUM);
                 mFrameHandler.getBitmap(String.valueOf(outstream.size()));
-                th.start(); //TODO 전송할때 여기서 하기
+                //th.start(); //TODO 전송할때 여기서 하기
             }
         } catch (Exception ex) {
             Log.e(TAG, "Error:" + ex.getMessage());

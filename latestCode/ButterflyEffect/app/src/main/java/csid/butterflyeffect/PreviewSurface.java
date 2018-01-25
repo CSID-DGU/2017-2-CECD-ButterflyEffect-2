@@ -49,43 +49,37 @@ public class PreviewSurface extends CameraSurface implements
     }
 
     public void onPreviewFrame(byte[] paramArrayOfByte, Camera paramCamera) {
-        Size size = paramCamera.getParameters().getPreviewSize();
-        // use "image.compressToJpeg()" to change image data format from "YUV" to "jpg"
-        YuvImage image = new YuvImage(paramArrayOfByte, ImageFormat.NV21,
-                size.width, size.height, null);
-        ByteArrayOutputStream outstream = new ByteArrayOutputStream();
 
         try {
-            if (image != null) {
+            Size size = paramCamera.getParameters().getPreviewSize();
+            // use "image.compressToJpeg()" to change image data format from "YUV" to "jpg"
+            if (MainActivity.isOpenCvLoaded) {
+                //TODO 비트맵으로 변환했더니 왜 짤려서 가는지 모르겠음
+                Mat mYuv = new Mat(size.height + size.height / 2, size.width, CvType.CV_8UC1);
+                Mat mGraySubmat = mYuv.submat(0, size.height, 0, size.width);
+                Mat mRgba = new Mat();
+                mYuv.put(0, 0, paramArrayOfByte);
+                Imgproc.cvtColor(mGraySubmat, mRgba, Imgproc.COLOR_GRAY2RGBA, 4);
+                Bitmap bitmap = Bitmap.createBitmap(mRgba.cols(), mRgba.rows(), Bitmap.Config.ARGB_8888);
+                Utils.matToBitmap(mRgba, bitmap);
+                mFrameHandler.getBitmap(bitmap);
 
-                if(MainActivity.isOpenCvLoaded) {
-                    Mat mRgba = new Mat();
-                    Mat frame = new Mat(size.width + size.height / 2, size.width, CvType.CV_8UC1);
-                    frame.put(0, 0, paramArrayOfByte);
-                    Imgproc.cvtColor(frame, mRgba, Imgproc.COLOR_YUV420sp2RGB, 4);
-                    Bitmap bitmap = Bitmap.createBitmap(size.width, size.height, Bitmap.Config.ARGB_8888);
-                    Utils.matToBitmap(frame, bitmap);
-                    mFrameHandler.getBitmap(bitmap);
-                }
-               // image.compressToJpeg(new Rect(0, 0, size.width, size.height),80, outstream);
-                image.compressToJpeg(new Rect(0, 0, Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT),60, outstream);
-                outstream.flush();
-                //start thread to send image data
                 //MainActivity.mSocket.sendUdpPacket(outstream);
                 //Thread th = new SendDataThread(outstream, Constants.ADDR, Constants.PORT_NUM);
-
                 //th.start(); //TODO 전송할때 여기서 하기
             }
-        } catch (Exception ex) {
-            Log.e(TAG, "Error:" + ex.getMessage());
+        }catch(Exception e){
+            e.printStackTrace();
         }
+
 
     }
 
     public void surfaceCreated(SurfaceHolder paramSurfaceHolder) {
+
         super.surfaceCreated(paramSurfaceHolder);
         //TODO 이거 임시방편임 각도에 맞게 돌아가게 해야하는데 일단 90도 임시로 돌려놓음.
-        this.camera.setDisplayOrientation(90);
+        //this.camera.setDisplayOrientation(90);
         //this.camera.autoFocus();
         this.camera.setPreviewCallback(this);
 

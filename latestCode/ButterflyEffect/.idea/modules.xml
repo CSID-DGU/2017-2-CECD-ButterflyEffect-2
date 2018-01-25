@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ButterflyEffect.iml" filepath="$PROJECT_DIR$/ButterflyEffect.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/openCVLibrary24135/openCVLibrary24135.iml" filepath="$PROJECT_DIR$/openCVLibrary24135/openCVLibrary24135.iml" />
     </modules>
   </component>
 </project>

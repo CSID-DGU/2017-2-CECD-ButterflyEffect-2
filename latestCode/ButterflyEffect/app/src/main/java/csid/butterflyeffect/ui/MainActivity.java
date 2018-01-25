@@ -17,14 +17,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+
 import csid.butterflyeffect.PreviewSurface;
 import csid.butterflyeffect.R;
 import csid.butterflyeffect.network.SocketClient;
 import csid.butterflyeffect.util.Constants;
 
 public class MainActivity extends AppCompatActivity implements PreviewSurface.FrameHandler {
-    static{
-
+    static {
+        if(!OpenCVLoader.initDebug()){
+            Log.d("#####","opencv failed");
+        }else{
+            isOpenCvLoaded = true;
+            Log.d("#####","opencv success");
+        }
     }
 
     private PreviewSurface mPriviewSurface;
@@ -91,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         }
     }
 
-    /*
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -112,8 +120,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     @Override
     protected void onResume() {
             super.onResume();
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_4_0, this, mLoaderCallback);
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_13, this, mLoaderCallback);
     }
-    */
 
 }

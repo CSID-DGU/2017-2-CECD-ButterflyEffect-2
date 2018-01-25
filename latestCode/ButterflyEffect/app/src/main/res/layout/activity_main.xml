@@ -10,14 +10,18 @@
 
     <csid.butterflyeffect.PreviewSurface
         android:id="@+id/sv"
-        android:layout_width="300dp"
-        android:layout_height="300dp" />
-
+        android:layout_width="200dp"
+        android:layout_height="200dp" />
     <TextView
-        android:id="@+id/tv_bitmap"
-        android:text="bitmap string"
+        android:paddingTop="10dp"
+        android:text="converting to bitmap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/iv_bitmap"
+        android:layout_width="200dp"
+        android:layout_height="200dp" />
+
     <Button
         android:id="@+id/btn_capture"
         android:text="focusRefresh"

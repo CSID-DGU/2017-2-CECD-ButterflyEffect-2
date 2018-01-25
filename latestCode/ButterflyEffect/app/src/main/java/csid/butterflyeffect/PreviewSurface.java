@@ -8,6 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
@@ -18,6 +19,11 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import org.opencv.android.Utils;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
+
 import csid.butterflyeffect.ui.MainActivity;
 import csid.butterflyeffect.util.Constants;
 
@@ -27,7 +33,7 @@ public class PreviewSurface extends CameraSurface implements
 
     private FrameHandler mFrameHandler;
     public interface FrameHandler{
-        void getBitmap(String outStream);
+        void getBitmap(Bitmap bitmap);
     }
 
 
@@ -52,13 +58,22 @@ public class PreviewSurface extends CameraSurface implements
         try {
             if (image != null) {
 
+                if(MainActivity.isOpenCvLoaded) {
+                    Mat mRgba = new Mat();
+                    Mat frame = new Mat(size.width + size.height / 2, size.width, CvType.CV_8UC1);
+                    frame.put(0, 0, paramArrayOfByte);
+                    Imgproc.cvtColor(frame, mRgba, Imgproc.COLOR_YUV420sp2RGB, 4);
+                    Bitmap bitmap = Bitmap.createBitmap(size.width, size.height, Bitmap.Config.ARGB_8888);
+                    Utils.matToBitmap(frame, bitmap);
+                    mFrameHandler.getBitmap(bitmap);
+                }
                // image.compressToJpeg(new Rect(0, 0, size.width, size.height),80, outstream);
                 image.compressToJpeg(new Rect(0, 0, Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT),60, outstream);
                 outstream.flush();
                 //start thread to send image data
-                MainActivity.mSocket.sendUdpPacket(outstream);
+                //MainActivity.mSocket.sendUdpPacket(outstream);
                 //Thread th = new SendDataThread(outstream, Constants.ADDR, Constants.PORT_NUM);
-                mFrameHandler.getBitmap(String.valueOf(outstream.size()));
+
                 //th.start(); //TODO 전송할때 여기서 하기
             }
         } catch (Exception ex) {

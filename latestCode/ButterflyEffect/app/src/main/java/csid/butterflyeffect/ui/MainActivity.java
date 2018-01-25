@@ -1,5 +1,6 @@
 package csid.butterflyeffect.ui;
 
+import android.graphics.Bitmap;
 import android.graphics.Camera;
 import android.graphics.PixelFormat;
 import android.nfc.Tag;
@@ -12,7 +13,9 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
 
 import csid.butterflyeffect.PreviewSurface;
 import csid.butterflyeffect.R;
@@ -20,13 +23,17 @@ import csid.butterflyeffect.network.SocketClient;
 import csid.butterflyeffect.util.Constants;
 
 public class MainActivity extends AppCompatActivity implements PreviewSurface.FrameHandler {
+    static{
+
+    }
+
     private PreviewSurface mPriviewSurface;
 
     private Button mBtn;
-    private TextView mText;
+    private ImageView mBitmapView;
     public static SocketClient mSocket;
     public static boolean isSocketConnected = false;
-
+    public static boolean isOpenCvLoaded = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         setContentView(R.layout.activity_main);
 
         mBtn = (Button)findViewById(R.id.btn_capture);
-        mText = (TextView)findViewById(R.id.tv_bitmap);
+        mBitmapView = (ImageView) findViewById(R.id.iv_bitmap);
         getWindow().setFormat(PixelFormat.UNKNOWN);
 
         mPriviewSurface = (PreviewSurface) findViewById(R.id.sv);
@@ -53,8 +60,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     }
 
     @Override
-    public void getBitmap(String outStream) {
-        mText.setText(outStream);
+    public void getBitmap(Bitmap bitmap) {
+        mBitmapView.setImageBitmap(bitmap);
     }
 
     public class ConnectSocket extends AsyncTask<String,String,String>{
@@ -83,4 +90,30 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             super.onPostExecute(s);
         }
     }
+
+    /*
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+        @Override
+        public void onManagerConnected(int status) {
+            switch (status) {
+                case LoaderCallbackInterface.SUCCESS:
+                {
+                    isOpenCvLoaded = true;
+                    Log.i("OpenCV", "OpenCV loaded successfully");
+                } break;
+                default:
+                {
+                    super.onManagerConnected(status);
+                } break;
+            }
+        }
+    };
+
+    @Override
+    protected void onResume() {
+            super.onResume();
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_4_0, this, mLoaderCallback);
+    }
+    */
+
 }

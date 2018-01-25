@@ -33,7 +33,7 @@ public class SocketClient {
     public SocketClient(String ip, int port) throws Exception{
         this.ip = ip;
         this.port = port;
-        tcpSocket = new Socket(ip, port);
+        //tcpSocket = new Socket(ip, port);
         System.out.println("tcpSocket created!");
         udpSocket = new DatagramSocket(port);
     }
@@ -44,13 +44,17 @@ public class SocketClient {
 
                 try{
                     byte[] encoded = outputStream.toByteArray();
+
+                    udpSocket.send(new DatagramPacket(encoded.toString().getBytes(),encoded.toString().length(),InetAddress.getByName(ip),port));
+/*
+                    byte[] encoded = outputStream.toByteArray();
                     int total_pack = 1 + (encoded.length-1)/ PACK_SIZE;
                     Log.d("#####","totalpack:"+total_pack);
                     udpSocket.send(new DatagramPacket(ByteBuffer.allocate(4).putInt(total_pack).array(),4,InetAddress.getByName(ip),port));
                     for (int i = 0; i < total_pack; i++) {
                         Log.d("#####","i:"+i);
                         udpSocket.send(new DatagramPacket(encoded, i * PACK_SIZE, PACK_SIZE, InetAddress.getByName(ip), port));
-                    }
+                    }*/
                     //ByteArrayInputStream inputstream = new ByteArrayInputStream(outputStream.toByteArray());
                     //int amount;
                     //udpSocket.send(new DatagramPacket(,outputStream.toByteArray().length,InetAddress.getByName(ip),port));

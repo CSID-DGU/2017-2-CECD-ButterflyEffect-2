@@ -22,6 +22,8 @@ import android.view.SurfaceHolder;
 import org.opencv.android.Utils;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
+import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
 import csid.butterflyeffect.ui.MainActivity;
@@ -54,17 +56,21 @@ public class PreviewSurface extends CameraSurface implements
             Size size = paramCamera.getParameters().getPreviewSize();
             // use "image.compressToJpeg()" to change image data format from "YUV" to "jpg"
             if (MainActivity.isOpenCvLoaded) {
-                //TODO 비트맵으로 변환했더니 왜 짤려서 가는지 모르겠음
-                Mat mYuv = new Mat(size.height + size.height / 2, size.width, CvType.CV_8UC1);
-                Mat mGraySubmat = mYuv.submat(0, size.height, 0, size.width);
-                Mat mRgba = new Mat();
-                mYuv.put(0, 0, paramArrayOfByte);
-                Imgproc.cvtColor(mGraySubmat, mRgba, Imgproc.COLOR_GRAY2RGBA, 4);
-                Bitmap bitmap = Bitmap.createBitmap(mRgba.cols(), mRgba.rows(), Bitmap.Config.ARGB_8888);
-                Utils.matToBitmap(mRgba, bitmap);
+
+                YuvImage image = new YuvImage(paramArrayOfByte, ImageFormat.NV21,
+                                        size.width, size.height, null);
+                ByteArrayOutputStream outstream = new ByteArrayOutputStream();
+                image.compressToJpeg(new Rect(0, 0, size.width, size.height),60, outstream);
+                outstream.flush();
+
+                MatOfByte raw=new MatOfByte(outstream.toByteArray());
+                Mat frame = Highgui.imdecode(raw, 2); //
+
+                Bitmap bitmap = Bitmap.createBitmap(frame.cols(), frame.rows(), Bitmap.Config.ARGB_8888);
+                Utils.matToBitmap(frame, bitmap);
                 mFrameHandler.getBitmap(bitmap);
 
-                //MainActivity.mSocket.sendUdpPacket(outstream);
+                //MainActivity.mSocket.sendUdpPacket(frame);
                 //Thread th = new SendDataThread(outstream, Constants.ADDR, Constants.PORT_NUM);
                 //th.start(); //TODO 전송할때 여기서 하기
             }

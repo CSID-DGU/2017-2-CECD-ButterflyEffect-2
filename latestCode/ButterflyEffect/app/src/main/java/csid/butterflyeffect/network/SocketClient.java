@@ -6,6 +6,8 @@ package csid.butterflyeffect.network;
 
         import android.util.Log;
 
+        import org.opencv.core.Mat;
+
         import java.io.BufferedReader;
         import java.io.ByteArrayInputStream;
         import java.io.ByteArrayOutputStream;
@@ -33,32 +35,29 @@ public class SocketClient {
     public SocketClient(String ip, int port) throws Exception{
         this.ip = ip;
         this.port = port;
-        //tcpSocket = new Socket(ip, port);
+        tcpSocket = new Socket(ip, port);
         System.out.println("tcpSocket created!");
         udpSocket = new DatagramSocket(port);
     }
-    public void sendUdpPacket(final ByteArrayOutputStream outputStream){
+    public void sendUdpPacket(final Mat frame){
         Runnable r = new Runnable() {
             @Override
             public void run() {
 
                 try{
-                    byte[] encoded = outputStream.toByteArray();
+                    int length = (int) (frame.total() * frame.elemSize());
+                    byte encoded[] = new byte[length];
+                    frame.get(0, 0, encoded);
 
-                    udpSocket.send(new DatagramPacket(encoded.toString().getBytes(),encoded.toString().length(),InetAddress.getByName(ip),port));
-/*
-                    byte[] encoded = outputStream.toByteArray();
+                    //udpSocket.send(new DatagramPacket(encoded,encoded.length,InetAddress.getByName(ip),port));
+                    //메세지가 너무 커서 줄여서 보내야 한다.
                     int total_pack = 1 + (encoded.length-1)/ PACK_SIZE;
                     Log.d("#####","totalpack:"+total_pack);
                     udpSocket.send(new DatagramPacket(ByteBuffer.allocate(4).putInt(total_pack).array(),4,InetAddress.getByName(ip),port));
                     for (int i = 0; i < total_pack; i++) {
                         Log.d("#####","i:"+i);
                         udpSocket.send(new DatagramPacket(encoded, i * PACK_SIZE, PACK_SIZE, InetAddress.getByName(ip), port));
-                    }*/
-                    //ByteArrayInputStream inputstream = new ByteArrayInputStream(outputStream.toByteArray());
-                    //int amount;
-                    //udpSocket.send(new DatagramPacket(,outputStream.toByteArray().length,InetAddress.getByName(ip),port));
-                    //udpSocket.send(new DatagramPacket(buf,len,InetAddress.getByName(ip),port));
+                    }
                 }catch(IOException e){
                     e.printStackTrace();
                 }

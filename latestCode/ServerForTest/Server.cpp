@@ -2,6 +2,7 @@
 #include <iostream>          // For cout and cerr
 #include <cstdlib>           // For atoi()
 #include <vector>
+#include <queue>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -115,24 +116,13 @@ int main()
         clock_t last_cycle = clock();
         while (true) 
         {
-            do {
-                cout << "메세지를 기다리고 있습니다" << endl;
-                recvMsgSize = sock.recvFrom(buffer, BUF_LEN, sourceAddress, sourcePort);
-                cout << "메세지를 받았습니다" << endl;
-            } while (recvMsgSize > sizeof(int));
-            int total_pack = ((int * ) buffer)[0];
-            cout << "total_pack>> " << total_pack << endl;
-            char * longbuf = new char[PACK_SIZE * total_pack];
-            for (int i = 0; i < total_pack; i++) {
-                recvMsgSize = sock.recvFrom(buffer, BUF_LEN, sourceAddress, sourcePort);
-                if (recvMsgSize != PACK_SIZE) {
-                    cerr << "Received unexpected size pack:" << recvMsgSize << endl;
-                    continue;
-                }
-                memcpy( & longbuf[i * PACK_SIZE], buffer, PACK_SIZE);
-            }
+        	    recvMsgSize = sock.recvFrom(buffer, BUF_LEN, sourceAddress, sourcePort);
+        		char * longbuf = new char[recvMsgSize];
+        		memcpy( & longbuf[0], buffer, recvMsgSize);
+   
             cout << "주소: " << sourceAddress << ", 포트: " << sourcePort << "로 부터 패킷을 수신하였습니다." << endl; 
-            Mat rawData = Mat(1, PACK_SIZE * total_pack, CV_8UC1, longbuf);
+            //Mat rawData = Mat(1, PACK_SIZE * total_pack, CV_8UC1, longbuf);
+            Mat rawData = Mat(1,recvMsgSize, CV_8UC1, longbuf);
             Mat frame = imdecode(rawData, CV_LOAD_IMAGE_COLOR);
             if (frame.size().width == 0) 
             {

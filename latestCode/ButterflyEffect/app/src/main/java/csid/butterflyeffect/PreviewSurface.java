@@ -35,7 +35,7 @@ public class PreviewSurface extends CameraSurface implements
 
     private FrameHandler mFrameHandler;
     public interface FrameHandler{
-        void getBitmap(Bitmap bitmap);
+        void getJpegFrame(byte[] frame);
     }
 
 
@@ -60,19 +60,15 @@ public class PreviewSurface extends CameraSurface implements
                 YuvImage image = new YuvImage(paramArrayOfByte, ImageFormat.NV21,
                                         size.width, size.height, null);
                 ByteArrayOutputStream outstream = new ByteArrayOutputStream();
-                image.compressToJpeg(new Rect(0, 0, size.width, size.height),60, outstream);
+
+                image.compressToJpeg(new Rect(0, 0, size.width, size.height),10, outstream);
                 outstream.flush();
 
-                MatOfByte raw=new MatOfByte(outstream.toByteArray());
-                Mat frame = Highgui.imdecode(raw, 2); //
+                Log.d("#####","length:"+outstream.toByteArray().length);
 
-                Bitmap bitmap = Bitmap.createBitmap(frame.cols(), frame.rows(), Bitmap.Config.ARGB_8888);
-                Utils.matToBitmap(frame, bitmap);
-                mFrameHandler.getBitmap(bitmap);
+                MainActivity.mSocket.sendUdpPacket(outstream.toByteArray());
+                mFrameHandler.getJpegFrame(outstream.toByteArray());
 
-                //MainActivity.mSocket.sendUdpPacket(frame);
-                //Thread th = new SendDataThread(outstream, Constants.ADDR, Constants.PORT_NUM);
-                //th.start(); //TODO 전송할때 여기서 하기
             }
         }catch(Exception e){
             e.printStackTrace();

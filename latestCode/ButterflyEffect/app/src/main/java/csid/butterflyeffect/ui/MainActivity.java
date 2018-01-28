@@ -1,6 +1,7 @@
 package csid.butterflyeffect.ui;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Camera;
 import android.graphics.PixelFormat;
 import android.nfc.Tag;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
+import org.opencv.core.Mat;
 
 import csid.butterflyeffect.PreviewSurface;
 import csid.butterflyeffect.R;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     public static SocketClient mSocket;
     public static boolean isSocketConnected = false;
     public static boolean isOpenCvLoaded = false;
+    public static int count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +72,14 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     }
 
     @Override
-    public void getBitmap(Bitmap bitmap) {
-        mBitmapView.setImageBitmap(bitmap);
+    public void getJpegFrame(final byte[] frame) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Bitmap bit = BitmapFactory.decodeByteArray(frame, 0, frame.length);
+                mBitmapView.setImageBitmap(bit);
+            }
+        });
     }
 
     public class ConnectSocket extends AsyncTask<String,String,String>{
@@ -79,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         protected String doInBackground(String... params) {
             try {
                 mSocket = new SocketClient(Constants.ADDR, Constants.PORT_NUM);
-
             }
             catch (Exception e){
                 e.printStackTrace();

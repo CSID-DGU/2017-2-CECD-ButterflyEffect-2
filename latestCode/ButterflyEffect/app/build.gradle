@@ -27,5 +27,4 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'gun0912.ted:tedpermission:2.0.0'
     testCompile 'junit:junit:4.12'
-    implementation project(':openCVLibrary24135')
 }

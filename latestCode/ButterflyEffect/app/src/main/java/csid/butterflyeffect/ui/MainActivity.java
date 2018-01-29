@@ -18,30 +18,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.LoaderCallbackInterface;
-import org.opencv.android.OpenCVLoader;
-import org.opencv.core.Mat;
 
 import csid.butterflyeffect.PreviewSurface;
 import csid.butterflyeffect.R;
+import csid.butterflyeffect.network.HandleReceiveData;
 import csid.butterflyeffect.network.SocketClient;
 import csid.butterflyeffect.util.Constants;
 
-public class MainActivity extends AppCompatActivity implements PreviewSurface.FrameHandler {
-    static {
-        if(!OpenCVLoader.initDebug()){
-            Log.d("#####","opencv failed");
-        }else{
-            isOpenCvLoaded = true;
-            Log.d("#####","opencv success");
-        }
-    }
+public class MainActivity extends AppCompatActivity implements PreviewSurface.FrameHandler, HandleReceiveData {
+
 
     private PreviewSurface mPriviewSurface;
 
     private Button mBtn;
     private ImageView mBitmapView;
+    private TextView mTcpDataView;
     public static SocketClient mSocket;
     public static boolean isSocketConnected = false;
     public static boolean isOpenCvLoaded = false;
@@ -55,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
         mBtn = (Button)findViewById(R.id.btn_capture);
         mBitmapView = (ImageView) findViewById(R.id.iv_bitmap);
+        mTcpDataView = (TextView)findViewById(R.id.tv_tcp);
         getWindow().setFormat(PixelFormat.UNKNOWN);
 
         mPriviewSurface = (PreviewSurface) findViewById(R.id.sv);
@@ -67,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         });
 
         // TCP & UDP 연결
+        mSocket = new SocketClient();
+        mSocket.setReceiveCallback(this);
         new ConnectSocket().execute();
 
     }
@@ -76,10 +70,17 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                mSocket.sendUdpPacket(frame);
                 Bitmap bit = BitmapFactory.decodeByteArray(frame, 0, frame.length);
                 mBitmapView.setImageBitmap(bit);
             }
         });
+    }
+
+    @Override
+    public void handleReceiveData(String data) {
+        mTcpDataView.setText(data);
+
     }
 
     public class ConnectSocket extends AsyncTask<String,String,String>{
@@ -87,11 +88,14 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         @Override
         protected String doInBackground(String... params) {
             try {
-                mSocket = new SocketClient(Constants.ADDR, Constants.PORT_NUM);
+                //connecting tcp,udp
+                mSocket.connect();
             }
             catch (Exception e){
                 e.printStackTrace();
+                Log.d("#####","socket connection failed");
                 return Constants.FAILURE;
+
             }
             return "";
         }
@@ -101,6 +105,21 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             if(!s.equals(Constants.FAILURE)) {
                 Log.d("#####","socket connection success");
                 isSocketConnected = true;
+
+                //if connection success, run tcpService
+                Thread tcpService = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try{
+                            //run tcp service
+                            mSocket.tcpService();
+
+                        }catch(Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                tcpService.start();
             }
             else
                 Log.e("#####","socket connection error");
@@ -108,27 +127,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         }
     }
 
-    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
-        @Override
-        public void onManagerConnected(int status) {
-            switch (status) {
-                case LoaderCallbackInterface.SUCCESS:
-                {
-                    isOpenCvLoaded = true;
-                    Log.i("OpenCV", "OpenCV loaded successfully");
-                } break;
-                default:
-                {
-                    super.onManagerConnected(status);
-                } break;
-            }
-        }
-    };
 
-    @Override
-    protected void onResume() {
-            super.onResume();
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_2_4_13, this, mLoaderCallback);
-    }
 
 }

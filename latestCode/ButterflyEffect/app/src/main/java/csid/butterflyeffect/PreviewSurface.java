@@ -4,12 +4,9 @@ package csid.butterflyeffect;
  * Created by hanseungbeom on 2018. 1. 15..
  */
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
@@ -19,16 +16,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import org.opencv.android.Utils;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfByte;
-import org.opencv.highgui.Highgui;
-import org.opencv.imgproc.Imgproc;
-
 import csid.butterflyeffect.ui.MainActivity;
-import csid.butterflyeffect.util.Constants;
-
 
 public class PreviewSurface extends CameraSurface implements
         Camera.PreviewCallback {
@@ -38,10 +26,7 @@ public class PreviewSurface extends CameraSurface implements
         void getJpegFrame(byte[] frame);
     }
 
-
     private static final String TAG = "PreviewSurface:";
-
-    private String ipname = "192.168.0.2";
 
     public void setFrameHandler(FrameHandler frameHandler){
         this.mFrameHandler = frameHandler;
@@ -55,7 +40,7 @@ public class PreviewSurface extends CameraSurface implements
         try {
             Size size = paramCamera.getParameters().getPreviewSize();
             // use "image.compressToJpeg()" to change image data format from "YUV" to "jpg"
-            if (MainActivity.isOpenCvLoaded) {
+
 
                 YuvImage image = new YuvImage(paramArrayOfByte, ImageFormat.NV21,
                                         size.width, size.height, null);
@@ -65,11 +50,8 @@ public class PreviewSurface extends CameraSurface implements
                 outstream.flush();
 
                 Log.d("#####","length:"+outstream.toByteArray().length);
-
-                MainActivity.mSocket.sendUdpPacket(outstream.toByteArray());
                 mFrameHandler.getJpegFrame(outstream.toByteArray());
 
-            }
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -91,11 +73,6 @@ public class PreviewSurface extends CameraSurface implements
         this.camera.setPreviewCallback(null);
         super.surfaceDestroyed(paramSurfaceHolder);
     }
-
-    public void setIP(String ipname) {
-        this.ipname = ipname;
-    }
-
 
 
 }

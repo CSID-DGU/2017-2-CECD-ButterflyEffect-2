@@ -346,7 +346,7 @@ public:
 
                 if(keyPoints.size() != 0){
                     string space= " ";
-                    stirng msg;
+                    string msg;
                     stringstream ss;
 
                     for(int i=0; i < keyPoints.size(); i++){

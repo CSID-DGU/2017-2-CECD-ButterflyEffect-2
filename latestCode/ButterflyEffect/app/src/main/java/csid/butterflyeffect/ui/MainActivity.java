@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     private TextView mTcpConnection;
     private SocketClient mSocket;
     private EditText mPort;
+    private ConnectSocket mConnectAsync;
     public static boolean isSocketConnected = false;
 
     @Override
@@ -83,7 +84,11 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mSocket.sendUdpPacket(frame);
+                if(mSocket.isConnected()) {
+                    mSocket.sendUdpPacket(frame);
+                    Log.d("#####","length:"+frame.length);
+
+                }
                 Bitmap bit = BitmapFactory.decodeByteArray(frame, 0, frame.length);
                 mBitmapView.setImageBitmap(bit);
             }
@@ -102,15 +107,26 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     }
 
     @Override
-    public void errorHandler() {
-        mTcpConnection.setText("socket had a error!");
+    public void errorHandler(final String msg) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mTcpConnection.setText(msg);
+            }
+        });
+
     }
 
     public void connect(){
         if(!mPort.getText().equals("")) {
             Constants.PORT_NUM = Integer.parseInt(mPort.getText().toString());
-            mTcpConnection.setText("Connecting...");
-            new ConnectSocket().execute();
+            mTcpConnection.setText("-");
+            if(mConnectAsync!=null) {
+                mSocket.close();
+                mConnectAsync.cancel(true);
+            }
+            mConnectAsync = new ConnectSocket();
+            mConnectAsync.execute();
         }
         else{
             Toast.makeText(MainActivity.this,"포트번호를 입력해주세요!",Toast.LENGTH_SHORT).show();
@@ -120,27 +136,14 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
         @Override
         protected String doInBackground(String... params) {
-            try {
                 //connecting tcp,udp
-                mSocket.connect();
-            }
-            catch (Exception e){
-                e.printStackTrace();
-                return Constants.FAILURE;
-            }
+            mSocket.connect();
+
             return "";
         }
 
         @Override
         protected void onPostExecute(String s) {
-            if(!s.equals(Constants.FAILURE)) {
-                Log.d("#####","socket connection success");
-                mTcpConnection.setText("socket connection success");
-                isSocketConnected = true;
-            }
-            else
-                Log.e("#####","socket connection error");
-            mTcpConnection.setText("socket connection error");
             super.onPostExecute(s);
         }
     }

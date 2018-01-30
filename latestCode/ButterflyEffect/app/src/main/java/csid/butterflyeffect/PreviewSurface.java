@@ -51,7 +51,6 @@ public class PreviewSurface extends CameraSurface implements
             image.compressToJpeg(new Rect(0, 0, size.width, size.height),10, outstream);
             outstream.flush();
 
-            Log.d("#####","length:"+outstream.toByteArray().length);
             mFrameHandler.getJpegFrame(outstream.toByteArray());
 
         }catch(Exception e){

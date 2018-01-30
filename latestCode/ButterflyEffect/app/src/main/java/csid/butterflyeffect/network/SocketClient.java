@@ -14,11 +14,14 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 
 import csid.butterflyeffect.util.Constants;
 
 
 public class SocketClient {
+    private boolean isConnected;
     private Socket tcpSocket;
     private DatagramSocket udpSocket;
     private HandleReceiveData callback;
@@ -29,29 +32,46 @@ public class SocketClient {
 
 
     public SocketClient() {
-
+        isConnected = false;
     }
 
-    public void connect() throws Exception {
-        tcpSocket = new Socket(Constants.ADDR, Constants.PORT_NUM);
-        Log.d("#####","tcpSocket created!");
-        //if connection success, run tcpService
-        Thread tcpThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    //run tcp service
-                    tcpService();
-                }catch(Exception e) {
-                    e.printStackTrace();
-                    callback.errorHandler();
-                }
-            }
-        });
-        tcpThread.start();
+    public void connect()  {
+        try {
+            callback.errorHandler("connecting..");
+            //tcpSocket = new Socket(Constants.ADDR, Constants.PORT_NUM);
+            String hostname = Constants.ADDR;
+            int port = Constants.PORT_NUM;
+            int timeout = 2000;
+            SocketAddress socketAddress = new InetSocketAddress(hostname, port);
+            tcpSocket = new Socket();
+            tcpSocket.connect(socketAddress, timeout);
 
-        udpSocket = new DatagramSocket(Constants.PORT_NUM);
-        Log.d("#####","udpSocket created!");
+
+            Log.d("#####", "tcpSocket created!");
+            //if connection success, run tcpService
+            Thread tcpThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        //run tcp service
+                        tcpService();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        callback.errorHandler("tcp service error!");
+                    }
+                }
+            });
+            tcpThread.start();
+
+            udpSocket = new DatagramSocket(Constants.PORT_NUM);
+            isConnected = true;
+            Log.d("#####", "udpSocket created!");
+            callback.errorHandler("connected successfully!");
+
+        }catch(Exception e){
+            e.printStackTrace();
+            callback.errorHandler("connection failed");
+        }
     }
     public void tcpService() throws IOException{
         Log.d("#####","tcpService Start!");
@@ -74,6 +94,7 @@ public class SocketClient {
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+                    callback.errorHandler("send udp error!");
                 }
             }
         });
@@ -102,12 +123,23 @@ public class SocketClient {
      */
     public void close() {
         try {
+
             if (tcpSocket != null && !tcpSocket.isClosed())
                 tcpSocket.close();
+
+            if(udpSocket != null && !udpSocket.isClosed())
+                udpSocket.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
+    public boolean isConnected() {
+        return isConnected;
+    }
+
+    public void setConnected(boolean connected) {
+        isConnected = connected;
+    }
 }

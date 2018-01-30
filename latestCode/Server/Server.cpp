@@ -494,7 +494,7 @@ int openPoseTutorialWrapper2()
                                                       FLAGS_write_heatmaps, FLAGS_write_heatmaps_format};
     // Configure wrapper
     opWrapper.configure(wrapperStructPose, wrapperStructFace, wrapperStructHand, op::WrapperStructInput{},
-                        wrapperStructOutput, flag);
+                        wrapperStructOutput);
     // Set to single-thread running (e.g. for debugging purposes)
     // opWrapper.disableMultiThreading();
 

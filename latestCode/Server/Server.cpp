@@ -540,7 +540,7 @@ int main(int argc, char *argv[])
     int PORT_NUM;
     cout << "포트 번호를 입력하세요>> ";
     cin >> PORT_NUM;
-    cout << "현재 포트번호: " << PORT_NUM;
+    cout << "현재 포트번호: " << PORT_NUM << endl;
     //unsigned short servPort = atoi(argv[1]); // First arg:  local port
     int FRAME= 0;
     //namedWindow("recv", CV_WINDOW_AUTOSIZE);

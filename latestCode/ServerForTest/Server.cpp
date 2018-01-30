@@ -42,20 +42,21 @@ vector<Rect> getFaces(Mat frame)
 void* transfer(void*)
 {
     while(1)
-    {
+    {   
         if(!frameQueue.empty())
         {
             //face detect
    			Mat frame =frameQueue.front();
    			vector<Rect> faces = getFaces(frame);
             int input =0;
+            
             if(faces.size()!=0)
             {
                 string st= " ";
                 Rect r =  faces.at(0);
                 stringstream ss;
-                cout<<r.x<<endl;
-                ss << r.x <<st << r.y<<st<< (r.x+r.width)<<st<<(r.y+r.height);
+                cout << r.x << ", " << r.y << endl;
+                ss << r.x <<st << r.y << st << (r.x+r.width) << st << (r.y+r.height) << "\r\n";
                 st = ss.str();
                 if( send(tcpsocket , st.c_str()  , st.size() , 0) < 0)
                 {
@@ -116,11 +117,11 @@ int main()
         clock_t last_cycle = clock();
         while (true) 
         {
-        	    recvMsgSize = sock.recvFrom(buffer, BUF_LEN, sourceAddress, sourcePort);
-        		char * longbuf = new char[recvMsgSize];
-        		memcpy( & longbuf[0], buffer, recvMsgSize);
-   
-            cout << "주소: " << sourceAddress << ", 포트: " << sourcePort << "로 부터 패킷을 수신하였습니다." << endl; 
+            recvMsgSize = sock.recvFrom(buffer, BUF_LEN, sourceAddress, sourcePort);
+        	char * longbuf = new char[recvMsgSize];
+        	memcpy( & longbuf[0], buffer, recvMsgSize);
+
+            //cout << "주소: " << sourceAddress << ", 포트: " << sourcePort << "로 부터 패킷을 수신하였습니다." << endl; 
             //Mat rawData = Mat(1, PACK_SIZE * total_pack, CV_8UC1, longbuf);
             Mat rawData = Mat(1,recvMsgSize, CV_8UC1, longbuf);
             Mat frame = imdecode(rawData, CV_LOAD_IMAGE_COLOR);

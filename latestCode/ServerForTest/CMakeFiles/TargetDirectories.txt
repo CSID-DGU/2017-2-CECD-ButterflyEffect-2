@@ -1,0 +1,3 @@
+/home/sy0814k/Desktop/workspace/New_test/2017-2-CECD-ButterflyEffect-2/latestCode/ServerForTest/CMakeFiles/edit_cache.dir
+/home/sy0814k/Desktop/workspace/New_test/2017-2-CECD-ButterflyEffect-2/latestCode/ServerForTest/CMakeFiles/rebuild_cache.dir
+/home/sy0814k/Desktop/workspace/New_test/2017-2-CECD-ButterflyEffect-2/latestCode/ServerForTest/CMakeFiles/server.dir

@@ -1,3 +1,23 @@
+/*
+ *   C++ UDP socket server for live image upstreaming
+ *   Modified from http://cs.ecs.baylor.edu/~donahoo/practical/CSockets/practical/UDPEchoServer.cpp
+ *   Copyright (C) 2015
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
 #include "PracticalSocket.h" // For UDPSocket and SocketException
 #include <iostream>          // For cout and cerr
 #include <cstdlib>           // For atoi()
@@ -15,9 +35,18 @@
 #include <pthread.h>
 #include <opencv/cv.h>
 #include <queue>
+
+
 #include <pthread.h>
+
+#define BUF_LEN 65540 // Larger than maximum UDP packet size
+
 #include "opencv2/opencv.hpp"
+using namespace cv;
 #include "config.h"
+
+#define PORT_NUM 9000
+
 
 // C++ std library dependencies
 #include <chrono> // `std::chrono::` functions and classes, e.g. std::chrono::milliseconds
@@ -31,10 +60,6 @@
 #endif
 // OpenPose dependencies
 #include <openpose/headers.hpp>
-#define BUF_LEN 65540 // Larger than maximum UDP packet size
-#define PORT_NUM 9000
-using namespace cv;
-
 std::queue<cv::Mat> frameQueue;
 int tcpsocket;
 bool flag = false;
@@ -43,8 +68,8 @@ struct Pt{
 };
 
 struct UserPoint{
-    struct Pt body;
-    struct Pt rightHand;
+struct Pt body;
+struct Pt rightHand;
 };
 // See all the available parameter options withe the `--help` flag. E.g. `build/examples/openpose/openpose.bin --help`
 // Note: This command will show you flags for other unnecessary 3rdparty files. Check only the flags for the OpenPose
@@ -319,7 +344,7 @@ public:
 
                 for (auto person = 0 ; person < poseKeypoints.getSize(0) ; person++)
                 {
-                    UserPoint pt;
+                     UserPoint pt;
                     op::log("Person " + std::to_string(person) + " (x, y, score):");
                     for (auto bodyPart = 0 ; bodyPart < poseKeypoints.getSize(1) ; bodyPart++)
                     {
@@ -327,43 +352,42 @@ public:
 
                         for (auto xyscore = 0 ; xyscore < poseKeypoints.getSize(2) ; xyscore++)
                         {
-                            valueToPrint += std::to_string(   poseKeypoints[{person, bodyPart, xyscore}]) + " ";
+                            valueToPrint += std::to_string(   poseKeypoints[{person, bodyPart, xyscore}]   ) + " ";
                               
                         }
                         if(bodyPart == 1){
-                            pt.body.x = poseKeypoints[{person,bodyPart,0}];
-                            pt.body.y = poseKeypoints[{person,bodyPart,1}]; 
+                                   pt.body.x = poseKeypoints[{person,bodyPart,0}];
+                                   pt.body.y = poseKeypoints[{person,bodyPart,1}]; 
 
                         }
-                        else if(bodyPart == 6){ // right hand
-                            pt.rightHand.x = poseKeypoints[{person,bodyPart,0}];
-                            pt.rightHand.y = poseKeypoints[{person,bodyPart,1}]; 
+                        else if(bodyPart == 6){// right hand
+                             pt.rightHand.x = poseKeypoints[{person,bodyPart,0}];
+                             pt.rightHand.y = poseKeypoints[{person,bodyPart,1}]; 
                         } 
                         op::log(valueToPrint);
                     }
                     keyPoints.push_back(pt);
-                    cout << "1)body" << pt.body.x << "," << pt.body.y << endl;
-                    cout << "2)leftShoulder" << pt.rightHand.x << "," << pt.rightHand.y << endl;
+                    cout<<"1)body"<< pt.body.x <<","<<pt.body.y<<endl;
+                    cout<<"2)leftShoulder" <<pt.rightHand.x <<","<<pt.rightHand.y<<endl;
                        
                 }
 
-                if(keyPoints.size() != 0){
-                    string st= " ";
-                    stringstream ss;
+                if(keyPoints.size()!=0){
+                     string st= " ";
+                     stringstream ss;
 
-                    ss<< keyPoints.size() << st;
-                    for(int i=0; i < keyPoints.size(); i++){
-                        ss << keyPoints[i].body.x << st << keyPoints[i].body.y << st << keyPoints[i].rightHand.x << st << keyPoints[i].rightHand.y << st;
-                    }
-                    st = ss.str();
-                    cout << st << endl;
-
-                    //Send client the coordinates of Right hand and body 
-                    if(send(tcpsocket, st.c_str(), st.size(), 0) < 0){
-                        cout << "Send failed : " << st << endl;
-                    }
+                     ss<< keyPoints.size()<<st;
+                     for(int i=0;i<keyPoints.size();i++){
+                             ss<<keyPoints[i].body.x<<st<<keyPoints[i].body.y<<st<<keyPoints[i].rightHand.x<<st<<keyPoints[i].rightHand.y<<st;
+                     }
+                     st = ss.str();
+                     cout<<st<<endl;
+                     if( send(tcpsocket , st.c_str()  , st.size() , 0) < 0){
+                            cout << "Send failed : " << st << endl;
+                     }
                 }
                        
+
                 op::log(" ");
                 // Alternative: just getting std::string equivalent
                 op::log("Face keypoints: " + datumsPtr->at(0).faceKeypoints.toString());
@@ -532,24 +556,47 @@ int openPoseTutorialWrapper2()
     return 0;
 }
 
-void* transfer(void*)
-{
-    openPoseTutorialWrapper2();
+
+
+
+std::vector<UserPoint> getKeyPoints(Mat frame){
+    UserPoint testData,testData2;
+    testData.body.x = 100;
+    testData.body.y = 200;
+    testData.rightHand.x = 300;
+    testData.rightHand.y = 400;
+    testData2.body.x = 102;
+    testData2.body.y = 202;
+    testData2.rightHand.x = 302;
+    testData2.rightHand.y = 402;
+    std::vector<UserPoint> userKeyPoints;
+    userKeyPoints.push_back(testData);
+    userKeyPoints.push_back(testData2); 
+    return userKeyPoints;
 }
 
-int main(int argc, char *argv[]) 
+
+
+void* transfer(void*)
 {
+        openPoseTutorialWrapper2();
+}
+
+
+
+int main(int argc, char *argv[]) {
     //unsigned short servPort = atoi(argv[1]); // First arg:  local port
     int FRAME= 0;
     //namedWindow("recv", CV_WINDOW_AUTOSIZE);
-    //Parsing command line flags
+       // Parsing command line flags
     gflags::ParseCommandLineFlags(&argc, &argv, true);
 
     // Running openPoseTutorialWrapper2
-    try {
-        pthread_t serverThread;
 
-        //TCP Socket
+
+    try {
+
+        pthread_t serverThread;
         int sockfd=socket(AF_INET,SOCK_STREAM,0);
         struct sockaddr_in serverAddress;
         struct sockaddr_in clientAddress;
@@ -557,18 +604,12 @@ int main(int argc, char *argv[])
         serverAddress.sin_family=AF_INET;
         serverAddress.sin_addr.s_addr=htonl(INADDR_ANY);
         serverAddress.sin_port=htons(PORT_NUM);
-        if(bind(sockfd,(struct sockaddr *)&serverAddress, sizeof(serverAddress)) == -1)
-        {
+        if(bind(sockfd,(struct sockaddr *)&serverAddress, sizeof(serverAddress))==-1){
               printf("bind error\n");
               exit(1);
         }
-        else
-        {
-            cout << "TCP Socket is created" << endl;
-        }
 
-        if(listen(sockfd,5) == -1)
-        {
+        if(listen(sockfd,5)==-1){
               printf("listen error\n");
               exit(1);
         }
@@ -578,12 +619,12 @@ int main(int argc, char *argv[])
 		socklen_t sosize  = sizeof(clientAddress);
 		tcpsocket = accept(sockfd,(struct sockaddr*)&clientAddress,&sosize);
 		th_str = inet_ntoa(clientAddress.sin_addr);
-        
+        cout<<"3"<<endl;
 		pthread_create(&serverThread,NULL,&transfer,NULL);
 
-        //UDP Socket
+
+
         UDPSocket sock(PORT_NUM);
-        cout << "UDP Socket is created" << endl;
 
         char buffer[BUF_LEN]; // Buffer for echo string
         int recvMsgSize; // Size of received message
@@ -592,39 +633,53 @@ int main(int argc, char *argv[])
 
         clock_t last_cycle = clock();
 
-        while (true) 
-        {
+        while (1) {
             // Block until receive message from a client
-            recvMsgSize = sock.recvFrom(buffer, BUF_LEN, sourceAddress, sourcePort);
-            char * longbuf = new char[recvMsgSize];
-            memcpy( & longbuf[0], buffer, recvMsgSize);
+            do {
+                recvMsgSize = sock.recvFrom(buffer, BUF_LEN, sourceAddress, sourcePort);
+            } while (recvMsgSize > sizeof(int));
+            int total_pack = ((int * ) buffer)[0];
 
-            //cout << "Received packet from " << sourceAddress << ":" << sourcePort << endl;
-            Mat rawData = Mat(1, recvMsgSize, CV_8UC1, longbuf);
+    //        cout << "expecting length of packs:" << total_pack << endl;
+            char * longbuf = new char[PACK_SIZE * total_pack];
+            for (int i = 0; i < total_pack; i++) {
+                recvMsgSize = sock.recvFrom(buffer, BUF_LEN, sourceAddress, sourcePort);
+                if (recvMsgSize != PACK_SIZE) {
+                    cerr << "Received unexpected size pack:" << recvMsgSize << endl;
+                    continue;
+                }
+                memcpy( & longbuf[i * PACK_SIZE], buffer, PACK_SIZE);
+            }
+
+    //        cout << "Received packet from " << sourceAddress << ":" << sourcePort << endl;
+
+            Mat rawData = Mat(1, PACK_SIZE * total_pack, CV_8UC1, longbuf);
             Mat frame = imdecode(rawData, CV_LOAD_IMAGE_COLOR);
-            if (frame.size().width == 0) 
-            {
+            if (frame.size().width == 0) {
                 cerr << "decode failure!" << endl;
                 continue;
             }
-            if(frameQueue.size() < 50 && FRAME % 100 != 0)
-            {
+            if(frameQueue.size()<50 && FRAME%100!=0){
                 frameQueue.push(frame);
             }
             FRAME++;
+
             //imshow("recv", frame);
-            //waitKey(1);
+
             free(longbuf);
+
+            //waitKey(1);
             clock_t next_cycle = clock();
             double duration = (next_cycle - last_cycle) / (double) CLOCKS_PER_SEC;
-            //cout << "\teffective FPS:" << (1 / duration) << " \tkbps:" << (PACK_SIZE * total_pack / duration / 1024 * 8) << endl;
-            //cout << next_cycle - last_cycle;
+    //        cout << "\teffective FPS:" << (1 / duration) << " \tkbps:" << (PACK_SIZE * total_pack / duration / 1024 * 8) << endl;
+
+     //       cout << next_cycle - last_cycle;
             last_cycle = next_cycle;
         }
-    } catch (SocketException & e) 
-    {
+    } catch (SocketException & e) {
         cerr << e.what() << endl;
         exit(1);
     }
+
     return 0;
 }

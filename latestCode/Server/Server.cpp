@@ -345,20 +345,20 @@ public:
                 }
 
                 if(keyPoints.size() != 0){
-                    string st= " ";
+                    string space= " ";
+                    stirng msg;
                     stringstream ss;
 
-                    ss<< keyPoints.size() << st;
                     for(int i=0; i < keyPoints.size(); i++){
-                        ss << keyPoints[i].body.x << st << keyPoints[i].body.y << st << keyPoints[i].rightHand.x << st << keyPoints[i].rightHand.y << st;
+                        ss << i << space << keyPoints[i].body.x << space << keyPoints[i].body.y << space << keyPoints[i].rightHand.x << space << keyPoints[i].rightHand.y << space;
                     }
                     ss << "\r\n";
-                    st = ss.str();
-                    cout << st << endl;
+                    msg = ss.str();
+                    cout << msg << endl;
 
                     //Send client the coordinates of Right hand and body 
-                    if(send(tcpsocket, st.c_str(), st.size(), 0) < 0){
-                        cout << "Send failed : " << st << endl;
+                    if(send(tcpsocket, msg.c_str(), msg.size(), 0) < 0){
+                        cout << "Send failed : " << msg << endl;
                     }
                 }
                        

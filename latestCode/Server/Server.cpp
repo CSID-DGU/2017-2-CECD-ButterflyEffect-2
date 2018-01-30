@@ -350,7 +350,7 @@ public:
                     stringstream ss;
 
                     for(int i=0; i < keyPoints.size(); i++){
-                        ss << i << space << keyPoints[i].body.x << space << keyPoints[i].body.y << space << keyPoints[i].rightHand.x << space << keyPoints[i].rightHand.y << space;
+                        ss << i + 1 << space << keyPoints[i].body.x << space << keyPoints[i].body.y << space << keyPoints[i].rightHand.x << space << keyPoints[i].rightHand.y << space;
                     }
                     ss << "\r\n";
                     msg = ss.str();

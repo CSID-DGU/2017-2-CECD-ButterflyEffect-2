@@ -37,7 +37,6 @@ using namespace cv;
 
 std::queue<cv::Mat> frameQueue;
 int tcpsocket;
-bool flag = false;
 struct Pt{
     float x, y;
 };
@@ -202,7 +201,6 @@ public:
     {
         try
         {	
-			while(flag == false){}
             //Close program when empty frame
             //if (mImageFiles.size() <= mCounter)
             

@@ -13,19 +13,38 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 
+import csid.butterflyeffect.util.Constants;
+
 
 public class SocketClient {
     private Socket tcpSocket;
-    public static DatagramSocket udpSocket;
+    private DatagramSocket udpSocket;
     private String ip;
     private int port;
+    private HandleReceiveData callback;
 
-    public SocketClient(String ip, int port) throws Exception {
-        this.ip = ip;
-        this.port = port;
-        //tcpSocket = new Socket(ip, port);
+    public void setReceiveCallback(HandleReceiveData callback) {
+        this.callback = callback;
+    }
+
+
+    public SocketClient() {
+        this.ip = Constants.ADDR;
+        this.port = Constants.PORT_NUM;
+    }
+
+    public void connect() throws Exception {
+        tcpSocket = new Socket(ip, port);
         System.out.println("tcpSocket created!");
         udpSocket = new DatagramSocket(port);
+        System.out.println("udpSocket created!");
+    }
+    public void tcpService() throws IOException{
+        while (true) {
+            BufferedReader reader;
+            reader = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream()));
+            callback.handleReceiveData(reader.readLine());
+        }
     }
 
     public void sendUdpPacket(final byte[] data) {

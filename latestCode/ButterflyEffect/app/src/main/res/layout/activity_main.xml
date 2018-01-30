@@ -32,9 +32,12 @@
                 />
         </LinearLayout>
 
-
     </LinearLayout>
-
+    <TextView
+        android:id="@+id/tv_tcp"
+        android:text="tcp datas come here"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/btn_capture"

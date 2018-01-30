@@ -17,7 +17,7 @@ public class Constants {
     public static final int THEATA_C = 10;
     public static final int VELOCITY = 7;
 
-    public static final int PORT_NUM = 9000;
+    public static int PORT_NUM = 9000;
     public static final String ADDR = "192.168.0.4";
     public static final int BUFFER_SIZE = 2000;
     public static final double PI = 3.141592;

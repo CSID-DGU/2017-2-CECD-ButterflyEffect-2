@@ -14,10 +14,13 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import org.w3c.dom.Text;
 
 import csid.butterflyeffect.PreviewSurface;
 import csid.butterflyeffect.R;
@@ -30,10 +33,12 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
     private PreviewSurface mPriviewSurface;
 
-    private Button mBtn;
+    private Button mBtn,mConnectBtn;
     private ImageView mBitmapView;
     private TextView mTcpDataView;
+    private TextView mTcpConnection;
     private SocketClient mSocket;
+    private EditText mPort;
     public static boolean isSocketConnected = false;
 
     @Override
@@ -44,8 +49,11 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         setContentView(R.layout.activity_main);
 
         mBtn = (Button)findViewById(R.id.btn_capture);
+        mConnectBtn = (Button)findViewById(R.id.btn_connect);
         mBitmapView = (ImageView) findViewById(R.id.iv_bitmap);
         mTcpDataView = (TextView)findViewById(R.id.tv_tcp);
+        mTcpConnection = (TextView)findViewById(R.id.tv_connection);
+        mPort = (EditText)findViewById(R.id.et_port);
         getWindow().setFormat(PixelFormat.UNKNOWN);
 
         mPriviewSurface = (PreviewSurface) findViewById(R.id.sv);
@@ -56,12 +64,18 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                 mPriviewSurface.refreshFocus();
             }
         });
+        mPort.setText(String.valueOf(Constants.PORT_NUM));
+
 
         // TCP & UDP 연결
         mSocket = new SocketClient();
         mSocket.setReceiveCallback(this);
-        new ConnectSocket().execute();
-
+        mConnectBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                connect();
+            }
+        });
     }
 
     @Override
@@ -87,6 +101,21 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         });
     }
 
+    @Override
+    public void errorHandler() {
+        mTcpConnection.setText("socket had a error!");
+    }
+
+    public void connect(){
+        if(!mPort.getText().equals("")) {
+            Constants.PORT_NUM = Integer.parseInt(mPort.getText().toString());
+            mTcpConnection.setText("Connecting...");
+            new ConnectSocket().execute();
+        }
+        else{
+            Toast.makeText(MainActivity.this,"포트번호를 입력해주세요!",Toast.LENGTH_SHORT).show();
+        }
+    }
     public class ConnectSocket extends AsyncTask<String,String,String>{
 
         @Override
@@ -97,9 +126,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             }
             catch (Exception e){
                 e.printStackTrace();
-                Log.d("#####","socket connection failed");
                 return Constants.FAILURE;
-
             }
             return "";
         }
@@ -108,10 +135,12 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         protected void onPostExecute(String s) {
             if(!s.equals(Constants.FAILURE)) {
                 Log.d("#####","socket connection success");
+                mTcpConnection.setText("socket connection success");
                 isSocketConnected = true;
             }
             else
                 Log.e("#####","socket connection error");
+            mTcpConnection.setText("socket connection error");
             super.onPostExecute(s);
         }
     }

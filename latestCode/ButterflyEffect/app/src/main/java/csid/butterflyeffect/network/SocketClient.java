@@ -4,6 +4,8 @@ package csid.butterflyeffect.network;
  * Created by hanseungbeom on 2018. 1. 16..
  */
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,14 +37,29 @@ public class SocketClient {
 
     public void connect() throws Exception {
         tcpSocket = new Socket(ip, port);
-        System.out.println("tcpSocket created!");
+        Log.d("#####","tcpSocket created!");
+        //if connection success, run tcpService
+        Thread tcpThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    //run tcp service
+                    tcpService();
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        tcpThread.start();
+
         udpSocket = new DatagramSocket(port);
-        System.out.println("udpSocket created!");
+        Log.d("#####","udpSocket created!");
     }
     public void tcpService() throws IOException{
+        Log.d("#####","tcpService Start!");
+        BufferedReader reader;
+        reader = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream()));
         while (true) {
-            BufferedReader reader;
-            reader = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream()));
             callback.handleReceiveData(reader.readLine());
         }
     }

@@ -33,10 +33,9 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     private Button mBtn;
     private ImageView mBitmapView;
     private TextView mTcpDataView;
-    public static SocketClient mSocket;
+    private SocketClient mSocket;
     public static boolean isSocketConnected = false;
-    public static boolean isOpenCvLoaded = false;
-    public static int count = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,9 +77,14 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     }
 
     @Override
-    public void handleReceiveData(String data) {
-        mTcpDataView.setText(data);
-
+    public void handleReceiveData(final String data) {
+        Log.d("#####","receive:"+data);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mTcpDataView.setText(data);
+            }
+        });
     }
 
     public class ConnectSocket extends AsyncTask<String,String,String>{
@@ -105,21 +109,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             if(!s.equals(Constants.FAILURE)) {
                 Log.d("#####","socket connection success");
                 isSocketConnected = true;
-
-                //if connection success, run tcpService
-                Thread tcpService = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try{
-                            //run tcp service
-                            mSocket.tcpService();
-
-                        }catch(Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                tcpService.start();
             }
             else
                 Log.e("#####","socket connection error");

@@ -8,6 +8,29 @@
     tools:context="csid.butterflyeffect.ui.MainActivity"
     android:gravity="center">
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <EditText
+            android:gravity="center"
+            android:hint="port"
+            android:id="@+id/et_port"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_connect"
+            android:text="connect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_connection"
+        android:paddingBottom="10dp"
+        android:text="connection state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

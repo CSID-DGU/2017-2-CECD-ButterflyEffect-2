@@ -21,8 +21,6 @@ import csid.butterflyeffect.util.Constants;
 public class SocketClient {
     private Socket tcpSocket;
     private DatagramSocket udpSocket;
-    private String ip;
-    private int port;
     private HandleReceiveData callback;
 
     public void setReceiveCallback(HandleReceiveData callback) {
@@ -31,12 +29,11 @@ public class SocketClient {
 
 
     public SocketClient() {
-        this.ip = Constants.ADDR;
-        this.port = Constants.PORT_NUM;
+
     }
 
     public void connect() throws Exception {
-        tcpSocket = new Socket(ip, port);
+        tcpSocket = new Socket(Constants.ADDR, Constants.PORT_NUM);
         Log.d("#####","tcpSocket created!");
         //if connection success, run tcpService
         Thread tcpThread = new Thread(new Runnable() {
@@ -47,12 +44,13 @@ public class SocketClient {
                     tcpService();
                 }catch(Exception e) {
                     e.printStackTrace();
+                    callback.errorHandler();
                 }
             }
         });
         tcpThread.start();
 
-        udpSocket = new DatagramSocket(port);
+        udpSocket = new DatagramSocket(Constants.PORT_NUM);
         Log.d("#####","udpSocket created!");
     }
     public void tcpService() throws IOException{
@@ -71,7 +69,7 @@ public class SocketClient {
             public void run() {
                 try {
                     if (udpSocket != null) {
-                        SocketAddress socketAddres = new InetSocketAddress(ip, port);
+                        SocketAddress socketAddres = new InetSocketAddress(Constants.ADDR, Constants.PORT_NUM);
                         udpSocket.send(new DatagramPacket(data, data.length, socketAddres));
                     }
                 } catch (IOException e) {

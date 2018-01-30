@@ -32,7 +32,6 @@
 // OpenPose dependencies
 #include <openpose/headers.hpp>
 #define BUF_LEN 65540 // Larger than maximum UDP packet size
-#define PORT_NUM 9000
 using namespace cv;
 
 std::queue<cv::Mat> frameQueue;
@@ -538,6 +537,10 @@ void* transfer(void*)
 
 int main(int argc, char *argv[]) 
 {
+    int PORT_NUM;
+    cout << "포트 번호를 입력하세요>> ";
+    cin >> PORT_NUM;
+    cout << "현재 포트번호: " << PORT_NUM;
     //unsigned short servPort = atoi(argv[1]); // First arg:  local port
     int FRAME= 0;
     //namedWindow("recv", CV_WINDOW_AUTOSIZE);

@@ -355,6 +355,7 @@ public:
                     for(int i=0; i < keyPoints.size(); i++){
                         ss << keyPoints[i].body.x << st << keyPoints[i].body.y << st << keyPoints[i].rightHand.x << st << keyPoints[i].rightHand.y << st;
                     }
+                    ss << "\r\n";
                     st = ss.str();
                     cout << st << endl;
 

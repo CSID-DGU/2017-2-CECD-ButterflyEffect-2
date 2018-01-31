@@ -344,13 +344,14 @@ public:
                        
                 }
 
-                if(keyPoints.size() != 0){
+                int detectedPeople = keyPoints.size(); 
+                if(detectedPeople != 0){
                     string space= " ";
                     string msg;
                     stringstream ss;
 
-                    for(int i=0; i < keyPoints.size(); i++){
-                        ss << i + 1 << space << keyPoints[i].body.x << space << keyPoints[i].body.y << space << keyPoints[i].rightHand.x << space << keyPoints[i].rightHand.y << space;
+                    for(int i=0; i < detectedPeople; i++){
+                        ss << detectedPeople << space << keyPoints[i].body.x << space << keyPoints[i].body.y << space << keyPoints[i].rightHand.x << space << keyPoints[i].rightHand.y << space;
                     }
                     ss << "\r\n";
                     msg = ss.str();

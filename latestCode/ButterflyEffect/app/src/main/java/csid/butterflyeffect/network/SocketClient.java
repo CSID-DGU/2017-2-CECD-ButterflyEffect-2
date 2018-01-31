@@ -41,7 +41,7 @@ public class SocketClient {
             //tcpSocket = new Socket(Constants.ADDR, Constants.PORT_NUM);
             String hostname = Constants.ADDR;
             int port = Constants.PORT_NUM;
-            int timeout = 2000;
+            int timeout = 3000;
             SocketAddress socketAddress = new InetSocketAddress(hostname, port);
             tcpSocket = new Socket();
             tcpSocket.connect(socketAddress, timeout);

@@ -1,5 +1,7 @@
 package csid.butterflyeffect.util;
 
+import android.graphics.Point;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -18,5 +20,24 @@ public class Utils {
         buff.putInt(integer);
 
         return buff.array();
+    }
+    public static double getDegree(Point2D centerPoint, Point2D targetPoint) {
+        double degree = Math.toDegrees(Math.atan2(targetPoint.y - centerPoint.y, targetPoint.x - centerPoint.x));
+        if(degree < 0) {
+            degree += 360;
+        }
+        return degree;
+    }
+
+    public static double stringToDegree(String str) {
+        double degree = 0;
+        int len = str.length();
+        str = str.substring(2, len - 1);
+        String[] tokens = str.split(", ");
+        int idx = 0;
+        Point2D centerPoint = new Point2D(Double.parseDouble(tokens[0]), Double.parseDouble(tokens[1]));
+        Point2D targetPoint = new Point2D(Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]));
+        degree = getDegree(centerPoint, targetPoint);
+        return degree;
     }
 }

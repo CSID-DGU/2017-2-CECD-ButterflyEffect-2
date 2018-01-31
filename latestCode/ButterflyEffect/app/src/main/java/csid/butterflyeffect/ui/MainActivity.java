@@ -27,6 +27,7 @@ import csid.butterflyeffect.R;
 import csid.butterflyeffect.network.HandleReceiveData;
 import csid.butterflyeffect.network.SocketClient;
 import csid.butterflyeffect.util.Constants;
+import csid.butterflyeffect.util.Utils;
 
 public class MainActivity extends AppCompatActivity implements PreviewSurface.FrameHandler, HandleReceiveData {
 

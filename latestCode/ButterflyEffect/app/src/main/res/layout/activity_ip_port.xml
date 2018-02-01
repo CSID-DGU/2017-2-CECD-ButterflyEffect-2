@@ -61,7 +61,7 @@
                         android:id="@+id/et_ip"
                         android:hint="IP ADDRESS"
 
-                        android:layout_width="100dp"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"
@@ -86,7 +86,7 @@
                         android:textSize="13dp"
                         android:id="@+id/et_port"
                         android:hint="PORT"
-                        android:layout_width="100dp"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"

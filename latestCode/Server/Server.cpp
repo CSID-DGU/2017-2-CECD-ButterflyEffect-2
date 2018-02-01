@@ -349,6 +349,7 @@ public:
                     string space = " ";
                     string comma = ", ";
                     string semicolon = "; ";
+                    sttring end = "\r\n";
                     string msg;
                     stringstream ss;
 
@@ -356,7 +357,7 @@ public:
                     for(int i=0; i < detectedPeople; i++){
                         ss << keyPoints[i].body.x << comma << keyPoints[i].body.y << comma << keyPoints[i].rightHand.x << comma << keyPoints[i].rightHand.y << semicolon;
                     }
-                    ss << "\r\n";
+                    ss << end;
                     msg = ss.str();
                     cout << msg << endl;
 

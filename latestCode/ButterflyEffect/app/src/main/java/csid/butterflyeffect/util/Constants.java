@@ -18,6 +18,7 @@ public class Constants {
     public static final int VELOCITY = 7;
 
     public static int PORT_NUM = 9000;
+    public static int TIME_OUT_FOR_TCP_CONNECTION = 3000;//3 sec
     public static final String ADDR = "13.125.18.171";
     public static final int BUFFER_SIZE = 2000;
     public static final double PI = 3.141592;

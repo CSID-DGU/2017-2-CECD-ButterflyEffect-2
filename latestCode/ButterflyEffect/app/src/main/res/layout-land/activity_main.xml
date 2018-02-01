@@ -43,7 +43,7 @@
                 android:background="@color/blueGrey800"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                >
+               >
                 <ImageView
                     android:scaleType="centerCrop"
                     android:id="@+id/iv_bitmap"

@@ -23,7 +23,7 @@ public class PermissionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_permission);
 
         if(AppPermissions.hasAppPermission(this)){
-            Intent i = new Intent(PermissionActivity.this, MainActivity.class);
+            Intent i = new Intent(PermissionActivity.this, IpPortActivity.class);
             startActivity(i);
             finish();
 
@@ -40,7 +40,7 @@ public class PermissionActivity extends AppCompatActivity {
             @Override
             public void onPermissionGranted() {
                 Toast.makeText(PermissionActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(PermissionActivity.this, MainActivity.class);
+                Intent i = new Intent(PermissionActivity.this, IpPortActivity.class);
                 startActivity(i);
                 finish();
             }

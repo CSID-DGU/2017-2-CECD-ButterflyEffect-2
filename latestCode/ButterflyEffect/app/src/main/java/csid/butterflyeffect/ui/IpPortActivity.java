@@ -41,6 +41,8 @@ public class IpPortActivity extends AppCompatActivity implements HandleReceiveDa
             @Override
             public void onClick(View v) {
                 mSocket.setReceiveCallback(IpPortActivity.this);
+                Constants.ADDR = mIpView.getText().toString();
+                Constants.PORT_NUM = Integer.parseInt(mPortView.getText().toString());
                 new ConnectSocket().execute();
             }
         });

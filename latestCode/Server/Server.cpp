@@ -346,14 +346,15 @@ public:
 
                 int detectedPeople = keyPoints.size(); 
                 if(detectedPeople != 0){
-                    string space= ", ";
+                    string space = " ";
+                    string comma = ", ";
                     string semicolon = "; ";
                     string msg;
                     stringstream ss;
 
 					ss << detectedPeople << space;
                     for(int i=0; i < detectedPeople; i++){
-                        ss << keyPoints[i].body.x << space << keyPoints[i].body.y << space << keyPoints[i].rightHand.x << space << keyPoints[i].rightHand.y << semicolon;
+                        ss << keyPoints[i].body.x << comma << keyPoints[i].body.y << comma << keyPoints[i].rightHand.x << comma << keyPoints[i].rightHand.y << semicolon;
                     }
                     ss << "\r\n";
                     msg = ss.str();

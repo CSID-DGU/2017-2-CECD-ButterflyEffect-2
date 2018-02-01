@@ -18,6 +18,7 @@ import csid.butterflyeffect.PreviewSurface;
 import csid.butterflyeffect.R;
 import csid.butterflyeffect.network.HandleReceiveData;
 import csid.butterflyeffect.network.SocketClient;
+import csid.butterflyeffect.util.Utils;
 
 public class MainActivity extends AppCompatActivity implements PreviewSurface.FrameHandler, HandleReceiveData {
 
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mSocket = SocketClient.getInstance();
         mSocket.setReceiveCallback(this);
         mSocket.startTcpService();
+
     }
 
     @Override

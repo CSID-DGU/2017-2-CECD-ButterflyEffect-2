@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import csid.butterflyeffect.R;
 import csid.butterflyeffect.network.HandleReceiveData;
 import csid.butterflyeffect.network.SocketClient;
 import csid.butterflyeffect.util.Constants;
+import csid.butterflyeffect.util.Utils;
 
 public class IpPortActivity extends AppCompatActivity implements HandleReceiveData {
 
@@ -28,6 +30,12 @@ public class IpPortActivity extends AppCompatActivity implements HandleReceiveDa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ip_port);
+
+        /////Degree Test/////
+        String ex1 = "3 1, 1, 2, 2; 34.43, 21.24, 124.12, 126.345; 43.12, 21.23, 73.12, 80.345; ";
+        double[] temp = Utils.stringToDegree(ex1);
+        Log.d("TEST", ""+ temp[0] + ", " + temp[1] + ", " + temp[2]);
+        ////////////////////
 
         mIpView = (EditText)findViewById(R.id.et_ip);
         mPortView = (EditText)findViewById(R.id.et_port);

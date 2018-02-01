@@ -350,8 +350,9 @@ public:
                     string msg;
                     stringstream ss;
 
+					ss << detectedPeople;
                     for(int i=0; i < detectedPeople; i++){
-                        ss << detectedPeople << space << keyPoints[i].body.x << space << keyPoints[i].body.y << space << keyPoints[i].rightHand.x << space << keyPoints[i].rightHand.y << space;
+                        ss << space << keyPoints[i].body.x << space << keyPoints[i].body.y << space << keyPoints[i].rightHand.x << space << keyPoints[i].rightHand.y;
                     }
                     ss << "\r\n";
                     msg = ss.str();
@@ -535,17 +536,18 @@ void* transfer(void*)
 {
     openPoseTutorialWrapper2();
 }
-
 int main(int argc, char *argv[]) 
 {
     int PORT_NUM;
-    cout << "포트 번호를 입력하세요>> ";
-    cin >> PORT_NUM;
-    cout << "현재 포트번호: " << PORT_NUM << endl;
-    //unsigned short servPort = atoi(argv[1]); // First arg:  local port
     int FRAME= 0;
+
+    cout << "포트 번호를 입력하세요>> "; 
+	cin >> PORT_NUM;
+					   
+    cout << "현재 포트번호: " << PORT_NUM << endl;
     //namedWindow("recv", CV_WINDOW_AUTOSIZE);
     //Parsing command line flags
+    
     gflags::ParseCommandLineFlags(&argc, &argv, true);
 
     // Running openPoseTutorialWrapper2

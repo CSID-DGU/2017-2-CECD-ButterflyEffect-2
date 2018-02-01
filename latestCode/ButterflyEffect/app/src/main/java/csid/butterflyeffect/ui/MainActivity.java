@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                     Log.d("#####","length:"+frame.length);
 
                 }
-                Bitmap bit = BitmapFactory.decodeByteArray(frame, 0, frame.length);
-                mBitmapView.setImageBitmap(bit);
+                //Bitmap bit = BitmapFactory.decodeByteArray(frame, 0, frame.length);
+                //mBitmapView.setImageBitmap(bit);
             }
         });
     }

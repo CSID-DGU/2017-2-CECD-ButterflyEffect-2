@@ -349,7 +349,7 @@ public:
                     string space = " ";
                     string comma = ", ";
                     string semicolon = "; ";
-                    sttring end = "\r\n";
+                    string end = "\r\n";
                     string msg;
                     stringstream ss;
 

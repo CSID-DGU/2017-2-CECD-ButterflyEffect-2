@@ -327,12 +327,12 @@ public:
                             valueToPrint += std::to_string(   poseKeypoints[{person, bodyPart, xyscore}]) + " ";
                               
                         }
-                        if(bodyPart == 1){
+                        if(bodyPart == 0){ //body
                             pt.body.x = poseKeypoints[{person,bodyPart,0}];
                             pt.body.y = poseKeypoints[{person,bodyPart,1}]; 
 
                         }
-                        else if(bodyPart == 6){ // right hand
+                        else if(bodyPart == 1){ // head
                             pt.rightHand.x = poseKeypoints[{person,bodyPart,0}];
                             pt.rightHand.y = poseKeypoints[{person,bodyPart,1}]; 
                         } 
@@ -345,16 +345,18 @@ public:
                 }
 
                 int detectedPeople = keyPoints.size(); 
-                if(detectedPeople != 0){
-                    string space= " ";
+                 if(detectedPeople != 0){
+                    string space= ", ";
+                    string semicolon = "; ";
+		    string end = "\r\n";
                     string msg;
                     stringstream ss;
 
-					ss << detectedPeople;
+					ss << detectedPeople << space;
                     for(int i=0; i < detectedPeople; i++){
-                        ss << space << keyPoints[i].body.x << space << keyPoints[i].body.y << space << keyPoints[i].rightHand.x << space << keyPoints[i].rightHand.y;
+                        ss << keyPoints[i].body.x << space << keyPoints[i].body.y << space << keyPoints[i].rightHand.x << space << keyPoints[i].rightHand.y << semicolon;
                     }
-                    ss << "\r\n";
+                    ss << end;
                     msg = ss.str();
                     cout << msg << endl;
 
@@ -362,8 +364,7 @@ public:
                     if(send(tcpsocket, msg.c_str(), msg.size(), 0) < 0){
                         cout << "Send failed : " << msg << endl;
                     }
-                }
-                       
+                }    
                 op::log(" ");
                 // Alternative: just getting std::string equivalent
                 op::log("Face keypoints: " + datumsPtr->at(0).faceKeypoints.toString());
@@ -612,7 +613,7 @@ int main(int argc, char *argv[])
                 cerr << "decode failure!" << endl;
                 continue;
             }
-            if(frameQueue.size() < 50 && FRAME % 100 != 0)
+            if(frameQueue.size() < 50 && FRAME % 20 != 0)
             {
                 frameQueue.push(frame);
             }

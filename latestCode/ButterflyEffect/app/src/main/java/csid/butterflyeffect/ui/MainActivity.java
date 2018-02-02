@@ -74,14 +74,14 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         boolean trueColor8888 = false;
         mUnityPlayer.init(glesMode, trueColor8888);
 
-
-        FrameLayout layout = (    FrameLayout)findViewById(R.id.fr_unityView);
+        FrameLayout layout = (FrameLayout)findViewById(R.id.fr_unityView);
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         layout.addView(mUnityPlayer.getView(), 0, lp);
         mUnityPlayer.windowFocusChanged(true);
         mUnityPlayer.resume();
 
-
+        //테스트 데이터 → 방향 45도
+        handleReceiveData("1 1, 1, 2, 2; ");
     }
 
     @Override
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                 mTcpDataView.setText(data);
                 String userAngle = Utils.stringToDegree(data);
                 mUserAngleView.setText(userAngle);
-                UnityPlayer.UnitySendMessage("HeadController","AndroidLog",userAngle);
+                UnityPlayer.UnitySendMessage("Head","AndroidLog", userAngle);
             }
         });
     }
@@ -182,10 +182,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 /*API12*/
 
  public boolean onGenericMotionEvent(MotionEvent event)  { return mUnityPlayer.injectEvent(event); }
-
-
-
-
 
 
     @Override

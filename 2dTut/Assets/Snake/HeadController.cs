@@ -1,19 +1,56 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-
+using System;
 
 public class HeadController : MonoBehaviour
 {
-
     public float playerspeedmult;
 
     private Rigidbody rb;
     private Transform curtail;
     private Transform prevtail;
     private float dis;
-    public float curspeed = 100;
+    private int head_number= 0;
+
+
+    public float curspeed = 400;
     public float min_distance = 1;
+
+
+    public string angle_String = "no angle";
+
+    Vector3 move = new Vector3(0.0f, 0.0f, 0.0f);
+
+    // 유니티가 동작하는 액티비티를 저장하는 변수
+    public AndroidJavaObject activity;
+
+
+    float angle = 0.0f;
+
+    void Awake()
+    {
+        // 현재 실행 중인 유니티 액티비티를 가져와서 변수에 저장
+        //AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        //activity = jc.GetStatic<AndroidJavaObject>("currentActivity");
+        Debug.Log("Activity Call Complete");
+    }
+
+    public void AndroidLog (string degree)
+    {
+
+        string[] str = degree.Split(' ');
+
+        int person_num = int.Parse(str[0]);
+
+        Debug.Log("human: " + str[0] + ", degree : " + str[1]);
+        angle_String = str[1];
+        angle = float.Parse(str[1]);
+
+        move = new Vector3(Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle),0.0f );
+  
+    }
 
     List<Transform> tail = new List<Transform>();
 
@@ -28,28 +65,25 @@ public class HeadController : MonoBehaviour
     {
         rb = gameObject.GetComponent<Rigidbody>();
     }
-
+   
     void FixedUpdate()
     {
-
         Vector3 newpose = rb.position;
 
         // 1.Add force head into new direction
+
         //GetAxis = 방향키
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        //float moveHorizontal = Input.GetAxis("Horizontal");
+        //float moveVertical = Input.GetAxis("Vertical");
+
 
         //Vector 3를 직접 새로 생성하여 2차원 방향 이동 구현
-        Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0.0f);
-
-        //print (movement.ToString ("G4"));
-        //print ("loop");
+        //AndroidLog("1 30");
+        Vector3 movement = move;
 
         rb.AddForce(movement * playerspeedmult);
 
         float a = rb.velocity.x;
-
-        //print((movement * playerspeedmult).ToString("G4"));
 
         // 2.Move Tail to follow head
         if (tail.Count > 0)
@@ -60,14 +94,8 @@ public class HeadController : MonoBehaviour
 
             if (T > 100.0f)
                 T = 100.0f;
-
-           // tail[0].position = Vector3.Slerp(tail[0].position, newpose, T);
-           // tail[0].rotation = Quaternion.Slerp(tail[0].rotation, rb.rotation, T);
+           
             tail[0].position = Vector3.MoveTowards(tail[0].position, newpose, T);
-
-            //print("tail[0] :"+ tail[0].position.x + "," + tail[0].position.y + ","+ tail[0].position.z );
-            //print("rb :" + rb.position.x + "," + rb.position.y + "," +rb.position.z );
-
 
             for (int i = 1; i < tail.Count; i++)
             {
@@ -84,8 +112,6 @@ public class HeadController : MonoBehaviour
                 if (T > 100.0f)
                     T = 100.0f;
 
-                //curtail.position = Vector3.Slerp(curtail.position, newpose, T);
-                //curtail.rotation = Quaternion.Slerp(curtail.rotation, prevtail.rotation, T);
                curtail.position = Vector3.MoveTowards(curtail.position, prevtail.position, T);
             }
 

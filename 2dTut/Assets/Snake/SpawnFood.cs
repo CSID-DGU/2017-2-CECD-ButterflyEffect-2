@@ -23,6 +23,7 @@ public class SpawnFood : MonoBehaviour {
     //now it spawn random food using 'INT' position!
     void Spawn()
     {
+
         //x position between left and right border
         int x = (int)Random.Range(border_Left.position.x,
                                   border_Right.position.x);

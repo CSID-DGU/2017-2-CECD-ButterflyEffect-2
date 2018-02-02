@@ -6,6 +6,7 @@ public class AndroidManager : MonoBehaviour {
 
     private static AndroidManager _instance;
     public string androidLog = "No Log";
+    
 
     //#if UNITY_ANDROID && !UNITY_EDITOR
 
@@ -15,8 +16,8 @@ public class AndroidManager : MonoBehaviour {
     void Awake()
     {
         // 현재 실행 중인 유니티 액티비티를 가져와서 변수에 저장
-        AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        activity = jc.GetStatic<AndroidJavaObject>("currentActiviy");
+        //AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        //activity = jc.GetStatic<AndroidJavaObject>("currentActivity");
     }
 
     //#endif
@@ -42,14 +43,15 @@ public class AndroidManager : MonoBehaviour {
         }
     }
 
+    //// Use this for initialization
+    //void Start()
+    //{
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    //}
+
+    //// Update is called once per frame
+    //void Update()
+    //{
+
+    //}
 }

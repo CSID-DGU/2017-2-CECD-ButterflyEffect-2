@@ -3,7 +3,6 @@
     package="csid.butterflyeffect">
 
     <uses-feature android:name="android.hardware.camera" />
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.hardware.camera.autofocus" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -18,17 +17,13 @@
 
         <!--  android:process=":UnityKillsMe"-->
         <activity android:name=".ui.MainActivity"
-
             android:theme="@style/AppTheme"
             android:screenOrientation="landscape">
-
         </activity>
-
 
         <activity android:name=".ui.PermissionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -81,7 +81,9 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mUnityPlayer.resume();
 
         //테스트 데이터 → 방향 45도
-        handleReceiveData("1 1, 1, 1, 2; ");
+        //폴더 변경으로 이전 폴더에 대한 불필요한 정보를 지우기 위해
+        //임시 주석을 달아 커밋함.
+        handleReceiveData("1 1, 1, 2, 2; ");
     }
 
     @Override

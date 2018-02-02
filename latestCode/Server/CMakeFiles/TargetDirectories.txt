@@ -1,0 +1,3 @@
+/home/ubuntu/Butterfly/2017-2-CECD-ButterflyEffect-2/latestCode/Server/CMakeFiles/edit_cache.dir
+/home/ubuntu/Butterfly/2017-2-CECD-ButterflyEffect-2/latestCode/Server/CMakeFiles/rebuild_cache.dir
+/home/ubuntu/Butterfly/2017-2-CECD-ButterflyEffect-2/latestCode/Server/CMakeFiles/Server.bin.dir

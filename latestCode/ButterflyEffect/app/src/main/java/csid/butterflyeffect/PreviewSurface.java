@@ -18,6 +18,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import csid.butterflyeffect.network.HandleReceiveData;
 import csid.butterflyeffect.ui.MainActivity;
 import csid.butterflyeffect.util.Constants;
 
@@ -25,20 +26,23 @@ public class PreviewSurface extends CameraSurface implements
         Camera.PreviewCallback {
 
     private FrameHandler mFrameHandler;
-    public interface FrameHandler{
+
+    public interface FrameHandler {
         void getJpegFrame(byte[] frame);
     }
 
     private static final String TAG = "PreviewSurface:";
 
-    public void setFrameHandler(FrameHandler frameHandler){
+    public void setFrameHandler(FrameHandler frameHandler) {
         this.mFrameHandler = frameHandler;
     }
+
     public PreviewSurface(Context paramContext, AttributeSet paramAttributeSet) {
         super(paramContext, paramAttributeSet);
     }
 
     public void onPreviewFrame(byte[] paramArrayOfByte, Camera paramCamera) {
+        Log.d("#####", "size:" + paramArrayOfByte.length);
         try {
             Size size = paramCamera.getParameters().getPreviewSize();
             // use "image.compressToJpeg()" to change image data format from "YUV" to "jpg"
@@ -48,12 +52,12 @@ public class PreviewSurface extends CameraSurface implements
             YuvImage image = new YuvImage(paramArrayOfByte, ImageFormat.NV21, size.width, size.height, null);
             ByteArrayOutputStream outstream = new ByteArrayOutputStream();
             //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
-            image.compressToJpeg(new Rect(0, 0, size.width, size.height),10, outstream);
+            image.compressToJpeg(new Rect(0, 0, size.width, size.height), 10, outstream);
             outstream.flush();
-
             mFrameHandler.getJpegFrame(outstream.toByteArray());
 
-        }catch(Exception e){
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -69,5 +73,8 @@ public class PreviewSurface extends CameraSurface implements
     public void surfaceDestroyed(SurfaceHolder paramSurfaceHolder) {
         this.camera.setPreviewCallback(null);
         super.surfaceDestroyed(paramSurfaceHolder);
+    }
+    public FrameHandler getFrameHandler(){
+        return mFrameHandler;
     }
 }

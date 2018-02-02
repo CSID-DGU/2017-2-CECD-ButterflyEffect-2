@@ -64,22 +64,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/material_teal">
+            android:background="@color/material_teal"
+            android:orientation="vertical">
             <TextView
+
+                android:background="@color/blueGrey900"
+                android:paddingLeft="10dp"
+                android:textColor="@color/white"
+                android:id="@+id/tv_angle"
+                android:text="user angle view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:paddingLeft="10dp"
                 android:textColor="@color/white"
                 android:id="@+id/tv_tcp"
                 android:text="tcp datas come here"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
         </LinearLayout>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="fr_unityView" />
 
 
 </FrameLayout>

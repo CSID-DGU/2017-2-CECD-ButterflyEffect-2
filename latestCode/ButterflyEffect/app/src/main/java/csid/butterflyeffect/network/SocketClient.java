@@ -46,6 +46,9 @@ public class SocketClient {
             //tcpSocket = new Socket(Constants.ADDR, Constants.PORT_NUM);
             String hostname = Constants.ADDR;
             int port = Constants.PORT_NUM;
+            Log.d("#####","port:"+Constants.PORT_NUM);
+            Log.d("#####","ip:"+Constants.ADDR);
+
 
             SocketAddress socketAddress = new InetSocketAddress(hostname, port);
             tcpSocket = new Socket();
@@ -83,7 +86,11 @@ public class SocketClient {
         BufferedReader reader;
         reader = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream()));
         while (true) {
-            callback.handleReceiveData(reader.readLine());
+            String str = reader.readLine();
+            if(str==null)
+                break;
+
+            callback.handleReceiveData(str);
         }
     }
 

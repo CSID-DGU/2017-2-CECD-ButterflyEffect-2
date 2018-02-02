@@ -16,10 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--  android:process=":UnityKillsMe"-->
         <activity android:name=".ui.MainActivity"
 
             android:theme="@style/AppTheme"
-            android:process=":UnityKillsMe"
             android:screenOrientation="landscape">
 
         </activity>

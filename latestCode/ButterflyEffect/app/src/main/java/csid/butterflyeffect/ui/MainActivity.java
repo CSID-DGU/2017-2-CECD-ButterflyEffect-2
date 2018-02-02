@@ -1,5 +1,6 @@
 package csid.butterflyeffect.ui;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,6 +25,7 @@ import csid.butterflyeffect.PreviewSurface;
 import csid.butterflyeffect.R;
 import csid.butterflyeffect.network.HandleReceiveData;
 import csid.butterflyeffect.network.SocketClient;
+import csid.butterflyeffect.util.Utils;
 
 public class MainActivity extends AppCompatActivity implements PreviewSurface.FrameHandler, HandleReceiveData {
 
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
     private Button mBtn;
     private ImageView mBitmapView;
-    private TextView mTcpDataView;
+    private TextView mTcpDataView,mUserAngleView;
     private SocketClient mSocket;
     private UnityPlayer mUnityPlayer;
     public static boolean isSocketConnected = false;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mBtn = (Button)findViewById(R.id.btn_capture);
         mBitmapView = (ImageView) findViewById(R.id.iv_bitmap);
         mTcpDataView = (TextView)findViewById(R.id.tv_tcp);
+        mUserAngleView = (TextView)findViewById(R.id.tv_angle);
         getWindow().setFormat(PixelFormat.UNKNOWN);
 
         mPriviewSurface = (PreviewSurface) findViewById(R.id.sv);
@@ -65,29 +68,43 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mSocket.startTcpService();
 
 
-        /*
         //Unity in FrameLayout
         mUnityPlayer = new UnityPlayer(this);
         int glesMode = mUnityPlayer.getSettings().getInt("gles_mode", 1);
         boolean trueColor8888 = false;
         mUnityPlayer.init(glesMode, trueColor8888);
 
-        setContentView(R.layout.activity_main);
+
         FrameLayout layout = (    FrameLayout)findViewById(R.id.fr_unityView);
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         layout.addView(mUnityPlayer.getView(), 0, lp);
         mUnityPlayer.windowFocusChanged(true);
         mUnityPlayer.resume();
-*/
+
+
     }
 
-/*
+    @Override
+    public void handleReceiveData(final String data) {
+        Log.d("#####","receive:"+data);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mTcpDataView.setText(data);
+                String userAngle = Utils.stringToDegree(data);
+                mUserAngleView.setText(userAngle);
+                UnityPlayer.UnitySendMessage("AndroidManager","AndroidLog",userAngle);
+            }
+        });
+    }
+
     //Unity Listener
     public void initActivity(String tagFromUnity, String messageFromUnity)
     {
         UnityPlayer.UnitySendMessage("AndroidManager", "AndroidLog", "[" + tagFromUnity + "]" + messageFromUnity);
 
     }
+
 
     //Unity Utils
     // Quit Unity
@@ -163,26 +180,31 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         return super.dispatchKeyEvent(event);
     }
 
+
     // Pass any events not handled by (unfocused) views straight to UnityPlayer
     @Override public boolean onKeyUp(int keyCode, KeyEvent event)     { return mUnityPlayer.injectEvent(event); }
     @Override public boolean onKeyDown(int keyCode, KeyEvent event)   { return mUnityPlayer.injectEvent(event); }
     @Override public boolean onTouchEvent(MotionEvent event)          { return mUnityPlayer.injectEvent(event); }
-    */
-/*API12*//*
+
+
+/*API12*/
+
  public boolean onGenericMotionEvent(MotionEvent event)  { return mUnityPlayer.injectEvent(event); }
-*/
+
+
 
 
 
 
     @Override
     public void getJpegFrame(final byte[] frame) {
+        //Log.d("#####","Mainactivity frame size:"+frame.length);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if(mSocket.isConnected()) {
                     mSocket.sendUdpPacket(frame);
-                    Log.d("#####","length:"+frame.length);
+                    //Log.d("#####","length:"+frame.length);
 
                 }
                 //Bitmap bit = BitmapFactory.decodeByteArray(frame, 0, frame.length);
@@ -191,16 +213,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         });
     }
 
-    @Override
-    public void handleReceiveData(final String data) {
-        Log.d("#####","receive:"+data);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mTcpDataView.setText(data);
-            }
-        });
-    }
+
 
     @Override
     public void infoHandler(final String msg) {

@@ -17,9 +17,9 @@ public class Constants {
     public static final int THEATA_C = 10;
     public static final int VELOCITY = 7;
 
-    public static int PORT_NUM = 9000;
+    public static int PORT_NUM = 8000;
     public static int TIME_OUT_FOR_TCP_CONNECTION = 3000;//3 sec
-    public static String ADDR = "13.124.110.183";
+    public static String ADDR = "13.125.98.89";
     public static final int BUFFER_SIZE = 2000;
     public static final double PI = 3.141592;
     public static final int OJBECT_SIZE = 30;

@@ -92,19 +92,11 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             public void run() {
                 mTcpDataView.setText(data);
                 String userAngle = Utils.stringToDegree(data);
-                mUserAngleView.setText(data);
-                UnityPlayer.UnitySendMessage("AndroidManager","AndroidLog",userAngle);
+                mUserAngleView.setText(userAngle);
+                UnityPlayer.UnitySendMessage("HeadController","AndroidLog",userAngle);
             }
         });
     }
-
-    //Unity Listener
-    public void initActivity(String tagFromUnity, String messageFromUnity)
-    {
-        UnityPlayer.UnitySendMessage("AndroidManager", "AndroidLog", "[" + tagFromUnity + "]" + messageFromUnity);
-
-    }
-
 
     //Unity Utils
     // Quit Unity

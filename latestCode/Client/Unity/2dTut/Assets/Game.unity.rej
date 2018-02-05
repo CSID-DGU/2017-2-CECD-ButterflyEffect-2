@@ -1,0 +1,9 @@
+diff a/latestCode/Client/Unity/2dTut/Assets/Game.unity b/latestCode/Client/Unity/2dTut/Assets/Game.unity	(rejected hunks)
+@@ -975,6 +975,7 @@
+   m_PrefabInternal: {fileID: 0}
+   m_GameObject: {fileID: 2017340512}
+   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
++  m_LocalPosition: {x: 2.53, y: 4.51, z: -6}
+   m_LocalScale: {x: 6, y: 6, z: 6}
+   m_Children: []
+   m_Father: {fileID: 0}

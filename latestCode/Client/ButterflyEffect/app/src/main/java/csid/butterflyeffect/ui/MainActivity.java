@@ -80,19 +80,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mUnityPlayer.windowFocusChanged(true);
         mUnityPlayer.resume();
 
-        //테스트 데이터
-        handleReceiveData("1 1, 1, 2, 2; ");
-        handleReceiveData("1 23.1, 12, 223, 223; ");
-        handleReceiveData("1 112, 132, 243, 23; ");
-        handleReceiveData("1 1, 1, 256, 323; ");
-        handleReceiveData("1 1, 1, 24, 22; ");
-        handleReceiveData("1 11, 13, 2, 2; ");
-        handleReceiveData("1 1, 1, 2, 2; ");
-        handleReceiveData("1 1, 1, 223, 2; ");
-        handleReceiveData("1 1, 1, 2, 2; ");
-        handleReceiveData("1 1, 1, 2, 234; ");
-        handleReceiveData("1 1, 1, 2, 2; ");
-        handleReceiveData("1 1, 1, 223, 2; ");
+
     }
 
     @Override

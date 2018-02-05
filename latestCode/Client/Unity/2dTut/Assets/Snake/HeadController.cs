@@ -45,11 +45,29 @@ public class HeadController : MonoBehaviour
         int person_num = int.Parse(str[0]);
 
         Debug.Log("human: " + str[0] + ", degree : " + str[1]);
+
+
+
+        //angle is move input from frame
         angle_String = str[1];
         angle = float.Parse(str[1]);
 
-        move = new Vector3(Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle),0.0f );
-  
+
+
+        
+
+        Quaternion v3Rotation = Quaternion.Euler(-Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle), 0.0f);
+
+        Vector3 v3Direction = move;
+
+        move = new Vector3(-Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle),0.0f );
+
+
+
+
+        //그대로 감
+        
+
     }
 
     List<Transform> tail = new List<Transform>();

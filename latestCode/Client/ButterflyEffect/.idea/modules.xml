@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ButterflyEffect.iml" filepath="$PROJECT_DIR$/ButterflyEffect.iml" />
+      <module fileurl="file://C:\Users\nsyns\Documents\BE\latestCode\Client\ButterflyEffect\ButterflyEffect.iml" filepath="C:\Users\nsyns\Documents\BE\latestCode\Client\ButterflyEffect\ButterflyEffect.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\nsyns\Documents\BE\latestCode\Client\ButterflyEffect\app\app.iml" filepath="C:\Users\nsyns\Documents\BE\latestCode\Client\ButterflyEffect\app\app.iml" />
     </modules>
   </component>
 </project>

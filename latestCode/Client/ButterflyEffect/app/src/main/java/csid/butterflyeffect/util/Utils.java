@@ -4,6 +4,7 @@ import android.graphics.Point;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.StringTokenizer;
 
 /**
  * Created by hanseungbeom on 2018. 1. 28..
@@ -50,5 +51,12 @@ public class Utils {
             rtnStr+= String.valueOf(String.format("%.2f",degree[i])+" ");
 
         return rtnStr;
+    }
+
+    public static double getFristAngle(String str){
+        StringTokenizer st = new StringTokenizer(str," " );
+        st.nextToken();
+        return Double.parseDouble(st.nextToken());
+
     }
 }

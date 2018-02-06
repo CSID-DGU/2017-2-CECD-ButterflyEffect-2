@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     private TextView mTcpDataView,mUserAngleView;
     private SocketClient mSocket;
     private UnityPlayer mUnityPlayer;
+    private ImageView mDirectionView;
     public static boolean isSocketConnected = false;
 
     @Override
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mBitmapView = (ImageView) findViewById(R.id.iv_bitmap);
         mTcpDataView = (TextView)findViewById(R.id.tv_tcp);
         mUserAngleView = (TextView)findViewById(R.id.tv_angle);
+        mDirectionView = (ImageView)findViewById(R.id.iv_direction);
         getWindow().setFormat(PixelFormat.UNKNOWN);
 
         mPriviewSurface = (PreviewSurface) findViewById(R.id.sv);
@@ -92,6 +95,16 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                 mTcpDataView.setText(data);
                 String userAngle = Utils.stringToDegree(data);
                 mUserAngleView.setText(userAngle);
+
+                ///
+                double firstAngle = Utils.getFristAngle(userAngle);
+                if(firstAngle>90){
+                    mDirectionView.setImageResource(R.drawable.ic_right);
+                }
+                else{
+                    mDirectionView.setImageResource(R.drawable.ic_left);
+                }
+
                 UnityPlayer.UnitySendMessage("Head","AndroidLog", userAngle);
             }
         });

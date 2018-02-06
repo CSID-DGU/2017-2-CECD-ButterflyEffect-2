@@ -1,12 +1,15 @@
-﻿<Properties StartupItem="2dTut.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Android_Func\CameraScript.cs">
+﻿<Properties StartupConfiguration="{0FE9A627-4AE1-1410-9C89-11BD3845CC82}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Snake/rotateFood.cs">
     <Files>
-      <File FileName="Assets\Android_Func\CameraScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Snake/HeadController.cs" Line="188" Column="2" />
+      <File FileName="Assets/Snake/rotateFood.cs" Line="16" Column="33" />
     </Files>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.2dTut PreferredExecutionTarget="Unity.Editor" />
+  <MultiItemStartupConfigurations />
 </Properties>

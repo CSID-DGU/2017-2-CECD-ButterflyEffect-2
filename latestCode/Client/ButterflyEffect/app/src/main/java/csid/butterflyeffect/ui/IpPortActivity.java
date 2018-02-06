@@ -73,6 +73,7 @@ public class IpPortActivity extends AppCompatActivity implements HandleReceiveDa
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             hideProgressBar();
+
             if(mSocket.isConnected()){
                 Intent i = new Intent(IpPortActivity.this,MainActivity.class);
                 startActivity(i);

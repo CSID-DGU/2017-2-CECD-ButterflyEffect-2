@@ -1,4 +1,0 @@
-#Fri Feb 02 16:40:07 KST 2018
-base.0=C\:\\Users\\nsyns\\Documents\\BE\\latestCode\\ButterflyEffect\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\25
-path.0=classes.dex
-renamed.0=classes.dex

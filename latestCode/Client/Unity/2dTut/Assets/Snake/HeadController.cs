@@ -120,7 +120,7 @@ public class HeadController : MonoBehaviour
 
         rb.transform.Rotate(0f, 0f, z_rotate_angle * Time.deltaTime);
 
-        rb.transform.Translate(Mathf.Cos(Mathf.Deg2Rad * rb.transform.eulerAngles.z) * headspeed, Mathf.Sin(Mathf.Deg2Rad * rb.transform.eulerAngles.z) * headspeed, 0.0f);
+        rb.transform.Translate(Mathf.Cos(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed, Mathf.Sin(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed, 0.0f);
 
 
 

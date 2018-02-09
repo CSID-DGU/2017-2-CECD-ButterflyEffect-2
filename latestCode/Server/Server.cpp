@@ -36,14 +36,13 @@ using namespace cv;
 
 std::queue<cv::Mat> frameQueue;
 int tcpsocket;
-struct Pt{
+typedef struct Pt{
     float x, y;
-};
+}Pt;
 
-struct UserPoint{
-    struct Pt body;
-    struct Pt rightHand;
-};
+typedef struct UserPoint{
+    Pt *point;
+}UserPoint;
 // See all the available parameter options withe the `--help` flag. E.g. `build/examples/openpose/openpose.bin --help`
 // Note: This command will show you flags for other unnecessary 3rdparty files. Check only the flags for the OpenPose
 // executable. E.g. for `openpose.bin`, look for `Flags from examples/openpose/openpose.cpp:`.
@@ -313,48 +312,43 @@ public:
                 op::log("Person pose keypoints:");
 
                 vector<UserPoint> keyPoints;
-
+                UserPoint userPoint;
                 for (auto person = 0 ; person < poseKeypoints.getSize(0) ; person++)
                 {
-                    UserPoint pt;
+                    userPoint = new UserPoint[poseKeypoints.getSize(0)];
                     op::log("Person " + std::to_string(person) + " (x, y, score):");
                     for (auto bodyPart = 0 ; bodyPart < poseKeypoints.getSize(1) ; bodyPart++)
                     {
                         std::string valueToPrint;
-
+                        userPoint.point = new Pt[poseKeypoints.getSize(1)];
                         for (auto xyscore = 0 ; xyscore < poseKeypoints.getSize(2) ; xyscore++)
                         {
-                            valueToPrint += std::to_string(   poseKeypoints[{person, bodyPart, xyscore}]) + " ";
+                            valueToPrint += std::to_string(poseKeypoints[{person, bodyPart, xyscore}]) + " ";
                               
                         }
-                        if(bodyPart == 0){ //body
-                            pt.body.x = poseKeypoints[{person,bodyPart,0}];
-                            pt.body.y = poseKeypoints[{person,bodyPart,1}]; 
-
-                        }
-                        else if(bodyPart == 1){ // head
-                            pt.rightHand.x = poseKeypoints[{person,bodyPart,0}];
-                            pt.rightHand.y = poseKeypoints[{person,bodyPart,1}]; 
-                        } 
+                        userPoint.point[bodyPart].x = poseKeypoints[{person,bodyPart,0}];
+                        userPoint.point[bodyPart].y = poseKeypoints[{person,bodyPart,1}]; 
                         op::log(valueToPrint);
                     }
-                    keyPoints.push_back(pt);
-                    cout << "1)body" << pt.body.x << "," << pt.body.y << endl;
-                    cout << "2)leftShoulder" << pt.rightHand.x << "," << pt.rightHand.y << endl;
-                       
+                    keyPoints.push_back(userPoint);
                 }
 
                 int detectedPeople = keyPoints.size(); 
-                 if(detectedPeople != 0){
-                    string space= ", ";
+                if(detectedPeople != 0){
+                    string comma= ", ";
                     string semicolon = "; ";
-		    string end = "\r\n";
+		            string end = "\r\n";
                     string msg;
                     stringstream ss;
 
-					ss << detectedPeople << space;
-                    for(int i=0; i < detectedPeople; i++){
-                        ss << keyPoints[i].body.x << space << keyPoints[i].body.y << space << keyPoints[i].rightHand.x << space << keyPoints[i].rightHand.y << semicolon;
+					ss << detectedPeople << comma;
+                    for(auto person = 0; i < detectedPeople; i++){
+                        for(auto bodyPart = 0; bodyPart < poseKeypoints.getSize(1); bodyPart++){
+                            ss << keyPoints.at(person).point[bodyPart].x << comma << keyPoints.at(person).point[bodyPart].y;
+                            if(bodyPart != poseKeypoints.getSize(1) - 1)
+                                ss << comma;
+                        }
+                        ss << semicolon;
                     }
                     ss << end;
                     msg = ss.str();

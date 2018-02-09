@@ -312,9 +312,9 @@ public:
                 op::log("Person pose keypoints:");
 
                 vector<UserPoint> keyPoints;
-                UserPoint userPoint;
                 for (auto person = 0 ; person < poseKeypoints.getSize(0) ; person++)
                 {
+                    UserPoint userPoint;
                     op::log("Person " + std::to_string(person) + " (x, y, score):");
                     for (auto bodyPart = 0 ; bodyPart < poseKeypoints.getSize(1) ; bodyPart++)
                     {

@@ -19,7 +19,7 @@ public class Constants {
     public static final int R_SHOULDER = 2;
     public static final int R_ELBOW = 3;
     public static final int R_WRIST = 4;
-    public static final int L_SOULDER = 5;
+    public static final int L_SHOULDER = 5;
     public static final int L_ELBOW = 6;
     public static final int L_WRIST = 7;
     public static final int R_HIP = 8;

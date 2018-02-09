@@ -41,7 +41,8 @@ typedef struct Pt{
 }Pt;
 
 typedef struct UserPoint{
-    Pt point[18];
+    Pt *point;
+    int size;
 }UserPoint;
 // See all the available parameter options withe the `--help` flag. E.g. `build/examples/openpose/openpose.bin --help`
 // Note: This command will show you flags for other unnecessary 3rdparty files. Check only the flags for the OpenPose
@@ -315,11 +316,12 @@ public:
                 for (auto person = 0 ; person < poseKeypoints.getSize(0) ; person++)
                 {
                     UserPoint userPoint;
+                    userPoint.size = poseKeypoints.getSize(1);
+                    userPoint.point = new Pt[userPoint.size];
                     op::log("Person " + std::to_string(person) + " (x, y, score):");
                     for (auto bodyPart = 0 ; bodyPart < poseKeypoints.getSize(1) ; bodyPart++)
                     {
                         std::string valueToPrint;
-                        userPoint.point = new Pt[poseKeypoints.getSize(1)];
                         for (auto xyscore = 0 ; xyscore < poseKeypoints.getSize(2) ; xyscore++)
                         {
                             valueToPrint += std::to_string(poseKeypoints[{person, bodyPart, xyscore}]) + " ";
@@ -342,9 +344,9 @@ public:
 
 					ss << detectedPeople << comma;
                     for(auto person = 0; person < detectedPeople; person++){
-                        for(auto bodyPart = 0; bodyPart < poseKeypoints.getSize(1); bodyPart++){
+                        for(auto bodyPart = 0; bodyPart < keyPoints.at(person).size; bodyPart++){
                             ss << keyPoints.at(person).point[bodyPart].x << comma << keyPoints.at(person).point[bodyPart].y;
-                            if(bodyPart != poseKeypoints.getSize(1) - 1)
+                            if(bodyPart != keyPoints.at(person).size - 1)
                                 ss << comma;
                         }
                         ss << semicolon;

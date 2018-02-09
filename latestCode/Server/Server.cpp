@@ -315,7 +315,6 @@ public:
                 UserPoint userPoint;
                 for (auto person = 0 ; person < poseKeypoints.getSize(0) ; person++)
                 {
-                    userPoint = new UserPoint[poseKeypoints.getSize(0)];
                     op::log("Person " + std::to_string(person) + " (x, y, score):");
                     for (auto bodyPart = 0 ; bodyPart < poseKeypoints.getSize(1) ; bodyPart++)
                     {
@@ -342,7 +341,7 @@ public:
                     stringstream ss;
 
 					ss << detectedPeople << comma;
-                    for(auto person = 0; i < detectedPeople; i++){
+                    for(auto person = 0; person < detectedPeople; i++){
                         for(auto bodyPart = 0; bodyPart < poseKeypoints.getSize(1); bodyPart++){
                             ss << keyPoints.at(person).point[bodyPart].x << comma << keyPoints.at(person).point[bodyPart].y;
                             if(bodyPart != poseKeypoints.getSize(1) - 1)

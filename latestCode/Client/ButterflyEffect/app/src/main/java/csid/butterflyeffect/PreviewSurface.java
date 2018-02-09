@@ -39,7 +39,11 @@ public class PreviewSurface extends CameraSurface implements
 
     public PreviewSurface(Context paramContext, AttributeSet paramAttributeSet) {
         super(paramContext, paramAttributeSet);
+
+
+
     }
+
 
     public void onPreviewFrame(byte[] paramArrayOfByte, Camera paramCamera) {
         Log.d("#####", "size:" + paramArrayOfByte.length);

@@ -418,7 +418,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -516,7 +516,7 @@ Light:
   m_SpotAngle: 179
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -526,11 +526,11 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 2
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
@@ -585,7 +585,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 2e7cc2c7c2056cd4aadc84f43c24da9f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -645,7 +645,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 2800000, guid: ff246afa0d3ec87408f95c873685efea, type: 3}
+  m_Texture: {fileID: 2800000, guid: f23e24d91732c124ea66c3c176907685, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -890,8 +890,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4702e37681366f479165f8db39c0c50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerspeedmult: 50
-  curspeed: 200
+  playerspeedmult: 5
+  headspeed: 0.25
+  headcurspeed: 1
+  curspeed: 400
   min_distance: 100
   angle_String: no angle
   tailPrefab: {fileID: 1312380224646624, guid: 1898f40fd4b863c4d8053111f615392d, type: 2}
@@ -939,7 +941,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 3175229d319e0f24281aa6ad94481086, type: 2}
+  - {fileID: 2100000, guid: 56e284a96e147254aa6d2a3719b919c1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

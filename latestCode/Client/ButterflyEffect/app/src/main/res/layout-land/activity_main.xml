@@ -31,13 +31,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
+                        android:background="@color/blueGrey900"
                         >
 
                     </LinearLayout>
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1"
+                        android:layout_weight="3"
                         >
                         <csid.butterflyeffect.PreviewSurface
                             android:id="@+id/sv"

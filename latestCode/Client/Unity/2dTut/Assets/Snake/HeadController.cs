@@ -16,7 +16,13 @@ public class HeadController : MonoBehaviour
     private int head_number = 0;
 
 
-    public float curspeed = 400;
+    //머리 이동 속도
+    public float headspeed = 0.25f;
+    //머리 회전 속도
+    public float headcurspeed = 1f;
+
+    //꼬리 추적 속도
+    public float curspeed = 400f;
     public float min_distance = 1;
     private float z_rotate_angle = 0.0f;
 
@@ -58,7 +64,7 @@ public class HeadController : MonoBehaviour
 
         if (angle < 80 && angle > 10)
         {
-            z_rotate_angle = -20.0f;
+            z_rotate_angle = -40.0f;
         }
         else if (angle > 80 && angle < 100)
         {
@@ -66,7 +72,7 @@ public class HeadController : MonoBehaviour
         }
         else if (angle > 100 && angle < 170)
         {
-            z_rotate_angle = 20.0f;
+            z_rotate_angle = 40.0f;
         }
         else
         {
@@ -112,9 +118,9 @@ public class HeadController : MonoBehaviour
 
         //rb.AddForce(rb.transform.rotation);
 
-        rb.transform.Rotate(0f, 0f, z_rotate_angle * Time.deltaTime );
+        rb.transform.Rotate(0f, 0f, z_rotate_angle * Time.deltaTime);
 
-        rb.transform.Translate(Mathf.Cos(Mathf.Deg2Rad * rb.transform.eulerAngles.z) * 0.2f, Mathf.Sin(Mathf.Deg2Rad * rb.transform.eulerAngles.z) * 0.2f, 0.0f);
+        rb.transform.Translate(Mathf.Cos(Mathf.Deg2Rad * rb.transform.eulerAngles.z) * headspeed, Mathf.Sin(Mathf.Deg2Rad * rb.transform.eulerAngles.z) * headspeed, 0.0f);
 
 
 

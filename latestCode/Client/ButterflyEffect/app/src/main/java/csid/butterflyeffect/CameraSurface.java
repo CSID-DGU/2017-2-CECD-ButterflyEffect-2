@@ -13,6 +13,8 @@ import android.view.SurfaceView;
 import java.io.IOException;
 import java.util.Iterator;
 
+import csid.butterflyeffect.util.Constants;
+
 public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback {
 
     private static final String TAG = "CameraSurface:";
@@ -61,6 +63,7 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
         if (previewing)
             camera.stopPreview();
         Camera.Parameters localParameters = camera.getParameters();
+        localParameters.setPreviewFpsRange(Constants.FRAME_RATE,Constants.FRAME_RATE);
         setPreferredSize(localParameters, paramInt2, paramInt3);
         setPreferredFormat(localParameters, paramInt1);
         camera.setParameters(localParameters);

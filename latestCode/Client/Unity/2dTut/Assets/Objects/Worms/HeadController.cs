@@ -22,7 +22,7 @@ public class HeadController : MonoBehaviour
     public float headcurspeed = 1f;
 
     //꼬리 추적 속도
-    public float curspeed = 400f;
+    public float curspeed = 200f;
     public float min_distance = 1;
     private float z_rotate_angle = 0.0f;
 
@@ -94,19 +94,16 @@ public class HeadController : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
 
 
-
     }
 
     void FixedUpdate()
     {
-        Vector3 newpose = rb.position;
 
 
         // 1.Add force head into new direction
         //GetAxis = 방향키
         //float moveHorizontal = Input.GetAxis("Horizontal");
         //float moveVertical = Input.GetAxis("Vertical");
-
         //Vector 3를 직접 새로 생성하여 2차원 방향 이동 구현
         //AndroidLog("1 30");
         //Vector3 movement = move;
@@ -115,16 +112,15 @@ public class HeadController : MonoBehaviour
         //float a = rb.velocity.x;
         //rb.transform.rotation = Quaternion.Euler(0, 0, -angle/10);
         //rb.AddForce(rb.transform.forward * 100);
-
         //rb.AddForce(rb.transform.rotation);
+
+        rb.velocity = Vector3.zero;
+        Vector3 newpose = rb.position;
 
         rb.transform.Rotate(0f, 0f, z_rotate_angle * Time.deltaTime);
 
         rb.transform.Translate(Mathf.Cos(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed, Mathf.Sin(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed, 0.0f);
 
-
-
-        //Debug.Log("AddForce number is " + rb.transform.rotation.z + "," + rb.transform.rotation.z + "," + 0.0f);
 
         // 2.Move Tail to follow head
         if (tail.Count > 0)
@@ -177,11 +173,14 @@ public class HeadController : MonoBehaviour
 
     void OnTriggerEnter(Collider coll)
     {
-        // Food?
+        Debug.Log("trigger is called");
+        // Trigger Food?
         if (coll.name.StartsWith("FoodPrefab"))
         {
             // Get longer in next Move call
             ate = true;
+
+
 
             // Remove the Food
             Destroy(coll.gameObject);

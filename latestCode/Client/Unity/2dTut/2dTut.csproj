@@ -288,9 +288,11 @@
     <Compile Include="Assets\Android_Func\AndroidManager.cs" />
     <Compile Include="Assets\Android_Func\CameraScript.cs" />
     <Compile Include="Assets\Android_Func\TestGUI.cs" />
-    <Compile Include="Assets\Snake\HeadController.cs" />
-    <Compile Include="Assets\Snake\rotateFood.cs" />
-    <Compile Include="Assets\Snake\SpawnFood.cs" />
+    <Compile Include="Assets\Create_World.cs" />
+    <Compile Include="Assets\Objects\Food\rotateFood.cs" />
+    <Compile Include="Assets\Objects\Food\SpawnFood.cs" />
+    <Compile Include="Assets\Objects\Worms\Head_generate.cs" />
+    <Compile Include="Assets\Objects\Worms\HeadController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -34,4 +34,7 @@ public class Constants {
     public static final int L_EAR = 17;
     public static final int BACKGROUND = 18;
 
+    public static final int CIRCLE_RADIUS = 10;
+
+
 }

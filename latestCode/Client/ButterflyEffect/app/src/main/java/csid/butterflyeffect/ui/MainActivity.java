@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     private SocketClient mSocket;
     private UnityPlayer mUnityPlayer;
     private ImageView mDirectionView;
+    private SkeletonView mSkeleton;
     public static boolean isSocketConnected = false;
 
     @Override
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mTcpDataView = (TextView)findViewById(R.id.tv_tcp);
         mUserAngleView = (TextView)findViewById(R.id.tv_angle);
         mDirectionView = (ImageView)findViewById(R.id.iv_direction);
+        mSkeleton = (SkeletonView)findViewById(R.id.skeleton_view);
         getWindow().setFormat(PixelFormat.UNKNOWN);
 
         mPriviewSurface = (PreviewSurface) findViewById(R.id.sv);
@@ -83,7 +85,11 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mUnityPlayer.windowFocusChanged(true);
         mUnityPlayer.resume();
 
-
+        mSkeleton.invalidate();
+        //
+        String str = "1, 371.94, 596.934, 518.363, 774.696, 277.766, 806.091, 162.699, 955.227, 0, 0, 761.621, 722.393, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 324.89, 552.249, 426.923, 531.355, 290.839, 573.215, 557.597, 544.552; ";
+        Log.d("#####","1");
+        mSkeleton.drawSkeletons(Utils.stringToKeyPoints(str));
     }
 
     @Override

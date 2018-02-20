@@ -8,7 +8,7 @@ public class Constants {
      //about CONNECTION
     public static int PORT_NUM = 9000;
     public static int TIME_OUT_FOR_TCP_CONNECTION = 3000;//3 sec
-    public static String ADDR = "52.79.187.147";
+    public static String ADDR = "52.79.126.145";
 
     //about CAMERA
     public static final int FRAME_RATE = 10000; //10000 = 10 fps

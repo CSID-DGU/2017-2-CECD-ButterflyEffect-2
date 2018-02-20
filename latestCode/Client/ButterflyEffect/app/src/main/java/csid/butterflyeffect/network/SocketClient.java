@@ -85,12 +85,9 @@ public class SocketClient {
         Log.d("#####","tcpService Start!");
         BufferedReader reader;
         reader = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream()));
-        while (true) {
-            String str = reader.readLine();
-            if(str==null)
-                break;
-
-            callback.handleReceiveData(str);
+        String str;
+        while ((str = reader.readLine()) != null) {
+           callback.handleReceiveData(str);
         }
     }
 

@@ -17,43 +17,42 @@ import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Point2D;
 import csid.butterflyeffect.util.Utils;
 
-/**
- * Created by hanseungbeom on 2018. 2. 19..
- */
-
 public class SkeletonView extends View {
 
-        private Canvas mCanvas;
 
-        public SkeletonView(Context context, AttributeSet attrs) {
-            super(context, attrs);
-        }
+    public SkeletonView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setWillNotDraw(false);
+    }
+    ArrayList<Point2D[]> keyPoints;
 
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            //투명화
-            //canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-            mCanvas = canvas;
-            Log.d("#####","2");
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        //투명화
+        //canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 
-        }
-
-        public void drawSkeletons(ArrayList<Point2D[]> keyPoints){
-           // mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-            Log.d("#####","3");
-
-            for(int i=0;i<keyPoints.size();i++){
+        if(keyPoints!=null) {
+            for (int i = 0; i < keyPoints.size(); i++) {
                 Paint paint = new Paint();
-                paint.setColor(Utils.getColor(i));
+                paint.setColor(Color.GREEN);
                 Point2D[] userPoints = keyPoints.get(i);
-                for(int j=0;j<userPoints.length;j++){
-                    mCanvas.drawCircle((float)userPoints[j].x,(float)userPoints[j].y, Constants.CIRCLE_RADIUS,paint);
-                }
+                float ratio_X = 950 / 1280f;
+                float ratio_Y = 800 / 960f;
+                canvas.drawCircle(ratio_X * (float) userPoints[0].x, ratio_Y * (float) userPoints[0].y, Constants.CIRCLE_RADIUS, paint);
+                canvas.drawCircle(ratio_X * (float) userPoints[2].x, ratio_Y * (float) userPoints[2].y, Constants.CIRCLE_RADIUS, paint);
+                canvas.drawCircle(ratio_X * (float) userPoints[5].x, ratio_Y * (float) userPoints[5].y, Constants.CIRCLE_RADIUS, paint);
             }
+            keyPoints = null;
         }
-
     }
 
+
+    public void drawSkeletons(ArrayList<Point2D[]> keyPoints){
+        this.keyPoints = keyPoints;
+        invalidate();
+    }
+
+}
 
 
 

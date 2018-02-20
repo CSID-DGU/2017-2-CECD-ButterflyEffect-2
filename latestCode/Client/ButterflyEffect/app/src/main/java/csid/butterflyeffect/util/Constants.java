@@ -5,15 +5,16 @@ package csid.butterflyeffect.util;
  */
 
 public class Constants {
+
      //about CONNECTION
     public static int PORT_NUM = 9000;
     public static int TIME_OUT_FOR_TCP_CONNECTION = 3000;//3 sec
-    public static String ADDR = "52.79.126.145";
+    public static String ADDR = "13.125.132.183";
 
     //about CAMERA
     public static final int FRAME_RATE = 10000; //10000 = 10 fps
 
-    //about skeleteon
+    //about skeleton
     public static final int NOSE = 0;
     public static final int NECK = 1;
     public static final int R_SHOULDER = 2;
@@ -36,7 +37,7 @@ public class Constants {
 
     public static final int CIRCLE_RADIUS = 10;
 
-
+    //about user device GLOBAL VARIABLE
     public static float CAMERA_WIDTH = -1;
     public static float CAMERA_HEIGHT = -1;
     public static float PREVIEW_WIDTH = -1;

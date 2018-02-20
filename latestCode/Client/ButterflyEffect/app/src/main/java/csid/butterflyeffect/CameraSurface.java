@@ -12,6 +12,7 @@ import android.view.SurfaceView;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 
 import csid.butterflyeffect.util.Constants;
 
@@ -63,9 +64,18 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
         if (previewing)
             camera.stopPreview();
         Camera.Parameters localParameters = camera.getParameters();
+
+        //search device available size.
+        List<Camera.Size> sizeList = localParameters.getSupportedPreviewSizes();
+        Camera.Size bestSize = sizeList.get((sizeList.size()-1)-sizeList.size()/4); // 3/4 index.
+
+        //setting middle of available size.
+        localParameters.setPreviewSize(bestSize.width,bestSize.height);
         localParameters.setPreviewFpsRange(Constants.FRAME_RATE,Constants.FRAME_RATE);
+
         setPreferredSize(localParameters, paramInt2, paramInt3);
         setPreferredFormat(localParameters, paramInt1);
+
         camera.setParameters(localParameters);
         camera.startPreview();
         previewing = true;

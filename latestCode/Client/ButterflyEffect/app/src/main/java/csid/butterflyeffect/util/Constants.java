@@ -37,4 +37,8 @@ public class Constants {
     public static final int CIRCLE_RADIUS = 10;
 
 
+    public static float CAMERA_WIDTH = -1;
+    public static float CAMERA_HEIGHT = -1;
+    public static float PREVIEW_WIDTH = -1;
+    public static float PREVIEW_HEIGHT = -1;
 }

@@ -231,13 +231,13 @@ public:
 
                 datum.cvInputData = frameQueue.front();
                 frameQueue.pop();
-                     op::log("queue is POP.",
-                        op::Priority::High);
+                op::log("queue is POP.",
+                op::Priority::High);
                 // If empty frame -> return nullptr
                 if (datum.cvInputData.empty())
                 {
                     op::log("Empty frame detected on path: " + mImageFiles.at(mCounter-1) + ". Closing program.",
-                        op::Priority::High);
+                    op::Priority::High);
                     //this->stop();
                     datumsPtr = nullptr;
                 }
@@ -307,10 +307,10 @@ public:
             if (datumsPtr != nullptr && !datumsPtr->empty())
             {
                 // Show in command line the resulting pose keypoints for body, face and hands
-                op::log("\nKeypoints:");
+                //op::log("\nKeypoints:");
                 // Accesing each element of the keypoints
                 const auto& poseKeypoints = datumsPtr->at(0).poseKeypoints;
-                op::log("Person pose keypoints:");
+                //op::log("Person pose keypoints:");
 
                 vector<UserPoint> keyPoints;
                 for (auto person = 0 ; person < poseKeypoints.getSize(0) ; person++)
@@ -318,18 +318,20 @@ public:
                     UserPoint userPoint;
                     userPoint.size = poseKeypoints.getSize(1);
                     userPoint.point = new Pt[userPoint.size];
-                    op::log("Person " + std::to_string(person) + " (x, y, score):");
+                    //op::log("Person " + std::to_string(person) + " (x, y, score):");
                     for (auto bodyPart = 0 ; bodyPart < poseKeypoints.getSize(1) ; bodyPart++)
                     {
                         std::string valueToPrint;
+			/*
                         for (auto xyscore = 0 ; xyscore < poseKeypoints.getSize(2) ; xyscore++)
                         {
                             valueToPrint += std::to_string(poseKeypoints[{person, bodyPart, xyscore}]) + " ";
                               
                         }
+			*/
                         userPoint.point[bodyPart].x = poseKeypoints[{person,bodyPart,0}];
                         userPoint.point[bodyPart].y = poseKeypoints[{person,bodyPart,1}]; 
-                        op::log(valueToPrint);
+                        //op::log(valueToPrint);
                     }
                     keyPoints.push_back(userPoint);
                 }
@@ -360,12 +362,13 @@ public:
                         cout << "Send failed : " << msg << endl;
                     }
                 }    
-                op::log(" ");
+                //op::log(" ");
                 // Alternative: just getting std::string equivalent
-                op::log("Face keypoints: " + datumsPtr->at(0).faceKeypoints.toString());
-                op::log("Left hand keypoints: " + datumsPtr->at(0).handKeypoints[0].toString());
-                op::log("Right hand keypoints: " + datumsPtr->at(0).handKeypoints[1].toString());
+                //op::log("Face keypoints: " + datumsPtr->at(0).faceKeypoints.toString());
+                //op::log("Left hand keypoints: " + datumsPtr->at(0).handKeypoints[0].toString());
+                //op::log("Right hand keypoints: " + datumsPtr->at(0).handKeypoints[1].toString());
                 // Heatmaps
+	        /*
                 const auto& poseHeatMaps = datumsPtr->at(0).poseHeatMaps;
                 if (!poseHeatMaps.empty())
                 {
@@ -387,7 +390,7 @@ public:
                             + std::to_string(handHeatMaps[1].getSize(2)) + ", "
                             + std::to_string(handHeatMaps[1].getSize(3)) + "]");
                 }
-
+		*/
                 // Display rendered output image
                 //cv::imshow("User worker GUI", datumsPtr->at(0).cvOutputData);
                 // Display image and sleeps at least 1 ms (it usually sleeps ~5-10 msec to display the image)
@@ -595,7 +598,7 @@ int main(int argc, char *argv[])
 
         while (true) 
         {
-            // Block until receive message from a client
+            //Block until receive message from a client
             recvMsgSize = sock.recvFrom(buffer, BUF_LEN, sourceAddress, sourcePort);
             char * longbuf = new char[recvMsgSize];
             memcpy( & longbuf[0], buffer, recvMsgSize);

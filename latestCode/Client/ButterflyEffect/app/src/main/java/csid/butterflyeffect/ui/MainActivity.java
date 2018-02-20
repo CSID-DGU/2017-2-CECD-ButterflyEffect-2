@@ -94,12 +94,12 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     @Override
     public void handleReceiveData(final String data) {
         //draw skeleton
-        mSkeleton.drawSkeletons(Utils.stringToKeyPoints(data));
 
         Log.d("#####","receive:"+data);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                mSkeleton.drawSkeletons(Utils.stringToKeyPoints(data));
                 mTcpDataView.setText(data);
                 String userAngle = Utils.stringToDegree(data);
                 mUserAngleView.setText(userAngle);

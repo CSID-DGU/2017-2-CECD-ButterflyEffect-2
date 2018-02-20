@@ -71,7 +71,8 @@
                                 android:id="@+id/tv_angle"
                                 android:text="user angle view"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:singleLine="true"/>
                             <TextView
                                 android:textSize="7dp"
                                 android:paddingLeft="3dp"
@@ -79,7 +80,8 @@
                                 android:id="@+id/tv_tcp"
                                 android:text="tcp datas come here"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:singleLine="true"/>
 
                         </LinearLayout>
                         <csid.butterflyeffect.ui.SkeletonView

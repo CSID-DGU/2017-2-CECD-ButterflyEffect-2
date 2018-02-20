@@ -34,7 +34,7 @@ public class SkeletonView extends View {
         if(keyPoints!=null) {
             for (int i = 0; i < keyPoints.size(); i++) {
                 Paint paint = new Paint();
-                paint.setColor(Color.GREEN);
+                paint.setColor(Utils.getColor(i));
                 Point2D[] userPoints = keyPoints.get(i);
                 float ratio_X = 950 / 1280f;
                 float ratio_Y = 800 / 960f;

@@ -75,7 +75,7 @@ public class SocketClient {
                     tcpService();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    callback.infoHandler("tcp service error!");
+                    callback.infoHandler("tcp service error!"+e.getMessage());
                 }
             }
         });

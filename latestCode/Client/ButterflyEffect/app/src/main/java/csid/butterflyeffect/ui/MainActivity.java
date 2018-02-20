@@ -6,12 +6,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.media.Image;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -26,6 +28,7 @@ import csid.butterflyeffect.PreviewSurface;
 import csid.butterflyeffect.R;
 import csid.butterflyeffect.network.HandleReceiveData;
 import csid.butterflyeffect.network.SocketClient;
+import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Utils;
 
 public class MainActivity extends AppCompatActivity implements PreviewSurface.FrameHandler, HandleReceiveData {
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     private UnityPlayer mUnityPlayer;
     private ImageView mDirectionView;
     private SkeletonView mSkeleton;
+    private FrameLayout mPreview;
     public static boolean isSocketConnected = false;
 
     @Override
@@ -56,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mUserAngleView = (TextView)findViewById(R.id.tv_angle);
         mDirectionView = (ImageView)findViewById(R.id.iv_direction);
         mSkeleton = (SkeletonView)findViewById(R.id.skeleton_view);
+        mPreview = (FrameLayout)findViewById(R.id.fr_preview);
+
         getWindow().setFormat(PixelFormat.UNKNOWN);
 
         mPriviewSurface = (PreviewSurface) findViewById(R.id.sv);
@@ -64,6 +70,23 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             @Override
             public void onClick(View v) {
                 mPriviewSurface.refreshFocus();
+
+            }
+        });
+
+
+        //get preview screen size
+        ViewTreeObserver vto = mPreview.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                    mPreview.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                } else {
+                    mPreview.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+                Constants.PREVIEW_WIDTH  = mPreview.getMeasuredWidth();
+                Constants.PREVIEW_HEIGHT = mPreview.getMeasuredHeight();
 
             }
         });
@@ -85,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         layout.addView(mUnityPlayer.getView(), 0, lp);
         mUnityPlayer.windowFocusChanged(true);
         mUnityPlayer.resume();
+
 
 
         //

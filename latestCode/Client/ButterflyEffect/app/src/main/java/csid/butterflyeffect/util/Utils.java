@@ -60,7 +60,7 @@ public class Utils {
         String[] detected = serverStr.split("; ");
         for(int i=0;i<numOfDetectedPeople;i++){
             String[] tokens = detected[i].split(",");
-            Point2D[] points = new Point2D[tokens.length];
+            Point2D[] points = new Point2D[tokens.length/2];
             for(int j=0;j<18;j++){
                 points[j] = new Point2D(Double.parseDouble(tokens[j*2]),Double.parseDouble(tokens[j*2+1]));
             }

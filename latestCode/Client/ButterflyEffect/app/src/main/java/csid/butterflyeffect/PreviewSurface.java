@@ -52,13 +52,18 @@ public class PreviewSurface extends CameraSurface implements
             // use "image.compressToJpeg()" to change image data format from "YUV" to "jpg"
             //Bitmap bitmap = BitmapFactory.decodeByteArray(paramArrayOfByte, 0, paramArrayOfByte.length);
             //bitmap = bitmap.createScaledBitmap(bitmap, Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT, false);
+            Constants.CAMERA_WIDTH = size.width;
+            Constants.CAMERA_HEIGHT = size.height;
 
             YuvImage image = new YuvImage(paramArrayOfByte, ImageFormat.NV21, size.width, size.height, null);
+
             ByteArrayOutputStream outstream = new ByteArrayOutputStream();
             //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
             image.compressToJpeg(new Rect(0, 0, size.width, size.height), 10, outstream);
             outstream.flush();
             mFrameHandler.getJpegFrame(outstream.toByteArray());
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }

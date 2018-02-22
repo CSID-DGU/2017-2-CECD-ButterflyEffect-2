@@ -9,7 +9,7 @@ import csid.butterflyeffect.game.Point2D;
  */
 
 public class UserInfo {
-    private ArrayList<Point2D[]> keyPoints;
+    private Point2D[] keyPoints;
     private int userNumber;
     private boolean isPlaying;
     private int score;
@@ -19,11 +19,11 @@ public class UserInfo {
         isPlaying = true;
     }
 
-    public ArrayList<Point2D[]> getKeyPoints() {
+    public Point2D[] getKeyPoints() {
         return keyPoints;
     }
 
-    public void setKeyPoints(ArrayList<Point2D[]> keyPoints) {
+    public void setKeyPoints(Point2D[] keyPoints) {
         this.keyPoints = keyPoints;
     }
 

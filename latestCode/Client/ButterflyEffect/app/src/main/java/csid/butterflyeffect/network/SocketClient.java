@@ -30,11 +30,14 @@ public class SocketClient {
     private boolean isConnected;
     private Socket tcpSocket;
     private DatagramSocket udpSocket;
-    private HandleReceiveData callback;
+    private HandleReceiveData dataCallback;
+    private HandleSocketError errorCallback;
     public void setReceiveCallback(HandleReceiveData callback) {
-        this.callback = callback;
+        this.dataCallback = callback;
     }
-
+    public void setErrorCallback(HandleSocketError errorCallback){
+        this.errorCallback = errorCallback;
+    }
 
     private SocketClient() {
         isConnected = false;
@@ -42,7 +45,7 @@ public class SocketClient {
 
     public void connect()  {
         try {
-            callback.infoHandler("connecting..");
+            errorCallback.infoHandler("connecting..");
             //tcpSocket = new Socket(Constants.ADDR, Constants.PORT_NUM);
             String hostname = Constants.ADDR;
             int port = Constants.PORT_NUM;
@@ -59,11 +62,11 @@ public class SocketClient {
             udpSocket = new DatagramSocket(Constants.PORT_NUM);
             isConnected = true;
             Log.d("#####", "udpSocket created!");
-            callback.infoHandler("connected successfully!");
+            errorCallback.infoHandler("connected successfully!");
 
         }catch(Exception e){
             e.printStackTrace();
-            callback.infoHandler("connection failed");
+            errorCallback.infoHandler("connection failed");
         }
     }
     public void startTcpService(){
@@ -75,7 +78,7 @@ public class SocketClient {
                     tcpService();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    callback.infoHandler("tcp service error!"+e.getMessage());
+                    errorCallback.infoHandler("tcp service error!"+e.getMessage());
                 }
             }
         });
@@ -87,7 +90,7 @@ public class SocketClient {
         reader = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream()));
         String str;
         while ((str = reader.readLine()) != null) {
-           callback.handleReceiveData(str);
+           dataCallback.handleReceiveData(str);
         }
     }
 
@@ -103,7 +106,7 @@ public class SocketClient {
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                    callback.infoHandler("send udp error!");
+                    errorCallback.infoHandler("send udp error!");
                 }
             }
         });

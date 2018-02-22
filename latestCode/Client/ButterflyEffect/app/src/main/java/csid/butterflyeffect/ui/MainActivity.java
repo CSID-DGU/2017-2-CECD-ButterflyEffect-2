@@ -26,12 +26,14 @@ import com.unity3d.player.UnityPlayer;
 
 import csid.butterflyeffect.PreviewSurface;
 import csid.butterflyeffect.R;
+import csid.butterflyeffect.game.BattleWorms;
 import csid.butterflyeffect.network.HandleReceiveData;
+import csid.butterflyeffect.network.HandleSocketError;
 import csid.butterflyeffect.network.SocketClient;
 import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Utils;
 
-public class MainActivity extends AppCompatActivity implements PreviewSurface.FrameHandler, HandleReceiveData {
+public class MainActivity extends AppCompatActivity implements PreviewSurface.FrameHandler, HandleSocketError {
 
 
     private PreviewSurface mPriviewSurface;
@@ -91,9 +93,13 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             }
         });
 
+        //BattleWorms 초기화
+        BattleWorms battleWorms = new BattleWorms(this);
+
         // TCP & UDP 연결
         mSocket = SocketClient.getInstance();
-        mSocket.setReceiveCallback(this);
+        mSocket.setErrorCallback(this);
+        mSocket.setReceiveCallback(battleWorms);
         mSocket.startTcpService();
 
 
@@ -109,17 +115,12 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mUnityPlayer.windowFocusChanged(true);
         mUnityPlayer.resume();
 
-
-
         //
 
     }
 
-    @Override
-    public void handleReceiveData(final String data) {
+    public void showData(final String data) {
         //draw skeleton
-
-        Log.d("#####","receive:"+data);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -136,10 +137,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                 else{
                     mDirectionView.setImageResource(R.drawable.ic_left);
                 }
-
-
-                //format : "Usercount angle1 angle2 angle3 angle3 ... "
-                UnityPlayer.UnitySendMessage("Camera","WormMoveAngle", userAngle);
             }
         });
     }

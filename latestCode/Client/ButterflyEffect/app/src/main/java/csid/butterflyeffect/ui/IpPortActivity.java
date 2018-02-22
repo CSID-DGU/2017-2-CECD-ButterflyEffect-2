@@ -14,10 +14,11 @@ import android.widget.Toast;
 
 import csid.butterflyeffect.R;
 import csid.butterflyeffect.network.HandleReceiveData;
+import csid.butterflyeffect.network.HandleSocketError;
 import csid.butterflyeffect.network.SocketClient;
 import csid.butterflyeffect.util.Constants;
 
-public class IpPortActivity extends AppCompatActivity implements HandleReceiveData {
+public class IpPortActivity extends AppCompatActivity implements HandleSocketError {
 
     private EditText mIpView;
     private EditText mPortView;
@@ -40,7 +41,7 @@ public class IpPortActivity extends AppCompatActivity implements HandleReceiveDa
         mBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSocket.setReceiveCallback(IpPortActivity.this);
+                mSocket.setErrorCallback(IpPortActivity.this);
                 Constants.ADDR = mIpView.getText().toString();
                 Constants.PORT_NUM = Integer.parseInt(mPortView.getText().toString());
                 new ConnectSocket().execute();
@@ -49,10 +50,6 @@ public class IpPortActivity extends AppCompatActivity implements HandleReceiveDa
 
     }
 
-    @Override
-    public void handleReceiveData(String data) {
-        //nothing
-    }
 
     @Override
     public void infoHandler(final String msg) {

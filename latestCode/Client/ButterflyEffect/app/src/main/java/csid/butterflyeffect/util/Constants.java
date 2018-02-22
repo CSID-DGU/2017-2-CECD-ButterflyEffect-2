@@ -42,4 +42,7 @@ public class Constants {
     public static float CAMERA_HEIGHT = -1;
     public static float PREVIEW_WIDTH = -1;
     public static float PREVIEW_HEIGHT = -1;
+
+    //about filter
+    public static final int QUEUE_SIZE = 20;
 }

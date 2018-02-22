@@ -17,9 +17,9 @@ public class HeadController : MonoBehaviour
 
 
     //머리 이동 속도
-    public float headspeed = 0.25f;
+    public float headspeed = 0.5f;
     //머리 회전 속도
-    public float headcurspeed = 1f;
+    public float headcurspeed = 1.5f;
 
     //꼬리 추적 속도
     public float curspeed = 200f;
@@ -53,8 +53,11 @@ public class HeadController : MonoBehaviour
 
     List<Transform> tail = new List<Transform>();
 
-    //Did snake eat something?
+    //Did worm eat something?
     bool ate = false;
+
+    //Did worm collide with other worms tail
+    bool die = false;
 
     // Tail Prefab
     public GameObject tailPrefab;
@@ -123,6 +126,12 @@ public class HeadController : MonoBehaviour
             // Reset the flag
             ate = false;
         }
+        // 4. Collide head -> tail CHK
+        if(die)
+        {
+
+
+        }
     }
 
     void OnTriggerEnter(Collider coll)
@@ -138,6 +147,11 @@ public class HeadController : MonoBehaviour
 
             // Remove the Food
             Destroy(coll.gameObject);
+        }
+        if(coll.name.StartsWith("tailPreFab"))
+        {
+            die = true;
+
         }
         // Collided with Tail or Border
         else

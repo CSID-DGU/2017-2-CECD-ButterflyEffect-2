@@ -35,7 +35,7 @@ public class Head_List : MonoBehaviour
 
             if (angle > 170f || angle < 10f) angle = 90f;
 
-            z_rotate_angle[i - 1] = (angle - 90f) / 2f;
+            z_rotate_angle[i - 1] = (angle - 90f);
         }
 
     }

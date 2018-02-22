@@ -131,6 +131,7 @@ fabric.properties
 latestCode/Client/Unity/2dTut/Library/metadata/
 latestCode/Client/Unity/2dTut/Library/ShaderCache/
 latestCode/Client/Unity/2dTut/Temp/
+latestCode/Client/Unity/2dTut/Library/PlayerDataCache/
 
 # Visual Studio 2015 cache directory
 latestCode/Client/Unity/2dTut/.vs/

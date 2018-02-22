@@ -23,6 +23,14 @@ public class Create_World : MonoBehaviour {
         //Black Screen 방지
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
+        Resolution[] resolutions = Screen.resolutions;
+        foreach (Resolution res in resolutions)
+        {
+            print(res.width + "x" + res.height);
+        }
+        Screen.SetResolution(resolutions[0].width, resolutions[0].height, true);
+
+
         //Resolution 정보 Load
         float i_width = (float)Screen.width/10;
         float i_height = (float)Screen.height/10;

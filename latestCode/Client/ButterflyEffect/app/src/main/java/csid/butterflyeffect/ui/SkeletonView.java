@@ -1,20 +1,15 @@
 package csid.butterflyeffect.ui;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
 
 import csid.butterflyeffect.util.Constants;
-import csid.butterflyeffect.util.Point2D;
+import csid.butterflyeffect.game.Point2D;
 import csid.butterflyeffect.util.Utils;
 
 public class SkeletonView extends View {

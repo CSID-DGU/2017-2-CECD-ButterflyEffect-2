@@ -6,7 +6,7 @@ package csid.butterflyeffect.util;
 
 public class Constants {
 
-     //about CONNECTION
+    //about CONNECTION
     public static int PORT_NUM = 9000;
     public static int TIME_OUT_FOR_TCP_CONNECTION = 3000;//3 sec
     public static String ADDR = "13.125.206.137";
@@ -35,7 +35,9 @@ public class Constants {
     public static final int L_EAR = 17;
     public static final int BACKGROUND = 18;
 
-    public static final int CIRCLE_RADIUS = 10;
+    public static final int CIRCLE_RADIUS = 7;
+    public static final float LINE_WIDTH = 5;
+
 
     //about user device GLOBAL VARIABLE
     public static float CAMERA_WIDTH = -1;

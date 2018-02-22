@@ -1,13 +1,14 @@
 package csid.butterflyeffect.util;
 
 import android.graphics.Color;
-import android.graphics.Point;
 import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+
+import csid.butterflyeffect.game.Point2D;
 
 /**
  * Created by hanseungbeom on 2018. 1. 28..
@@ -121,4 +122,6 @@ public class Utils {
         return Double.parseDouble(st.nextToken());
 
     }
+
+
 }

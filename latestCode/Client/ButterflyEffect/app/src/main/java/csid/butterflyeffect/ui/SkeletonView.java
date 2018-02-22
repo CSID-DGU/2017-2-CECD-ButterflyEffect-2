@@ -30,11 +30,12 @@ public class SkeletonView extends View {
         if(keyPoints!=null) {
             for (int i = 0; i < keyPoints.size(); i++) {
                 Paint paint = new Paint();
+
                 Point2D[] userPoints = keyPoints.get(i);
                 float ratio_X = Constants.PREVIEW_WIDTH / Constants.CAMERA_WIDTH;
                 float ratio_Y = Constants.PREVIEW_HEIGHT / Constants.CAMERA_HEIGHT;
 
-                
+
                 paint.setStrokeWidth(Constants.LINE_WIDTH);
                 paint.setColor(Utils.getColor(i));
                 Utils.drawLine(canvas,paint,userPoints[Constants.NOSE],userPoints[Constants.L_EYE]);

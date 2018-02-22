@@ -9,7 +9,7 @@ public class Create_World : MonoBehaviour {
     public float ppu=1.0f;
 
     GameObject Background;
-    public Camera camera;
+   new public Camera camera;
 
     // Borders (Fix using resolution)
     public Transform border_Top;
@@ -22,20 +22,24 @@ public class Create_World : MonoBehaviour {
     {
         //Black Screen 방지
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
+        /*
         Resolution[] resolutions = Screen.resolutions;
         foreach (Resolution res in resolutions)
         {
             print(res.width + "x" + res.height);
         }
         Screen.SetResolution(resolutions[0].width, resolutions[0].height, true);
-
+        */
 
         //Resolution 정보 Load
-        float i_width = (float)(Screen.width/10)*2;
-        float i_height = (float)(Screen.height/10)*2;
+        float i_width = (float)(Screen.width)/ (float)(Screen.width);
+        float i_height = (float)(Screen.height) / (float)(Screen.width);
+
+        i_width *= 640;
+        i_height *= 640;
+
         Screen.SetResolution((int)i_width, (int)i_height, true);
-        Debug.Log("Init clear");
+        Debug.Log(i_width +","+i_height);
         //border Scale edit
         border_Left.transform.localScale = new Vector3(1, i_height, 10);
         border_Right.transform.localScale = new Vector3(1, i_height, 10);

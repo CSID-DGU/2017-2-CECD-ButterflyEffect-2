@@ -80,7 +80,7 @@ public class Utils {
         Point2D leftShoulder = keyPoints[Constants.L_SHOULDER];
         Point2D rightShoulder = keyPoints[Constants.R_SHOULDER];
         Point2D mid = new Point2D(Math.abs((rightShoulder.x + leftShoulder.x)/2), Math.abs((rightShoulder.y + leftShoulder.y)/2));
-        double angle1 = Math.atan2(rightShoulder.y - leftShoulder.y, rightShoulder.x - leftShoulder.x);
+        double angle1 = Math.atan2(rightShoulder.y - rightShoulder.y, rightShoulder.x - leftShoulder.x); //프레임과 동일한 수직선
         double angle2 = Math.atan2(nose.y - mid.y, nose.x - mid.x);
         degree = (angle2 - angle1) * 180 / Math.PI;
         if(degree < 0){

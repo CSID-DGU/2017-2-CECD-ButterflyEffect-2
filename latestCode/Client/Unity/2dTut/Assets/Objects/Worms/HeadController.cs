@@ -17,7 +17,7 @@ public class HeadController : MonoBehaviour
 
 
     //머리 이동 속도
-    public float headspeed = 0.5f;
+    public float headspeed = 0.3f;
     //머리 회전 속도
     public float headcurspeed = 1.5f;
 
@@ -74,7 +74,7 @@ public class HeadController : MonoBehaviour
         rb.velocity = Vector3.zero;
         Vector3 newpose = rb.position;
 
-        rb.transform.Rotate(0f, 0f, z_rotate_angle * Time.deltaTime);
+        rb.transform.Rotate(0f, 0f, z_rotate_angle * Time.deltaTime*headcurspeed);
 
         rb.transform.Translate(Mathf.Cos(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed, Mathf.Sin(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed, 0.0f);
 

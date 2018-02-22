@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2017
+# Visual Studio for Mac
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2dTut", "2dTut.csproj", "{0FE9A627-4AE1-1410-9C89-11BD3845CC82}"
 EndProject
 Global

@@ -39,7 +39,7 @@
                         android:id="@+id/fr_preview"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="3"
+                        android:layout_weight="1"
                         >
                         <csid.butterflyeffect.PreviewSurface
                             android:id="@+id/sv"
@@ -102,7 +102,7 @@
                 android:padding="10dp"
                 android:background="@color/blueGrey800"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:layout_height="match_parent"
                >
                 <FrameLayout

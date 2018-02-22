@@ -33,9 +33,25 @@ public class Head_List : MonoBehaviour
         {
             angle = float.Parse(str[i]);
 
-            if (angle > 170f || angle < 10f) angle = 90f;
+            if (angle < 85 && angle > 10)
+            {
+                z_rotate_angle[i - 1] = 100.0f;
+            }
+            else if (angle > 85 && angle < 95)
+            {
+                z_rotate_angle[i - 1] = 0.0f;
+            }
+            else if (angle > 95 && angle < 170)
+            {
+                z_rotate_angle[i - 1] = -100.0f;
+            }
+            else
+            {
+                z_rotate_angle[i - 1] = 0.0f;
+            }
 
-            z_rotate_angle[i - 1] = (angle - 90f);
+            //z_rotate_angle[i - 1] = (angle - 90f);
+
         }
 
     }

@@ -16,12 +16,12 @@ public class SpawnFood : MonoBehaviour {
     // Use this for initialization
     void Start () {
         // Spawn food every 5 seconds, starting in 0.5
-        InvokeRepeating("Spawn", 5, 0.5f);
+        InvokeRepeating("Spawnf", 0.5f, 3f);
     }
 
     //Spawn one piece of food
     //now it spawn random food using 'INT' position!
-    void Spawn()
+    void Spawnf()
     {
 
         //x position between left and right border

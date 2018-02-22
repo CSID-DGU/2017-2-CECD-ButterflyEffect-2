@@ -32,8 +32,8 @@ public class Create_World : MonoBehaviour {
 
 
         //Resolution 정보 Load
-        float i_width = (float)Screen.width/10;
-        float i_height = (float)Screen.height/10;
+        float i_width = (float)(Screen.width/10)*2;
+        float i_height = (float)(Screen.height/10)*2;
         Screen.SetResolution((int)i_width, (int)i_height, true);
         Debug.Log("Init clear");
         //border Scale edit

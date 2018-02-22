@@ -16,6 +16,8 @@ import java.util.List;
 
 import csid.butterflyeffect.util.Constants;
 
+import static android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT;
+
 public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback {
 
     private static final String TAG = "CameraSurface:";
@@ -83,7 +85,12 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
 
     public void surfaceCreated(SurfaceHolder paramSurfaceHolder) {
         try {
-            camera = Camera.open();
+
+
+        //0 for CAMERA_FACING_BACK
+        //1 for CAMERA_FACING_FRONT
+
+            camera = Camera.open(CAMERA_FACING_FRONT);
             camera.setPreviewDisplay(paramSurfaceHolder);
             return;
         } catch (IOException localIOException) {

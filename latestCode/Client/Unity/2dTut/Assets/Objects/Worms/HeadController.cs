@@ -24,7 +24,14 @@ public class HeadController : MonoBehaviour
     //꼬리 추적 속도
     public float curspeed = 200f;
     public float min_distance = 1;
+
+    //머리 회전 각도
     private float z_rotate_angle = 0.0f;
+
+    public void Z_rotate_update(float z_angle)
+    {
+        z_rotate_angle = z_angle;
+    }
 
     Vector3 move = new Vector3(0f, 0f, 0f);
 
@@ -41,43 +48,7 @@ public class HeadController : MonoBehaviour
 
     void Awake()
     {
-        // 현재 실행 중인 유니티 액티비티를 가져와서 변수에 저장
-        //AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        //activity = jc.GetStatic<AndroidJavaObject>("currentActivity");
-        //Debug.Log("Activity Call Complete");
-    }
 
-    public void AndroidLog(string degree)
-    {
-
-        string[] str = degree.Split(' ');
-
-        int person_num = int.Parse(str[0]);
-
-        Debug.Log("human: " + str[0] + ", degree : " + str[1]);
-
-
-
-        //angle is move input from frame
-        angle_String = str[1];
-        angle = float.Parse(str[1]);
-
-        if (angle < 80 && angle > 10)
-        {
-            z_rotate_angle = -40.0f;
-        }
-        else if (angle > 80 && angle < 100)
-        {
-            z_rotate_angle = 0.0f;
-        }
-        else if (angle > 100 && angle < 170)
-        {
-            z_rotate_angle = 40.0f;
-        }
-        else
-        {
-            z_rotate_angle = 0.0f;
-        }
     }
 
     List<Transform> tail = new List<Transform>();
@@ -92,27 +63,10 @@ public class HeadController : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
-
-
     }
 
     void FixedUpdate()
     {
-
-
-        // 1.Add force head into new direction
-        //GetAxis = 방향키
-        //float moveHorizontal = Input.GetAxis("Horizontal");
-        //float moveVertical = Input.GetAxis("Vertical");
-        //Vector 3를 직접 새로 생성하여 2차원 방향 이동 구현
-        //AndroidLog("1 30");
-        //Vector3 movement = move;
-        //rb.velocity = Quaternion.AngleAxis(angle,Vector3.up) * rb.velocity;
-        //rb.AddForce(movement * playerspeedmult);
-        //float a = rb.velocity.x;
-        //rb.transform.rotation = Quaternion.Euler(0, 0, -angle/10);
-        //rb.AddForce(rb.transform.forward * 100);
-        //rb.AddForce(rb.transform.rotation);
 
         rb.velocity = Vector3.zero;
         Vector3 newpose = rb.position;

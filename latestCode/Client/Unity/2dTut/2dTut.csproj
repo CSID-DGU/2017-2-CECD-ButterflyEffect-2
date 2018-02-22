@@ -291,7 +291,7 @@
     <Compile Include="Assets\Create_World.cs" />
     <Compile Include="Assets\Objects\Food\rotateFood.cs" />
     <Compile Include="Assets\Objects\Food\SpawnFood.cs" />
-    <Compile Include="Assets\Objects\Worms\Head_generate.cs" />
+    <Compile Include="Assets\Objects\Worms\Head_List.cs" />
     <Compile Include="Assets\Objects\Worms\HeadController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

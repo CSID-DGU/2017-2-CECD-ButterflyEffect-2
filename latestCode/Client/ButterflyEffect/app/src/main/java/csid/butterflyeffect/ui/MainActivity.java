@@ -137,7 +137,9 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                     mDirectionView.setImageResource(R.drawable.ic_left);
                 }
 
-                UnityPlayer.UnitySendMessage("Head","AndroidLog", userAngle);
+
+                //format : "Usercount angle1 angle2 angle3 angle3 ... "
+                UnityPlayer.UnitySendMessage("Camera","WormMoveAngle", userAngle);
             }
         });
     }

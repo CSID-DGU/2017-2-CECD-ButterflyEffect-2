@@ -55,4 +55,8 @@ public class UserInfo {
     public Point2D getBody(){
         return keyPoints[Constants.NECK];
     }
+    public void setBody(Point2D point2D){
+        keyPoints[Constants.NECK].setX(point2D.x);
+        keyPoints[Constants.NECK].setY(point2D.y);
+    }
 }

@@ -40,10 +40,7 @@ public class PreviewSurface extends CameraSurface implements
     public PreviewSurface(Context paramContext, AttributeSet paramAttributeSet) {
         super(paramContext, paramAttributeSet);
 
-
-
     }
-
 
     public void onPreviewFrame(byte[] paramArrayOfByte, Camera paramCamera) {
         Log.d("#####", "size:" + paramArrayOfByte.length);
@@ -59,7 +56,7 @@ public class PreviewSurface extends CameraSurface implements
 
             ByteArrayOutputStream outstream = new ByteArrayOutputStream();
             //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
-            image.compressToJpeg(new Rect(0, 0, size.width, size.height), 10, outstream);
+            image.compressToJpeg(new Rect(0, 0, size.width, size.height), 60, outstream);
             outstream.flush();
             mFrameHandler.getJpegFrame(outstream.toByteArray());
 

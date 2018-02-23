@@ -5,27 +5,14 @@ import java.util.ArrayList;
 import csid.butterflyeffect.game.Point2D;
 import csid.butterflyeffect.util.Constants;
 
-/**
- * Created by hanseungbeom on 2018. 2. 22..
- */
-
 public class UserInfo {
-    private Point2D[] keyPoints;
+    private Point2D nose,neck;
     private int userNumber;
     private boolean isPlaying;
-    private int score;
 
     public UserInfo(int userNumber) {
         this.userNumber = userNumber;
         isPlaying = true;
-    }
-
-    public Point2D[] getKeyPoints() {
-        return keyPoints;
-    }
-
-    public void setKeyPoints(Point2D[] keyPoints) {
-        this.keyPoints = keyPoints;
     }
 
     public int getUserNumber() {
@@ -44,19 +31,19 @@ public class UserInfo {
         isPlaying = playing;
     }
 
-    public int getScore() {
-        return score;
+    public Point2D getNose() {
+        return nose;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setNose(Point2D nose) {
+        this.nose = nose;
     }
 
-    public Point2D getBody(){
-        return keyPoints[Constants.NECK];
+    public Point2D getNeck() {
+        return neck;
     }
-    public void setBody(Point2D point2D){
-        keyPoints[Constants.NECK].setX(point2D.x);
-        keyPoints[Constants.NECK].setY(point2D.y);
+
+    public void setNeck(Point2D neck) {
+        this.neck = neck;
     }
 }

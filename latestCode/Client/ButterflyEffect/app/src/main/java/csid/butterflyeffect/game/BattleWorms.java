@@ -16,11 +16,14 @@ public class BattleWorms implements HandleReceiveData {
     private MainActivity activity;
     private ArrayList<UserInfo> userInfos;
     private FrameFilter frameFilter;
+    private ReadyFilter readyFilter;
     private boolean isPlaying;
     public BattleWorms(MainActivity activity){
         this.activity = activity;
         userInfos = new ArrayList<>();
         isPlaying = false;
+
+        readyFilter = new ReadyFilter(userInfos);
     }
 
     public ArrayList<UserInfo> getUserInfos() {
@@ -32,11 +35,12 @@ public class BattleWorms implements HandleReceiveData {
         Log.d("#####","receive:"+data);
 
         //modify activity
-        activity.showData(data);
+        //activity.showData(data);
 
-        if(isPlaying) {
-            //TODO user waiting..
-            //activity.showData(data);
+        if(!isPlaying && userInfos.size()<3) {
+            //game ready logic
+            ArrayList<Point2D[]> filteredData = readyFilter.filter(Utils.stringToKeyPoints(data));
+            activity.drawSkeleton(filteredData);
         }
         else {
             //TODO game start..(at this moment, It is decided how many people will play)

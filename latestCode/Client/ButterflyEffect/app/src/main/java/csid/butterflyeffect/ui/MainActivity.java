@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
+import android.hardware.Camera;
 import android.media.Image;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -24,9 +25,12 @@ import android.widget.Toast;
 
 import com.unity3d.player.UnityPlayer;
 
+import java.util.ArrayList;
+
 import csid.butterflyeffect.PreviewSurface;
 import csid.butterflyeffect.R;
 import csid.butterflyeffect.game.BattleWorms;
+import csid.butterflyeffect.game.Point2D;
 import csid.butterflyeffect.network.HandleReceiveData;
 import csid.butterflyeffect.network.HandleSocketError;
 import csid.butterflyeffect.network.SocketClient;
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mPreview = (FrameLayout)findViewById(R.id.fr_preview);
 
         getWindow().setFormat(PixelFormat.UNKNOWN);
+
 
         mPriviewSurface = (PreviewSurface) findViewById(R.id.sv);
         mPriviewSurface.setFrameHandler(this);
@@ -119,6 +124,15 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
     }
 
+    public void drawSkeleton(final ArrayList<Point2D[]> keyPoints){
+        //draw skeleton
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mSkeleton.drawSkeletons(keyPoints);
+            }
+        });
+    }
     public void showData(final String data) {
         //draw skeleton
         runOnUiThread(new Runnable() {

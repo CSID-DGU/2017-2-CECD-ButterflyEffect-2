@@ -47,4 +47,6 @@ public class Constants {
 
     //about filter
     public static final int QUEUE_SIZE = 20;
+    public static final int PLAYER_RADIUS = 10;
+
 }

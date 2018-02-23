@@ -3,6 +3,7 @@ package csid.butterflyeffect.game.model;
 import java.util.ArrayList;
 
 import csid.butterflyeffect.game.Point2D;
+import csid.butterflyeffect.util.Constants;
 
 /**
  * Created by hanseungbeom on 2018. 2. 22..
@@ -49,5 +50,9 @@ public class UserInfo {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public Point2D getBody(){
+        return keyPoints[Constants.NECK];
     }
 }

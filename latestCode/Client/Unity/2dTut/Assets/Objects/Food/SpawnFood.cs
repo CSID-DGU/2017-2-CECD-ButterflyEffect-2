@@ -15,8 +15,8 @@ public class SpawnFood : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        // Spawn food every 5 seconds, starting in 0.5
-        InvokeRepeating("Spawnf", 0.5f, 3f);
+        // Spawn food every 4 seconds, starting in 0.5
+        InvokeRepeating("Spawnf", 0.5f, 4f);
     }
 
     //Spawn one piece of food

@@ -5,25 +5,18 @@ using UnityEngine;
 using System;
 
 public class HeadController : MonoBehaviour
-{
-    public float playerspeedmult;
-
+{ 
     private Rigidbody rb;
-    private Transform Headtransform;
     private Transform curtail;
     private Transform prevtail;
     private float dis;
-    private int head_number = 0;
+
 
 
     //머리 이동 속도
-    public float headspeed = 0.3f;
+    private float headspeed_mult = Global.init_headspeed_mult;
     //머리 회전 속도
-    public float headcurspeed = 1.5f;
-
-    //꼬리 추적 속도
-    public float curspeed = 200f;
-    public float min_distance = 1;
+    private float headcurspeed_mult = Global.init_headcurspeed_mult;
 
     //머리 회전 각도
     private float z_rotate_angle = 0.0f;
@@ -66,6 +59,7 @@ public class HeadController : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+        rb.transform.localScale = new Vector3(Global.head_size, Global.head_size, Global.head_size);
     }
 
     void FixedUpdate()
@@ -74,37 +68,46 @@ public class HeadController : MonoBehaviour
         rb.velocity = Vector3.zero;
         Vector3 newpose = rb.position;
 
-        rb.transform.Rotate(0f, 0f, z_rotate_angle * Time.deltaTime*headcurspeed);
+        rb.transform.Rotate(0f, 0f, z_rotate_angle * Time.deltaTime*headcurspeed_mult);
 
-        rb.transform.Translate(Mathf.Cos(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed, Mathf.Sin(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed, 0.0f);
-
-
+        rb.transform.Translate(Mathf.Cos(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed_mult, Mathf.Sin(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed_mult, 0.0f);
+        
         // 2.Move Tail to follow head
         if (tail.Count > 0)
         {
 
-            dis = Vector3.Distance(rb.position, tail[0].position);
-            float T = Time.deltaTime * dis * dis / min_distance * curspeed;
+            dis = Vector3.Distance(rb.position, tail[0].position) -Global.min_distance;
+            float T = Time.deltaTime * (dis* dis / 160) * Global.tail_curspeed;
 
-            if (T > 100.0f)
-                T = 100.0f;
 
+            if (T > 200.0f)
+                T = 200.0f;
+            else if(T<0f)
+                    T = 0;
+
+           // float temp = rb.transform.localScale.x * Global.tail_ratio;
             tail[0].position = Vector3.MoveTowards(tail[0].position, newpose, T);
+
+          //  tail[0].transform.localScale = new Vector3(temp, temp, temp);
 
             for (int i = 1; i < tail.Count; i++)
             {
                 curtail = tail[i];
                 prevtail = tail[i - 1];
 
-                dis = Vector3.Distance(prevtail.position, curtail.position);
+                dis = Vector3.Distance(prevtail.position, curtail.position) - Global.min_distance;
 
                 newpose = prevtail.position;
                 newpose.z = rb.position.z;
 
-                T = Time.deltaTime * dis * dis / min_distance * curspeed;
+                T = Time.deltaTime * (dis * dis / 160) * Global.tail_curspeed;
 
-                if (T > 100.0f)
-                    T = 100.0f;
+                if (T > 200.0f)
+                    T = 200.0f;
+                else if (T < 0f)
+                    T = 0;
+
+
 
                 curtail.position = Vector3.MoveTowards(curtail.position, prevtail.position, T);
             }

@@ -289,6 +289,7 @@
     <Compile Include="Assets\Android_Func\CameraScript.cs" />
     <Compile Include="Assets\Android_Func\TestGUI.cs" />
     <Compile Include="Assets\Create_World.cs" />
+    <Compile Include="Assets\Global.cs" />
     <Compile Include="Assets\Objects\Food\rotateFood.cs" />
     <Compile Include="Assets\Objects\Food\SpawnFood.cs" />
     <Compile Include="Assets\Objects\Worms\Head_List.cs" />

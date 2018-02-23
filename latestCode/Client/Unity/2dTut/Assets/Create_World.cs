@@ -17,26 +17,22 @@ public class Create_World : MonoBehaviour {
     public Transform border_Left;
     public Transform border_Right;
 
+    public Transform Tilemap;
+
     //Scene 실행 전 수행 (초기화)
     private void Awake()
     {
         //Black Screen 방지
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        /*
-        Resolution[] resolutions = Screen.resolutions;
-        foreach (Resolution res in resolutions)
-        {
-            print(res.width + "x" + res.height);
-        }
-        Screen.SetResolution(resolutions[0].width, resolutions[0].height, true);
-        */
 
-        //Resolution 정보 Load
-        float i_width = (float)(Screen.width)/ (float)(Screen.width);
-        float i_height = (float)(Screen.height) / (float)(Screen.width);
+        //float i_width = (float)(Screen.width)/ (float)(Screen.width);
+        //float i_height = (float)(Screen.height) / (float)(Screen.width);
+        float i_width = Global.screen_width / Global.screen_width;
+        float i_height = Global.screen_height / Global.screen_width;
 
-        i_width *= 640;
-        i_height *= 640;
+        //fix game resolution 640x640
+        i_width *= Global.game_res_width;
+        i_height *= Global.game_res_height;
 
         Screen.SetResolution((int)i_width, (int)i_height, true);
         Debug.Log(i_width +","+i_height);
@@ -52,7 +48,12 @@ public class Create_World : MonoBehaviour {
         border_Top.position = new Vector3(0, i_height/2, 0);
         border_Bottom.position = new Vector3(0, -i_height/2, 0);
 
+        //Tile Map Scale edit
+        Tilemap.transform.localScale = new Vector3(i_width/5, i_height/5, 1);
+
         //화면 Size 조정. 높이 * pixel per unit /2;        
         camera.orthographicSize = i_height/ppu/ 2;
+
+
     }
 }

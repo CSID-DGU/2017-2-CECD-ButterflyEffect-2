@@ -11,7 +11,7 @@ public class HeadController : MonoBehaviour
     private Transform prevtail;
     private float dis;
 
-
+    private static AndroidManager _instance;
 
     //머리 이동 속도
     private float headspeed_mult = Global.init_headspeed_mult;
@@ -132,8 +132,8 @@ public class HeadController : MonoBehaviour
         // 4. Collide head -> tail CHK
         if(die)
         {
-
-
+        //   AndroidJavaClass unityPlayer = new AndroidJavaClass("Android(java)Function 이 있는 패키지 이름 들어갈 곳");
+        //    unityPlayer.Call("함수 이름", "메세지");
         }
     }
 

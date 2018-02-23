@@ -71,6 +71,7 @@ public class Head_List : MonoBehaviour
     {
         for (int i = 0; i < person_num; i++)
         {
+
             HeadController headController = WormsList[i].GetComponent<HeadController>();
             headController.Z_rotate_update(z_rotate_angle[i]);
         }

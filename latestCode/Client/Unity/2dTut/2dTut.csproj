@@ -285,7 +285,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Android_Func\AndroidManager.cs" />
     <Compile Include="Assets\Android_Func\CameraScript.cs" />
     <Compile Include="Assets\Android_Func\TestGUI.cs" />
     <Compile Include="Assets\Create_World.cs" />

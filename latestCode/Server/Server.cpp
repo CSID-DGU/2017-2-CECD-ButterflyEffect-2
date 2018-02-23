@@ -222,12 +222,17 @@ public:
 
                 // Fill datum
                 //datum.cvInputData = cv::imread(mImageFiles.at(mCounter++));
-
-                queue<Mat> empty;
-                swap(frameQueue,empty);
+		if(frameQueue.size()>5){
+               		 queue<Mat> empty;
+               		 swap(frameQueue,empty);
+		}
                 //
 
-                while(frameQueue.empty());
+                while(frameQueue.empty()){
+			cout<<"queue is EMPTY!!"<<endl;
+		}
+		
+		cout<<"(queueSize:"<<frameQueue.size()<<")";
 
                 datum.cvInputData = frameQueue.front();
                 frameQueue.pop();
@@ -606,6 +611,7 @@ int main(int argc, char *argv[])
             //cout << "Received packet from " << sourceAddress << ":" << sourcePort << endl;
             Mat rawData = Mat(1, recvMsgSize, CV_8UC1, longbuf);
             Mat frame = imdecode(rawData, CV_LOAD_IMAGE_COLOR);
+	    flip(frame,frame,1);
             if (frame.size().width == 0) 
             {
                 cerr << "decode failure!" << endl;

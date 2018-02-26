@@ -47,13 +47,15 @@ public class FrameFilter {
     public ArrayList<Point2D[]> filter(ArrayList<Point2D[]> peopleKeyPoints){
         int userSize = userInfos.size();
         ArrayList<Point2D[]> result = new ArrayList<>();
-        if(queue.size() >= Constants.QUEUE_SIZE){
+        if(queue.size() == Constants.QUEUE_SIZE){
             update(userInfos);
         }
 
         for(int user = 0; user < userSize; user++){
             int candidate = 0;
             Point2D neck = userInfos.get(user).getNeck();
+
+            if(neck.x ==0 && neck.y==0) continue;
             int peopleSize = peopleKeyPoints.size();
             double min = 10000;
 

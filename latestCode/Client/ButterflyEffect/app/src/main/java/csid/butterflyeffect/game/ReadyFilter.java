@@ -5,8 +5,6 @@ import android.util.Log;
 import com.unity3d.player.UnityPlayer;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import csid.butterflyeffect.game.model.UserInfo;
 import csid.butterflyeffect.util.Constants;
@@ -37,7 +35,7 @@ public class ReadyFilter {
     public ArrayList<Point2D[]> filter(ArrayList<Point2D[]> data){
 
 
-        if(list.size() == Constants.QUEUE_SIZE) {
+        if(list.size() == Constants.LIST_SIZE) {
             //remove to keep the queue.size constant
             list.remove(list.get(0));
 

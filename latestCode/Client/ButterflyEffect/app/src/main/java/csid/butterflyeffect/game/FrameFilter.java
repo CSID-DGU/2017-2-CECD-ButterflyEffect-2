@@ -8,6 +8,7 @@ import java.util.Queue;
 
 import csid.butterflyeffect.game.model.UserInfo;
 import csid.butterflyeffect.util.Constants;
+import csid.butterflyeffect.util.Utils;
 
 public class FrameFilter {
     private ArrayList<UserInfo> userInfos;
@@ -17,16 +18,14 @@ public class FrameFilter {
         queue = new LinkedList<>();
     }
 
-    public void insert(ArrayList<Point2D[]> data){
-        if(queue.size() == Constants.QUEUE_SIZE)
-            queue.poll();
-        queue.add(data);
-    }
 
     public void update(ArrayList<UserInfo> userInfo){
         if(queue.size() >= Constants.QUEUE_SIZE) {
             int userSize = userInfos.size();
             Point2D[] sum = new Point2D[userSize];
+            for(int i = 0; i < userSize; i++){
+                sum[i] = new Point2D();
+            }
             for (int q = 0; q < Constants.QUEUE_SIZE; q++) {
                 ArrayList<Point2D[]> usersKeyPoints = queue.poll();
                 for (int user = 0; user < userSize; user++) {
@@ -56,11 +55,11 @@ public class FrameFilter {
             int candidate = 0;
             Point2D neck = userInfos.get(user).getNeck();
             int peopleSize = peopleKeyPoints.size();
-            double min = Double.MAX_VALUE;
+            double min = 10000;
 
             for(int people = 0; people < peopleSize; people++){
                 Point2D[] keyPoints = peopleKeyPoints.get(people);
-                double distance = Math.sqrt(Math.pow((neck.x - keyPoints[1].x),2) + Math.pow((neck.y - keyPoints[1].y),2));
+                double distance = Utils.getDistance(neck, keyPoints[1]);
                 if(distance <= Constants.PLAYER_RADIUS && distance < min){
                     min = distance;
                     candidate = people;
@@ -68,7 +67,7 @@ public class FrameFilter {
             }
             result.add(peopleKeyPoints.get(candidate));
         }
-        insert(result);
+        queue.offer(result);
         return result;
     }
 }

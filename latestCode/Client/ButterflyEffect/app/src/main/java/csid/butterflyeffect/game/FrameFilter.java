@@ -48,19 +48,15 @@ public class FrameFilter {
     public ArrayList<Point2D[]> filter(ArrayList<Point2D[]> peopleKeyPoints){
         int userSize = userInfos.size();
         ArrayList<Point2D[]> result = new ArrayList<>();
-        float ratio_X = Constants.PREVIEW_WIDTH / Constants.CAMERA_WIDTH;
-        float ratio_Y = Constants.PREVIEW_HEIGHT / Constants.CAMERA_HEIGHT;
         for(int user = 0; user < userSize; user++){
             int candidate = 0;
             Point2D neck = userInfos.get(user).getNeck();
-            neck.setX(neck.x * ratio_X);
-            neck.setY(neck.y * ratio_Y);
             int peopleSize = peopleKeyPoints.size();
             double min = Double.MAX_VALUE;
 
             for(int people = 0; people < peopleSize; people++){
                 Point2D[] keyPoints = peopleKeyPoints.get(people);
-                double distance = Math.sqrt(Math.pow((neck.x - keyPoints[1].x*ratio_X),2) + Math.pow((neck.y - keyPoints[1].y*ratio_Y),2));
+                double distance = Math.sqrt(Math.pow((neck.x - keyPoints[1].x),2) + Math.pow((neck.y - keyPoints[1].y),2));
                 if(distance <= Constants.PLAYER_RADIUS && distance < min){
                     min = distance;
                     candidate = people;

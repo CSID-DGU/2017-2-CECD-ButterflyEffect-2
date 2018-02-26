@@ -49,6 +49,5 @@ public class Constants {
     public static final int QUEUE_SIZE = 20;
     public static final int PLAYER_RADIUS = 30;
     public static final int RAISING_HAND_C = 50;
-
-
+    public static final int KEYPOINT_NUM = 18;
 }

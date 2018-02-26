@@ -36,7 +36,7 @@ public class ReadyFilter {
             //update userinfos position with the latest points
             if(userInfos.size()!=0){
                 //search the closest point for each player and update their points.
-                for (int i = 0; i < userInfos.size() && data.size()!=0; i++) {
+                for (int i = 0; i < userInfos.size(); i++) {
                     UserInfo player = userInfos.get(i);
                     Point2D playerBody = player.getNeck();
                     int closestIndex = -1;

@@ -11053,6 +11053,7 @@ MonoBehaviour:
   border_Left: {fileID: 1915313218}
   border_Right: {fileID: 800702278}
   Tilemap: {fileID: 485436824}
+  HList: {fileID: 867615173}
 --- !u!114 &867615172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11069,6 +11070,8 @@ MonoBehaviour:
   border_Bottom: {fileID: 1700186673}
   border_Left: {fileID: 1915313218}
   border_Right: {fileID: 800702278}
+  FoodMaxPool: 30
+  FoodspwanDelay: 2
 --- !u!114 &867615173
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -16,6 +16,6 @@ public class TestGUI : MonoBehaviour {
     // Update is called once per frame
     void OnGUI()
     {
-        GUI.Label(new Rect(10f, 10f, 200f, 30f), AndroidManager.Instance.androidLog);        
+   //     GUI.Label(new Rect(10f, 10f, 200f, 30f), AndroidManager.Instance.androidLog);        
     }
 }

@@ -23,7 +23,6 @@ public class Head_List : MonoBehaviour
     //Called by Android(java)
     public void WormMoveAngle(string degree)
     {
-
         string[] str = degree.Split(' ');
 
         person_num = int.Parse(str[0]);
@@ -31,25 +30,12 @@ public class Head_List : MonoBehaviour
 
         for (int i = 1; i <= person_num; i++)
         {
-            angle = float.Parse(str[i]);
-
-            z_rotate_angle[i - 1] = (angle - 90)*2;
-
-
-            //z_rotate_angle[i - 1] = (angle - 90f);
-
+            z_rotate_angle[i - 1] = -(float.Parse(str[i]) - 90)*2;
         }
 
     }
 
-
-    // Use this for initialization
-    void Start()
-    {
-        Spawn();
-    }
-
-    void Spawn()
+    public void Spawn_Head(int i)
     {
 
         //x position between left and right border
@@ -63,6 +49,12 @@ public class Head_List : MonoBehaviour
 
 
         WormsList.Add(Instantiate(Worms, new Vector3(x, y, z), new Quaternion(0f, 0f, z, 0f)));
+
+        WormsList[i].GetComponent<HeadController>().Head_index_set(i);
+        WormsList[i].GetComponent<MeshRenderer>().material.color = Global.player_Color[i];
+
+
+
 
     }
 

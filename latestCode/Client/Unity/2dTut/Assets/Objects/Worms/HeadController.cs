@@ -11,7 +11,14 @@ public class HeadController : MonoBehaviour
     private Transform prevtail;
     private float dis;
 
-    private static AndroidManager _instance;
+    private int Head_index=255;
+    private Color tail_color = Color.black;
+
+    public void Head_index_set(int id)
+    {
+        //색 지정
+        tail_color = Global.player_Color[id];
+    }
 
     //머리 이동 속도
     private float headspeed_mult = Global.init_headspeed_mult;
@@ -64,7 +71,6 @@ public class HeadController : MonoBehaviour
 
     void FixedUpdate()
     {
-
         rb.velocity = Vector3.zero;
         Vector3 newpose = rb.position;
 
@@ -123,6 +129,8 @@ public class HeadController : MonoBehaviour
                                                   newpose,
                                                   Quaternion.identity);
 
+            g.GetComponent<MeshRenderer>().material.color = tail_color;
+
             // Keep track of it in our tail list
             tail.Insert(tail.Count, g.transform);
 
@@ -132,26 +140,29 @@ public class HeadController : MonoBehaviour
         // 4. Collide head -> tail CHK
         if(die)
         {
+            //지렁이가 죽었음을 Android에게 전달
         //   AndroidJavaClass unityPlayer = new AndroidJavaClass("Android(java)Function 이 있는 패키지 이름 들어갈 곳");
         //    unityPlayer.Call("함수 이름", "메세지");
+        
+        //  Destroy()
+       
+
+
         }
     }
 
     void OnTriggerEnter(Collider coll)
     {
-        Debug.Log("trigger is called");
+
         // Trigger Food?
         if (coll.name.StartsWith("FoodPrefab"))
         {
             // Get longer in next Move call
             ate = true;
 
-
-
-            // Remove the Food
-            Destroy(coll.gameObject);
-        }
-        if(coll.name.StartsWith("tailPreFab"))
+            coll.enabled = false;
+        } 
+        if (coll.name.StartsWith("tailPreFab"))
         {
             die = true;
 

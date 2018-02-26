@@ -32,4 +32,11 @@ public static class Global
     public static float head_size = 32f;
     public static float tail_ratio = 0.8f;
 
+    public static Color skyblue = new Color(0.3f, 0.3f, 1,1);
+
+    //Wroms color (readonly = final
+    public static readonly Color[] player_Color = { Color.green, Color.red, skyblue };
+
+   
+
 }

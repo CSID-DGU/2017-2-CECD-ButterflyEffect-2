@@ -1,5 +1,7 @@
 package csid.butterflyeffect.game;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -22,12 +24,17 @@ public class ReadyFilter {
         list = new ArrayList<>();
         userKeypoints = new ArrayList<>();
         for(int i=0;i<3;i++){
-            Point2D[] keypoint = new Point2D[18];
+            Point2D[] keypoint = new Point2D[Constants.KEYPOINT_NUM];
+            for(int j=0;j<Constants.KEYPOINT_NUM;j++){
+                keypoint[j] = new Point2D();
+            }
             userKeypoints.add(keypoint);
         }
     }
 
     public ArrayList<Point2D[]> filter(ArrayList<Point2D[]> data){
+
+
         if(list.size() == Constants.QUEUE_SIZE) {
             //remove to keep the queue.size constant
             list.remove(list.get(0));
@@ -92,8 +99,10 @@ public class ReadyFilter {
                         }
 
                         if(closestDistance <= Constants.PLAYER_RADIUS && closestIndex!=-1){
+                            Log.d("######","rasingD:"+(pickedData.get(closestIndex)[Constants.L_SHOULDER].y-pickedData.get(closestIndex)[Constants.L_ELBOW].y));
                             if(pickedData.get(closestIndex)[Constants.L_SHOULDER].y-pickedData.get(closestIndex)[Constants.L_ELBOW].y
                                     > Constants.RAISING_HAND_C){
+
                                 handCount[i]++;
                             }
                         }
@@ -105,7 +114,7 @@ public class ReadyFilter {
                 int bestIndex = -1;
                 int score = Integer.MIN_VALUE;
                 for(int i=0;i<data.size();i++){
-                    if(!ignore[i] && handCount[i]>score){
+                    if(!ignore[i] && handCount[i]>score && handCount[i] >= 17){
                         score = handCount[i];
                         bestIndex = i;
                     }
@@ -119,6 +128,7 @@ public class ReadyFilter {
                     user.setNeck(data.get(bestIndex)[Constants.NECK]);
                     userInfos.add(user);
 
+                    Log.d("#####","new user added!");
                     //TODO unity spawn here.
                 }
 

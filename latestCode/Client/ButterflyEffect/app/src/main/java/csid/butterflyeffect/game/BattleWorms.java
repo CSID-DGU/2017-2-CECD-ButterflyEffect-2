@@ -37,12 +37,13 @@ public class BattleWorms implements HandleReceiveData {
         //modify activity
         //activity.showData(data);
 
-        if(!isPlaying && userInfos.size()<3) {
+        if(userInfos.size()<3) {
             //game ready logic
             ArrayList<Point2D[]> filteredData = readyFilter.filter(Utils.stringToKeyPoints(data));
             activity.drawSkeleton(filteredData);
         }
         else {
+
             //TODO game start..(at this moment, It is decided how many people will play)
             //activity.showData(data);
             ArrayList<Point2D[]> filteredKeyPoints = frameFilter.filter(Utils.stringToKeyPoints(data));
@@ -53,6 +54,7 @@ public class BattleWorms implements HandleReceiveData {
             }
             //format : "Usercount angle1 angle2 angle3 angle3 ... "
             UnityPlayer.UnitySendMessage("Camera","WormMoveAngle", Utils.degreesToStr(userAngle));
+            activity.drawSkeleton(filteredKeyPoints);
         }
     }
 }

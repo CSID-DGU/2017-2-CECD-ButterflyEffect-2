@@ -45,12 +45,14 @@ public class BattleWorms implements HandleReceiveData {
         else {
             //TODO game start..(at this moment, It is decided how many people will play)
             //activity.showData(data);
-            String userAngle = Utils.stringToDegree(data);
+            ArrayList<Point2D[]> filteredKeyPoints = frameFilter.filter(Utils.stringToKeyPoints(data));
+            int people = filteredKeyPoints.size();
+            double[] userAngle = new double[people];
+            for(int person = 0; person < people; person++) {
+                userAngle[person] = Utils.getDegree(filteredKeyPoints.get(person));
+            }
             //format : "Usercount angle1 angle2 angle3 angle3 ... "
-            UnityPlayer.UnitySendMessage("Camera","WormMoveAngle", userAngle);
+            UnityPlayer.UnitySendMessage("Camera","WormMoveAngle", Utils.degreesToStr(userAngle));
         }
-
     }
-
-
 }

@@ -71,7 +71,7 @@ public class Utils {
 
     //sub method
     //transfer Point2D[] to degree
-    //TODO keyPoints 를 받아서 필요한 것만 써서 각을 구해야 함. 왼쪽-오른어깨의 중점과, 코를 이은 직선 // 왼오른 어깨의 직선 사이의 각 구하기
+    //TODO keyPoints 를 받아서 필요한 것만 써서 각을 구해야 함. 코와 목을 잇는 직선과 기울기가 0인 직선과의 각
     public static double getDegree(Point2D[] keyPoints){
         double degree = 0;
         Point2D nose = keyPoints[Constants.NOSE];

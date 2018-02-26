@@ -49,7 +49,6 @@ public class BattleWorms implements HandleReceiveData {
             }
         }
         else {
-
             //TODO game start..(at this moment, It is decided how many people will play)
             //activity.showData(data);
             ArrayList<Point2D[]> filteredKeyPoints = frameFilter.filter(Utils.stringToKeyPoints(data));

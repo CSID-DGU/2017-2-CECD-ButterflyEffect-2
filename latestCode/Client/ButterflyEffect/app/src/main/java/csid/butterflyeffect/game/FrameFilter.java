@@ -44,6 +44,19 @@ public class FrameFilter {
             userInfoList.add(userInfo);
         }
     }
+    public Point2D[] getNominalKeyPoint() {
+        Point2D[] nominalKeyPoint =  new Point2D[Constants.KEYPOINT_NUM];
+        for(int i = 0; i < Constants.KEYPOINT_NUM; i++){
+            if(i == Constants.NECK) {
+                //for preventing zero degree
+                nominalKeyPoint[i] = new Point2D(0, 1);
+            }
+            else {
+                nominalKeyPoint[i] = new Point2D();
+            }
+        }
+        return nominalKeyPoint;
+    }
 
     public ArrayList<Point2D[]> filter(ArrayList<Point2D[]> peopleKeyPoints){
         int userSize = userInfos.size();
@@ -55,15 +68,25 @@ public class FrameFilter {
             int peopleSize = peopleKeyPoints.size();
             double min = 100000000;
 
-            //When the OpenPose didn't detect key points or User died
-            if(neck.x == 0 && neck.y==0){
+            //If the OpenPose correctly detected the key points
+            if(neck.x != 0 && neck.y != 0) {
+                //Check all key points in frame to detect user
+                for (int people = 0; people < peopleSize; people++) {
+                    Point2D[] keyPoints = peopleKeyPoints.get(people);
+                    //Calculate the distance between user neck and person's neck in frame
+                    double distance = Utils.getDistance(neck, keyPoints[1]);
+                    //Select the nearest distance
+                    if (distance <= Constants.PLAYER_RADIUS && distance < min) {
+                        min = distance;
+                        candidate = people;
+                    }
+                }
+            }
+            //If the OpenPose didn't detect correctly key points or User died
+            else if(neck.x == 0 && neck.y==0){
                 //If the user had died
                 if(!userInfos.get(user).isPlaying()){
-                    Point2D[] nominalKeyPoint =  new Point2D[Constants.KEYPOINT_NUM];
-                    for(int i = 0; i < Constants.KEYPOINT_NUM; i++){
-                        nominalKeyPoint[i] = new Point2D();
-                    }
-                    result.add(nominalKeyPoint);
+                    result.add(getNominalKeyPoint());
                 }
                 else {
                     result.add(getRecentUserInfo(user));
@@ -71,22 +94,17 @@ public class FrameFilter {
                 continue;
             }
 
-            //Check all key points in frame to detect user
-            for(int people = 0; people < peopleSize; people++){
-                Point2D[] keyPoints = peopleKeyPoints.get(people);
-                //Caculate the distance between user neck and person's neck in frame
-                double distance = Utils.getDistance(neck, keyPoints[1]);
-                //Select the nearest distance
-                if(distance <= Constants.PLAYER_RADIUS && distance < min){
-                    min = distance;
-                    candidate = people;
+            //If the filter didn't find the targeted user as the user was died or previous distance was too small.
+            if(candidate == -1) {
+                //If the user had died
+                if(!userInfos.get(user).isPlaying()){
+                    result.add(getNominalKeyPoint());
+                }
+                else {
+                    result.add(getRecentUserInfo(user));
                 }
             }
-            //When the filter didn't find the targeted user.
-            if(candidate == -1) {
-                result.add(getRecentUserInfo(user));
-            }
-            //When the filter find the targeted user
+            //If the filter find the targeted user
             else
                 result.add(peopleKeyPoints.get(candidate));
         }

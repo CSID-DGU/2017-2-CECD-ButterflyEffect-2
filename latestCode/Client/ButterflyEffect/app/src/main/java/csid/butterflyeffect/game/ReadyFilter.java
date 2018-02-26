@@ -99,7 +99,7 @@ public class ReadyFilter {
                         }
 
                         if(closestDistance <= Constants.PLAYER_RADIUS && closestIndex!=-1){
-                            Log.d("######","rasingD:"+(pickedData.get(closestIndex)[Constants.L_SHOULDER].y-pickedData.get(closestIndex)[Constants.L_ELBOW].y));
+                            //Log.d("######","rasingD:"+(pickedData.get(closestIndex)[Constants.L_SHOULDER].y-pickedData.get(closestIndex)[Constants.L_ELBOW].y));
                             if(pickedData.get(closestIndex)[Constants.L_SHOULDER].y-pickedData.get(closestIndex)[Constants.L_ELBOW].y
                                     > Constants.RAISING_HAND_C){
 
@@ -131,7 +131,7 @@ public class ReadyFilter {
                     Log.d("#####","new user added!");
 
                     //TODO unity spawn here.
-                    UnityPlayer.UnitySendMessage("Camera","Spawn",null );
+                    UnityPlayer.UnitySendMessage("Camera","Spawn","" );
                 }
 
             }

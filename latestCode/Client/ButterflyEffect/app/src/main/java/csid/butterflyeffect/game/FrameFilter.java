@@ -52,7 +52,7 @@ public class FrameFilter {
         }
 
         for(int user = 0; user < userSize; user++){
-            int candidate = 0;
+            int candidate = -1;
             Point2D neck = userInfos.get(user).getNeck();
 
             if(neck.x ==0 && neck.y==0) continue;
@@ -67,7 +67,7 @@ public class FrameFilter {
                     candidate = people;
                 }
             }
-            if(candidate == 0)
+            if(candidate == -1)
                 continue;
             result.add(peopleKeyPoints.get(candidate));
         }

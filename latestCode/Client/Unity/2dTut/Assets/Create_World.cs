@@ -58,12 +58,6 @@ public class Create_World : MonoBehaviour
         camera.orthographicSize = i_height / ppu / 2;
 
         //초록 빨강 파랑
-
-
-        Spawn();
-        Spawn();
-        Spawn();
-
     }
 
     int person_num = 0;

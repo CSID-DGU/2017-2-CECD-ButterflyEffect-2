@@ -120,11 +120,9 @@ public class Utils {
 
     }
     public static void drawLine(Canvas c, Paint paint, Point2D p1, Point2D p2){
-        float ratio_X = Constants.PREVIEW_WIDTH / Constants.CAMERA_WIDTH;
-        float ratio_Y = Constants.PREVIEW_HEIGHT / Constants.CAMERA_HEIGHT;
         if(!(p1.x ==0 || p1.y ==0 || p2.x==0 || p2.y==0 ) ) {
-            c.drawLine(ratio_X*(float) p1.x, ratio_Y*(float) p1.y,
-                    ratio_X*(float) p2.x, ratio_Y*(float) p2.y, paint);
+            c.drawLine((float) p1.x, (float) p1.y,
+                    (float) p2.x, (float) p2.y, paint);
         }
     }
 

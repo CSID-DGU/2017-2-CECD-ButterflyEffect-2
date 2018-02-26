@@ -55,9 +55,19 @@ public class FrameFilter {
             int peopleSize = peopleKeyPoints.size();
             double min = 100000000;
 
-            //When the OpenPose didn't detect key points
+            //When the OpenPose didn't detect key points or User died
             if(neck.x == 0 && neck.y==0){
-                result.add(getRecentUserInfo(user));
+                //If the user had died
+                if(!userInfos.get(user).isPlaying()){
+                    Point2D[] nominalKeyPoint =  new Point2D[Constants.KEYPOINT_NUM];
+                    for(int i = 0; i < Constants.KEYPOINT_NUM; i++){
+                        nominalKeyPoint[i] = new Point2D();
+                    }
+                    result.add(nominalKeyPoint);
+                }
+                else {
+                    result.add(getRecentUserInfo(user));
+                }
                 continue;
             }
 

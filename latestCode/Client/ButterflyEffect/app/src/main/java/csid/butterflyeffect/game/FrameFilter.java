@@ -55,7 +55,17 @@ public class FrameFilter {
             int candidate = -1;
             Point2D neck = userInfos.get(user).getNeck();
 
-            if(neck.x ==0 && neck.y==0) continue;
+            if(neck.x == 0 && neck.y==0){
+                Point2D[] temp= new Point2D[Constants.KEYPOINT_NUM];
+                for(int i=0;i<Constants.KEYPOINT_NUM;i++){
+                    if(i==Constants.NECK)
+                        temp[i] = new Point2D(0,1);
+                    else
+                        temp[i] = new Point2D();
+                }
+                result.add(temp);
+                continue;
+            }
             int peopleSize = peopleKeyPoints.size();
             double min = 10000;
 
@@ -67,9 +77,18 @@ public class FrameFilter {
                     candidate = people;
                 }
             }
-            if(candidate == -1)
-                continue;
-            result.add(peopleKeyPoints.get(candidate));
+            if(candidate == -1) {
+                Point2D[] temp= new Point2D[Constants.KEYPOINT_NUM];
+                for(int i=0;i<Constants.KEYPOINT_NUM;i++){
+                    if(i==Constants.NECK)
+                        temp[i] = new Point2D(0,1);
+                    else
+                        temp[i] = new Point2D();
+                }
+                result.add(temp);
+            }
+            else
+                result.add(peopleKeyPoints.get(candidate));
         }
         queue.offer(result);
         return result;

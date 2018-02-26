@@ -7,7 +7,7 @@ package csid.butterflyeffect.util;
 public class Constants {
 
     //about battleWorms
-    public static final int PLAYER_NUMBER = 2;
+    public static final int PLAYER_NUMBER = 3;
 
 
     //about CONNECTION
@@ -53,7 +53,7 @@ public class Constants {
     //about filter
     public static final int LIST_SIZE = 30;
     public static final int QUEUE_SIZE = 20;
-    public static final int PLAYER_RADIUS = 80;
+    public static final int PLAYER_RADIUS = 100;
     public static final int RAISING_HAND_C = 50;
     public static final int KEYPOINT_NUM = 18;
 }

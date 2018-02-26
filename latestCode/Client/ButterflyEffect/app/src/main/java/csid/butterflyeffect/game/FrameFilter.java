@@ -67,6 +67,8 @@ public class FrameFilter {
                     candidate = people;
                 }
             }
+            if(candidate == 0)
+                continue;
             result.add(peopleKeyPoints.get(candidate));
         }
         queue.offer(result);

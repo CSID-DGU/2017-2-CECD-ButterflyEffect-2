@@ -29,16 +29,6 @@ public class Utils {
         return buff.array();
     }
 
-    /*public static double getDegree(Point2D centerPoint, Point2D targetPoint) {
-        double degree = Math.toDegrees(Math.atan2(targetPoint.y - centerPoint.y, targetPoint.x - centerPoint.x));
-        if (degree < 0) {
-            degree += 360;
-        }
-        return degree;
-    }*/
-
-
-
     //main method
     //transfer server string to "2 45.5 130.2"
     public static String stringToDegree(String str) {
@@ -54,6 +44,12 @@ public class Utils {
     //transfer serverString to Point2D[] arraylists
     public static ArrayList<Point2D[]> stringToKeyPoints(String serverStr){
         Log.d("STRING", serverStr);
+
+        //TODO we have to sure that the data decided before we use it.
+        float ratio_X = Constants.PREVIEW_WIDTH / Constants.CAMERA_WIDTH;
+        float ratio_Y = Constants.PREVIEW_HEIGHT / Constants.CAMERA_HEIGHT;
+
+
         ArrayList<Point2D[]> rtnArray = new ArrayList<>();
         int len = serverStr.length();
         String strNumOfDetectedPeople = serverStr.substring(0, 1);
@@ -65,7 +61,7 @@ public class Utils {
             String[] tokens = detected[i].split(",");
             Point2D[] points = new Point2D[tokens.length/2];
             for(int j=0;j<18;j++){
-                points[j] = new Point2D(Double.parseDouble(tokens[j*2]),Double.parseDouble(tokens[j*2+1]));
+                points[j] = new Point2D(Double.parseDouble(tokens[j*2])*ratio_X,Double.parseDouble(tokens[j*2+1])*ratio_Y);
             }
             rtnArray.add(points);
         }
@@ -115,7 +111,6 @@ public class Utils {
 
         return rtnStr;
     }
-
 
 
     public static double getFristAngle(String str){

@@ -36,7 +36,7 @@ public class FrameFilter {
             }
             if (userSize != 0) {
                 for (int user = 0; user < userSize; user++) {
-                    userInfo.get(user).setNeck(new Point2D(sum[user].x / userSize, sum[user].y / userSize));
+                    userInfo.get(user).setNeck(new Point2D(sum[user].x / Constants.QUEUE_SIZE, sum[user].y / Constants.QUEUE_SIZE));
                 }
             }
         }else{
@@ -47,7 +47,7 @@ public class FrameFilter {
     public ArrayList<Point2D[]> filter(ArrayList<Point2D[]> peopleKeyPoints){
         int userSize = userInfos.size();
         ArrayList<Point2D[]> result = new ArrayList<>();
-        if(queue.size() >= 10){
+        if(queue.size() >= Constants.QUEUE_SIZE){
             update(userInfos);
         }
 

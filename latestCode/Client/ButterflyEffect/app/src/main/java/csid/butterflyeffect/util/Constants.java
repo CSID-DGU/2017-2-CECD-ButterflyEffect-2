@@ -13,7 +13,7 @@ public class Constants {
     //about CONNECTION
     public static int PORT_NUM = 9000;
     public static int TIME_OUT_FOR_TCP_CONNECTION = 3000;//3 sec
-    public static String ADDR = "13.125.198.221";
+    public static String ADDR = "13.125.228.69";
 
     //about CAMERA
     public static final int FRAME_RATE = 13000; //10000 = 10 fps
@@ -51,7 +51,8 @@ public class Constants {
     public static float PREVIEW_HEIGHT = -1;
 
     //about filter
-    public static final int QUEUE_SIZE = 20;
+    public static final int LIST_SIZE = 30;
+    public static final int QUEUE_SIZE = 10;
     public static final int PLAYER_RADIUS = 80;
     public static final int RAISING_HAND_C = 50;
     public static final int KEYPOINT_NUM = 18;

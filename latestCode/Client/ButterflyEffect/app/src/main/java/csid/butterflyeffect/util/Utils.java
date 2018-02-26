@@ -91,7 +91,6 @@ public class Utils {
         switch (index){
             case 0:
                 return Color.GREEN;
-
             case 1:
                 return Color.RED;
             case 2:

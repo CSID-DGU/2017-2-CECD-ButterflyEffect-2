@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     private ImageView mDirectionView;
     private SkeletonView mSkeleton;
     private FrameLayout mPreview;
+    private BattleWorms mBattleWorms;
     public static boolean isSocketConnected = false;
 
     @Override
@@ -97,12 +98,12 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         });
 
         //BattleWorms 초기화
-        BattleWorms battleWorms = new BattleWorms(this);
+        mBattleWorms = new BattleWorms(this);
 
         // TCP & UDP 연결
         mSocket = SocketClient.getInstance();
         mSocket.setErrorCallback(this);
-        mSocket.setReceiveCallback(battleWorms);
+        mSocket.setReceiveCallback(mBattleWorms);
         mSocket.startTcpService();
 
 
@@ -127,6 +128,9 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                if(mBattleWorms.isPlaying())
+                   mSkeleton.setPlaying(true);
+
                 mSkeleton.drawSkeletons(keyPoints);
             }
         });

@@ -2,6 +2,8 @@ package csid.butterflyeffect.game;
 
 import android.util.Log;
 
+import com.unity3d.player.UnityPlayer;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -129,7 +131,9 @@ public class ReadyFilter {
                     userInfos.add(user);
 
                     Log.d("#####","new user added!");
+
                     //TODO unity spawn here.
+                    UnityPlayer.UnitySendMessage("Camera","Spawn",null );
                 }
 
             }

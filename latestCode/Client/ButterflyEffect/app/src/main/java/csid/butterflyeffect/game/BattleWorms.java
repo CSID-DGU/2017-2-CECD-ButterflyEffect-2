@@ -10,6 +10,7 @@ import csid.butterflyeffect.R;
 import csid.butterflyeffect.game.model.UserInfo;
 import csid.butterflyeffect.network.HandleReceiveData;
 import csid.butterflyeffect.ui.MainActivity;
+import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Utils;
 
 public class BattleWorms implements HandleReceiveData {
@@ -24,6 +25,7 @@ public class BattleWorms implements HandleReceiveData {
         isPlaying = false;
 
         readyFilter = new ReadyFilter(userInfos);
+        frameFilter = new FrameFilter(userInfos);
     }
 
     public ArrayList<UserInfo> getUserInfos() {
@@ -37,10 +39,14 @@ public class BattleWorms implements HandleReceiveData {
         //modify activity
         //activity.showData(data);
 
-        if(userInfos.size()<3) {
+        if(userInfos.size()< Constants.PLAYER_NUMBER) {
             //game ready logic
             ArrayList<Point2D[]> filteredData = readyFilter.filter(Utils.stringToKeyPoints(data));
             activity.drawSkeleton(filteredData);
+
+            if(userInfos.size()==Constants.PLAYER_NUMBER){
+                isPlaying = true;
+            }
         }
         else {
 
@@ -56,5 +62,9 @@ public class BattleWorms implements HandleReceiveData {
             UnityPlayer.UnitySendMessage("Camera","WormMoveAngle", Utils.degreesToStr(userAngle));
             activity.drawSkeleton(filteredKeyPoints);
         }
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
     }
 }

@@ -32,9 +32,6 @@ public class SkeletonView extends View {
                 Paint paint = new Paint();
 
                 Point2D[] userPoints = keyPoints.get(i);
-                float ratio_X = Constants.PREVIEW_WIDTH / Constants.CAMERA_WIDTH;
-                float ratio_Y = Constants.PREVIEW_HEIGHT / Constants.CAMERA_HEIGHT;
-
 
                 paint.setStrokeWidth(Constants.LINE_WIDTH);
                 paint.setColor(Utils.getColor(i));
@@ -61,7 +58,7 @@ public class SkeletonView extends View {
                 paint.setColor(Color.WHITE);
                 for(int j=0;j<userPoints.length;j++){
                     if(!(userPoints[j].x == 0 || userPoints[j].y == 0))
-                        canvas.drawCircle(ratio_X * (float) userPoints[j].x, ratio_Y * (float) userPoints[j].y, Constants.CIRCLE_RADIUS, paint);
+                        canvas.drawCircle((float) userPoints[j].x, (float) userPoints[j].y, Constants.CIRCLE_RADIUS, paint);
                 }
 
 

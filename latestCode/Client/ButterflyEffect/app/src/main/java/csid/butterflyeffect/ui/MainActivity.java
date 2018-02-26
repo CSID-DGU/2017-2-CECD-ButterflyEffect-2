@@ -38,8 +38,6 @@ import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Utils;
 
 public class MainActivity extends AppCompatActivity implements PreviewSurface.FrameHandler, HandleSocketError {
-
-
     private PreviewSurface mPriviewSurface;
 
     private Button mBtn;

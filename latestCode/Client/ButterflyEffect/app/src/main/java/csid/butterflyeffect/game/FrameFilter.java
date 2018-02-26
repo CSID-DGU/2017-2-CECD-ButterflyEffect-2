@@ -1,5 +1,7 @@
 package csid.butterflyeffect.game;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -21,35 +23,45 @@ public class FrameFilter {
         queue.add(data);
     }
 
-    /*
-    frame을 20장 검사하여 기준과 가장 근접한 포인트를 찾아 유저를 탐색한다.
-    탐색하는 과정에서 얻은 x,y 값을 모두 더하고 이에 대한 평균을 구해 새로운 기준을 정의한다.
-    */
-    public ArrayList<Point2D[]> filter(){
+    public void update(ArrayList<UserInfo> userInfo){
+        if(queue.size() >= Constants.QUEUE_SIZE) {
+            int userSize = userInfos.size();
+            Point2D[] sum = new Point2D[userSize];
+            for (int q = 0; q < Constants.QUEUE_SIZE; q++) {
+                ArrayList<Point2D[]> usersKeyPoints = queue.poll();
+                for (int user = 0; user < userSize; user++) {
+                    Point2D[] userKeyPoints = usersKeyPoints.get(user);
+                    sum[user].x += userKeyPoints[1].x;
+                    sum[user].y += userKeyPoints[1].y;
+                }
+            }
+            if (userSize != 0) {
+                for (int user = 0; user < userSize; user++) {
+                    userInfo.get(user).setNeck(new Point2D(sum[user].x / userSize, sum[user].y / userSize));
+                }
+            }
+        }else{
+            Log.d("QUEUE","Queue size is smaller than QUEUE_SIZE");
+        }
+    }
+
+    public ArrayList<Point2D[]> filter(ArrayList<Point2D[]> peopleKeyPoints){
         int userSize = userInfos.size();
         ArrayList<Point2D[]> result = new ArrayList<>();
         for(int user = 0; user < userSize; user++){
             int candidate = 0;
-            Point2D[] userInfo = userInfos.get(user).getKeyPoints();
-            //number 1 is body of user in OpenPose
-            double targetX = userInfo[1].x;
-            double targetY = userInfo[1].y;
-            //20장의 프레임 검사
-            //다수의 키 포인트(ex. 사람1, 사람2, 사람3, 사람4, 사람5....)
-            ArrayList<Point2D[]> peopleKeyPoints = queue.poll();
+            Point2D neck = userInfos.get(user).getNeck();
             int peopleSize = peopleKeyPoints.size();
             double min = Double.MAX_VALUE;
 
-            //한 명씩 뽑아내 검사
             for(int people = 0; people < peopleSize; people++){
                 Point2D[] keyPoints = peopleKeyPoints.get(people);
-                double distance = Math.sqrt(Math.pow((targetX - keyPoints[1].x),2) + Math.pow((targetY - keyPoints[1].y),2));
+                double distance = Math.sqrt(Math.pow((neck.x - keyPoints[1].x),2) + Math.pow((neck.y - keyPoints[1].y),2));
                 if(distance < min){
                     min = distance;
                     candidate = people;
                 }
             }
-            //가장 가까운 사람 선택
             result.add(peopleKeyPoints.get(candidate));
         }
         insert(result);

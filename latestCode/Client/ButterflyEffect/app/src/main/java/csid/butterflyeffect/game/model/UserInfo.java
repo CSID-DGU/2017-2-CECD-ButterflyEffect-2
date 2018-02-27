@@ -9,10 +9,20 @@ public class UserInfo {
     private Point2D nose,neck;
     private int userNumber;
     private boolean isPlaying;
+    private int score;
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 
     public UserInfo(int userNumber) {
         this.userNumber = userNumber;
         isPlaying = true;
+        score = 0;
     }
 
     public int getUserNumber() {

@@ -4,6 +4,8 @@ import com.unity3d.player.UnityPlayer;
 
 import java.util.ArrayList;
 
+import csid.butterflyeffect.game.filter.PlayFilter;
+import csid.butterflyeffect.game.filter.ReadyFilter;
 import csid.butterflyeffect.game.model.UserInfo;
 import csid.butterflyeffect.network.HandleReceiveData;
 import csid.butterflyeffect.ui.MainActivity;
@@ -21,8 +23,16 @@ public class BattleWorms implements HandleReceiveData {
         userInfos = new ArrayList<>();
         isPlaying = false;
 
-        readyFilter = new ReadyFilter(userInfos);
+        readyFilter = new ReadyFilter(userInfos,this);
         playFilter = new PlayFilter(userInfos);
+    }
+
+    public void requestUserUpdate(int position){
+        activity.updateUser(position);
+    }
+
+    public void requestUserUpdate(){
+        activity.updateUser();
     }
 
     public ArrayList<UserInfo> getUserInfos() {

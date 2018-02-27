@@ -10,6 +10,8 @@ import android.media.Image;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -26,14 +28,17 @@ import android.widget.Toast;
 import com.unity3d.player.UnityPlayer;
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import csid.butterflyeffect.PreviewSurface;
 import csid.butterflyeffect.R;
 import csid.butterflyeffect.game.BattleWorms;
 import csid.butterflyeffect.game.Point2D;
+import csid.butterflyeffect.game.model.UserInfo;
 import csid.butterflyeffect.network.HandleReceiveData;
 import csid.butterflyeffect.network.HandleSocketError;
 import csid.butterflyeffect.network.SocketClient;
+import csid.butterflyeffect.ui.adapter.UserAdapter;
 import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Utils;
 
@@ -49,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     private SkeletonView mSkeleton;
     private FrameLayout mPreview;
     private BattleWorms mBattleWorms;
+    private RecyclerView mRecyclerView;
+    private UserAdapter mAdapter;
     public static boolean isSocketConnected = false;
 
     @Override
@@ -66,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mDirectionView = (ImageView)findViewById(R.id.iv_direction);
         mSkeleton = (SkeletonView)findViewById(R.id.skeleton_view);
         mPreview = (FrameLayout)findViewById(R.id.fr_preview);
+
+        mRecyclerView = (RecyclerView)findViewById(R.id.rv_user);
 
         getWindow().setFormat(PixelFormat.UNKNOWN);
 
@@ -99,6 +108,13 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
         //BattleWorms 초기화
         mBattleWorms = new BattleWorms(this);
+
+        //setting recyclerView
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new UserAdapter(this,mBattleWorms.getUserInfos());
+        mRecyclerView.setAdapter(mAdapter);
+
 
         // TCP & UDP 연결
         mSocket = SocketClient.getInstance();
@@ -277,6 +293,50 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
     }
 
+    public void updateUser(final int position){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyItemChanged(position);
+            }
+        });
+    }
+
+    public void updateUser(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+
+    //it will be called from unity when a worm eat food.
+    //variable "1 27300" "ID SCORE"
+    public void updateScore(String str){
+        StringTokenizer st = new StringTokenizer(str," ");
+        int id = Integer.parseInt(st.nextToken());
+        int score = Integer.parseInt(st.nextToken());
+
+        int index = getItemIndex(id);
+        if(index != -1){
+            mBattleWorms.getUserInfos().get(index).setScore(score);
+            updateUser(index);
+        }
+
+    }
+
+    public int getItemIndex(int id){;
+        int index = -1;
+        ArrayList<UserInfo> userInfos = mBattleWorms.getUserInfos();
+        for(int i=0;i<userInfos.size();i++){
+            if(userInfos.get(i).getUserNumber()==id){
+                return i;
+            }
+        }
+        return index;
+    }
 
 
 

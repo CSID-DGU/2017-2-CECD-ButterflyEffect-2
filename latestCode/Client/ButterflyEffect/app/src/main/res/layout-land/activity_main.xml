@@ -31,9 +31,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
+                        android:orientation="vertical"
                         android:background="@color/blueGrey900"
                         >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1">
 
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="2"
+                            android:padding="5dp">
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/rv_user"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@android:color/black">
+                            </android.support.v7.widget.RecyclerView>
+
+                        </LinearLayout>
                     </LinearLayout>
                     <FrameLayout
                         android:id="@+id/fr_preview"

@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         FrameLayout layout = (FrameLayout)findViewById(R.id.fr_unityView);
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         layout.addView(mUnityPlayer.getView(), 0, lp);
-        mUnityPlayer.windowFocusChanged(true);
+        //mUnityPlayer.windowFocusChanged(true);
         mUnityPlayer.resume();
 
         //

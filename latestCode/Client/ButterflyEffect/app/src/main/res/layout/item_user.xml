@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         card_view:cardCornerRadius="4dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         >
@@ -21,8 +21,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:background="@color/blueGrey900"
           >
+            <View
+                android:id="@+id/color_view"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:background="@color/blueGrey900"
+
+                />
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -48,7 +54,7 @@
                 android:gravity="center_vertical|left">
                 <TextView
                     android:text="0"
-                    android:textColor="@color/white"
+                    android:textColor="@color/blueGrey900"
                     android:textStyle="bold"
                     android:id="@+id/tv_score"
                     android:layout_width="wrap_content"

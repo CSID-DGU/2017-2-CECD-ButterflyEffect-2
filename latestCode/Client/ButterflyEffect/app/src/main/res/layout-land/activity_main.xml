@@ -64,12 +64,6 @@
                             android:id="@+id/sv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
-                        <ImageView
-                            android:id="@+id/iv_direction"
-                            android:src="@drawable/ic_icon"
-                            android:layout_margin="10dp"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp" />
                         <Button
                             android:text="focus"
                             android:layout_gravity="right"

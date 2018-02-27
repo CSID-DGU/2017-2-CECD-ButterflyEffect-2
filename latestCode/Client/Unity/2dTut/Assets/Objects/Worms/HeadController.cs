@@ -13,6 +13,7 @@ public class HeadController : MonoBehaviour
 
     private int score = 0;
 
+    private static AndroidJavaObject _admobPlugin;
 
     private int Head_index=255;
     private Color tail_color = Color.black;
@@ -61,6 +62,8 @@ public class HeadController : MonoBehaviour
     // Tail Prefab
     public GameObject tailPrefab;
 
+    AndroidJavaClass pluginClass = new AndroidJavaClass("csid.butterflyeffect.ui.MainActivity");
+
 
     void Start()
     {
@@ -72,6 +75,8 @@ public class HeadController : MonoBehaviour
 
         for (int i = 0; i < 2; i++)
             tail_create(rb.position);
+
+      
 
     }
 
@@ -193,9 +198,9 @@ public class HeadController : MonoBehaviour
             score++;
 
             // Message to Android
+
             // Android에 점수 전송
-            AndroidJavaClass unityPlayer = new AndroidJavaClass("com.companyName.productName.MainActivity");
-            unityPlayer.Call("updateScore", Head_index + " " + score*250);
+            _admobPlugin.Call("updateScore", Head_index + " " + score * 250);
 
         }
         if (coll.name.StartsWith("tail") && !coll.name.EndsWith("["+Head_index+"]"))

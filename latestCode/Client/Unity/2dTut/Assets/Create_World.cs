@@ -57,7 +57,8 @@ public class Create_World : MonoBehaviour
         //화면 Size 조정. 높이 * pixel per unit /2;        
         camera.orthographicSize = i_height / ppu / 2;
 
-        //초록 빨강 파랑
+        //Typing "Spawn();" to test worms in Unity here
+
     }
 
     int person_num = 0;

@@ -62,6 +62,28 @@ public class MemoryPool : IEnumerable, System.IDisposable
             item.active = false;
             item.gameObject = GameObject.Instantiate(original) as GameObject;
             // original을 GameObject 형식으로 item.gameObject에 저장
+
+            item.gameObject.SetActive(false);
+            // SetActive는 활성화 함수인데 메모리에만 올릴 것이므로 비활성화 상태로 저장
+            table[i] = item;
+        }
+    }
+
+    public void Create(Object original, int count, Transform parent)
+    {
+        Dispose();    // 메모리풀 초기화
+        table = new Item[count]; // count 만큼 배열을 생성
+
+        for (int i = 0; i < count; i++) // count 만큼 반복
+        {
+            Item item = new Item();
+            item.active = false;
+            item.gameObject = GameObject.Instantiate(original) as GameObject;
+            // original을 GameObject 형식으로 item.gameObject에 저장
+
+            // parent 설정
+            item.gameObject.transform.SetParent(parent, true);
+
             item.gameObject.SetActive(false);
             // SetActive는 활성화 함수인데 메모리에만 올릴 것이므로 비활성화 상태로 저장
             table[i] = item;

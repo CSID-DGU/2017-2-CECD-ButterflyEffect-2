@@ -13,6 +13,8 @@ public class SpawnFood : MonoBehaviour {
     public Transform border_Left;
     public Transform border_Right;
 
+    public GameObject FoodParent;
+
     private bool FoodSpwanState; // Food spwan flag
 
     public int FoodMaxPool;     // Food count
@@ -35,7 +37,7 @@ public class SpawnFood : MonoBehaviour {
 
         // MemeoryPool Init
         MPool = new MemoryPool();
-        MPool.Create(food, FoodMaxPool);
+        MPool.Create(food, FoodMaxPool,FoodParent.transform);
 
         // Food 배열 초기화
         FoodprefabArray = new GameObject[FoodMaxPool];

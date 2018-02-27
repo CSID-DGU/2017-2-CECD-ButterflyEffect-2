@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 135442304239085134}
   - component: {fileID: 114298660164674908}
   m_Layer: 0
-  m_Name: Head
+  m_Name: Head f028220760f
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,11 +111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4702e37681366f479165f8db39c0c50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerspeedmult: 5
-  headspeed: 0.3
-  headcurspeed: 1.5
-  curspeed: 200
-  min_distance: 100
   angle_String: no angle
   tailPrefab: {fileID: 1312380224646624, guid: 1898f40fd4b863c4d8053111f615392d, type: 2}
 --- !u!135 &135442304239085134

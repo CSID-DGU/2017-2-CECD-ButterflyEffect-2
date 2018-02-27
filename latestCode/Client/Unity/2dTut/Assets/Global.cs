@@ -27,10 +27,10 @@ public static class Global
 
     //Worms Size
     public static float head_size_ratio = 0.05f;
-    public static float tail_size_ratio = 0.04f;
-
     public static float head_size = game_res_width * head_size_ratio;
-    public static float tail_ratio = 0.9f;
+
+    public static float tail_size_ratio = 0.04f;
+    public static float tail_size = game_res_width * tail_size_ratio;
 
     public static Color skyblue = new Color(0.3f, 0.3f, 1,1);
 

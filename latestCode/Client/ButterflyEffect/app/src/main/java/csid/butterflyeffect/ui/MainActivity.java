@@ -34,6 +34,7 @@ import csid.butterflyeffect.game.Point2D;
 import csid.butterflyeffect.network.HandleReceiveData;
 import csid.butterflyeffect.network.HandleSocketError;
 import csid.butterflyeffect.network.SocketClient;
+import csid.butterflyeffect.util.Comparator;
 import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Utils;
 
@@ -119,7 +120,10 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         //mUnityPlayer.windowFocusChanged(true);
         mUnityPlayer.resume();
 
-        //
+        //Test for processing images
+        Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.drawable.black_rectangle);
+        Bitmap bitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.red_rectangle);
+        Log.d("IMAGE", "Similarity: "+Comparator.compareTwoBitmaps(bitmap1, bitmap2)+"%");
 
     }
 

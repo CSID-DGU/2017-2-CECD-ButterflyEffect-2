@@ -82,7 +82,7 @@ public class HeadController : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.velocity = Vector3.zero;
+        rb.velocity = Vector3.zero;     
         Vector3 newpose = rb.position;
 
         rb.transform.Rotate(0f, 0f, z_rotate_angle * Time.deltaTime*headcurspeed_mult);

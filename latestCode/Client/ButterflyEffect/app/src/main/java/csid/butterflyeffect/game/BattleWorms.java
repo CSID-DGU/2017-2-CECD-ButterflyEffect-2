@@ -34,7 +34,7 @@ public class BattleWorms implements HandleReceiveData {
 
     @Override
     public void handleReceiveData(String data) {
-        Log.d("#####","receive:"+data);
+        //Log.d("#####","receive:"+data);
 
         //modify activity
         //activity.showData(data);

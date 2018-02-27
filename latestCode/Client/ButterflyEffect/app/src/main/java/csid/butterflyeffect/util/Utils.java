@@ -43,7 +43,7 @@ public class Utils {
     //sub method
     //transfer serverString to Point2D[] arraylists
     public static ArrayList<Point2D[]> stringToKeyPoints(String serverStr){
-        Log.d("STRING", serverStr);
+        //Log.d("STRING", serverStr);
 
         //TODO we have to sure that the data decided before we use it.
         float ratio_X = Constants.PREVIEW_WIDTH / Constants.CAMERA_WIDTH;

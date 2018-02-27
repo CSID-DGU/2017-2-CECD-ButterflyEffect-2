@@ -16,21 +16,24 @@ public class FrameFilter {
         userInfoList = new ArrayList<>();
     }
 
+    //
     public void update(){
         ArrayList<Point2D[]> recentInfo;
         Point2D[] temp = new Point2D[Constants.KEYPOINT_NUM];
         for(int i = 0; i < Constants.KEYPOINT_NUM; i++){
             temp[i] = new Point2D();
         }
+
         for(int user = 0; user < userInfos.size(); user++){
             recentInfo = userInfoList.get(userInfoList.size() -1);
             temp = recentInfo.get(user);
-            userInfos.get(user).setNeck(temp[1]);
+            userInfos.get(user).setNeck(temp[Constants.NECK]);
+            userInfos.get(user).setNose(temp[Constants.NOSE]);
         }
     }
 
     public Point2D[] getRecentUserInfo(int user){
-        ArrayList<Point2D[]> recentInfo = userInfoList.get(userInfoList.size());
+        ArrayList<Point2D[]> recentInfo = userInfoList.get(userInfoList.size()-1);
         return recentInfo.get(user);
     }
 
@@ -66,24 +69,11 @@ public class FrameFilter {
             Point2D neck = userInfos.get(user).getNeck();
             int candidate = -1;
             int peopleSize = peopleKeyPoints.size();
-            double min = 100000000;
+            double min = Integer.MAX_VALUE;
 
-            //If the OpenPose correctly detected the key points
-            if(neck.x != 0 && neck.y != 0) {
-                //Check all key points in frame to detect user
-                for (int people = 0; people < peopleSize; people++) {
-                    Point2D[] keyPoints = peopleKeyPoints.get(people);
-                    //Calculate the distance between user neck and person's neck in frame
-                    double distance = Utils.getDistance(neck, keyPoints[1]);
-                    //Select the nearest distance
-                    if (distance <= Constants.PLAYER_RADIUS && distance < min) {
-                        min = distance;
-                        candidate = people;
-                    }
-                }
-            }
+
             //If the OpenPose didn't detect correctly key points or User died
-            else if(neck.x == 0 && neck.y==0){
+            if(neck.x == 0 && neck.y==0){
                 //If the user had died
                 if(!userInfos.get(user).isPlaying()){
                     result.add(getNominalKeyPoint());
@@ -93,20 +83,39 @@ public class FrameFilter {
                 }
                 continue;
             }
+            //If the OpenPose correctly detected the key points
+            else{
+                //Check all key points in frame to detect user
+                for (int people = 0; people < peopleSize; people++) {
+                    Point2D[] keyPoints = peopleKeyPoints.get(people);
+                    //Calculate the distance between user neck and person's neck in frame
+                    double distance = Utils.getDistance(neck, keyPoints[Constants.NECK]);
+                    //Select the nearest distance
+                    if (distance <= Constants.PLAYER_RADIUS && distance < min) {
+                        min = distance;
+                        candidate = people;
+                    }
 
-            //If the filter didn't find the targeted user as the user was died or previous distance was too small.
-            if(candidate == -1) {
-                //If the user had died
-                if(!userInfos.get(user).isPlaying()){
-                    result.add(getNominalKeyPoint());
+
                 }
-                else {
-                    result.add(getRecentUserInfo(user));
+                //If the filter didn't find the targeted user as the user was died or previous distance was too small.
+                if(candidate == -1) {
+                    //If the user had died
+                    if(!userInfos.get(user).isPlaying()){
+                        result.add(getNominalKeyPoint());
+                    }
+                    else {
+                        result.add(getRecentUserInfo(user));
+                    }
                 }
+                //If the filter find the targeted user
+                else
+                    result.add(peopleKeyPoints.get(candidate));
+
             }
-            //If the filter find the targeted user
-            else
-                result.add(peopleKeyPoints.get(candidate));
+
+
+
         }
         //Save the best three people in frame
         insert(result);

@@ -62,11 +62,17 @@ public class HeadController : MonoBehaviour
     // Tail Prefab
     public GameObject tailPrefab;
 
-    AndroidJavaClass pluginClass = new AndroidJavaClass("csid.butterflyeffect.ui.MainActivity");
+
+    AndroidJavaClass jc; AndroidJavaObject jo;
 
 
     void Start()
     {
+        AndroidJavaClass jc = new AndroidJavaClass("csid.butterflyeffect.ui.MainActivity");
+        AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
+
+
+
         rb = gameObject.GetComponent<Rigidbody>();
         rb.transform.localScale = new Vector3(Global.head_size, Global.head_size, Global.head_size);
 
@@ -200,7 +206,7 @@ public class HeadController : MonoBehaviour
             // Message to Android
 
             // Android에 점수 전송
-            _admobPlugin.Call("updateScore", Head_index + " " + score * 250);
+            jo.Call("updateScore", Head_index + score * 10);
 
         }
         if (coll.name.StartsWith("tail") && !coll.name.EndsWith("["+Head_index+"]"))

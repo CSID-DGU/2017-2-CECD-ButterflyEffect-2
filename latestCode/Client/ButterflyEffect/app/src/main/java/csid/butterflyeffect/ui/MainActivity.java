@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.unity3d.player.UnityPlayer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.StringTokenizer;
 
 import csid.butterflyeffect.PreviewSurface;
@@ -50,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     private TextView mTcpDataView,mUserAngleView;
     private SocketClient mSocket;
     private UnityPlayer mUnityPlayer;
-    private ImageView mDirectionView;
     private SkeletonView mSkeleton;
     private FrameLayout mPreview;
     private BattleWorms mBattleWorms;
@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mBitmapView = (ImageView) findViewById(R.id.iv_bitmap);
         mTcpDataView = (TextView)findViewById(R.id.tv_tcp);
         mUserAngleView = (TextView)findViewById(R.id.tv_angle);
-        mDirectionView = (ImageView)findViewById(R.id.iv_direction);
         mSkeleton = (SkeletonView)findViewById(R.id.skeleton_view);
         mPreview = (FrameLayout)findViewById(R.id.fr_preview);
 
@@ -148,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                    mSkeleton.setPlaying(true);
 
                 mSkeleton.drawSkeletons(keyPoints);
+
             }
         });
     }
@@ -160,15 +160,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                 mTcpDataView.setText(data);
                 String userAngle = Utils.stringToDegree(data);
                 mUserAngleView.setText(userAngle);
-
-                ///
-                double firstAngle = Utils.getFristAngle(userAngle);
-                if(firstAngle>90){
-                    mDirectionView.setImageResource(R.drawable.ic_right);
-                }
-                else{
-                    mDirectionView.setImageResource(R.drawable.ic_left);
-                }
             }
         });
     }
@@ -315,6 +306,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     //it will be called from unity when a worm eat food.
     //variable "1 27300" "ID SCORE"
     public void updateScore(String str){
+        //Log.d("#####","updateScore!!!:"+str);
+
         StringTokenizer st = new StringTokenizer(str," ");
         int id = Integer.parseInt(st.nextToken());
         int score = Integer.parseInt(st.nextToken());
@@ -324,6 +317,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             mBattleWorms.getUserInfos().get(index).setScore(score);
             updateUser(index);
         }
+
+        //TODO 점수출력용 클래스 만들기 , (점수 유저정보 비트맵프로필)
 
     }
 

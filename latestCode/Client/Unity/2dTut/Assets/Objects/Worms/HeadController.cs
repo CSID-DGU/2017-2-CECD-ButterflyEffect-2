@@ -68,9 +68,6 @@ public class HeadController : MonoBehaviour
 
     void Start()
     {
-        AndroidJavaClass jc = new AndroidJavaClass("csid.butterflyeffect.ui.MainActivity");
-        AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
-
 
 
         rb = gameObject.GetComponent<Rigidbody>();
@@ -81,6 +78,9 @@ public class HeadController : MonoBehaviour
 
         for (int i = 0; i < 2; i++)
             tail_create(rb.position);
+        jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
+
 
       
 
@@ -206,7 +206,7 @@ public class HeadController : MonoBehaviour
             // Message to Android
 
             // Android에 점수 전송
-            jo.Call("updateScore", Head_index + score * 10);
+            jo.Call("updateScore", Head_index +" "+ score * 250);
 
         }
         if (coll.name.StartsWith("tail") && !coll.name.EndsWith("["+Head_index+"]"))

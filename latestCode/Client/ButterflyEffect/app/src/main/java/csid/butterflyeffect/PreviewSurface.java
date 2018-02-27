@@ -43,7 +43,7 @@ public class PreviewSurface extends CameraSurface implements
     }
 
     public void onPreviewFrame(byte[] paramArrayOfByte, Camera paramCamera) {
-        Log.d("#####", "size:" + paramArrayOfByte.length);
+        //Log.d("#####", "size:" + paramArrayOfByte.length);
         try {
             Size size = paramCamera.getParameters().getPreviewSize();
             // use "image.compressToJpeg()" to change image data format from "YUV" to "jpg"

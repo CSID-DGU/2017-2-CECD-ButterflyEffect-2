@@ -26,7 +26,7 @@ public class HeadController : MonoBehaviour
     private float headcurspeed_mult = Global.init_headcurspeed_mult;
 
     //머리 회전 각도
-    private float z_rotate_angle = 0.0f;
+    private float z_rotate_angle = 180.0f;
 
     public void Z_rotate_update(float z_angle)
     {
@@ -54,7 +54,7 @@ public class HeadController : MonoBehaviour
     List<Transform> tail = new List<Transform>();
 
     //Did worm eat something?
-    bool ate = false;
+    int ate = 2;
 
     //Did worm collide with other worms tail
     bool die = false;
@@ -67,6 +67,9 @@ public class HeadController : MonoBehaviour
     {
         rb = gameObject.GetComponent<Rigidbody>();
         rb.transform.localScale = new Vector3(Global.head_size, Global.head_size, Global.head_size);
+
+        for(int i = 0; i < 2; i++)
+        tail_create(rb.position);
     }
 
     void FixedUpdate()
@@ -122,20 +125,9 @@ public class HeadController : MonoBehaviour
 
         // 3. Food CHK
         // Ate something? Then insert new Element into gap
-        if (ate)
+        if (ate<=0)
         {
-            // Load Prefab into the world
-            GameObject g = (GameObject)Instantiate(tailPrefab,
-                                                  newpose,
-                                                  Quaternion.identity);
-
-            g.GetComponent<MeshRenderer>().material.color = tail_color;
-
-            // Keep track of it in our tail list
-            tail.Insert(tail.Count, g.transform);
-
-            // Reset the flag
-            ate = false;
+            tail_create(newpose);
         }
         // 4. Collide head -> tail CHK
         if(die)
@@ -151,6 +143,23 @@ public class HeadController : MonoBehaviour
         }
     }
 
+    void tail_create(Vector3 newpose)
+    {
+        // Load Prefab into the world
+        GameObject g = (GameObject)Instantiate(tailPrefab,
+                                              newpose,
+                                              Quaternion.identity);
+
+        g.GetComponent<MeshRenderer>().material.color = tail_color;
+
+        // Keep track of it in our tail list
+        tail.Insert(tail.Count, g.transform);
+
+        // Reset the flag
+        ate = 2;
+
+    }
+
     void OnTriggerEnter(Collider coll)
     {
 
@@ -158,7 +167,7 @@ public class HeadController : MonoBehaviour
         if (coll.name.StartsWith("FoodPrefab"))
         {
             // Get longer in next Move call
-            ate = true;
+            --ate;
 
             coll.enabled = false;
         } 

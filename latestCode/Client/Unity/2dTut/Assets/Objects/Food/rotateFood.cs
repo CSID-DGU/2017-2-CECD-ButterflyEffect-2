@@ -13,7 +13,7 @@ public class rotateFood: MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        food.transform.Rotate(0f, 0f, 1.0f);
+        food.transform.Rotate(0.0f, 0.0f, 1.0f);
 
     }
 }

@@ -103,7 +103,6 @@ public class SpawnFood : MonoBehaviour {
     {
         FoodSpwanState = false;
         yield return new WaitForSeconds(FoodspwanDelay);
-        Debug.Log("is triggered? : "+ FoodspwanDelay);
         FoodSpwanState = true;
     }
 

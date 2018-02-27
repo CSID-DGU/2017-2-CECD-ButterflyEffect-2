@@ -12,7 +12,7 @@ public class Head_List : MonoBehaviour
 
     public GameObject Worms;
     List<GameObject> WormsList = new List<GameObject>();
-    private float angle = 90f;
+    private float angle = 0f;
     private float[] z_rotate_angle = { 0f, 0f, 0f };
     int person_num;
 
@@ -52,9 +52,6 @@ public class Head_List : MonoBehaviour
 
         WormsList[i].GetComponent<HeadController>().Head_index_set(i);
         WormsList[i].GetComponent<MeshRenderer>().material.color = Global.player_Color[i];
-
-
-
 
     }
 

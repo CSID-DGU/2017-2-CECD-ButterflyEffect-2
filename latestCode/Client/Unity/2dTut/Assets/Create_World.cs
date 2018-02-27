@@ -58,7 +58,7 @@ public class Create_World : MonoBehaviour
         camera.orthographicSize = i_height / ppu / 2;
 
         //Typing "Spawn();" to test worms in Unity here
-
+        Spawn();
     }
 
     int person_num = 0;
@@ -68,6 +68,8 @@ public class Create_World : MonoBehaviour
     {
         //person_num = int.Parse(player_count);
         HList.Spawn_Head(person_num++);
+
+       
     }
 
 }

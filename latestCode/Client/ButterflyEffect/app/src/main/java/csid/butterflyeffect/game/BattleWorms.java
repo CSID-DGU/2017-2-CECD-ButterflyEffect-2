@@ -1,12 +1,9 @@
 package csid.butterflyeffect.game;
 
-import android.util.Log;
-
 import com.unity3d.player.UnityPlayer;
 
 import java.util.ArrayList;
 
-import csid.butterflyeffect.R;
 import csid.butterflyeffect.game.model.UserInfo;
 import csid.butterflyeffect.network.HandleReceiveData;
 import csid.butterflyeffect.ui.MainActivity;
@@ -16,7 +13,7 @@ import csid.butterflyeffect.util.Utils;
 public class BattleWorms implements HandleReceiveData {
     private MainActivity activity;
     private ArrayList<UserInfo> userInfos;
-    private FrameFilter frameFilter;
+    private PlayFilter playFilter;
     private ReadyFilter readyFilter;
     private boolean isPlaying;
     public BattleWorms(MainActivity activity){
@@ -25,7 +22,7 @@ public class BattleWorms implements HandleReceiveData {
         isPlaying = false;
 
         readyFilter = new ReadyFilter(userInfos);
-        frameFilter = new FrameFilter(userInfos);
+        playFilter = new PlayFilter(userInfos);
     }
 
     public ArrayList<UserInfo> getUserInfos() {
@@ -51,7 +48,7 @@ public class BattleWorms implements HandleReceiveData {
         else {
             //TODO game start..(at this moment, It is decided how many people will play)
             //activity.showData(data);
-            ArrayList<Point2D[]> filteredKeyPoints = frameFilter.filter(Utils.stringToKeyPoints(data));
+            ArrayList<Point2D[]> filteredKeyPoints = playFilter.filter(Utils.stringToKeyPoints(data));
             int people = filteredKeyPoints.size();
             double[] userAngle = new double[people];
             for(int person = 0; person < people; person++) {

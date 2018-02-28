@@ -148,7 +148,6 @@ public class PlayFilter {
         //Update the old key points to new key points to draw correct skeletons.
         update();
 
-        //see if the source tree bugs are clear
         //Return the result, result has key points of user1, user2, user3
         return rtnPoints;
     }

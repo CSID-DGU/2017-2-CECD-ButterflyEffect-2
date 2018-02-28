@@ -30,7 +30,7 @@ public class Head_List : MonoBehaviour
 
         for (int i = 1; i <= person_num; i++)
         {
-            z_rotate_angle[i - 1] = -(float.Parse(str[i]) - 90)*2;
+            z_rotate_angle[i - 1] = -(float.Parse(str[i]) - 90) * 2;
         }
 
     }

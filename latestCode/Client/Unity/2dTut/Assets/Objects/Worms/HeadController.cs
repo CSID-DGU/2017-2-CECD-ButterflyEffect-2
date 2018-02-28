@@ -5,7 +5,7 @@ using UnityEngine;
 using System;
 
 public class HeadController : MonoBehaviour
-{ 
+{
     private Rigidbody rb;
     private Transform curtail;
     private Transform prevtail;
@@ -15,7 +15,7 @@ public class HeadController : MonoBehaviour
 
     private static AndroidJavaObject _admobPlugin;
 
-    private int Head_index=255;
+    private int Head_index = 255;
     private Color tail_color = Color.black;
 
     public void Head_index_set(int id)
@@ -82,42 +82,42 @@ public class HeadController : MonoBehaviour
         jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
 
 
-      
+
 
     }
 
     void FixedUpdate()
     {
-        rb.velocity = Vector3.zero;     
+        rb.velocity = Vector3.zero;
         Vector3 newpose = rb.position;
 
-        rb.transform.Rotate(0f, 0f, z_rotate_angle * Time.deltaTime*headcurspeed_mult);
+        rb.transform.Rotate(0f, 0f, z_rotate_angle * Time.deltaTime * headcurspeed_mult);
 
         rb.transform.Translate(Mathf.Cos(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed_mult, Mathf.Sin(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed_mult, 0.0f);
-        
+
         // 2.Move Tail to follow head
         if (tail.Count > 0)
         {
 
-            dis = Vector3.Distance(rb.position, tail[0].transform.position) -Global.min_distance;
-            float T = Time.deltaTime * (dis* dis / 160) * Global.tail_curspeed;
+            dis = Vector3.Distance(rb.position, tail[0].transform.position) - Global.min_distance;
+            float T = Time.deltaTime * (dis * dis / 160) * Global.tail_curspeed;
 
 
             if (T > 200.0f)
                 T = 200.0f;
-            else if(T<0f)
-                    T = 0;
+            else if (T < 0f)
+                T = 0;
 
-           // float temp = rb.transform.localScale.x * Global.tail_ratio;
+            // float temp = rb.transform.localScale.x * Global.tail_ratio;
             tail[0].transform.position = Vector3.MoveTowards(tail[0].transform.position, newpose, T);
 
-          //  tail[0].transform.localScale = new Vector3(temp, temp, temp);
+            //  tail[0].transform.localScale = new Vector3(temp, temp, temp);
 
             for (int i = 1; i < tail.Count; i++)
             {
 
-                
-                
+
+
                 curtail = tail[i].transform;
                 prevtail = tail[i - 1].transform;
 
@@ -128,8 +128,8 @@ public class HeadController : MonoBehaviour
 
                 T = Time.deltaTime * (dis * dis / 160) * Global.tail_curspeed;
 
- 
-                
+
+
                 if (T > 200.0f)
                     T = 200.0f;
                 else if (T < 0f)
@@ -176,7 +176,7 @@ public class HeadController : MonoBehaviour
 
         g.GetComponent<MeshRenderer>().material.color = tail_color;
 
-        g.name =  "tail" + "[" + Head_index + "]";
+        g.name = "tail" + "[" + Head_index + "]";
 
         // parent 설정
         // g.gameObject.transform.SetParent(rb.transform, true);
@@ -206,12 +206,12 @@ public class HeadController : MonoBehaviour
             // Message to Android
 
             // Android에 점수 전송
-            jo.Call("updateScore", Head_index +" "+ score * 250);
+            jo.Call("updateScore", Head_index + " " + score * 250);
 
         }
-        if (coll.name.StartsWith("tail") && !coll.name.EndsWith("["+Head_index+"]"))
+        if (coll.name.StartsWith("tail") && !coll.name.EndsWith("[" + Head_index + "]"))
         {
-           
+
             // Message to Android
             // Android에 해당 지렁이가 죽었음을 전송
             // AndroidJavaClass unityPlayer = new AndroidJavaClass("Android(java)Function 이 있는 패키지 이름 들어갈 곳");

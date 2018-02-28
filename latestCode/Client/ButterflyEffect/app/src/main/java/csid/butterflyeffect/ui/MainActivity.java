@@ -315,8 +315,10 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         int index = getItemIndex(id);
         if(index != -1){
             mBattleWorms.getUserInfos().get(index).setScore(score);
-            updateUser(index);
+            //updateUser(index);
         }
+        Collections.sort(mBattleWorms.getUserInfos());
+        updateUser();
 
         //TODO 점수출력용 클래스 만들기 , (점수 유저정보 비트맵프로필)
 

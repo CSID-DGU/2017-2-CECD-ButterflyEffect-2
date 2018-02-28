@@ -27,7 +27,7 @@ public class ReadyFilter {
         this.battleWorms = battleWorms;
         list = new ArrayList<>();
         userKeypoints = new ArrayList<>();
-        for(int i=0;i<3;i++){
+        for(int i=0;i<Constants.PLAYER_NUMBER;i++){
             Point2D[] keypoint = new Point2D[Constants.KEYPOINT_NUM];
             for(int j=0;j<Constants.KEYPOINT_NUM;j++){
                 keypoint[j] = new Point2D();

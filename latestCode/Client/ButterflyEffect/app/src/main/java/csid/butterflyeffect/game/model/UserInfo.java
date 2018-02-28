@@ -1,11 +1,13 @@
 package csid.butterflyeffect.game.model;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 
 import csid.butterflyeffect.game.Point2D;
 import csid.butterflyeffect.util.Constants;
 
-public class UserInfo {
+public class UserInfo implements Comparable<UserInfo>{
     private Point2D nose,neck;
     private int userNumber;
     private boolean isPlaying;
@@ -55,5 +57,10 @@ public class UserInfo {
 
     public void setNeck(Point2D neck) {
         this.neck = neck;
+    }
+
+    @Override
+    public int compareTo(@NonNull UserInfo o) {
+        return o.score-score;
     }
 }

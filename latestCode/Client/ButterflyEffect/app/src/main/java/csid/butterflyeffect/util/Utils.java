@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import csid.butterflyeffect.game.Point2D;
+import csid.butterflyeffect.game.model.UserInfo;
 
 /**
  * Created by hanseungbeom on 2018. 1. 28..
@@ -127,5 +128,23 @@ public class Utils {
 
     public static double getDistance(Point2D p1, Point2D p2){
         return Math.sqrt((p1.x-p2.x)*(p1.x-p2.x)+ (p1.y-p2.y)*(p1.y-p2.y));
+    }
+
+    public static ArrayList<Point2D[]> getPlainKeyPoint(ArrayList<UserInfo> users)
+    {
+        ArrayList<Point2D[]> userKeypoints = new ArrayList<>();
+        
+         for(int user=0;user<users.size();user++){
+                Point2D[] keypoint = new Point2D[Constants.KEYPOINT_NUM];
+                for(int i=0;i<Constants.KEYPOINT_NUM;i++){
+                    if(i==Constants.NECK)
+                        keypoint[i] = users.get(user).getNeck();
+                    else
+                        keypoint[i] = new Point2D();
+                }
+                userKeypoints.add(keypoint);
+        }
+
+        return userKeypoints;
     }
 }

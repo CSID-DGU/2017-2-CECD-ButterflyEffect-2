@@ -55,6 +55,26 @@ public class Head_List : MonoBehaviour
 
     }
 
+    public void WormBoost(string boost)
+    {
+        //tokenize string
+        string[] str = boost.Split(' ');
+
+        int worm_no = int.Parse(str[0]);
+
+        bool boost_enable = bool.Parse(str[1]);
+
+        if (boost_enable == true)
+        {
+            HeadController headController = WormsList[worm_no].GetComponent<HeadController>();
+            headController.boost_enable();
+        }
+
+        
+
+
+    }
+
     // Update is called once per frame
     void Update()
     {

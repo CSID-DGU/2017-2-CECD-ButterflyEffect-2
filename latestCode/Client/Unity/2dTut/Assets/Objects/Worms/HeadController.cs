@@ -10,13 +10,17 @@ public class HeadController : MonoBehaviour
     private Transform curtail;
     private Transform prevtail;
     private float dis;
-
     private int score = 0;
-
     private static AndroidJavaObject _admobPlugin;
-
     private int Head_index = 255;
     private Color tail_color = Color.black;
+
+    private float boost_mult = 1.0f;
+
+    public void boost_enable()
+    {
+        boost_mult = 1.3f;
+    }
 
     public void Head_index_set(int id)
     {
@@ -93,7 +97,7 @@ public class HeadController : MonoBehaviour
 
         rb.transform.Rotate(0f, 0f, z_rotate_angle * Time.deltaTime * headcurspeed_mult);
 
-        rb.transform.Translate(Mathf.Cos(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed_mult, Mathf.Sin(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed_mult, 0.0f);
+        rb.transform.Translate(Mathf.Cos(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed_mult, Mathf.Sin(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed_mult * boost_mult, 0.0f);
 
         // 2.Move Tail to follow head
         if (tail.Count > 0)
@@ -165,6 +169,8 @@ public class HeadController : MonoBehaviour
         //  Destroy()
         }
         */
+
+        if (boost_mult > 1.0f) boost_mult *= 0.9f* Time.deltaTime;
     }
 
     void tail_create(Vector3 newpose)

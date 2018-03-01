@@ -72,7 +72,6 @@ public class Utils {
 
     //sub method
     //transfer Point2D[] to degree
-    //TODO keyPoints 를 받아서 필요한 것만 써서 각을 구해야 함. 코와 목을 잇는 직선과 기울기가 0인 직선과의 각
     public static double getDegree(Point2D[] keyPoints){
         double degree = 0;
         Point2D nose = keyPoints[Constants.NOSE];
@@ -88,6 +87,26 @@ public class Utils {
         //각도 계산
         return degree;
     }
+
+    //if two elbows points are above your body.
+    public static boolean getBoost(Point2D[] keyPoints){
+        double a,b;
+        boolean boost;
+        if(keyPoints[Constants.L_ELBOW].x==keyPoints[Constants.R_ELBOW].x){
+             return true;
+        }
+        else{
+            a = (keyPoints[Constants.L_ELBOW].y-keyPoints[Constants.R_ELBOW].y)/(keyPoints[Constants.L_ELBOW].x-keyPoints[Constants.R_ELBOW].x);
+            b = keyPoints[Constants.L_ELBOW].y-a*keyPoints[Constants.L_ELBOW].x;
+            if( keyPoints[Constants.NECK].y >a*keyPoints[Constants.NECK].x + b)
+               return true;
+            else
+               return false;
+
+        }
+    }
+
+
     public static int getColor(int index){
         switch (index){
             case 0:
@@ -112,6 +131,15 @@ public class Utils {
         return rtnStr;
     }
 
+    //transfer boost[] to "2 1 0"
+    public static String boostToStr(boolean[] degrees){
+        String rtnStr = "";
+        rtnStr += String.valueOf(degrees.length)+" ";
+        for(int i=0;i<degrees.length;i++)
+            rtnStr+= (degrees[i])?"1 ":"0 ";
+
+        return rtnStr;
+    }
 
     public static double getFristAngle(String str){
         StringTokenizer st = new StringTokenizer(str," " );

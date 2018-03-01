@@ -1,5 +1,7 @@
 package csid.butterflyeffect.game;
 
+import android.util.Log;
+
 import com.unity3d.player.UnityPlayer;
 
 import java.util.ArrayList;
@@ -58,16 +60,34 @@ public class BattleWorms implements HandleReceiveData {
             }
         }
         else {
-            //TODO game start..(at this moment, It is decided how many people will play)
-            //activity.showData(data);
+            //game start..(at this moment, It is decided how many people will play)
+            //filteredKeyPoints guarantees the order of user.
             ArrayList<Point2D[]> filteredKeyPoints = playFilter.filter(Utils.stringToKeyPoints(data));
             int people = filteredKeyPoints.size();
             double[] userAngle = new double[people];
+            boolean[] userBoost = new boolean[people];
             for(int person = 0; person < people; person++) {
                 userAngle[person] = Utils.getDegree(filteredKeyPoints.get(person));
+                userBoost[person] = Utils.getBoost(filteredKeyPoints.get(person));
             }
-            //format : "Usercount angle1 angle2 angle3 angle3 ... "
-            UnityPlayer.UnitySendMessage("Camera","WormMoveAngle", Utils.degreesToStr(userAngle));
+            //format : "Usercount angle1 angle2 angle3  ... "
+            UnityConnector.updateUserAngle(Utils.degreesToStr(userAngle));
+            //format : "Usercount boost1 boost2 boost3  ... "
+
+            UnityConnector.updateUserBoost(Utils.boostToStr(userBoost));
+
+            //update boost view
+            for(int i=0;i<Constants.PLAYER_NUMBER;i++){
+                for(int j=0;j<userBoost.length;j++){
+                    if(userInfos.get(i).getUserNumber()==j) {
+                        userInfos.get(i).setBoost(userBoost[j]);
+                        j=userBoost.length;
+                    }
+                }
+            }
+            activity.updateUser();
+
+            //draw skeleton
             activity.drawSkeleton(filteredKeyPoints);
         }
     }

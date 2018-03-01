@@ -1,5 +1,7 @@
 package csid.butterflyeffect.ui.adapter;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,11 +38,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     @Override
-    public void onBindViewHolder(UserViewHolder holder, int position) {
+    public void onBindViewHolder(final UserViewHolder holder, int position) {
         UserInfo userInfo = userInfos.get(position);
         holder.score.setText(String.valueOf(userInfo.getScore()));
         holder.background.setBackgroundColor(Utils.getColor(userInfo.getUserNumber()));
        //holder.profile.setImageBitmap(userInfo.getProfile());
+
+        //boost view
+        boolean isBoost = userInfo.isBoost();
+        if(isBoost){
+            holder.boost.setBackgroundColor(mContext.getResources().getColor(R.color.material_red));
+        }
+        else
+            holder.boost.setBackgroundColor(mContext.getResources().getColor(R.color.black_semi_transparent70));
 
     }
 
@@ -57,13 +67,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         TextView score;
         CircleImageView profile;
         View background;
+        LinearLayout boost;
 
         public UserViewHolder(View itemView) {
             super(itemView);
             score = (TextView)itemView.findViewById(R.id.tv_score);
             profile = (CircleImageView)itemView.findViewById(R.id.iv_user_profile);
             background = (View)itemView.findViewById(R.id.color_view);
-
+            boost = (LinearLayout)itemView.findViewById(R.id.ll_boost_view);
         }
 
         @Override

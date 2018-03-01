@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import csid.butterflyeffect.game.BattleWorms;
 import csid.butterflyeffect.game.Point2D;
+import csid.butterflyeffect.game.UnityConnector;
 import csid.butterflyeffect.game.model.UserInfo;
 import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Utils;
@@ -133,9 +134,7 @@ public class ReadyFilter {
                     userInfos.add(user);
 
                     Log.d("#####","new user added!");
-
-                    //TODO unity spawn here.
-                    UnityPlayer.UnitySendMessage("Camera","Spawn","" );
+                    UnityConnector.createWorms();
                     battleWorms.requestUserUpdate();
                 }
 

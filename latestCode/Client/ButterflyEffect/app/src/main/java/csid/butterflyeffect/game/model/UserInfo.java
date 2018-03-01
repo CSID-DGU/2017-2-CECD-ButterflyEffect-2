@@ -11,6 +11,7 @@ public class UserInfo implements Comparable<UserInfo>{
     private Point2D nose,neck;
     private int userNumber;
     private boolean isPlaying;
+    private boolean isBoost;
     private int score;
 
     public int getScore() {
@@ -24,6 +25,7 @@ public class UserInfo implements Comparable<UserInfo>{
     public UserInfo(int userNumber) {
         this.userNumber = userNumber;
         isPlaying = true;
+        isBoost = false;
         score = 0;
     }
 
@@ -57,6 +59,14 @@ public class UserInfo implements Comparable<UserInfo>{
 
     public void setNeck(Point2D neck) {
         this.neck = neck;
+    }
+
+    public boolean isBoost() {
+        return isBoost;
+    }
+
+    public void setBoost(boolean boost) {
+        isBoost = boost;
     }
 
     @Override

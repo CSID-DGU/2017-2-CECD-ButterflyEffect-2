@@ -72,9 +72,7 @@ public class BattleWorms implements HandleReceiveData {
             }
             //format : "Usercount angle1 angle2 angle3  ... "
             UnityConnector.updateUserAngle(Utils.degreesToStr(userAngle));
-            //format : "Usercount boost1 boost2 boost3  ... "
-
-            UnityConnector.updateUserBoost(Utils.boostToStr(userBoost));
+            UnityConnector.updateUserBoost(userBoost);
 
             //update boost view
             for(int i=0;i<Constants.PLAYER_NUMBER;i++){

@@ -19,7 +19,10 @@ public class HeadController : MonoBehaviour
 
     public void boost_enable()
     {
-        boost_mult = 1.3f;
+        boost_mult = 1.8f;
+    }
+    public void boost_unable(){
+        boost_mult = 1.0f;
     }
 
     public void Head_index_set(int id)
@@ -170,7 +173,7 @@ public class HeadController : MonoBehaviour
         }
         */
 
-        if (boost_mult > 1.0f) boost_mult *= 0.9f* Time.deltaTime;
+        //if (boost_mult > 1.0f) boost_mult *= 0.9f* Time.deltaTime;
     }
 
     void tail_create(Vector3 newpose)

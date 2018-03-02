@@ -64,10 +64,13 @@ public class Head_List : MonoBehaviour
 
         bool boost_enable = bool.Parse(str[1]);
 
+        HeadController headController = WormsList[worm_no].GetComponent<HeadController>();
         if (boost_enable == true)
         {
-            HeadController headController = WormsList[worm_no].GetComponent<HeadController>();
             headController.boost_enable();
+        }
+        else{
+            headController.boost_unable();
         }
 
         

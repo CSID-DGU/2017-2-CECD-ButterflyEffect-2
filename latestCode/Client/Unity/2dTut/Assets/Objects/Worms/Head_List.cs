@@ -62,20 +62,15 @@ public class Head_List : MonoBehaviour
 
         int worm_no = int.Parse(str[0]);
 
-        bool boost_enable = bool.Parse(str[1]);
-
-        HeadController headController = WormsList[worm_no].GetComponent<HeadController>();
-        if (boost_enable == true)
-        {
-            headController.boost_enable();
+        for (int i = 0; i < worm_no;i++){
+            HeadController headController = WormsList[i].GetComponent<HeadController>();
+            if(bool.Parse(str[i+1])){
+                headController.boost_enable();
+            }
+            else{
+                headController.boost_unable();
+            }
         }
-        else{
-            headController.boost_unable();
-        }
-
-        
-
-
     }
 
     // Update is called once per frame

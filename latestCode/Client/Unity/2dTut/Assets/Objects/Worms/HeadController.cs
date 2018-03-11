@@ -6,6 +6,8 @@ using System;
 
 public class HeadController : MonoBehaviour
 {
+    public GameObject food;
+
     private Rigidbody rb;
     private Transform curtail;
     private Transform prevtail;
@@ -161,10 +163,15 @@ public class HeadController : MonoBehaviour
         {
             foreach(GameObject o in tail)
             {
+                SpawnFood_die(o.transform);
+                
                 Destroy(o);
             }
 
+            jo.Call("updateDie", "" + Head_index);
             Destroy(gameObject);
+
+
             //지렁이가 죽었음을 Android에게 전달
         //   AndroidJavaClass unityPlayer = new AndroidJavaClass("Android(java)Function 이 있는 패키지 이름 들어갈 곳");
         //    unityPlayer.Call("함수 이름", "메세지");
@@ -194,7 +201,7 @@ public class HeadController : MonoBehaviour
         tail.Insert(tail.Count, g);
 
         // Reset the flag
-        ate = 2;
+        ate += 2;
 
 
     }
@@ -206,7 +213,7 @@ public class HeadController : MonoBehaviour
         if (coll.name.StartsWith("FoodPrefab"))
         {
             // Get longer in next Move call
-            --ate;
+            ate-=30;
 
             coll.enabled = false;
 
@@ -217,6 +224,18 @@ public class HeadController : MonoBehaviour
             // Android에 점수 전송
             jo.Call("updateScore", Head_index + " " + score * 250);
 
+        }
+        if (coll.name.StartsWith("fd"))
+        {
+            --ate;
+
+            coll.enabled = false;
+             
+            score++;
+
+            Destroy(coll.gameObject);
+
+            jo.Call("updateScore", Head_index + " " + score * 250);
         }
         if (coll.name.StartsWith("tail") && !coll.name.EndsWith("[" + Head_index + "]"))
         {
@@ -230,6 +249,31 @@ public class HeadController : MonoBehaviour
 
         }
         // Collided with Tail or Border
+
+    }
+
+    public void SpawnFood_die(Transform tf)
+    {
+
+
+        //x position between left and right border
+        float x = (float)UnityEngine.Random.Range(-boost_mult, boost_mult);
+        //y position between top and bottom border
+        float y = (float)UnityEngine.Random.Range(-boost_mult, boost_mult);
+
+        float z = -3f;
+
+
+        Transform fd =  Instantiate(food, new Vector3(tf.position.x, tf.position.y, z),
+            Quaternion.identity).transform; // default rotation
+
+
+        fd.GetComponent<MeshRenderer>().material.color = Global.player_Color[Head_index];
+
+        fd.Translate(x,y, 0);
+
+        fd.name = "fd";
+
 
     }
 }

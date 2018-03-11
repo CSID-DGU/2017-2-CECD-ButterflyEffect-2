@@ -35,7 +35,7 @@ public static class Global
     public static Color skyblue = new Color(0.3f, 0.3f, 1,1);
 
     //Wroms color (readonly = final
-    public static readonly Color[] player_Color = { Color.green, Color.red, skyblue };
+    public static readonly Color[] player_Color = { Color.green, Color.red, skyblue , Color.yellow , Color.cyan };
 
    
 

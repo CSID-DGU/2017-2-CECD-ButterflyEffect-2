@@ -107,6 +107,7 @@ public class SpawnFood : MonoBehaviour {
     }
 
 
+
     /* Food don't need to be updated per frame
     // Update is called once per frame
     void Update()

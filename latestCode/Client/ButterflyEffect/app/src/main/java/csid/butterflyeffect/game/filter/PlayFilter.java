@@ -98,7 +98,7 @@ public class PlayFilter {
                 //If the OpenPose didn't detect correctly key points or User died
                 if (neck.x == 0 && neck.y == 0) {
                     //If the user had died
-                    result[userNumber] = getRecentUserInfo(user);
+                    result[userNumber] = getRecentUserInfo(userNumber);
                 }
                 //If the OpenPose correctly detected the key points
                 else {
@@ -109,7 +109,7 @@ public class PlayFilter {
                         double distanceNeck = Utils.getDistance(neck, keyPoints[Constants.NECK]);
                         //double distanceNose = Utils.getDistance(nose, keyPoints[Constants.NOSE]);
                         //Select the nearest distance
-                        if (distanceNeck < minNeck) {
+                        if (distanceNeck < Constants.PLAYER_RADIUS && distanceNeck < minNeck) {
                             minNeck = distanceNeck;
                             candidate = people;
                         }
@@ -117,7 +117,7 @@ public class PlayFilter {
                     //If the filter didn't find the targeted user as the user was died or previous distance was too small.
                     if (candidate == -1) {
                         //If the user had died
-                        result[userNumber] = getRecentUserInfo(user);
+                        result[userNumber] = getRecentUserInfo(userNumber);
                     }
                     //If the filter find the targeted user
                     else {

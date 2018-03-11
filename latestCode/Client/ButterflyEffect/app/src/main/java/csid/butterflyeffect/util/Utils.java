@@ -1,6 +1,5 @@
 package csid.butterflyeffect.util;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -90,19 +89,25 @@ public class Utils {
     }
 
     //if two elbows points are above your body.
-    public static boolean getBoost(Point2D[] keyPoints){
+
+    public static boolean isRaisingHands(Point2D[] keyPoints){
         double a,b;
         boolean boost;
+
+        if(keyPoints[Constants.L_ELBOW].x * keyPoints[Constants.L_ELBOW].y==0 ||
+                keyPoints[Constants.R_ELBOW].x * keyPoints[Constants.R_ELBOW].y==0)
+            return false;
+
         if(keyPoints[Constants.L_ELBOW].x==keyPoints[Constants.R_ELBOW].x){
-             return true;
+            return true;
         }
         else{
             a = (keyPoints[Constants.L_ELBOW].y-keyPoints[Constants.R_ELBOW].y)/(keyPoints[Constants.L_ELBOW].x-keyPoints[Constants.R_ELBOW].x);
             b = keyPoints[Constants.L_ELBOW].y-a*keyPoints[Constants.L_ELBOW].x;
             if( keyPoints[Constants.NECK].y >a*keyPoints[Constants.NECK].x + b)
-               return true;
+                return true;
             else
-               return false;
+                return false;
 
         }
     }
@@ -133,11 +138,11 @@ public class Utils {
     }
 
     //transfer boost[] to "2 1 0"
-    public static String boostToStr(boolean[] degrees){
+    public static String boostToStr(boolean[] boosts){
         String rtnStr = "";
-        rtnStr += String.valueOf(degrees.length)+" ";
-        for(int i=0;i<degrees.length;i++)
-            rtnStr+= (degrees[i])?"1 ":"0 ";
+        rtnStr += String.valueOf(boosts.length)+" ";
+        for(int i=0;i<boosts.length;i++)
+            rtnStr+= (boosts[i])?"true ":"false ";
 
         return rtnStr;
     }
@@ -162,19 +167,18 @@ public class Utils {
     public static ArrayList<Point2D[]> getPlainKeyPoint(ArrayList<UserInfo> users)
     {
         ArrayList<Point2D[]> userKeypoints = new ArrayList<>();
-        
-         for(int user=0;user<users.size();user++){
-                Point2D[] keypoint = new Point2D[Constants.KEYPOINT_NUM];
-                for(int i=0;i<Constants.KEYPOINT_NUM;i++){
-                    if(i==Constants.NECK)
-                        keypoint[i] = users.get(user).getNeck();
-                    else
-                        keypoint[i] = new Point2D();
-                }
-                userKeypoints.add(keypoint);
+
+        for(int user=0;user<users.size();user++){
+            Point2D[] keypoint = new Point2D[Constants.KEYPOINT_NUM];
+            for(int i=0;i<Constants.KEYPOINT_NUM;i++){
+                if(i==Constants.NECK)
+                    keypoint[i] = users.get(user).getNeck();
+                else
+                    keypoint[i] = new Point2D();
+            }
+            userKeypoints.add(keypoint);
         }
 
         return userKeypoints;
     }
-
 }

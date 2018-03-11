@@ -78,12 +78,16 @@ public class Head_List : MonoBehaviour
         int worm_no = int.Parse(str[0]);
 
         for (int i = 0; i < worm_no;i++){
-            HeadController headController = WormsList[i].GetComponent<HeadController>();
-            if(bool.Parse(str[i+1])){
-                headController.boost_enable();
-            }
-            else{
-                headController.boost_unable();
+            if(WormsList[i]!=null){
+                HeadController headController = WormsList[i].GetComponent<HeadController>();
+                if (bool.Parse(str[i + 1]))
+                {
+                    headController.boost_enable();
+                }
+                else
+                {
+                    headController.boost_unable();
+                }
             }
         }
     }
@@ -93,9 +97,10 @@ public class Head_List : MonoBehaviour
     {
         for (int i = 0; i < person_num; i++)
         {
-
-            HeadController headController = WormsList[i].GetComponent<HeadController>();
-            headController.Z_rotate_update(z_rotate_angle[i]);
+            if(WormsList[i]!=null){
+                  HeadController headController = WormsList[i].GetComponent<HeadController>();
+                  headController.Z_rotate_update(z_rotate_angle[i]);
+            }
         }
 
     }

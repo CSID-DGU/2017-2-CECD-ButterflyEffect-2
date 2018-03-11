@@ -2,8 +2,6 @@ package csid.butterflyeffect.game.filter;
 
 import android.util.Log;
 
-import com.unity3d.player.UnityPlayer;
-
 import java.util.ArrayList;
 
 import csid.butterflyeffect.game.BattleWorms;
@@ -104,10 +102,8 @@ public class ReadyFilter {
                         }
 
                         if(closestDistance <= Constants.PLAYER_RADIUS && closestIndex!=-1){
-                            //Log.d("######","rasingD:"+(pickedData.get(closestIndex)[Constants.L_SHOULDER].y-pickedData.get(closestIndex)[Constants.L_ELBOW].y));
-                            if(pickedData.get(closestIndex)[Constants.L_SHOULDER].y-pickedData.get(closestIndex)[Constants.L_ELBOW].y
-                                    > Constants.RAISING_HAND_C){
-
+                            //check if the person is raising hand
+                            if(Utils.isRaisingHands(pickedData.get(closestIndex))){
                                 handCount[i]++;
                             }
                         }

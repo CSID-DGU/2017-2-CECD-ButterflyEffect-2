@@ -1,9 +1,5 @@
 package csid.butterflyeffect.game;
 
-import android.util.Log;
-
-import com.unity3d.player.UnityPlayer;
-
 import java.util.ArrayList;
 
 import csid.butterflyeffect.game.filter.PlayFilter;
@@ -58,7 +54,7 @@ public class BattleWorms implements HandleReceiveData {
                 isPlaying = true;
                 playFilter.settingFirstUserInfoToQueue();
             }
-        }
+         }
         else {
             //game start..(at this moment, It is decided how many people will play)
             //filteredKeyPoints guarantees the order of user.
@@ -68,11 +64,11 @@ public class BattleWorms implements HandleReceiveData {
             boolean[] userBoost = new boolean[people];
             for(int person = 0; person < people; person++) {
                 userAngle[person] = Utils.getDegree(filteredKeyPoints.get(person));
-                userBoost[person] = Utils.getBoost(filteredKeyPoints.get(person));
+                userBoost[person] = Utils.isRaisingHands(filteredKeyPoints.get(person));
             }
             //format : "Usercount angle1 angle2 angle3  ... "
             UnityConnector.updateUserAngle(Utils.degreesToStr(userAngle));
-            UnityConnector.updateUserBoost(userBoost);
+            UnityConnector.updateUserBoost(Utils.boostToStr(userBoost));
 
             //update boost view
             for(int i=0;i<Constants.PLAYER_NUMBER;i++){

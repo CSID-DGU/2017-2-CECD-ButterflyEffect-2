@@ -15,14 +15,10 @@ public class UnityConnector {
         UnityPlayer.UnitySendMessage("Camera","WormMoveAngle", angles);
     }
 
-    public static void updateUserBoost(boolean[] boosts){
-        for(int i=0;i<boosts.length;i++){
-            //userindex 1or0 ... (1/0 means true or false)
-            if(boosts[i])
-               UnityPlayer.UnitySendMessage("Camera","WormBoost", i+" true");
-        }
+    public static void updateUserBoost(String boosts){
+        UnityPlayer.UnitySendMessage("Camera","WormBoost", boosts);
     }
-    
+
     public static void createWorms(){
         UnityPlayer.UnitySendMessage("Camera","Spawn","" );
 

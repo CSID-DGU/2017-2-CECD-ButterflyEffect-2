@@ -109,7 +109,7 @@ public class PlayFilter {
                     //Calculate the distance between user neck and person's neck in frame
                     double distance = Utils.getDistance(neck, keyPoints[Constants.NECK]);
                     //Select the nearest distance
-                    if (distance <= Constants.PLAYER_RADIUS && distance < min) {
+                    if (distance < min) {
                         min = distance;
                         candidate = people;
                     }

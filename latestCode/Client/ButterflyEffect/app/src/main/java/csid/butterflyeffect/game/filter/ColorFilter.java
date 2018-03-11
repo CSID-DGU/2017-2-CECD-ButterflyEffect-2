@@ -3,6 +3,9 @@ package csid.butterflyeffect.game.filter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import csid.butterflyeffect.PreviewSurface;
 
 /**
@@ -20,9 +23,19 @@ public class ColorFilter {
         return color;
     }
 
-    public float compare(int RGB1, int RGB2) {
-        float prob = 0f;
-        //pixel1 = Color
+    public ArrayList<Float> compare(ArrayList<Integer> target, ArrayList<Integer> comp) {
+        int compSize = comp.size();
+        int targetSize = target.size();
+        ArrayList<Float> prob = new ArrayList<>();
+        for(int i = 0; i < compSize; i++) {
+            int p = 0;
+            for(int j = 0; j < targetSize; j++) {
+                if(comp.get(i) == target.get(j)) {
+                    p++;
+                }
+            }
+            prob.add((float)((p*100)/targetSize));
+        }
         return prob;
     }
 }

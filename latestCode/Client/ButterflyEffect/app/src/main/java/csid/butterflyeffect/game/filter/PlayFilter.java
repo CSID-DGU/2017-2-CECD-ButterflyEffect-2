@@ -78,18 +78,18 @@ public class PlayFilter {
 
     public ArrayList<Point2D[]> filter(ArrayList<Point2D[]> peopleKeyPoints){
         int userSize = userInfos.size();
-        //ArrayList<Point2D[]> result = new ArrayList<>();
         Point2D[][] result = new Point2D[userInfos.size()][Constants.KEYPOINT_NUM];
 
         for(int user = 0; user < userSize; user++){
             Point2D neck = userInfos.get(user).getNeck();
+            Point2D nose = userInfos.get(user).getNose();
             int candidate = -1;
             int peopleSize = peopleKeyPoints.size();
             int userNumber = userInfos.get(user).getUserNumber();
-            double min = Integer.MAX_VALUE;
+            double minNose = Integer.MAX_VALUE;
+            double minNeck = Integer.MAX_VALUE;
 
             //TODO if that player is died player then add diedPoint.
-
             //If the OpenPose didn't detect correctly key points or User died
             if(neck.x == 0 && neck.y==0){
                 //If the user had died
@@ -107,10 +107,12 @@ public class PlayFilter {
                 for (int people = 0; people < peopleSize; people++) {
                     Point2D[] keyPoints = peopleKeyPoints.get(people);
                     //Calculate the distance between user neck and person's neck in frame
-                    double distance = Utils.getDistance(neck, keyPoints[Constants.NECK]);
+                    double distanceNeck = Utils.getDistance(neck, keyPoints[Constants.NECK]);
+                    double distanceNose = Utils.getDistance(nose, keyPoints[Constants.NOSE]);
                     //Select the nearest distance
-                    if (distance < min) {
-                        min = distance;
+                    if (distanceNose < minNose && distanceNeck < minNeck) {
+                        minNeck = distanceNeck;
+                        minNose = distanceNose;
                         candidate = people;
                     }
                 }
@@ -128,9 +130,7 @@ public class PlayFilter {
                 else {
                     //result.add(peopleKeyPoints.get(candidate));
                     result[userNumber] = peopleKeyPoints.get(candidate);
-
                 }
-
             }
         }
 

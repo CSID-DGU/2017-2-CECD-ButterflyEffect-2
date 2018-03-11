@@ -82,12 +82,12 @@ public class PlayFilter {
         Point2D[][] result = new Point2D[userInfos.size()][Constants.KEYPOINT_NUM];
         for (int user = 0; user < userSize; user++) {
             int userNumber = userInfos.get(user).getUserNumber();
-            if (!userInfos.get(userNumber).isPlaying()) {
+            if (!userInfos.get(user).isPlaying()) {
                 result[userNumber] = getNominalKeyPoint();
             }
             else{
-                Point2D neck = userInfos.get(userNumber).getNeck();
-                Point2D nose = userInfos.get(userNumber).getNose();
+                Point2D neck = userInfos.get(user).getNeck();
+                Point2D nose = userInfos.get(user).getNose();
                 int candidate = -1;
                 int peopleSize = peopleKeyPoints.size();
 
@@ -98,7 +98,7 @@ public class PlayFilter {
                 //If the OpenPose didn't detect correctly key points or User died
                 if (neck.x == 0 && neck.y == 0) {
                     //If the user had died
-                    result[userNumber] = getRecentUserInfo(userNumber);
+                    result[userNumber] = getRecentUserInfo(user);
                 }
                 //If the OpenPose correctly detected the key points
                 else {
@@ -117,7 +117,7 @@ public class PlayFilter {
                     //If the filter didn't find the targeted user as the user was died or previous distance was too small.
                     if (candidate == -1) {
                         //If the user had died
-                        result[userNumber] = getRecentUserInfo(userNumber);
+                        result[userNumber] = getRecentUserInfo(user);
                     }
                     //If the filter find the targeted user
                     else {

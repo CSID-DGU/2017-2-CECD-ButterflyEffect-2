@@ -213,7 +213,7 @@ public class HeadController : MonoBehaviour
         if (coll.name.StartsWith("FoodPrefab"))
         {
             // Get longer in next Move call
-            ate-=30;
+            ate-=4;
 
             coll.enabled = false;
 

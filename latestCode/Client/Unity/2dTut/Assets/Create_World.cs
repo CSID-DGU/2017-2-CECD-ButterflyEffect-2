@@ -22,9 +22,21 @@ public class Create_World : MonoBehaviour
 
     public Head_List HList;
 
+    private float[,] isWorm = new float[6, 6];
+
+    private float w_unit = Global.screen_width / 6;
+    private float h_unit = Global.screen_height / 6;
+
     //Scene 실행 전 수행 (초기화)
     private void Awake()
     {
+        /*
+        for (int i = 0; i < 6; i++)
+            for (int j = 0; j < 6; i++)
+                Debug.Log(isWorm[i,j]);
+                */
+
+
         //Black Screen 방지
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
@@ -39,6 +51,8 @@ public class Create_World : MonoBehaviour
 
         Screen.SetResolution((int)i_width, (int)i_height, true);
         Debug.Log(i_width + "," + i_height);
+
+
         //border Scale edit
         border_Left.transform.localScale = new Vector3(1, i_height, 10);
         border_Right.transform.localScale = new Vector3(1, i_height, 10);
@@ -57,8 +71,12 @@ public class Create_World : MonoBehaviour
         //화면 Size 조정. 높이 * pixel per unit /2;        
         camera.orthographicSize = i_height / ppu / 2;
 
-        //Typing "Spawn();" to test worms in Unity here
 
+
+
+
+        //Typing "Spawn();" to test worms in Unity here
+        Spawn();
     }
 
     int person_num = 0;
@@ -69,7 +87,8 @@ public class Create_World : MonoBehaviour
         //person_num = int.Parse(player_count);
         HList.Spawn_Head(person_num++);
 
-       
+
     }
+
 
 }

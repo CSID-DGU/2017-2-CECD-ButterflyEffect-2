@@ -100,7 +100,7 @@ public class HeadController : MonoBehaviour
 
         rb.transform.Rotate(0f, 0f, z_rotate_angle * Time.deltaTime * headcurspeed_mult);
 
-        rb.transform.Translate(Mathf.Cos(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed_mult, Mathf.Sin(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed_mult * boost_mult, 0.0f);
+        rb.transform.Translate(Mathf.Cos(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed_mult* boost_mult, Mathf.Sin(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed_mult * boost_mult, 0.0f);
 
         // 2.Move Tail to follow head
         if (tail.Count > 0)
@@ -173,7 +173,7 @@ public class HeadController : MonoBehaviour
         }
         */
 
-        //if (boost_mult > 1.0f) boost_mult *= 0.9f* Time.deltaTime;
+        //if (boost_mult >= 1.0f) boost_mult *= 0.9f * Time.deltaTime;
     }
 
     void tail_create(Vector3 newpose)

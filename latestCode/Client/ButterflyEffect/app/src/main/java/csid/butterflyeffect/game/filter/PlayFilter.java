@@ -108,11 +108,10 @@ public class PlayFilter {
                     Point2D[] keyPoints = peopleKeyPoints.get(people);
                     //Calculate the distance between user neck and person's neck in frame
                     double distanceNeck = Utils.getDistance(neck, keyPoints[Constants.NECK]);
-                    double distanceNose = Utils.getDistance(nose, keyPoints[Constants.NOSE]);
+                    //double distanceNose = Utils.getDistance(nose, keyPoints[Constants.NOSE]);
                     //Select the nearest distance
-                    if (distanceNose < minNose && distanceNeck < minNeck) {
+                    if (distanceNeck < minNeck) {
                         minNeck = distanceNeck;
-                        minNose = distanceNose;
                         candidate = people;
                     }
                 }

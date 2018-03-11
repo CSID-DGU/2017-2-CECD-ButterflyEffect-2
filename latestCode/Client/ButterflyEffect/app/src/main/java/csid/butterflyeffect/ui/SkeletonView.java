@@ -48,7 +48,7 @@ public class SkeletonView extends View {
                     Utils.drawLine(canvas, paint, userPoints[Constants.NOSE], userPoints[Constants.R_EYE]);
                     Utils.drawLine(canvas, paint, userPoints[Constants.L_EYE], userPoints[Constants.L_EAR]);
                     Utils.drawLine(canvas, paint, userPoints[Constants.R_EYE], userPoints[Constants.R_EAR]);
-                    Utils.drawLine(canvas, paint, userPoints[Constants.NOSE], userPoints[Constants.NECK]);
+
                     Utils.drawLine(canvas, paint, userPoints[Constants.NECK], userPoints[Constants.L_SHOULDER]);
                     Utils.drawLine(canvas, paint, userPoints[Constants.NECK], userPoints[Constants.R_SHOULDER]);
                     Utils.drawLine(canvas, paint, userPoints[Constants.NECK], userPoints[Constants.L_SHOULDER]);
@@ -63,7 +63,10 @@ public class SkeletonView extends View {
                     Utils.drawLine(canvas, paint, userPoints[Constants.L_KNEE], userPoints[Constants.L_HIP]);
                     Utils.drawLine(canvas, paint, userPoints[Constants.L_KNEE], userPoints[Constants.L_ANKLE]);
 
-
+                    paint.setStrokeWidth(Constants.SPECIAL_LINE_WIDTH);
+                    paint.setColor(Color.WHITE);
+                    Utils.drawLine(canvas, paint, userPoints[Constants.NOSE], userPoints[Constants.NECK]);
+                    paint.setStrokeWidth(Constants.LINE_WIDTH);
                     paint.setColor(Color.WHITE);
                     for (int j = 0; j < userPoints.length; j++) {
                         if (!(userPoints[j].x == 0 || userPoints[j].y == 0))

@@ -26,6 +26,8 @@ public class PreviewSurface extends CameraSurface implements
         Camera.PreviewCallback {
 
     private FrameHandler mFrameHandler;
+    private YuvImage image;
+    private static ByteArrayOutputStream outstream;
 
     public interface FrameHandler {
         void getJpegFrame(byte[] frame);
@@ -52,9 +54,9 @@ public class PreviewSurface extends CameraSurface implements
             Constants.CAMERA_WIDTH = size.width;
             Constants.CAMERA_HEIGHT = size.height;
 
-            YuvImage image = new YuvImage(paramArrayOfByte, ImageFormat.NV21, size.width, size.height, null);
+            image = new YuvImage(paramArrayOfByte, ImageFormat.NV21, size.width, size.height, null);
 
-            ByteArrayOutputStream outstream = new ByteArrayOutputStream();
+            outstream = new ByteArrayOutputStream();
             //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
             image.compressToJpeg(new Rect(0, 0, size.width, size.height), 60, outstream);
             outstream.flush();
@@ -80,5 +82,11 @@ public class PreviewSurface extends CameraSurface implements
     }
     public FrameHandler getFrameHandler(){
         return mFrameHandler;
+    }
+
+
+    public static Bitmap curFrameImage(){
+        byte[] imageBytes = outstream.toByteArray();
+        return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
 }

@@ -1,5 +1,6 @@
 package csid.butterflyeffect.util;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -175,4 +176,5 @@ public class Utils {
 
         return userKeypoints;
     }
+
 }

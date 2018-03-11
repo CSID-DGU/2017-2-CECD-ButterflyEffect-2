@@ -113,8 +113,6 @@ public class PlayFilter {
                         min = distance;
                         candidate = people;
                     }
-
-
                 }
                 //If the filter didn't find the targeted user as the user was died or previous distance was too small.
                 if(candidate == -1) {

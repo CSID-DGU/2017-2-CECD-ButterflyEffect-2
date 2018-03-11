@@ -82,12 +82,12 @@ public class PlayFilter {
         Point2D[][] result = new Point2D[userInfos.size()][Constants.KEYPOINT_NUM];
         for (int user = 0; user < userSize; user++) {
             int userNumber = userInfos.get(user).getUserNumber();
-            if (!userInfos.get(user).isPlaying()) {
+            if (!userInfos.get(userNumber).isPlaying()) {
                 result[userNumber] = getNominalKeyPoint();
             }
             else{
-                Point2D neck = userInfos.get(user).getNeck();
-                Point2D nose = userInfos.get(user).getNose();
+                Point2D neck = userInfos.get(userNumber).getNeck();
+                Point2D nose = userInfos.get(userNumber).getNose();
                 int candidate = -1;
                 int peopleSize = peopleKeyPoints.size();
 

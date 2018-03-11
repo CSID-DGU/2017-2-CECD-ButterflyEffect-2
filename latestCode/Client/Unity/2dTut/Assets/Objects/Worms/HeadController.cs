@@ -156,7 +156,7 @@ public class HeadController : MonoBehaviour
             tail_create(newpose);
         }
         // 4. Collide head -> tail CHK
-        /*
+
         if (die)
         {
             foreach(GameObject o in tail)
@@ -171,7 +171,7 @@ public class HeadController : MonoBehaviour
         
         //  Destroy()
         }
-        */
+
 
         //if (boost_mult >= 1.0f) boost_mult *= 0.9f * Time.deltaTime;
     }

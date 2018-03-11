@@ -77,6 +77,7 @@ public class Create_World : MonoBehaviour
 
         //Typing "Spawn();" to test worms in Unity here
         Spawn();
+        Spawn();
     }
 
     int person_num = 0;

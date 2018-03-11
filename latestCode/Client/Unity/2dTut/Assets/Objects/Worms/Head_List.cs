@@ -43,22 +43,27 @@ public class Head_List : MonoBehaviour
         while (true)
         {
             //x position between left and right border
-            int x = (int)Random.Range(border_Left.position.x,
-                                      border_Right.position.x);
+            int x = (int)(Random.Range(border_Left.position.x,
+                                      border_Right.position.x));
             //y position between top and bottom border
-            int y = (int)Random.Range(border_Top.position.y,
-                                      border_Bottom.position.y);
+            int y = (int)(Random.Range(border_Top.position.y,
+                                      border_Bottom.position.y));
 
+            //Debug.Log("intx,inty is =" + (int)(x / w_unit) + "," + (int)(y / h_unit));
             int z = -3;
 
 
+
             //같은 공간에 Spawn 방지
-            if (!isWorm[(int)(x / w_unit), (int)(y / h_unit)])
+            if (!isWorm[(int)(x / w_unit +2), (int)(y / h_unit)+2])
             {
+                //Debug.Log("called");
                 WormsList.Add(Instantiate(Worms, new Vector3(x, y, z), new Quaternion(0f, 0f, z, 0f)));
 
                 WormsList[i].GetComponent<HeadController>().Head_index_set(i);
                 WormsList[i].GetComponent<MeshRenderer>().material.color = Global.player_Color[i];
+
+                isWorm[(int)(x / w_unit+2), (int)(y / h_unit+2)] = true;
 
                 break;
             }

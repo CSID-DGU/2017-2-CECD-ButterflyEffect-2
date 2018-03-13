@@ -261,13 +261,22 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                     //Log.d("#####","length:"+frame.length);
 
                 }
-                //Bitmap bit = BitmapFactory.decodeByteArray(frame, 0, frame.length);
+
                 //mBitmapView.setImageBitmap(bit);
+                Bitmap bit = BitmapFactory.decodeByteArray(frame, 0, frame.length);
+                setUserProfile(bit);
             }
         });
     }
 
-
+    public void setUserProfile(Bitmap wholePicture){
+        ArrayList<UserInfo> users = mBattleWorms.getUserInfos();
+        for(int i=0;i<users.size();i++){
+            UserInfo user = users.get(i);
+            user.setUserProfile(Utils.getUserFace(wholePicture,user.getNose()));
+            updateUser(i);
+        }
+    }
 
     @Override
     public void infoHandler(final String msg) {

@@ -1,5 +1,6 @@
 package csid.butterflyeffect.util;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -180,5 +181,18 @@ public class Utils {
         }
 
         return userKeypoints;
+    }
+
+    public static Bitmap getUserFace(Bitmap wholePicture,Point2D userNose){
+        //TODO fix
+        int x = (int)(userNose.x*wholePicture.getWidth()/Constants.PREVIEW_WIDTH);
+        int y = (int)(userNose.y*wholePicture.getHeight()/Constants.PREVIEW_HEIGHT);
+        Bitmap userFace =  Bitmap.createBitmap(wholePicture,
+                x-Constants.USER_FACE_CROP_DISTANCE,
+                y-Constants.USER_FACE_CROP_DISTANCE,
+                2*Constants.USER_FACE_CROP_DISTANCE,
+                2*Constants.USER_FACE_CROP_DISTANCE);
+
+        return userFace;
     }
 }

@@ -1,5 +1,6 @@
 package csid.butterflyeffect.game.model;
 
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class UserInfo implements Comparable<UserInfo>{
     private boolean isBoost;
     private int score;
     private ArrayList<Integer> colors;
+    private Bitmap userProfile;
 
     public int getScore() {
         return score;
@@ -86,4 +88,13 @@ public class UserInfo implements Comparable<UserInfo>{
     public int compareTo(@NonNull UserInfo o) {
         return o.score-score;
     }
+
+    public Bitmap getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(Bitmap userProfile) {
+        this.userProfile = userProfile;
+    }
+
 }

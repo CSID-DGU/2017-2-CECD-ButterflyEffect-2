@@ -42,7 +42,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         UserInfo userInfo = userInfos.get(position);
         holder.score.setText(String.valueOf(userInfo.getScore()));
         holder.background.setBackgroundColor(Utils.getColor(userInfo.getUserNumber()));
-       //holder.profile.setImageBitmap(userInfo.getProfile());
+        if(userInfo.getUserProfile()!=null)
+            holder.profile.setImageBitmap(userInfo.getUserProfile());
 
         //boost view
         boolean isBoost = userInfo.isBoost();

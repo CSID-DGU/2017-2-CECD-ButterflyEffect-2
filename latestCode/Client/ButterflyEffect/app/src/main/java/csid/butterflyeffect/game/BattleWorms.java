@@ -1,5 +1,8 @@
 package csid.butterflyeffect.game;
 
+import android.graphics.Point;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import csid.butterflyeffect.game.filter.PlayFilter;
@@ -52,9 +55,9 @@ public class BattleWorms implements HandleReceiveData {
             //it will be called before state change to play
             if(userInfos.size()==Constants.PLAYER_NUMBER){
                 isPlaying = true;
-                playFilter.settingFirstUserInfoToQueue();
+                playFilter.saveFirstUserInfo(filteredData);
             }
-         }
+        }
         else {
             //game start..(at this moment, It is decided how many people will play)
             //filteredKeyPoints guarantees the order of user.

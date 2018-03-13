@@ -1,9 +1,11 @@
 package csid.butterflyeffect.game.filter;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.util.ArrayList;
 
+import csid.butterflyeffect.PreviewSurface;
 import csid.butterflyeffect.game.Point2D;
 import csid.butterflyeffect.game.model.UserInfo;
 import csid.butterflyeffect.util.Constants;
@@ -13,15 +15,31 @@ public class PlayFilter {
     private ArrayList<UserInfo> userInfos;
     private ArrayList<ArrayList<Point2D[]>> userInfoList;
 
+    public PlayFilter(){
+
+    }
     public PlayFilter(ArrayList<UserInfo> userInfos) {
         this.userInfos = userInfos;
         userInfoList = new ArrayList<>();
-
     }
 
     //add init value of useres
-    public void settingFirstUserInfoToQueue() {
+    public void saveFirstUserInfo(ArrayList<Point2D[]> filteredData) {
         userInfoList.add(Utils.getPlainKeyPoint(userInfos));
+        int filteredDataSize = filteredData.size();
+        for(int i = 0; i < filteredDataSize; i++){
+            ArrayList<Point2D> userNeckInfo = new ArrayList<>();
+            Point2D[] keyPoints = filteredData.get(i);
+            userNeckInfo.add(keyPoints[Constants.NECK]);
+            //save 5 color information
+            for(int j = 0; j < 5; j++) {
+                //Variable colors  have user N color information
+                int[] colors = getRGBFromPixels(userNeckInfo);
+                for(int k = 0; k < colors.length; k++) {
+                    userInfos.get(k).addColor(colors[k]);
+                }
+            }
+        }
     }
 
     //
@@ -88,7 +106,9 @@ public class PlayFilter {
             else{
                 Point2D neck = userInfos.get(user).getNeck();
                 Point2D nose = userInfos.get(user).getNose();
-                int candidate = -1;
+                ArrayList<Integer> candidates = new ArrayList<>();
+                ArrayList<Point2D> neckPositions = new ArrayList<>();
+                //int candidate = -1;
                 int peopleSize = peopleKeyPoints.size();
 
                 double minNose = Integer.MAX_VALUE;
@@ -111,18 +131,20 @@ public class PlayFilter {
                         //Select the nearest distance
                         if (distanceNeck < Constants.PLAYER_RADIUS && distanceNeck < minNeck) {
                             minNeck = distanceNeck;
-                            candidate = people;
+                            candidates.add(people);
+                            neckPositions.add(keyPoints[Constants.NECK]);
                         }
                     }
                     //If the filter didn't find the targeted user as the user was died or previous distance was too small.
-                    if (candidate == -1) {
+                    if (candidates.size() == 0) {
                         //If the user had died
                         result[userNumber] = getRecentUserInfo(userNumber);
                     }
-                    //If the filter find the targeted user
-                    else {
-                        //result.add(peopleKeyPoints.get(candidate));
-                        result[userNumber] = peopleKeyPoints.get(candidate);
+                    else if(candidates.size() == 1){//If the filter find the targeted user
+                        result[userNumber] = peopleKeyPoints.get(candidates.get(0));
+                    }
+                    else {//multiple candidate, so color filter applied
+                        result[userNumber] = peopleKeyPoints.get(filter(userInfos.get(user).getColors(), candidates, neckPositions));
                     }
                 }
             }
@@ -142,5 +164,48 @@ public class PlayFilter {
 
         //Return the result, result has key points of user1, user2, user3
         return rtnPoints;
+    }
+
+    //filter Overloading
+    public int filter(ArrayList<Integer> userColors, ArrayList<Integer> candidates, ArrayList<Point2D> neckPositions) {
+        int candidatesSize = candidates.size();
+        int userColorsSize = userColors.size();
+        int result = -1;
+        int[] colorDiff = new int[candidatesSize];
+        //Calculate color difference
+        for(int i = 0; i < candidatesSize; i++) {
+            int candidateColor = getRGBFromPixel(neckPositions.get(i).x,  neckPositions.get(i).y);
+            colorDiff[i] = 0;
+            for(int j = 0; j < userColorsSize; j++) {
+                colorDiff[i] += Math.abs(candidateColor - userColors.get(j));
+            }
+        }
+
+        //Pick minimum diff
+        int minDiff = Integer.MIN_VALUE;
+        for(int i = 0; i < candidatesSize; i++){
+            if(colorDiff[i] < minDiff){
+                minDiff = colorDiff[i];
+                result = i;
+            }
+        }
+        return result;
+    }
+
+    public int getRGBFromPixel(double x, double y){
+        Bitmap bitmap = PreviewSurface.curFrameImage();
+        return bitmap.getPixel((int)x, (int)y);
+    }
+
+    public int[] getRGBFromPixels(ArrayList<Point2D> positions) {
+        Bitmap bitmap = PreviewSurface.curFrameImage();
+
+        int length = positions.size();
+        int[] colors = new int[length];
+        for(int i = 0; i < length; i++) {
+            colors[i] = bitmap.getPixel((int)positions.get(i).x, (int)positions.get(i).y);
+        }
+
+        return colors;
     }
 }

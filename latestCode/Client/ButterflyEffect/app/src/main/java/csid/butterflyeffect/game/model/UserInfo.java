@@ -13,7 +13,7 @@ public class UserInfo implements Comparable<UserInfo>{
     private boolean isPlaying;
     private boolean isBoost;
     private int score;
-    private ArrayList<Integer> targetColor;
+    private ArrayList<Integer> colors;
 
     public int getScore() {
         return score;
@@ -28,15 +28,18 @@ public class UserInfo implements Comparable<UserInfo>{
         isPlaying = true;
         isBoost = false;
         score = 0;
-        targetColor = new ArrayList<>();
+        colors = new ArrayList<>();
     }
 
-    public ArrayList<Integer> getTargetColor() {
-        return targetColor;
+    public void addColor(int color) {
+        colors.add(color);
+    }
+    public ArrayList<Integer> getColors() {
+        return colors;
     }
 
-    public void setTargetColor(ArrayList<Integer> targetColor) {
-        this.targetColor = targetColor;
+    public void setColors(ArrayList<Integer> colors) {
+        this.colors = colors;
     }
 
     public int getUserNumber() {

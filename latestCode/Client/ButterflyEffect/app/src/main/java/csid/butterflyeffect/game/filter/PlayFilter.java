@@ -6,6 +6,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import csid.butterflyeffect.PreviewSurface;
+import csid.butterflyeffect.game.BattleWorms;
 import csid.butterflyeffect.game.Point2D;
 import csid.butterflyeffect.game.model.UserInfo;
 import csid.butterflyeffect.util.Constants;
@@ -14,32 +15,33 @@ import csid.butterflyeffect.util.Utils;
 public class PlayFilter {
     private ArrayList<UserInfo> userInfos;
     private ArrayList<ArrayList<Point2D[]>> userInfoList;
+    private BattleWorms battleWorms;
 
-    public PlayFilter(){
-
-    }
-    public PlayFilter(ArrayList<UserInfo> userInfos) {
+    public PlayFilter(ArrayList<UserInfo> userInfos,BattleWorms battleWorms) {
+        this.battleWorms = battleWorms;
         this.userInfos = userInfos;
         userInfoList = new ArrayList<>();
+
     }
 
     //add init value of useres
-    public void saveFirstUserInfo(ArrayList<Point2D[]> filteredData) {
+    public void saveFirstUserInfo(){
         userInfoList.add(Utils.getPlainKeyPoint(userInfos));
-        int filteredDataSize = filteredData.size();
-        for(int i = 0; i < filteredDataSize; i++){
-            ArrayList<Point2D> userNeckInfo = new ArrayList<>();
-            Point2D[] keyPoints = filteredData.get(i);
-            userNeckInfo.add(keyPoints[Constants.NECK]);
-            //save 5 color information
-            for(int j = 0; j < 5; j++) {
-                //Variable colors  have user N color information
-                int[] colors = getRGBFromPixels(userNeckInfo);
-                for(int k = 0; k < colors.length; k++) {
-                    userInfos.get(k).addColor(colors[k]);
-                }
+
+        ArrayList<Point2D> userNeckInfo = new ArrayList<>();
+        for(int i=0;i<userInfos.size();i++)
+            userNeckInfo.add(userInfos.get(i).getNeck());
+
+        ArrayList<int[]> colors = getRGBFromPixels(userNeckInfo);
+
+        //repeat to save user's neck's color 5 times for each users.
+        for(int i=0;i<userInfos.size();i++){
+            int[] userColors = colors.get(i);
+            for(int j=0;j<Constants.USER_COLOR_LISTS_NUM;j++){
+                userInfos.get(i).addColor(userColors[j]);
             }
         }
+
     }
 
     //
@@ -140,7 +142,10 @@ public class PlayFilter {
                         //If the user had died
                         result[userNumber] = getRecentUserInfo(userNumber);
                     }
-                    else if(candidates.size() == 1){//If the filter find the targeted user
+                    else if(candidates.size() == 1){
+                        //TODO keyPoints 에서 해당 유저 지우는거 생각해보기
+                        //TODO 색 정보 갱신하는 것도 생각해보기
+                        //If the filter find the targeted user
                         result[userNumber] = peopleKeyPoints.get(candidates.get(0));
                     }
                     else {//multiple candidate, so color filter applied
@@ -166,6 +171,7 @@ public class PlayFilter {
         return rtnPoints;
     }
 
+
     //filter Overloading
     public int filter(ArrayList<Integer> userColors, ArrayList<Integer> candidates, ArrayList<Point2D> neckPositions) {
         int candidatesSize = candidates.size();
@@ -174,7 +180,7 @@ public class PlayFilter {
         int[] colorDiff = new int[candidatesSize];
         //Calculate color difference
         for(int i = 0; i < candidatesSize; i++) {
-            int candidateColor = getRGBFromPixel(neckPositions.get(i).x,  neckPositions.get(i).y);
+            int candidateColor = getRGBFromPixel(neckPositions.get(i));
             colorDiff[i] = 0;
             for(int j = 0; j < userColorsSize; j++) {
                 colorDiff[i] += Math.abs(candidateColor - userColors.get(j));
@@ -192,18 +198,28 @@ public class PlayFilter {
         return result;
     }
 
-    public int getRGBFromPixel(double x, double y){
+    public int getRGBFromPixel(Point2D target){
         Bitmap bitmap = PreviewSurface.curFrameImage();
-        return bitmap.getPixel((int)x, (int)y);
+        Point2D pureXY = Utils.getPureCoordinates(bitmap,target);
+        //it is because we will get pixel from raw frame of camera.
+
+        return bitmap.getPixel((int)pureXY.x, (int)pureXY.y);
     }
 
-    public int[] getRGBFromPixels(ArrayList<Point2D> positions) {
+    public ArrayList<int[]> getRGBFromPixels(ArrayList<Point2D> positions) {
+        ArrayList<int[]> colors = new ArrayList<>();
+
+       // int[] colors = new int[positions.size()];
         Bitmap bitmap = PreviewSurface.curFrameImage();
 
-        int length = positions.size();
-        int[] colors = new int[length];
-        for(int i = 0; i < length; i++) {
-            colors[i] = bitmap.getPixel((int)positions.get(i).x, (int)positions.get(i).y);
+        for(int i=0;i<positions.size();i++){
+            Point2D pureXY = Utils.getPureCoordinates(bitmap,positions.get(i));
+            //it is because we will get pixel from raw frame of camera.
+            int[] userColors = new int[Constants.USER_COLOR_LISTS_NUM];
+            for(int j=0;j<Constants.USER_COLOR_LISTS_NUM;j++){
+                userColors[j] = bitmap.getPixel((int)pureXY.x, (int)pureXY.y);
+            }
+            colors.add(userColors);
         }
 
         return colors;

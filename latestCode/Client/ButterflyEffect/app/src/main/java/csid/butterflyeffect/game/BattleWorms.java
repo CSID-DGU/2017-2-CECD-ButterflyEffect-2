@@ -25,7 +25,7 @@ public class BattleWorms implements HandleReceiveData {
         isPlaying = false;
 
         readyFilter = new ReadyFilter(userInfos,this);
-        playFilter = new PlayFilter(userInfos);
+        playFilter = new PlayFilter(userInfos,this);
     }
 
     public void requestUserUpdate(int position){
@@ -55,7 +55,7 @@ public class BattleWorms implements HandleReceiveData {
             //it will be called before state change to play
             if(userInfos.size()==Constants.PLAYER_NUMBER){
                 isPlaying = true;
-                playFilter.saveFirstUserInfo(filteredData);
+                playFilter.saveFirstUserInfo();
             }
         }
         else {

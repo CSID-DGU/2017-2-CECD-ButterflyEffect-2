@@ -69,7 +69,7 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
 
         //search device available size.
         List<Camera.Size> sizeList = localParameters.getSupportedPreviewSizes();
-        Camera.Size bestSize = sizeList.get((sizeList.size()-1)-sizeList.size()/5); // 9/10 index.
+        Camera.Size bestSize = sizeList.get((sizeList.size()-1)-sizeList.size()/7); // 9/10 index.
 
         //setting middle of available size.
         localParameters.setPreviewSize(bestSize.width,bestSize.height);

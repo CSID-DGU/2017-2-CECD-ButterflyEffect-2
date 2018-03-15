@@ -185,14 +185,20 @@ public class Utils {
 
     public static Bitmap getUserFace(Bitmap wholePicture,Point2D userNose){
         //TODO fix
-        int x = (int)((Constants.PREVIEW_WIDTH-userNose.x)*wholePicture.getWidth()/Constants.PREVIEW_WIDTH);
-        int y = (int)(userNose.y*wholePicture.getHeight()/Constants.PREVIEW_HEIGHT);
+        Point2D pureXY = getPureCoordinates(wholePicture,userNose);
          Bitmap userFace =  Bitmap.createBitmap(wholePicture,
-                x-Constants.USER_FACE_CROP_DISTANCE,
-                y-Constants.USER_FACE_CROP_DISTANCE,
+                 (int)pureXY.x-Constants.USER_FACE_CROP_DISTANCE,
+                 (int)pureXY.y-Constants.USER_FACE_CROP_DISTANCE,
                 2*Constants.USER_FACE_CROP_DISTANCE,
                 2*Constants.USER_FACE_CROP_DISTANCE);
 
         return userFace;
+    }
+
+    public static Point2D getPureCoordinates(Bitmap bitmap,Point2D ratioXY){
+        //the reason why x is minus is frame that is received from camera is reverse shot.
+        double x = (Constants.PREVIEW_WIDTH-ratioXY.x)*bitmap.getWidth()/Constants.PREVIEW_WIDTH;
+        double y = ratioXY.y*bitmap.getHeight()/Constants.PREVIEW_HEIGHT;
+        return new Point2D(x,y);
     }
 }

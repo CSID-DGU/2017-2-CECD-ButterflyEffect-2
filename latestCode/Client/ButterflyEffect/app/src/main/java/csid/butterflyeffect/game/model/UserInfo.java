@@ -31,6 +31,7 @@ public class UserInfo implements Comparable<UserInfo>{
         isBoost = false;
         score = 0;
         colors = new ArrayList<>();
+        userProfile = null;
     }
 
     public void addColor(int color) {

@@ -1,5 +1,7 @@
 package csid.butterflyeffect.util;
 
+import csid.butterflyeffect.R;
+
 /**
  * Created by hanseungbeom on 2018. 1. 16..
  */
@@ -7,13 +9,13 @@ package csid.butterflyeffect.util;
 public class Constants {
 
     //ut battleWorms
-    public static final int PLAYER_NUMBER = 2;
+    public static final int PLAYER_NUMBER = 1;
 
 
     //about CONNECTION
     public static int PORT_NUM = 9000;
     public static int TIME_OUT_FOR_TCP_CONNECTION = 3000;//3 sec
-    public static String ADDR = "13.125.230.15";
+    public static String ADDR = "13.125.163.213";
 
     //about CAMERA
     public static final int FRAME_RATE = 10000; //10000 = 10 fps
@@ -61,4 +63,13 @@ public class Constants {
     public static final int PLAYER_RADIUS = 100;
     public static final int RAISING_HAND_C = 50;
     public static final int KEYPOINT_NUM = 18;
+
+    //adapter
+    public static final int USER_COLOR_LISTS_NUM = 5;
+    public static final int[] COLOR_LISTS={
+            R.id.view_c1,
+            R.id.view_c2,
+            R.id.view_c3,
+            R.id.view_c4,
+            R.id.view_c5};
 }

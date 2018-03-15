@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import csid.butterflyeffect.R;
 import csid.butterflyeffect.game.model.UserInfo;
+import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Utils;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -53,6 +54,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         else
             holder.boost.setBackgroundColor(mContext.getResources().getColor(R.color.black_semi_transparent70));
 
+        //user color view
+        ArrayList<Integer> userColors = userInfo.getColors();
+        for(int i=0;i<userColors.size();i++){
+            holder.colors[i].setBackgroundColor(userColors.get(i));
+        }
+
     }
 
     @Override
@@ -69,6 +76,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         CircleImageView profile;
         LinearLayout background;
         LinearLayout boost;
+        View colors[] = new View[Constants.USER_COLOR_LISTS_NUM];
 
         public UserViewHolder(View itemView) {
             super(itemView);
@@ -76,8 +84,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             profile = (CircleImageView)itemView.findViewById(R.id.iv_user_profile);
             background = (LinearLayout) itemView.findViewById(R.id.ll_color_view);
             boost = (LinearLayout)itemView.findViewById(R.id.ll_boost_view);
-        }
 
+            for(int i=0;i< Constants.USER_COLOR_LISTS_NUM;i++)
+                colors[i] = (View)itemView.findViewById(Constants.COLOR_LISTS[i]);
+
+        }
         @Override
         public void onClick(View v) {
 

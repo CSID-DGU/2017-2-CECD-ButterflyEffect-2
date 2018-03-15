@@ -273,8 +273,10 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         ArrayList<UserInfo> users = mBattleWorms.getUserInfos();
         for(int i=0;i<users.size();i++){
             UserInfo user = users.get(i);
-            user.setUserProfile(Utils.getUserFace(wholePicture,user.getNose()));
-            updateUser(i);
+            if(user.getUserProfile()==null) {
+                user.setUserProfile(Utils.getUserFace(wholePicture, user.getNose()));
+                updateUser(i);
+            }
         }
     }
 

@@ -24,80 +24,126 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         >
-
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
             <LinearLayout
-
-                android:layout_width="match_parent"
+                android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                >
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
-
-                    <LinearLayout
-                        android:id="@+id/ll_color_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/black_semi_transparent"
-                        >
-
-                    </LinearLayout>
-                </FrameLayout>
-
-                <LinearLayout
-                    android:background="@color/blueGrey900"
+                android:paddingRight="2dp"
+                android:background="@color/Grey900">
+                <View
+                    android:id="@+id/view_c1"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center_horizontal|bottom"
-                    android:paddingBottom="10dp">
-                    <TextView
-                        android:text="0"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:id="@+id/tv_score"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        />
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/Grey300"/>
+                <View
+                    android:id="@+id/view_c2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/Grey300"/>
+                <View
+                    android:id="@+id/view_c3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/Grey300"/>
+                <View
+                    android:id="@+id/view_c4"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/Grey300"/>
+                <View
+                    android:id="@+id/view_c5"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@color/Grey300"/>
+            </LinearLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2">
+
+                        <LinearLayout
+                            android:id="@+id/ll_color_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/black_semi_transparent"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp">
+                                <de.hdodenhof.circleimageview.CircleImageView
+
+                                    android:layout_margin="3dp"
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    android:id="@+id/iv_user_profile"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    app:civ_border_width="1dp"
+                                    app:civ_border_color="@color/white"
+                                    android:src="@drawable/ic_user"
+                                    />
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:background="@color/blueGrey900"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                     >
+                        <TextView
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:id="@+id/tv_score"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            />
+                    </LinearLayout>
+
+
+
                 </LinearLayout>
 
 
+            </FrameLayout>
+        </LinearLayout>
 
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
-                <de.hdodenhof.circleimageview.CircleImageView
-
-                    android:layout_margin="3dp"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/iv_user_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:civ_border_width="1dp"
-                    app:civ_border_color="@color/white"
-                    android:src="@drawable/ic_icon"
-                    />
-
-            </LinearLayout>
-
-        </FrameLayout>
 
     </android.support.v7.widget.CardView>
 

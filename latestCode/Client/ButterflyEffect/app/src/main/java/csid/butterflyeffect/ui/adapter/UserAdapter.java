@@ -67,14 +67,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView score;
         CircleImageView profile;
-        View background;
+        LinearLayout background;
         LinearLayout boost;
 
         public UserViewHolder(View itemView) {
             super(itemView);
             score = (TextView)itemView.findViewById(R.id.tv_score);
             profile = (CircleImageView)itemView.findViewById(R.id.iv_user_profile);
-            background = (View)itemView.findViewById(R.id.color_view);
+            background = (LinearLayout) itemView.findViewById(R.id.ll_color_view);
             boost = (LinearLayout)itemView.findViewById(R.id.ll_boost_view);
         }
 

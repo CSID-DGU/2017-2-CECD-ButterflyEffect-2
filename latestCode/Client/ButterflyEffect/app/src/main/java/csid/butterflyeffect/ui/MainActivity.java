@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
         //setting recyclerView
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mAdapter = new UserAdapter(this,mBattleWorms.getUserInfos());
         mRecyclerView.setAdapter(mAdapter);
 

@@ -58,7 +58,7 @@ public class PreviewSurface extends CameraSurface implements
 
             outstream = new ByteArrayOutputStream();
             //bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
-            image.compressToJpeg(new Rect(0, 0, size.width, size.height), 60, outstream);
+            image.compressToJpeg(new Rect(0, 0, size.width, size.height), Constants.COMPRESS_QUAILITY, outstream);
             outstream.flush();
             mFrameHandler.getJpegFrame(outstream.toByteArray());
 

@@ -185,9 +185,9 @@ public class Utils {
 
     public static Bitmap getUserFace(Bitmap wholePicture,Point2D userNose){
         //TODO fix
-        int x = (int)(userNose.x*wholePicture.getWidth()/Constants.PREVIEW_WIDTH);
+        int x = (int)((Constants.PREVIEW_WIDTH-userNose.x)*wholePicture.getWidth()/Constants.PREVIEW_WIDTH);
         int y = (int)(userNose.y*wholePicture.getHeight()/Constants.PREVIEW_HEIGHT);
-        Bitmap userFace =  Bitmap.createBitmap(wholePicture,
+         Bitmap userFace =  Bitmap.createBitmap(wholePicture,
                 x-Constants.USER_FACE_CROP_DISTANCE,
                 y-Constants.USER_FACE_CROP_DISTANCE,
                 2*Constants.USER_FACE_CROP_DISTANCE,

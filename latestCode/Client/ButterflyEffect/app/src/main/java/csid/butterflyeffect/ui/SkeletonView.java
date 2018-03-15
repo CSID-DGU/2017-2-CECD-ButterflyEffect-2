@@ -38,8 +38,13 @@ public class SkeletonView extends View {
 
                 if(!isPlaying){//ready state
                     paint.setColor(Utils.getColor(i));
-                        if(!(userPoints[Constants.NECK].x == 0 || userPoints[Constants.NECK].y == 0))
-                            canvas.drawCircle((float) userPoints[Constants.NECK].x, (float) userPoints[Constants.NECK].y, Constants.READY_CIRCLE_RADIUS, paint);
+                        if(!(userPoints[Constants.NECK].x == 0 || userPoints[Constants.NECK].y == 0)) {
+                            //canvas.drawCircle((float) userPoints[Constants.NECK].x, (float) userPoints[Constants.NECK].y, Constants.READY_CIRCLE_RADIUS, paint);
+                            paint.setTextSize(Constants.PLAYER_TEXT_SIZE);
+                            paint.setTextAlign(Paint.Align.CENTER);
+                            canvas.drawText("[ PLAYER "+(i+1)+" ]", (float)userPoints[Constants.NECK].x, (float)userPoints[Constants.NECK].y, paint);
+
+                        }
                 }
                 else {
                     paint.setStrokeWidth(Constants.LINE_WIDTH);

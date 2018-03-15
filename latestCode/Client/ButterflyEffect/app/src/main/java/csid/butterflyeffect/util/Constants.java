@@ -6,17 +6,18 @@ package csid.butterflyeffect.util;
 
 public class Constants {
 
-    //about battleWorms
-    public static final int PLAYER_NUMBER = 1;
+    //ut battleWorms
+    public static final int PLAYER_NUMBER = 2;
 
 
     //about CONNECTION
     public static int PORT_NUM = 9000;
     public static int TIME_OUT_FOR_TCP_CONNECTION = 3000;//3 sec
-    public static String ADDR = "13.125.228.120";
+    public static String ADDR = "13.125.230.15";
 
     //about CAMERA
-    public static final int FRAME_RATE = 13000; //10000 = 10 fps
+    public static final int FRAME_RATE = 10000; //10000 = 10 fps
+    public static final int COMPRESS_QUAILITY = 60; //100 -> same quaility
 
     //about skeleton
     public static final int NOSE = 0;
@@ -40,10 +41,11 @@ public class Constants {
     public static final int BACKGROUND = 18;
 
     public static final int CIRCLE_RADIUS = 7;
-    public static final int READY_CIRCLE_RADIUS = 20;
+    public static final int READY_CIRCLE_RADIUS = 5;
+    public static final int PLAYER_TEXT_SIZE = 25;
     public static final float LINE_WIDTH = 5;
     public static final float SPECIAL_LINE_WIDTH = 15;
-    public static final int USER_FACE_CROP_DISTANCE = 30;
+    public static final int USER_FACE_CROP_DISTANCE = 40;
 
 
     //about user device GLOBAL VARIABLE

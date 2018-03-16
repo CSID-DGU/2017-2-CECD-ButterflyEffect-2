@@ -173,7 +173,7 @@ public class Utils {
             Point2D[] keypoint = new Point2D[Constants.KEYPOINT_NUM];
             for(int i=0;i<Constants.KEYPOINT_NUM;i++){
                 if(i==Constants.NECK)
-                    keypoint[i] = users.get(user).getNeck();
+                    keypoint[i] = users.get(user).getKeyPoints()[Constants.NECK];
                 else
                     keypoint[i] = new Point2D();
             }

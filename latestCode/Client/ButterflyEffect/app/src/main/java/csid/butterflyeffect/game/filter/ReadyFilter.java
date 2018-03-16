@@ -48,7 +48,7 @@ public class ReadyFilter {
                 //search the closest point for each player and update their points.
                 for (int i = 0; i < userInfos.size(); i++) {
                     UserInfo player = userInfos.get(i);
-                    Point2D playerBody = player.getNeck();
+                    Point2D playerBody = player.getKeyPoints()[Constants.NECK];
                     int closestIndex = -1;
                     double closestDistance = Integer.MAX_VALUE;
                     for(int j=0;j<data.size();j++){
@@ -61,8 +61,7 @@ public class ReadyFilter {
 
                     //update playerBodyPoints
                     if(closestDistance <= Constants.PLAYER_RADIUS && closestIndex != -1) {
-                        player.setNeck(data.get(closestIndex)[Constants.NECK]);
-                        player.setNose(data.get(closestIndex)[Constants.NOSE]);
+                        player.setKeyPoints(data.get(closestIndex));
                     }
                 }
 
@@ -83,7 +82,7 @@ public class ReadyFilter {
                     Point2D[] target = data.get(i);
                     for(int j=0;j<userInfos.size();j++){
                         UserInfo user = userInfos.get(j);
-                        if(Utils.getDistance(target[Constants.NECK],user.getNeck())< Constants.PLAYER_RADIUS) {
+                        if(Utils.getDistance(target[Constants.NECK],user.getKeyPoints()[Constants.NECK])< Constants.PLAYER_RADIUS) {
                             ignore[i] = true;
                         }
                     }
@@ -125,8 +124,7 @@ public class ReadyFilter {
                 if(bestIndex!=-1){
                     //setting user and add to userInfo
                     UserInfo user = new UserInfo(userInfos.size());
-                    user.setNose(data.get(bestIndex)[Constants.NOSE]);
-                    user.setNeck(data.get(bestIndex)[Constants.NECK]);
+                    user.setKeyPoints(data.get(bestIndex));
                     userInfos.add(user);
 
                     Log.d("#####","new user added!");
@@ -138,9 +136,9 @@ public class ReadyFilter {
         }
         list.add(data);
 
+        //TODO 여기 한번 봐보기
         for(int i=0;i<userInfos.size();i++){
-            userKeypoints.get(i)[Constants.NOSE] = userInfos.get(i).getNose();
-            userKeypoints.get(i)[Constants.NECK] = userInfos.get(i).getNeck();
+            userKeypoints.set(i,userInfos.get(i).getKeyPoints());
         }
         return userKeypoints;
     }

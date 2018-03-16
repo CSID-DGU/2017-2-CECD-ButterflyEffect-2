@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         for(int i=0;i<users.size();i++){
             UserInfo user = users.get(i);
             if(user.getUserProfile()==null) {
-                user.setUserProfile(Utils.getUserFace(wholePicture, user.getNose()));
+                user.setUserProfile(Utils.getUserFace(wholePicture, user.getKeyPoints()[Constants.NOSE]));
                 updateUser(i);
             }
         }

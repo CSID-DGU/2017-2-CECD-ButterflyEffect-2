@@ -9,7 +9,7 @@ import csid.butterflyeffect.game.Point2D;
 import csid.butterflyeffect.util.Constants;
 
 public class UserInfo implements Comparable<UserInfo>{
-    private Point2D nose,neck;
+    private Point2D[] keyPoints;
     private int userNumber;
     private boolean isPlaying;
     private boolean isBoost;
@@ -61,22 +61,6 @@ public class UserInfo implements Comparable<UserInfo>{
         isPlaying = playing;
     }
 
-    public Point2D getNose() {
-        return nose;
-    }
-
-    public void setNose(Point2D nose) {
-        this.nose = nose;
-    }
-
-    public Point2D getNeck() {
-        return neck;
-    }
-
-    public void setNeck(Point2D neck) {
-        this.neck = neck;
-    }
-
     public boolean isBoost() {
         return isBoost;
     }
@@ -98,4 +82,11 @@ public class UserInfo implements Comparable<UserInfo>{
         this.userProfile = userProfile;
     }
 
+    public Point2D[] getKeyPoints() {
+        return keyPoints;
+    }
+
+    public void setKeyPoints(Point2D[] keyPoints) {
+        this.keyPoints = keyPoints;
+    }
 }

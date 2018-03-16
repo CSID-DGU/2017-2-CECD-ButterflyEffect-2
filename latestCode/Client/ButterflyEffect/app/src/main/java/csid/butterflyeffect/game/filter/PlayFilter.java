@@ -28,13 +28,13 @@ public class PlayFilter {
     public void saveFirstUserInfo(){
         userInfoList.add(Utils.getPlainKeyPoint(userInfos));
 
-        ArrayList<Point2D> userNeckInfo = new ArrayList<>();
+        ArrayList<Point2D[]> userKeyPointsInfo = new ArrayList<>();
         for(int i=0;i<userInfos.size();i++)
-            userNeckInfo.add(userInfos.get(i).getNeck());
+            userKeyPointsInfo.add(userInfos.get(i).getKeyPoints());
 
-        ArrayList<int[]> colors = getRGBFromPixels(userNeckInfo);
+        ArrayList<int[]> colors = getRGBFromPixels(userKeyPointsInfo);
 
-        //repeat to save user's neck's color 5 times for each users.
+        //save user's color information for each users.
         for(int i=0;i<userInfos.size();i++){
             int[] userColors = colors.get(i);
             for(int j=0;j<Constants.USER_COLOR_LISTS_NUM;j++){
@@ -55,8 +55,9 @@ public class PlayFilter {
         for (int user = 0; user < userInfos.size(); user++) {
             recentInfo = userInfoList.get(userInfoList.size() - 1);
             temp = recentInfo.get(userInfos.get(user).getUserNumber());
-            userInfos.get(user).setNeck(temp[Constants.NECK]);
-            userInfos.get(user).setNose(temp[Constants.NOSE]);
+            userInfos.get(user).setKeyPoints(temp);
+            //userInfos.get(user).setNeck(temp[Constants.NECK]);
+            //userInfos.get(user).setNose(temp[Constants.NOSE]);
         }
     }
 
@@ -106,8 +107,8 @@ public class PlayFilter {
                 result[userNumber] = getNominalKeyPoint();
             }
             else{
-                Point2D neck = userInfos.get(user).getNeck();
-                Point2D nose = userInfos.get(user).getNose();
+
+                Point2D neck = userInfos.get(user).getKeyPoints()[Constants.NECK];
                 ArrayList<Integer> candidates = new ArrayList<>();
                 ArrayList<Point2D> neckPositions = new ArrayList<>();
                 //int candidate = -1;
@@ -206,18 +207,21 @@ public class PlayFilter {
         return bitmap.getPixel((int)pureXY.x, (int)pureXY.y);
     }
 
-    public ArrayList<int[]> getRGBFromPixels(ArrayList<Point2D> positions) {
+    public ArrayList<int[]> getRGBFromPixels(ArrayList<Point2D[]> userKeyPointsInfo) {
         ArrayList<int[]> colors = new ArrayList<>();
 
        // int[] colors = new int[positions.size()];
         Bitmap bitmap = PreviewSurface.curFrameImage();
 
-        for(int i=0;i<positions.size();i++){
-            Point2D pureXY = Utils.getPureCoordinates(bitmap,positions.get(i));
+        for(int i=0;i<userKeyPointsInfo.size();i++){
+            Point2D[] targets = new Point2D[Constants.USER_COLOR_LISTS_NUM];
+            for(int j=0;j<Constants.USER_COLOR_LISTS_NUM;j++)
+                targets[j] = Utils.getPureCoordinates(bitmap,userKeyPointsInfo.get(i)[Constants.COLOR_LISTS_NAME[j]]);
+
             //it is because we will get pixel from raw frame of camera.
             int[] userColors = new int[Constants.USER_COLOR_LISTS_NUM];
             for(int j=0;j<Constants.USER_COLOR_LISTS_NUM;j++){
-                userColors[j] = bitmap.getPixel((int)pureXY.x, (int)pureXY.y);
+                userColors[j] = bitmap.getPixel((int)targets[j].x, (int)targets[j].y);
             }
             colors.add(userColors);
         }

@@ -197,6 +197,7 @@ public class Utils {
 
     public static Point2D getPureCoordinates(Bitmap bitmap,Point2D ratioXY){
         //the reason why x is minus is frame that is received from camera is reverse shot.
+        //TODO 음수가 나오는 버그 발견
         double x = (Constants.PREVIEW_WIDTH-ratioXY.x)*bitmap.getWidth()/Constants.PREVIEW_WIDTH;
         double y = ratioXY.y*bitmap.getHeight()/Constants.PREVIEW_HEIGHT;
         return new Point2D(x,y);

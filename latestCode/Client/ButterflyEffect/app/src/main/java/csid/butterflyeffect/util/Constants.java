@@ -63,6 +63,7 @@ public class Constants {
     public static final int PLAYER_RADIUS = 100;
     public static final int RAISING_HAND_C = 50;
     public static final int KEYPOINT_NUM = 18;
+    public static final int OFFSET = 5.0;
     public static final int[] COLOR_LISTS_NAME={
             Constants.NECK
     };

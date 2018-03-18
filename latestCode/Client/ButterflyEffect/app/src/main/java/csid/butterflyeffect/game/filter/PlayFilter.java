@@ -1,5 +1,6 @@
 package csid.butterflyeffect.game.filter;
 
+import android.content.ContentUris;
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -214,17 +215,58 @@ public class PlayFilter {
         return candidatesKeyPoints.get(result);
     }
 
-    public int getRGBFromPixel(Point2D target){
 
+    public boolean isInWidth(int x, int width){
+        if(0 <= x && x <= width)
+            return true;
+        else
+            return false;
+    }
+    public boolean isInHeight(int y, int height){
+        if(0 <= y && y <= height)
+            return true;
+        else
+            return false;
+    }
+
+    public int getRGBFromPixel(Point2D target){
         Bitmap bitmap;
+        int colorsSum = 0;
+        int cnt = 0;
         do {
             bitmap = PreviewSurface.curFrameImage();
         }while(bitmap==null);
-
         Point2D pureXY = Utils.getPureCoordinates(bitmap,target);
+        int startX = Integer.MAX_VALUE, endX = -1, startY = Integer.MAX_VALUE, endY = -1;
+        int bitmapWidth = bitmap.getWidth();
+        int bitmapHeight = bitmap.getHeight();
+        for(int i = Constants.OFFSET; i > 0; i--) {
+            if(startX == Integer.MAX_VALUE && isInWidth((int)(pureXY.x-i), bitmapWidth)) {
+                startX = (int) (pureXY.x - i);
+            }
+            if(endX == -1 && isInWidth((int)(pureXY.x+i-1), bitmapWidth)){
+                endX = (int)(pureXY.x + i);
+            }
+            if(startY == Integer.MAX_VALUE && isInHeight((int)(pureXY.y-i), bitmapHeight)) {
+                startY = (int) (pureXY.y - i);
+            }
+            if(endY == -1 && isInHeight((int)(pureXY.y+i-1), bitmapHeight)){
+                endY = (int)(pureXY.y + i);
+            }
+        }
+        for(int i = startX; i < endX; i++){
+            for(int j = startY; j < endY; j++){
+                colorsSum += bitmap.getPixel(i, j);
+                cnt++;
+            }
+        }
         //it is because we will get pixel from raw frame of camera.
-
-        return bitmap.getPixel((int)pureXY.x, (int)pureXY.y);
+        if(cnt != 0){
+            return colorsSum/cnt;
+        }
+        else {
+            return 0;
+        }
     }
 
     public ArrayList<int[]> getRGBFromPixels(ArrayList<Point2D[]> userKeyPointsInfo) {

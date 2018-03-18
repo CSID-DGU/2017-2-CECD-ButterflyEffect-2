@@ -244,19 +244,19 @@ public class PlayFilter {
         for(int i = Constants.OFFSET; i > 0; i--) {
             stop = true;
             if(startX == Integer.MAX_VALUE && isInWidth((int)(pureXY.x-i), bitmapWidth)) {
-                startX = (int) (pureXY.x - i);
+                startX = ((int)pureXY.x - i);
                 stop = false;
             }
-            if(endX == -1 && isInWidth((int)(pureXY.x+i-1), bitmapWidth)){
-                endX = (int)(pureXY.x + i);
+            if(endX == -1 && isInWidth(((int)pureXY.x+i-1), bitmapWidth)){
+                endX = ((int)pureXY.x + i);
                 stop = false;
             }
-            if(startY == Integer.MAX_VALUE && isInHeight((int)(pureXY.y-i), bitmapHeight)) {
-                startY = (int) (pureXY.y - i);
+            if(startY == Integer.MAX_VALUE && isInHeight(((int)pureXY.y-i), bitmapHeight)) {
+                startY = ((int)pureXY.y - i);
                 stop = false;
             }
-            if(endY == -1 && isInHeight((int)(pureXY.y+i-1), bitmapHeight)){
-                endY = (int)(pureXY.y + i);
+            if(endY == -1 && isInHeight(((int)pureXY.y+i-1), bitmapHeight)){
+                endY = ((int)pureXY.y + i);
                 stop = false;
             }
             if(stop == true)

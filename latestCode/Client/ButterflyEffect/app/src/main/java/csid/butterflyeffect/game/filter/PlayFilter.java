@@ -109,8 +109,7 @@ public class PlayFilter {
             else{
 
                 Point2D neck = userInfos.get(user).getKeyPoints()[Constants.NECK];
-                ArrayList<Integer> candidates = new ArrayList<>();
-                ArrayList<Point2D> neckPositions = new ArrayList<>();
+                ArrayList<Point2D[]> candidatesKeyPoints = new ArrayList<>();
                 //int candidate = -1;
                 int peopleSize = peopleKeyPoints.size();
 
@@ -132,29 +131,34 @@ public class PlayFilter {
                         double distanceNeck = Utils.getDistance(neck, keyPoints[Constants.NECK]);
                         //double distanceNose = Utils.getDistance(nose, keyPoints[Constants.NOSE]);
                         //Select the nearest distance
+                        //if(distanceNeck<Constants.PLAYER_RADIUS){
                         if (distanceNeck < Constants.PLAYER_RADIUS && distanceNeck < minNeck) {
                             minNeck = distanceNeck;
-                            candidates.add(people);
-                            neckPositions.add(keyPoints[Constants.NECK]);
+                            candidatesKeyPoints.add(keyPoints);
                         }
                     }
+                    Log.d("#####","candidates:"+candidatesKeyPoints.size());
                     //If the filter didn't find the targeted user as the user was died or previous distance was too small.
-                    if (candidates.size() == 0) {
+                    if (candidatesKeyPoints.size() == 0) {
                         //If the user had died
                         result[userNumber] = getRecentUserInfo(userNumber);
                     }
-                    else if(candidates.size() == 1){
-                        //TODO keyPoints 에서 해당 유저 지우는거 생각해보기
+                    else if(candidatesKeyPoints.size() == 1){
                         //TODO 색 정보 갱신하는 것도 생각해보기
                         //If the filter find the targeted user
-                        result[userNumber] = peopleKeyPoints.get(candidates.get(0));
+                        result[userNumber] = candidatesKeyPoints.get(0);
+                        deleteFromKeyPoints(peopleKeyPoints,result[userNumber][Constants.NECK]);
+
                     }
                     else {//multiple candidate, so color filter applied
-                        result[userNumber] = peopleKeyPoints.get(filter(userInfos.get(user).getColors(), candidates, neckPositions));
+                        result[userNumber] = filter(userInfos.get(user).getColors(), candidatesKeyPoints);
+                        deleteFromKeyPoints(peopleKeyPoints,result[userNumber][Constants.NECK]);
                     }
                 }
             }
         }
+
+
 
         //change Point2D[][] to arraylist<Point2D[]>
         ArrayList<Point2D[]> rtnPoints = new ArrayList<>();
@@ -172,35 +176,51 @@ public class PlayFilter {
         return rtnPoints;
     }
 
+    public void deleteFromKeyPoints(ArrayList<Point2D[]> peopleKeyPoints,Point2D targetUserNeck){
+        int index = -1;
+        for(int i=0;i<peopleKeyPoints.size();i++){
+            Point2D neck = peopleKeyPoints.get(i)[Constants.NECK];
+            if(neck.x ==targetUserNeck.x && neck.y == targetUserNeck.y){
+                index = i;
+                break;
+            }
+        }
+        peopleKeyPoints.remove(index);
+    }
 
     //filter Overloading
-    public int filter(ArrayList<Integer> userColors, ArrayList<Integer> candidates, ArrayList<Point2D> neckPositions) {
-        int candidatesSize = candidates.size();
+    public Point2D[] filter(ArrayList<Integer> userColors, ArrayList<Point2D[]> candidatesKeyPoints) {
         int userColorsSize = userColors.size();
         int result = -1;
-        int[] colorDiff = new int[candidatesSize];
+        int[] colorDiff = new int[candidatesKeyPoints.size()];
         //Calculate color difference
-        for(int i = 0; i < candidatesSize; i++) {
-            int candidateColor = getRGBFromPixel(neckPositions.get(i));
+         for(int i = 0; i < candidatesKeyPoints.size(); i++) {
             colorDiff[i] = 0;
-            for(int j = 0; j < userColorsSize; j++) {
+            for(int j = 0; j < 1; j++) {
+                int candidateColor = getRGBFromPixel(candidatesKeyPoints.get(i)[Constants.COLOR_LISTS_NAME[j]]);
+                Log.d("#####","user "+(i+1)+"("+j+") color: "+String.valueOf(candidateColor));
                 colorDiff[i] += Math.abs(candidateColor - userColors.get(j));
             }
         }
 
         //Pick minimum diff
-        int minDiff = Integer.MIN_VALUE;
-        for(int i = 0; i < candidatesSize; i++){
+        int minDiff = Integer.MAX_VALUE;
+        for(int i = 0; i < candidatesKeyPoints.size(); i++){
             if(colorDiff[i] < minDiff){
                 minDiff = colorDiff[i];
                 result = i;
             }
         }
-        return result;
+        return candidatesKeyPoints.get(result);
     }
 
     public int getRGBFromPixel(Point2D target){
-        Bitmap bitmap = PreviewSurface.curFrameImage();
+
+        Bitmap bitmap;
+        do {
+            bitmap = PreviewSurface.curFrameImage();
+        }while(bitmap==null);
+
         Point2D pureXY = Utils.getPureCoordinates(bitmap,target);
         //it is because we will get pixel from raw frame of camera.
 
@@ -221,6 +241,7 @@ public class PlayFilter {
             //it is because we will get pixel from raw frame of camera.
             int[] userColors = new int[Constants.USER_COLOR_LISTS_NUM];
             for(int j=0;j<Constants.USER_COLOR_LISTS_NUM;j++){
+                //TODO 이곳에서 x 가 음수면 프로그램이 죽음!
                 userColors[j] = bitmap.getPixel((int)targets[j].x, (int)targets[j].y);
             }
             colors.add(userColors);

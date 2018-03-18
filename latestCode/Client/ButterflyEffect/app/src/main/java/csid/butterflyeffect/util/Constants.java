@@ -15,7 +15,7 @@ public class Constants {
     //about CONNECTION
     public static int PORT_NUM = 9000;
     public static int TIME_OUT_FOR_TCP_CONNECTION = 3000;//3 sec
-    public static String ADDR = "13.124.165.57";
+    public static String ADDR = "13.125.195.240";
 
     //about CAMERA
     public static final int FRAME_RATE = 10000; //10000 = 10 fps
@@ -64,19 +64,13 @@ public class Constants {
     public static final int RAISING_HAND_C = 50;
     public static final int KEYPOINT_NUM = 18;
     public static final int[] COLOR_LISTS_NAME={
-            Constants.NECK,
-            Constants.NOSE,
-            Constants.L_SHOULDER,
-            Constants.R_SHOULDER
+            Constants.NECK
     };
 
     //adapter
-    public static final int USER_COLOR_LISTS_NUM = 4;
+    public static final int USER_COLOR_LISTS_NUM = 1;
     public static final int[] COLOR_LISTS={
-            R.id.view_c1,
-            R.id.view_c2,
-            R.id.view_c3,
-            R.id.view_c4,
+            R.id.view_c1
     };
 
 

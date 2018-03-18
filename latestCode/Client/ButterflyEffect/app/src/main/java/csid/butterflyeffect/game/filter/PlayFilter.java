@@ -217,13 +217,13 @@ public class PlayFilter {
 
 
     public boolean isInWidth(int x, int width){
-        if(0 <= x && x <= width)
+        if(0 <= x && x < width)
             return true;
         else
             return false;
     }
     public boolean isInHeight(int y, int height){
-        if(0 <= y && y <= height)
+        if(0 <= y && y < height)
             return true;
         else
             return false;

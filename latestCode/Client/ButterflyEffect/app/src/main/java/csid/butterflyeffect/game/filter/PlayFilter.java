@@ -240,19 +240,27 @@ public class PlayFilter {
         int startX = Integer.MAX_VALUE, endX = -1, startY = Integer.MAX_VALUE, endY = -1;
         int bitmapWidth = bitmap.getWidth();
         int bitmapHeight = bitmap.getHeight();
+        boolean stop = false;
         for(int i = Constants.OFFSET; i > 0; i--) {
+            stop = true;
             if(startX == Integer.MAX_VALUE && isInWidth((int)(pureXY.x-i), bitmapWidth)) {
                 startX = (int) (pureXY.x - i);
+                stop = false;
             }
             if(endX == -1 && isInWidth((int)(pureXY.x+i-1), bitmapWidth)){
                 endX = (int)(pureXY.x + i);
+                stop = false;
             }
             if(startY == Integer.MAX_VALUE && isInHeight((int)(pureXY.y-i), bitmapHeight)) {
                 startY = (int) (pureXY.y - i);
+                stop = false;
             }
             if(endY == -1 && isInHeight((int)(pureXY.y+i-1), bitmapHeight)){
                 endY = (int)(pureXY.y + i);
+                stop = false;
             }
+            if(stop == true)
+                break;
         }
         for(int i = startX; i < endX; i++){
             for(int j = startY; j < endY; j++){

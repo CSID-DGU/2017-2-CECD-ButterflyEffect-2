@@ -10733,6 +10733,48 @@ Tilemap:
   m_TileRefreshArray:
   - serializedVersion: 1
     m_DirtyIndex: 0
+--- !u!1001 &536293477
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4310487089984690, guid: e627b8ebe15df284da200ce969232273, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4310487089984690, guid: e627b8ebe15df284da200ce969232273, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4310487089984690, guid: e627b8ebe15df284da200ce969232273, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4310487089984690, guid: e627b8ebe15df284da200ce969232273, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4310487089984690, guid: e627b8ebe15df284da200ce969232273, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4310487089984690, guid: e627b8ebe15df284da200ce969232273, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4310487089984690, guid: e627b8ebe15df284da200ce969232273, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4310487089984690, guid: e627b8ebe15df284da200ce969232273, type: 2}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: e627b8ebe15df284da200ce969232273, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &543599967
 GameObject:
   m_ObjectHideFlags: 0
@@ -10965,6 +11007,7 @@ GameObject:
   - component: {fileID: 867615172}
   - component: {fileID: 867615171}
   - component: {fileID: 867615173}
+  - component: {fileID: 867615174}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -11052,6 +11095,7 @@ MonoBehaviour:
   border_Bottom: {fileID: 1700186673}
   border_Left: {fileID: 1915313218}
   border_Right: {fileID: 800702278}
+  Light: {fileID: 1746661004509574, guid: e627b8ebe15df284da200ce969232273, type: 2}
   Tilemap: {fileID: 485436824}
   HList: {fileID: 867615173}
 --- !u!114 &867615172
@@ -11088,7 +11132,20 @@ MonoBehaviour:
   border_Bottom: {fileID: 1700186673}
   border_Left: {fileID: 1915313218}
   border_Right: {fileID: 800702278}
+  food: {fileID: 0}
   Worms: {fileID: 1520422354976476, guid: d1d9b981b9057454c86ceedd91b8b268, type: 2}
+--- !u!114 &867615174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 867615166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 2c66b7c105d864a4a841d0e10930ee67, type: 2}
 --- !u!1 &881574902
 GameObject:
   m_ObjectHideFlags: 0
@@ -11132,7 +11189,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1130626054
 Light:
   m_ObjectHideFlags: 0
@@ -11142,10 +11199,10 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 1
-  m_Color: {r: 1, g: 0.9756592, b: 0.7794118, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 10
-  m_SpotAngle: 179
+  m_Range: 27.07
+  m_SpotAngle: 154
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -11162,9 +11219,9 @@ Light:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_Lightmapping: 2
+  m_Lightmapping: 1
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
@@ -11176,7 +11233,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1130626053}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

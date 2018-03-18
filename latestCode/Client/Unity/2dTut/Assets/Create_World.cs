@@ -10,6 +10,7 @@ public class Create_World : MonoBehaviour
     public float ppu = 1.0f;
 
     GameObject Background;
+    public GameObject WorldLight;
     new public Camera camera;
 
     // Borders (Fix using resolution)
@@ -17,6 +18,10 @@ public class Create_World : MonoBehaviour
     public Transform border_Bottom;
     public Transform border_Left;
     public Transform border_Right;
+
+    List<GameObject> WormLightList = new List<GameObject>();
+
+    public GameObject Light;
 
     public Transform Tilemap;
 
@@ -35,6 +40,9 @@ public class Create_World : MonoBehaviour
             for (int j = 0; j < 6; i++)
                 Debug.Log(isWorm[i,j]);
                 */
+
+        for (int i = 0; i < 3; i++)
+            WormLightList.Add(Instantiate(Light, new Vector3(0f, 0f, 0f), new Quaternion(0f, 0f, 0f,0f)));
 
 
         //Black Screen 방지
@@ -71,13 +79,7 @@ public class Create_World : MonoBehaviour
         //화면 Size 조정. 높이 * pixel per unit /2;        
         camera.orthographicSize = i_height / ppu / 2;
 
-
-
-
-
         //Typing "Spawn();" to test worms in Unity here
-        Spawn();
-        Spawn();
     }
 
     int person_num = 0;
@@ -86,8 +88,29 @@ public class Create_World : MonoBehaviour
     public void Spawn()
     {
         //person_num = int.Parse(player_count);
-        HList.Spawn_Head(person_num++);
+        HList.Spawn_Head(person_num, WormLightList[person_num]);
+        person_num++;
 
+    }
+
+    public void GameStart()
+    {
+        Invoke("GameStart_S", 3.0f);
+    }
+
+    //Called by Android
+    public void GameStart_S()
+    {
+
+        SpawnFood spfood = camera.GetComponent<SpawnFood>();
+
+        spfood.FoodSpawnStart();
+
+        for (int i = 0; i < 3; i++)
+            if(WormLightList[i]!=null)
+                WormLightList[i].active = false;
+
+        WorldLight.active = true;
 
     }
 

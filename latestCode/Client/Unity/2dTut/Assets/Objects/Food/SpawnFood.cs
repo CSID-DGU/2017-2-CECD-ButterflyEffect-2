@@ -15,9 +15,11 @@ public class SpawnFood : MonoBehaviour {
 
     public GameObject FoodParent;
 
-    private bool FoodSpwanState; // Food spwan flag
+    //private bool isGameStart = false;
 
-    public int FoodMaxPool;     // Food count
+    private bool FoodSpwanState = false; // Food spwan flag
+
+    public int FoodMaxPool = 30;     // Food count
     private MemoryPool MPool;   // MemoryPool
     private GameObject[] FoodprefabArray;   //FoodArray Used with MemoryPool
 
@@ -33,7 +35,7 @@ public class SpawnFood : MonoBehaviour {
     void Start () {
 
         // Food Spawn 가능 상태로 변경
-        FoodSpwanState = true;
+        // FoodSpwanState = true;
 
         // MemeoryPool Init
         MPool = new MemoryPool();
@@ -46,7 +48,7 @@ public class SpawnFood : MonoBehaviour {
         // InvokeRepeating("Spawnf", 0.5f, 4f);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         //매 프레임마다 spwanf 확인
         Spawnf();
@@ -77,7 +79,11 @@ public class SpawnFood : MonoBehaviour {
                                               border_Bottom.position.y);
 
                     int z = -2;
+
                     FoodprefabArray[i].transform.position = new Vector3(x, y, z);
+                    FoodprefabArray[i].transform.localScale = new Vector3(Global.food_size, Global.food_size, Global.food_size);
+
+
 
                     break;
                 }
@@ -106,6 +112,10 @@ public class SpawnFood : MonoBehaviour {
         FoodSpwanState = true;
     }
 
+    public void FoodSpawnStart()
+    {
+        FoodSpwanState = true;
+    }
 
 
     /* Food don't need to be updated per frame

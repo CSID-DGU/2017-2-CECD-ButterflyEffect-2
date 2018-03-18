@@ -10,6 +10,8 @@ public class Head_List : MonoBehaviour
     public Transform border_Left;
     public Transform border_Right;
 
+    public GameObject food;
+
     public GameObject Worms;
     List<GameObject> WormsList = new List<GameObject>();
     private float angle = 0f;
@@ -38,7 +40,7 @@ public class Head_List : MonoBehaviour
     private float w_unit = Global.screen_width / 6;
     private float h_unit = Global.screen_height / 6;
 
-    public void Spawn_Head(int i)
+    public void Spawn_Head(int i,GameObject WormLight)
     {
         while (true)
         {
@@ -64,6 +66,12 @@ public class Head_List : MonoBehaviour
                 WormsList[i].GetComponent<MeshRenderer>().material.color = Global.player_Color[i];
 
                 isWorm[(int)(x / w_unit+2), (int)(y / h_unit+2)] = true;
+
+
+                WormLight.transform.position = new Vector3(x, y, Global.head_size*(-1.3f));
+
+                WormsList[i].GetComponent<HeadController>().foodalloc(food);
+
 
                 break;
             }

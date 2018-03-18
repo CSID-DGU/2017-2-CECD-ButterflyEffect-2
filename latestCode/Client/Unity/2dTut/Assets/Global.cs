@@ -32,6 +32,10 @@ public static class Global
     public static float tail_size_ratio = 0.04f;
     public static float tail_size = game_res_width * tail_size_ratio;
 
+    //Food Size
+    public static float food_size_ratio = 0.03f;
+    public static float food_size = food_size_ratio * game_res_width;
+
     public static Color skyblue = new Color(0.3f, 0.3f, 1,1);
 
     //Wroms color (readonly = final

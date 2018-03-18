@@ -6,7 +6,7 @@ using System;
 
 public class HeadController : MonoBehaviour
 {
-    public GameObject food;
+    private GameObject food;
 
     private Rigidbody rb;
     private Transform curtail;
@@ -16,6 +16,11 @@ public class HeadController : MonoBehaviour
     private static AndroidJavaObject _admobPlugin;
     private int Head_index = 255;
     private Color tail_color = Color.black;
+
+    public void foodalloc(GameObject foodobj)
+    {
+        food = foodobj;
+    }
 
     private float boost_mult = 1.0f;
 

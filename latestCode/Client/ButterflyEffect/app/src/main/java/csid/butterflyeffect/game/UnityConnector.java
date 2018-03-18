@@ -24,6 +24,6 @@ public class UnityConnector {
 
     }
     public static void startGame(){
-        UnityPlayer.UnitySendMessage("Camera","GameStart", null);
+        UnityPlayer.UnitySendMessage("Camera","GameStart", "");
     }
 }

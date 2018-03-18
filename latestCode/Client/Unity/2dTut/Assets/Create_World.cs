@@ -93,7 +93,7 @@ public class Create_World : MonoBehaviour
 
     }
 
-    public void GameStart()
+    public void GameStart(string s)
     {
         Invoke("GameStart_S", 3.0f);
     }

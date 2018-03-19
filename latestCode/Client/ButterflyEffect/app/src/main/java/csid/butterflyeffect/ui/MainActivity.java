@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     private BattleWorms mBattleWorms;
     private RecyclerView mRecyclerView;
     private UserAdapter mAdapter;
+    private Toast mToast;
     public static boolean isSocketConnected = false;
 
     @Override
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(mBattleWorms.isPlaying())
+                if(mBattleWorms.getState()==Constants.STATE_START)
                    mSkeleton.setPlaying(true);
 
                 mSkeleton.drawSkeletons(keyPoints);
@@ -289,7 +290,10 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(MainActivity.this,str,Toast.LENGTH_SHORT).show();
+                if(mToast!=null)
+                    mToast.cancel();
+                mToast = Toast.makeText(MainActivity.this,str,Toast.LENGTH_SHORT);
+                mToast.show();
             }
         });
 

@@ -71,7 +71,7 @@ public class ReadyFilter {
             //pick player from people
             // 1) ignore player in game from data
             // 2) finding the longest raising hand person with least movement using list.
-            if(userInfos.size()<3){
+            if(userInfos.size()<Constants.PLAYER_NUMBER){
                 boolean[] ignore = new boolean[data.size()]; // only picked Player will be false.
                 int[] handCount = new int[data.size()];
 

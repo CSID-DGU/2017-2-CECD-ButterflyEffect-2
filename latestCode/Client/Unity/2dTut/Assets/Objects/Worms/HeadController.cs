@@ -90,7 +90,7 @@ public class HeadController : MonoBehaviour
         tailPrefab.transform.localScale = new Vector3(Global.tail_size, Global.tail_size, Global.tail_size);
 
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 1; i++)
             tail_create(rb.position);
         jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
@@ -208,7 +208,13 @@ public class HeadController : MonoBehaviour
         // Reset the flag
         ate += 2;
 
-
+        //growing worms size.
+        float tailRatio = 1.0f + (tail.Count()/30f);
+        for (int i = 0; i < tail.Count();i++){
+            tail[i].transform.localScale = new Vector3(Global.tail_size*tailRatio, Global.tail_size*tailRatio, Global.tail_size*tailRatio);
+        }
+        rb.transform.localScale = new Vector3(Global.head_size * tailRatio, Global.head_size * tailRatio, Global.head_size * tailRatio);
+       
     }
 
     void OnTriggerEnter(Collider coll)

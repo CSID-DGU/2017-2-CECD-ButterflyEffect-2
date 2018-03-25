@@ -15,7 +15,7 @@ public static class Global
     public static float game_res_height = 640f;
 
     //Worms Speed
-    public static float init_headspeed_mult = game_res_width / 480;
+    public static float init_headspeed_mult = game_res_width / 300;
     public static float init_headcurspeed_mult = 1.5f;
 
     //tail option 
@@ -26,7 +26,7 @@ public static class Global
 
 
     //Worms Size
-    public static float head_size_ratio = 0.05f;
+    public static float head_size_ratio = 0.04f;
     public static float head_size = game_res_width * head_size_ratio;
 
     public static float tail_size_ratio = 0.04f;

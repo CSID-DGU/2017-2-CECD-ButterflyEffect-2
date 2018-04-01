@@ -5,14 +5,35 @@ using UnityEngine;
 public class rotateFood: MonoBehaviour {
 
     private Rigidbody food;
-
-	// Use this for initialization
-	void Start () {
+    private Light foodlight;
+    // Use this for initialization
+    void Start () {
         food = gameObject.GetComponent<Rigidbody>();
+        foodlight = gameObject.GetComponent<Light>();
     }
-	
+
+    int flag = 1;
+    float modifier = 1;
+
 	// Update is called once per frame
 	void FixedUpdate () {
+
+        if (flag == 1)
+        {
+            foodlight.range = Global.food_halo_size * modifier;
+            modifier *= 1.05f;
+            if (modifier > 1.1)
+                flag = 0;
+        }
+        else
+        {
+            foodlight.range = Global.food_halo_size * modifier;
+            modifier *= 0.95f;
+            if (modifier < 0.9)
+                flag = 1;
+        }
+
+        
         food.transform.Rotate(0.0f, 0.0f, 1.0f);
 
     }

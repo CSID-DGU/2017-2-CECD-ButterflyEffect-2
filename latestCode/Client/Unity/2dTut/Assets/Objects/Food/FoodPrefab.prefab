@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 23107018312060958}
   - component: {fileID: 54340747982801034}
   - component: {fileID: 114217890394840698}
-  - component: {fileID: 108286666461782834}
+  - component: {fileID: 108485730625122422}
   m_Layer: 0
   m_Name: FoodPrefab
   m_TagString: Untagged
@@ -85,7 +85,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1505511404846652}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &54340747982801034
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -111,9 +111,9 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 8, y: 8, z: 100}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!108 &108286666461782834
+--- !u!108 &108485730625122422
 Light:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -123,7 +123,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 5.92
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -136,7 +136,7 @@ Light:
     m_NormalBias: 0.4
     m_NearPlane: 0.2
   m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
+  m_DrawHalo: 1
   m_Flare: {fileID: 0}
   m_RenderMode: 0
   m_CullingMask:

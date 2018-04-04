@@ -35,69 +35,10 @@
 
 // Json dependencies
 
-/*
-#include <string>
-#include <cstdio>
-#include <cstring>
-#include <iostream>
-#include <sstream>
-#include <cstdlib>
-#include "json11.hpp"
-#include <vector>
-#include <iomanip>
-using namespace std;
-using namespace json11;
-*/
 using namespace cv;
 
 std::queue<cv::Mat> frameQueue;
 int tcpsocket;
-/*
-class Pt{
-public:
-        float x,y;
-        Pt(float x, float y) : x(x), y(y){}
-        Json to_json() const{
-        std::stringstream ssX,ssY;
-        ssX<< std::fixed <<std::setprecision(3)<<x;
-        ssY<< std::fixed <<std::setprecision(3)<<y;
-        return
-         Json::object({
-                {"x",ssX.str()},
-                {"y",ssY.str()},});
-        }
-};
-
-
-class UserKeyPoint{
-public:
-        int rgbRed;
-        int rgbGreen;
-        int rgbBlue;
-        vector<Pt> keyPoints;
-        UserKeyPoint(){
-        	rgbRed = -1;
-		rgbGreen = -1;
-		rgbBlue = -1;
-	}
-        Json to_json() const{
-                return Json::object({
-                {"skeleton",Json(keyPoints)},
-                {"rgbRed",rgbRed},
-                {"rgbGreen",rgbGreen},
-                {"rgbBlue",rgbBlue},
-        });
-        }
-        void addPoint(Pt pt){
-                keyPoints.push_back(pt);
-        }
-        void setColor(int r, int g, int b){
-                rgbRed = r;
-                rgbGreen = g;
-                rgbBlue = b;
-        }
-};
-*/
 // See all the available parameter options withe the `--help` flag. E.g. `build/examples/openpose/openpose.bin --help`
 // Note: This command will show you flags for other unnecessary 3rdparty files. Check only the flags for the OpenPose
 // executable. E.g. for `openpose.bin`, look for `Flags from examples/openpose/openpose.cpp:`.

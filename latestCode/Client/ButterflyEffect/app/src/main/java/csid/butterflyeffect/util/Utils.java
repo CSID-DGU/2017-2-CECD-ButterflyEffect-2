@@ -6,12 +6,17 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import csid.butterflyeffect.game.Point2D;
+import csid.butterflyeffect.game.model.KeyPoint;
 import csid.butterflyeffect.game.model.UserInfo;
 
 /**
@@ -51,6 +56,8 @@ public class Utils {
         float ratio_X = Constants.PREVIEW_WIDTH / Constants.CAMERA_WIDTH;
         float ratio_Y = Constants.PREVIEW_HEIGHT / Constants.CAMERA_HEIGHT;
 
+
+        //TODO 이부분 수정하기
 
         ArrayList<Point2D[]> rtnArray = new ArrayList<>();
         int len = serverStr.length();
@@ -165,19 +172,22 @@ public class Utils {
         return Math.sqrt((p1.x-p2.x)*(p1.x-p2.x)+ (p1.y-p2.y)*(p1.y-p2.y));
     }
 
-    public static ArrayList<Point2D[]> getPlainKeyPoint(ArrayList<UserInfo> users)
+    public static ArrayList<KeyPoint> getPlainKeyPoint(ArrayList<UserInfo> users)
     {
-        ArrayList<Point2D[]> userKeypoints = new ArrayList<>();
+        ArrayList<KeyPoint> userKeypoints = new ArrayList<>();
 
         for(int user=0;user<users.size();user++){
-            Point2D[] keypoint = new Point2D[Constants.KEYPOINT_NUM];
+            KeyPoint keyPoint = new KeyPoint();
+            Point2D[] temp = new Point2D[Constants.KEYPOINT_NUM];
             for(int i=0;i<Constants.KEYPOINT_NUM;i++){
                 if(i==Constants.NECK)
-                    keypoint[i] = users.get(user).getKeyPoints()[Constants.NECK];
+                    temp[i] = users.get(user).getKeyPoint().getSkeleton()[Constants.NECK];
                 else
-                    keypoint[i] = new Point2D();
+                    temp[i] = new Point2D();
             }
-            userKeypoints.add(keypoint);
+            keyPoint.setSkeleton(temp);
+
+            userKeypoints.add(keyPoint);
         }
 
         return userKeypoints;
@@ -205,5 +215,15 @@ public class Utils {
 
         double y = ratioXY.y*bitmap.getHeight()/Constants.PREVIEW_HEIGHT;
         return new Point2D(x,y);
+    }
+
+    public static ArrayList<KeyPoint> getKeyPointsFromJsonData(String jsonData){
+        Gson gson = new Gson();
+        Type listType = new TypeToken<ArrayList<KeyPoint>>(){}.getType();
+        ArrayList<KeyPoint> keyPoints = gson.fromJson(jsonData,listType);
+        for(int i=0;i<keyPoints.size();i++){
+            keyPoints.get(i).applyRatio();
+        }
+        return keyPoints;
     }
 }

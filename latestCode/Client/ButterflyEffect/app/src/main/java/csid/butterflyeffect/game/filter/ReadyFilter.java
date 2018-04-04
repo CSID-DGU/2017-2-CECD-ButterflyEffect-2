@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import csid.butterflyeffect.game.BattleWorms;
 import csid.butterflyeffect.game.Point2D;
 import csid.butterflyeffect.game.UnityConnector;
+import csid.butterflyeffect.game.model.KeyPoint;
 import csid.butterflyeffect.game.model.UserInfo;
 import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Utils;
@@ -17,8 +18,8 @@ import csid.butterflyeffect.util.Utils;
 
 public class ReadyFilter {
     private ArrayList<UserInfo> userInfos;
-    private ArrayList<ArrayList<Point2D[]>> list;
-    private ArrayList<Point2D[]> userKeypoints;
+    private ArrayList<ArrayList<KeyPoint>> list;
+    private ArrayList<KeyPoint> userKeypoints;
     private BattleWorms battleWorms;
 
     public ReadyFilter(ArrayList<UserInfo> userInfos,BattleWorms battleWorms){
@@ -27,16 +28,17 @@ public class ReadyFilter {
         list = new ArrayList<>();
         userKeypoints = new ArrayList<>();
         for(int i=0;i<Constants.PLAYER_NUMBER;i++){
-            Point2D[] keypoint = new Point2D[Constants.KEYPOINT_NUM];
+            KeyPoint keyPoint = new KeyPoint();
+            Point2D[] plain = new Point2D[Constants.KEYPOINT_NUM];
             for(int j=0;j<Constants.KEYPOINT_NUM;j++){
-                keypoint[j] = new Point2D();
+                plain[j] = new Point2D();
             }
-            userKeypoints.add(keypoint);
+            keyPoint.setSkeleton(plain);
+            userKeypoints.add(keyPoint);
         }
     }
 
-    public ArrayList<Point2D[]> filter(ArrayList<Point2D[]> data){
-
+    public ArrayList<KeyPoint> filter(ArrayList<KeyPoint> keyPoints){
 
         if(list.size() == Constants.LIST_SIZE) {
             //remove to keep the queue.size constant
@@ -48,11 +50,11 @@ public class ReadyFilter {
                 //search the closest point for each player and update their points.
                 for (int i = 0; i < userInfos.size(); i++) {
                     UserInfo player = userInfos.get(i);
-                    Point2D playerBody = player.getKeyPoints()[Constants.NECK];
+                    Point2D playerBody = player.getKeyPoint().getSkeleton()[Constants.NECK];
                     int closestIndex = -1;
                     double closestDistance = Integer.MAX_VALUE;
-                    for(int j=0;j<data.size();j++){
-                        double d = Utils.getDistance(playerBody,data.get(j)[Constants.NECK]);
+                    for(int j=0;j<keyPoints.size();j++){
+                        double d = Utils.getDistance(playerBody,keyPoints.get(j).getSkeleton()[Constants.NECK]);
                         if(d < closestDistance){
                             closestIndex = j;
                             closestDistance = d;
@@ -61,7 +63,7 @@ public class ReadyFilter {
 
                     //update playerBodyPoints
                     if(closestDistance <= Constants.PLAYER_RADIUS && closestIndex != -1) {
-                        player.setKeyPoints(data.get(closestIndex));
+                        player.getKeyPoint().setSkeleton(keyPoints.get(closestIndex).getSkeleton());
                     }
                 }
 
@@ -72,28 +74,28 @@ public class ReadyFilter {
             // 1) ignore player in game from data
             // 2) finding the longest raising hand person with least movement using list.
             if(userInfos.size()<Constants.PLAYER_NUMBER){
-                boolean[] ignore = new boolean[data.size()]; // only picked Player will be false.
-                int[] handCount = new int[data.size()];
+                boolean[] ignore = new boolean[keyPoints.size()]; // only picked Player will be false.
+                int[] handCount = new int[keyPoints.size()];
 
 
-                for(int i=0;i<data.size();i++){
+                for(int i=0;i<keyPoints.size();i++){
 
                     // 1) ignore player in game from data
-                    Point2D[] target = data.get(i);
+                    Point2D[] target = keyPoints.get(i).getSkeleton();
                     for(int j=0;j<userInfos.size();j++){
                         UserInfo user = userInfos.get(j);
-                        if(Utils.getDistance(target[Constants.NECK],user.getKeyPoints()[Constants.NECK])< Constants.PLAYER_RADIUS) {
+                        if(Utils.getDistance(target[Constants.NECK],user.getKeyPoint().getSkeleton()[Constants.NECK])< Constants.PLAYER_RADIUS) {
                             ignore[i] = true;
                         }
                     }
 
                     // 2) finding how many times person raise hand using list.
                     for(int j=0;j<list.size();j++){
-                        ArrayList<Point2D[]> pickedData = list.get(j);
+                        ArrayList<KeyPoint> pickedData = list.get(j);
                         int closestIndex = -1;
                         double closestDistance = Integer.MAX_VALUE;
                         for(int k=0;k<pickedData.size();k++){
-                            double d = Utils.getDistance(pickedData.get(k)[Constants.NECK],target[Constants.NECK]);
+                            double d = Utils.getDistance(pickedData.get(k).getSkeleton()[Constants.NECK],target[Constants.NECK]);
                             if(d<closestDistance){
                                 closestDistance = d;
                                 closestIndex = k;
@@ -102,7 +104,7 @@ public class ReadyFilter {
 
                         if(closestDistance <= Constants.PLAYER_RADIUS && closestIndex!=-1){
                             //check if the person is raising hand
-                            if(Utils.isRaisingHands(pickedData.get(closestIndex))){
+                            if(Utils.isRaisingHands(pickedData.get(closestIndex).getSkeleton())){
                                 handCount[i]++;
                             }
                         }
@@ -113,7 +115,7 @@ public class ReadyFilter {
 
                 int bestIndex = -1;
                 int score = Integer.MIN_VALUE;
-                for(int i=0;i<data.size();i++){
+                for(int i=0;i<keyPoints.size();i++){
                     if(!ignore[i] && handCount[i]>score && handCount[i] >= 17){
                         score = handCount[i];
                         bestIndex = i;
@@ -124,7 +126,7 @@ public class ReadyFilter {
                 if(bestIndex!=-1){
                     //setting user and add to userInfo
                     UserInfo user = new UserInfo(userInfos.size());
-                    user.setKeyPoints(data.get(bestIndex));
+                    user.getKeyPoint().setSkeleton(keyPoints.get(bestIndex).getSkeleton());
                     userInfos.add(user);
 
                     Log.d("#####","new user added!");
@@ -134,11 +136,11 @@ public class ReadyFilter {
 
             }
         }
-        list.add(data);
+        list.add(keyPoints);
 
         //TODO 여기 한번 봐보기
         for(int i=0;i<userInfos.size();i++){
-            userKeypoints.set(i,userInfos.get(i).getKeyPoints());
+            userKeypoints.get(i).setSkeleton(userInfos.get(i).getKeyPoint().getSkeleton());
         }
         return userKeypoints;
     }

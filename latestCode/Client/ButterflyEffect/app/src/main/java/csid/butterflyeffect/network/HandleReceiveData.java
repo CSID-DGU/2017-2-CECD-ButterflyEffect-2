@@ -5,5 +5,5 @@ package csid.butterflyeffect.network;
  */
 
 public interface HandleReceiveData {
-    public abstract void handleReceiveData(String data);
+    public abstract void handleReceiveData(String jsonData);
 }

@@ -1,6 +1,7 @@
 package csid.butterflyeffect.game;
 
 import android.graphics.Point;
+import android.util.Log;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import csid.butterflyeffect.R;
 import csid.butterflyeffect.game.filter.PlayFilter;
 import csid.butterflyeffect.game.filter.ReadyFilter;
+import csid.butterflyeffect.game.model.KeyPoint;
 import csid.butterflyeffect.game.model.UserInfo;
 import csid.butterflyeffect.network.HandleReceiveData;
 import csid.butterflyeffect.ui.MainActivity;
@@ -44,15 +46,17 @@ public class BattleWorms implements HandleReceiveData {
     }
 
     @Override
-    public void handleReceiveData(String data) {
-        //Log.d("#####","receive:"+data);
+    public void handleReceiveData(String jsonData) {
+
+        //Log.d("#####","receive:"+jsonData);
 
         //modify activity
         //activity.showData(data);
+        ArrayList<KeyPoint> userKeyPoints = Utils.getKeyPointsFromJsonData(jsonData);
 
         if (state == Constants.STATE_WAIT) {
             //game ready logic
-            ArrayList<Point2D[]> filteredData = readyFilter.filter(Utils.stringToKeyPoints(data));
+            ArrayList<KeyPoint> filteredData = readyFilter.filter(userKeyPoints);
             activity.drawSkeleton(filteredData);
 
             //it will be called before state change to play
@@ -80,18 +84,18 @@ public class BattleWorms implements HandleReceiveData {
                 startThread.start();
             }
         } else if (state == Constants.STATE_READY) {
-            ArrayList<Point2D[]> filteredData = readyFilter.filter(Utils.stringToKeyPoints(data));
+            ArrayList<KeyPoint> filteredData = readyFilter.filter(userKeyPoints);
             activity.drawSkeleton(filteredData);
         } else if (state == Constants.STATE_START) {
             //game start..(at this moment, It is decided how many people will play)
             //filteredKeyPoints guarantees the order of user.
-            ArrayList<Point2D[]> filteredKeyPoints = playFilter.filter(Utils.stringToKeyPoints(data));
+            ArrayList<KeyPoint> filteredKeyPoints = playFilter.filter(userKeyPoints);
             int people = filteredKeyPoints.size();
             double[] userAngle = new double[people];
             boolean[] userBoost = new boolean[people];
             for (int person = 0; person < people; person++) {
-                userAngle[person] = Utils.getDegree(filteredKeyPoints.get(person));
-                userBoost[person] = Utils.isRaisingHands(filteredKeyPoints.get(person));
+                userAngle[person] = Utils.getDegree(filteredKeyPoints.get(person).getSkeleton());
+                userBoost[person] = Utils.isRaisingHands(filteredKeyPoints.get(person).getSkeleton());
             }
             //format : "Usercount angle1 angle2 angle3  ... "
             UnityConnector.updateUserAngle(Utils.degreesToStr(userAngle));

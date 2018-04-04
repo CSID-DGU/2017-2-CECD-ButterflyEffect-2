@@ -9,13 +9,14 @@ import java.util.ArrayList;
 import csid.butterflyeffect.PreviewSurface;
 import csid.butterflyeffect.game.BattleWorms;
 import csid.butterflyeffect.game.Point2D;
+import csid.butterflyeffect.game.model.KeyPoint;
 import csid.butterflyeffect.game.model.UserInfo;
 import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Utils;
 
 public class PlayFilter {
     private ArrayList<UserInfo> userInfos;
-    private ArrayList<ArrayList<Point2D[]>> userInfoList;
+    private ArrayList<ArrayList<KeyPoint>> userInfoList;
     private BattleWorms battleWorms;
 
     public PlayFilter(ArrayList<UserInfo> userInfos,BattleWorms battleWorms) {
@@ -29,9 +30,9 @@ public class PlayFilter {
     public void saveFirstUserInfo(){
         userInfoList.add(Utils.getPlainKeyPoint(userInfos));
 
-        ArrayList<Point2D[]> userKeyPointsInfo = new ArrayList<>();
+        ArrayList<KeyPoint> userKeyPointsInfo = new ArrayList<>();
         for(int i=0;i<userInfos.size();i++)
-            userKeyPointsInfo.add(userInfos.get(i).getKeyPoints());
+            userKeyPointsInfo.add(userInfos.get(i).getKeyPoint());
 
         ArrayList<int[]> colors = getRGBFromPixels(userKeyPointsInfo);
 
@@ -47,7 +48,7 @@ public class PlayFilter {
 
     //
     public void update() {
-        ArrayList<Point2D[]> recentInfo;
+        ArrayList<KeyPoint> recentInfo;
         Point2D[] temp = new Point2D[Constants.KEYPOINT_NUM];
         for (int i = 0; i < Constants.KEYPOINT_NUM; i++) {
             temp[i] = new Point2D();
@@ -55,19 +56,19 @@ public class PlayFilter {
 
         for (int user = 0; user < userInfos.size(); user++) {
             recentInfo = userInfoList.get(userInfoList.size() - 1);
-            temp = recentInfo.get(userInfos.get(user).getUserNumber());
-            userInfos.get(user).setKeyPoints(temp);
+            temp = recentInfo.get(userInfos.get(user).getUserNumber()).getSkeleton();
+            userInfos.get(user).getKeyPoint().setSkeleton(temp);
             //userInfos.get(user).setNeck(temp[Constants.NECK]);
             //userInfos.get(user).setNose(temp[Constants.NOSE]);
         }
     }
 
     public Point2D[] getRecentUserInfo(int userId) {
-        ArrayList<Point2D[]> recentInfo = userInfoList.get(userInfoList.size() - 1);
-        return recentInfo.get(userId);
+        ArrayList<KeyPoint> recentInfo = userInfoList.get(userInfoList.size() - 1);
+        return recentInfo.get(userId).getSkeleton();
     }
 
-    public void insert(ArrayList<Point2D[]> userInfo) {
+    public void insert(ArrayList<KeyPoint> userInfo) {
         //if user list is less than the size
         if (userInfoList.size() < Constants.USER_LIST_SIZE) {
             userInfoList.add(userInfo);
@@ -99,7 +100,7 @@ public class PlayFilter {
     }
 
 
-    public ArrayList<Point2D[]> filter(ArrayList<Point2D[]> peopleKeyPoints) {
+    public ArrayList<KeyPoint> filter(ArrayList<KeyPoint> peopleKeyPoints) {
         int userSize = userInfos.size();
         Point2D[][] result = new Point2D[userInfos.size()][Constants.KEYPOINT_NUM];
         for (int user = 0; user < userSize; user++) {
@@ -109,7 +110,7 @@ public class PlayFilter {
             }
             else{
 
-                Point2D neck = userInfos.get(user).getKeyPoints()[Constants.NECK];
+                Point2D neck = userInfos.get(user).getKeyPoint().getSkeleton()[Constants.NECK];
                 ArrayList<Point2D[]> candidatesKeyPoints = new ArrayList<>();
                 //int candidate = -1;
                 int peopleSize = peopleKeyPoints.size();
@@ -127,7 +128,7 @@ public class PlayFilter {
                 else {
                     //Check all key points in frame to detect user
                     for (int people = 0; people < peopleSize; people++) {
-                        Point2D[] keyPoints = peopleKeyPoints.get(people);
+                        Point2D[] keyPoints = peopleKeyPoints.get(people).getSkeleton();
                         //Calculate the distance between user neck and person's neck in frame
                         double distanceNeck = Utils.getDistance(neck, keyPoints[Constants.NECK]);
                         //double distanceNose = Utils.getDistance(nose, keyPoints[Constants.NOSE]);
@@ -162,9 +163,9 @@ public class PlayFilter {
 
 
         //change Point2D[][] to arraylist<Point2D[]>
-        ArrayList<Point2D[]> rtnPoints = new ArrayList<>();
+        ArrayList<KeyPoint> rtnPoints = new ArrayList<>();
         for (int i = 0; i < userInfos.size(); i++) {
-            rtnPoints.add(result[i]);
+            rtnPoints.add(new KeyPoint(result[i]));
         }
 
         //Save the best three people in frame
@@ -177,10 +178,10 @@ public class PlayFilter {
         return rtnPoints;
     }
 
-    public void deleteFromKeyPoints(ArrayList<Point2D[]> peopleKeyPoints,Point2D targetUserNeck){
+    public void deleteFromKeyPoints(ArrayList<KeyPoint> peopleKeyPoints,Point2D targetUserNeck){
         int index = -1;
         for(int i=0;i<peopleKeyPoints.size();i++){
-            Point2D neck = peopleKeyPoints.get(i)[Constants.NECK];
+            Point2D neck = peopleKeyPoints.get(i).getSkeleton()[Constants.NECK];
             if(neck.x ==targetUserNeck.x && neck.y == targetUserNeck.y){
                 index = i;
                 break;
@@ -277,7 +278,7 @@ public class PlayFilter {
         }
     }
 
-    public ArrayList<int[]> getRGBFromPixels(ArrayList<Point2D[]> userKeyPointsInfo) {
+    public ArrayList<int[]> getRGBFromPixels(ArrayList<KeyPoint> userKeyPointsInfo) {
         ArrayList<int[]> colors = new ArrayList<>();
 
        // int[] colors = new int[positions.size()];
@@ -286,7 +287,7 @@ public class PlayFilter {
         for(int i=0;i<userKeyPointsInfo.size();i++){
             Point2D[] targets = new Point2D[Constants.USER_COLOR_LISTS_NUM];
             for(int j=0;j<Constants.USER_COLOR_LISTS_NUM;j++)
-                targets[j] = Utils.getPureCoordinates(bitmap,userKeyPointsInfo.get(i)[Constants.COLOR_LISTS_NAME[j]]);
+                targets[j] = Utils.getPureCoordinates(bitmap,userKeyPointsInfo.get(i).getSkeleton()[Constants.COLOR_LISTS_NAME[j]]);
 
             //it is because we will get pixel from raw frame of camera.
             int[] userColors = new int[Constants.USER_COLOR_LISTS_NUM];

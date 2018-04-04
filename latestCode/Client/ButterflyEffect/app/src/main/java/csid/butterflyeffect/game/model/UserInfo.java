@@ -9,7 +9,8 @@ import csid.butterflyeffect.game.Point2D;
 import csid.butterflyeffect.util.Constants;
 
 public class UserInfo implements Comparable<UserInfo>{
-    private Point2D[] keyPoints;
+
+    private KeyPoint keyPoint;
     private int userNumber;
     private boolean isPlaying;
     private boolean isBoost;
@@ -32,6 +33,7 @@ public class UserInfo implements Comparable<UserInfo>{
         score = 0;
         colors = new ArrayList<>();
         userProfile = null;
+        keyPoint = new KeyPoint();
     }
 
     public void addColor(int color) {
@@ -82,11 +84,12 @@ public class UserInfo implements Comparable<UserInfo>{
         this.userProfile = userProfile;
     }
 
-    public Point2D[] getKeyPoints() {
-        return keyPoints;
+    public KeyPoint getKeyPoint() {
+        return keyPoint;
     }
 
-    public void setKeyPoints(Point2D[] keyPoints) {
-        this.keyPoints = keyPoints;
+    public void setKeyPoint(KeyPoint keyPoint) {
+        this.keyPoint = keyPoint;
     }
+
 }

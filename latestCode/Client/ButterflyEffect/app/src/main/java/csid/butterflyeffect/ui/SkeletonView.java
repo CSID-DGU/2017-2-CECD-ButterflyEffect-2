@@ -9,6 +9,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+import csid.butterflyeffect.game.model.KeyPoint;
 import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.game.Point2D;
 import csid.butterflyeffect.util.Utils;
@@ -23,7 +24,7 @@ public class SkeletonView extends View {
         setWillNotDraw(false);
         isPlaying = false;
     }
-    ArrayList<Point2D[]> keyPoints;
+    ArrayList<KeyPoint> keyPoints;
 
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -34,7 +35,7 @@ public class SkeletonView extends View {
             for (int i = 0; i < keyPoints.size(); i++) {
                 Paint paint = new Paint();
 
-                Point2D[] userPoints = keyPoints.get(i);
+                Point2D[] userPoints = keyPoints.get(i).getSkeleton();
 
                 if(!isPlaying){//ready state
                     paint.setColor(Utils.getColor(i));
@@ -85,7 +86,7 @@ public class SkeletonView extends View {
     }
 
 
-    public void drawSkeletons(ArrayList<Point2D[]> keyPoints){
+    public void drawSkeletons(ArrayList<KeyPoint> keyPoints){
         this.keyPoints = keyPoints;
         invalidate();
     }

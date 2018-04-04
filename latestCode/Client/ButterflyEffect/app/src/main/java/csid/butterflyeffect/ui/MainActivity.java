@@ -35,6 +35,7 @@ import csid.butterflyeffect.PreviewSurface;
 import csid.butterflyeffect.R;
 import csid.butterflyeffect.game.BattleWorms;
 import csid.butterflyeffect.game.Point2D;
+import csid.butterflyeffect.game.model.KeyPoint;
 import csid.butterflyeffect.game.model.UserInfo;
 import csid.butterflyeffect.network.HandleReceiveData;
 import csid.butterflyeffect.network.HandleSocketError;
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
     }
 
-    public void drawSkeleton(final ArrayList<Point2D[]> keyPoints){
+    public void drawSkeleton(final ArrayList<KeyPoint> keyPoints){
         //draw skeleton
         runOnUiThread(new Runnable() {
             @Override
@@ -157,10 +158,10 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mSkeleton.drawSkeletons(Utils.stringToKeyPoints(data));
+               /* mSkeleton.drawSkeletons(Utils.stringToKeyPoints(data));
                 mTcpDataView.setText(data);
                 String userAngle = Utils.stringToDegree(data);
-                mUserAngleView.setText(userAngle);
+                mUserAngleView.setText(userAngle);*/
             }
         });
     }
@@ -275,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         for(int i=0;i<users.size();i++){
             UserInfo user = users.get(i);
             if(user.getUserProfile()==null) {
-                user.setUserProfile(Utils.getUserFace(wholePicture, user.getKeyPoints()[Constants.NOSE]));
+                user.setUserProfile(Utils.getUserFace(wholePicture, user.getKeyPoint().getSkeleton()[Constants.NOSE]));
                 updateUser(i);
             }
         }

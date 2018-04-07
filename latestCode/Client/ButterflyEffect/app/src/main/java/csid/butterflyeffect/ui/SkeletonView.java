@@ -73,10 +73,15 @@ public class SkeletonView extends View {
                     paint.setColor(Color.WHITE);
                     Utils.drawLine(canvas, paint, userPoints[Constants.NOSE], userPoints[Constants.NECK]);
                     paint.setStrokeWidth(Constants.LINE_WIDTH);
-                    paint.setColor(Color.WHITE);
+
                     for (int j = 0; j < userPoints.length; j++) {
-                        if (!(userPoints[j].x == 0 || userPoints[j].y == 0))
+                        if (!(userPoints[j].x == 0 || userPoints[j].y == 0)) {
+                            paint.setColor(Color.WHITE);
+                            canvas.drawCircle((float) userPoints[j].x, (float) userPoints[j].y, Constants.BIG_CIRCLE_RADIUS, paint);
+                            int RGB = android.graphics.Color.rgb(userPoints[j].r, userPoints[j].g, userPoints[j].b);
+                            paint.setColor(RGB);
                             canvas.drawCircle((float) userPoints[j].x, (float) userPoints[j].y, Constants.CIRCLE_RADIUS, paint);
+                        }
                     }
                 }
 

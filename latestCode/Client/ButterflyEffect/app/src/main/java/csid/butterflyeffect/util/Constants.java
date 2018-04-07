@@ -46,7 +46,9 @@ public class Constants {
     public static final int L_EAR = 17;
     public static final int BACKGROUND = 18;
 
-    public static final int CIRCLE_RADIUS = 7;
+    public static final int BIG_CIRCLE_RADIUS = 13;
+    public static final int CIRCLE_RADIUS = 10;
+
     public static final int READY_CIRCLE_RADIUS = 5;
     public static final int PLAYER_TEXT_SIZE = 25;
     public static final float LINE_WIDTH = 5;

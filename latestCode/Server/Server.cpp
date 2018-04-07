@@ -18,7 +18,8 @@
 #include <pthread.h>
 #include "opencv2/opencv.hpp"
 #include "config.h"
-#include "keydata.h"
+#include "Keydata.h"
+#include "Util.h"
 // C++ std library dependencies
 #include <chrono> // `std::chrono::` functions and classes, e.g. std::chrono::milliseconds
 #include <thread> // std::this_thread
@@ -329,9 +330,63 @@ public:
                               
                         }
 			*/
-			Pt point(poseKeypoints[{person,bodyPart,0}], poseKeypoints[{person,bodyPart,1}]);
+			float x = poseKeypoints[{person,bodyPart,0}];
+			float y = poseKeypoints[{person,bodyPart,1}];
+			Pt point(x,y);
+			// **extract color here!
+                        // If bodyPart need color extraction and  x,y point is non zero, color extraction is processed.
+                        if( isColorNeeded(bodyPart) && x != 0 && y != 0)
+                        {
+                            // Get current frame
+                            Mat curFrame = datumsPtr->at(0).cvOutputData;
+                            Size frameSize = curFrame.size();
+
+                            const int RANGE = 1;
+                            int sRed = 0;
+                            int sBlue = 0;
+                            int sGreen = 0;
+			    	
+                            int startX = (x > RANGE) ? x-RANGE : 0;
+			    int endX = (frameSize.width-x > RANGE) ? x+RANGE : frameSize.width-1;
+			    int startY = (y > RANGE) ? y-RANGE : 0; 
+			    int endY = (frameSize.height-y > RANGE)? y+RANGE : frameSize.height-1;
+                            int cnt = 0;
+                            
+			    //cout << "x:"<<startX<<"~"<<endX<<"// y:"<<startY<<"~"<<endY<<endl;
+			    //cout << "width*height:"<<frameSize.width<<"*"<<frameSize.height<<endl;
+			    for(auto x_ = startX; x_ <= endX ; x_++)
+                            {
+                                for(auto y_ = startY; y_ <= endY ; y_++)
+                                {
+                                    // Get RGB value about x,y point in current frame
+                                    Vec3b intensity = datumsPtr->at(0).cvOutputData.at<Vec3b>(y_,x_);                                
+                                    sRed += intensity.val[2];
+                                    sBlue += intensity.val[0];
+                                    sGreen += intensity.val[1];
+                                    cnt++;
+                                }
+                            }	
+			    int aRed = -1;
+		  	    int aGreen = -1;
+			    int aBlue = -1;
+			    cout<<"cnt:"<<cnt<<endl;
+			    if(cnt != 0){
+				// Calculate the average RGB
+				aRed = sRed/cnt;
+				aGreen = sGreen/cnt;
+				aBlue = sBlue/cnt;
+			    }
+			    point.setColor(aRed,aGreen,aBlue);
+
+                        }
+                        else
+                        { // If x,y point is zero, color extraction is skipped and color information is set to NULL
+                           point.setColor(-1,-1,-1);
+			}		
+			//add point to array	
 			keyPoint.addPoint(point);
                     }
+		    
                     keyPoints.push_back(keyPoint);
                 }
 		

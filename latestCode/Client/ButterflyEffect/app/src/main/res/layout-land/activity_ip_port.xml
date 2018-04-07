@@ -45,6 +45,36 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center">
+                <TextView
+
+                    android:text="PLAYER NUMBER"
+                    android:textColor="@color/material_teal"
+                    android:textStyle="bold"
+                    android:fontFamily="monospace"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+                <EditText
+                    android:textStyle="bold"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:inputType="number"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:textSize="20dp"
+                    android:id="@+id/et_player"
+                    android:text="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
                     android:text="IP  :"

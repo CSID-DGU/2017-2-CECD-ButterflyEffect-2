@@ -20,6 +20,7 @@ import csid.butterflyeffect.util.Constants;
 
 public class IpPortActivity extends AppCompatActivity implements HandleSocketError {
 
+    private EditText mPlayerView;
     private EditText mIpView;
     private EditText mPortView;
     private LinearLayout mBtn;
@@ -30,6 +31,7 @@ public class IpPortActivity extends AppCompatActivity implements HandleSocketErr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ip_port);
 
+        mPlayerView = (EditText)findViewById(R.id.et_player);
         mIpView = (EditText)findViewById(R.id.et_ip);
         mPortView = (EditText)findViewById(R.id.et_port);
         mProgress = (FrameLayout)findViewById(R.id.fr_progress);
@@ -42,6 +44,7 @@ public class IpPortActivity extends AppCompatActivity implements HandleSocketErr
             @Override
             public void onClick(View v) {
                 mSocket.setErrorCallback(IpPortActivity.this);
+                Constants.PLAYER_NUMBER = Integer.parseInt(mPlayerView.getText().toString());
                 Constants.ADDR = mIpView.getText().toString();
                 Constants.PORT_NUM = Integer.parseInt(mPortView.getText().toString());
                 new ConnectSocket().execute();

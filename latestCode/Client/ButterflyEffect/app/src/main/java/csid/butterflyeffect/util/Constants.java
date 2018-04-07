@@ -8,8 +8,8 @@ import csid.butterflyeffect.R;
 
 public class Constants {
 
-    //ut battleWorms
-    public static final int PLAYER_NUMBER = 1;
+    //about battleWorms
+    public static int PLAYER_NUMBER = 1;
     public static final int STATE_WAIT = 0;
     public static final int STATE_READY = 1;
     public static final int STATE_START = 2;

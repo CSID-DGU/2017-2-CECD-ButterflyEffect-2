@@ -335,8 +335,9 @@ public:
 			Pt point(x,y);
 			// **extract color here!
                         // If bodyPart need color extraction and  x,y point is non zero, color extraction is processed.
-                        if( isColorNeeded(bodyPart) && x != 0 && y != 0)
-                        {
+                        //if( isColorNeeded(bodyPart) && x != 0 && y != 0)
+                        if( x!=0 && y!=0)
+			{
                             // Get current frame
                             Mat curFrame = datumsPtr->at(0).cvOutputData;
                             Size frameSize = curFrame.size();
@@ -347,37 +348,38 @@ public:
                             int sGreen = 0;
 			    	
                             int startX = (x > RANGE) ? x-RANGE : 0;
-			    int endX = (frameSize.width-x > RANGE) ? x+RANGE : frameSize.width-1;
+			    int endX = (frameSize.width-x > RANGE) ? x+RANGE-1 : frameSize.width-1;
 			    int startY = (y > RANGE) ? y-RANGE : 0; 
-			    int endY = (frameSize.height-y > RANGE)? y+RANGE : frameSize.height-1;
+			    int endY = (frameSize.height-y > RANGE)? y+RANGE-1 : frameSize.height-1;
                             int cnt = 0;
                             
 			    //cout << "x:"<<startX<<"~"<<endX<<"// y:"<<startY<<"~"<<endY<<endl;
 			    //cout << "width*height:"<<frameSize.width<<"*"<<frameSize.height<<endl;
-			    for(auto x_ = startX; x_ <= endX ; x_++)
+			    
+			    for(auto x_ = startX; x_ < endX ; x_++)
                             {
-                                for(auto y_ = startY; y_ <= endY ; y_++)
+                                for(auto y_ = startY; y_ < endY ; y_++)
                                 {
                                     // Get RGB value about x,y point in current frame
                                     Vec3b intensity = datumsPtr->at(0).cvOutputData.at<Vec3b>(y_,x_);                                
                                     sRed += intensity.val[2];
                                     sBlue += intensity.val[0];
                                     sGreen += intensity.val[1];
-                                    cnt++;
+                                    cnt++; 
                                 }
                             }	
+			
 			    int aRed = -1;
 		  	    int aGreen = -1;
 			    int aBlue = -1;
 			    cout<<"cnt:"<<cnt<<endl;
 			    if(cnt != 0){
 				// Calculate the average RGB
-				aRed = sRed/cnt;
-				aGreen = sGreen/cnt;
-				aBlue = sBlue/cnt;
+				aRed = (sRed/cnt);
+				aGreen =(sGreen/cnt);
+				aBlue = (sBlue/cnt);
 			    }
 			    point.setColor(aRed,aGreen,aBlue);
-
                         }
                         else
                         { // If x,y point is zero, color extraction is skipped and color information is set to NULL
@@ -643,7 +645,7 @@ int main(int argc, char *argv[])
             memcpy( & longbuf[0], buffer, recvMsgSize);
 
             //cout << "Received packet from " << sourceAddress << ":" << sourcePort << endl;
-            Mat rawData = Mat(1, recvMsgSize, CV_8UC1, longbuf);
+            Mat rawData = Mat(1, recvMsgSize, CV_8UC3, longbuf);
             Mat frame = imdecode(rawData, CV_LOAD_IMAGE_COLOR);
 	    flip(frame,frame,1);
             if (frame.size().width == 0) 

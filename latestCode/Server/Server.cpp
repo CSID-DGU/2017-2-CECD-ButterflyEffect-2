@@ -160,6 +160,9 @@ DEFINE_string(write_heatmaps_format,    "png",          "File extension and form
                                                         " Recommended `png` or any compressed and lossless format.");
 
 
+Mat syncFrame;
+
+
 // If the user needs his own variables, he can inherit the op::Datum struct and add them
 // UserDatum can be directly used by the OpenPose wrapper because it inherits from op::Datum, just define
 // Wrapper<UserDatum> instead of Wrapper<op::Datum>
@@ -231,7 +234,8 @@ public:
 		cout<<"(queueSize:"<<frameQueue.size()<<")";
 
                 datum.cvInputData = frameQueue.front();
-                frameQueue.pop();
+                syncFrame = frameQueue.front();
+		frameQueue.pop();
                 op::log("queue is POP.",
                 op::Priority::High);
                 // If empty frame -> return nullptr
@@ -278,9 +282,10 @@ public:
             // datum.poseKeypoints: Array<float> with the estimated pose
         try
         {
-            if (datumsPtr != nullptr && !datumsPtr->empty())
+            if (datumsPtr != nullptr && !datumsPtr->empty()){
                 for (auto& datum : *datumsPtr)
                     cv::bitwise_not(datum.cvOutputData, datum.cvOutputData);
+       	    }
         }
         catch (const std::exception& e)
         {
@@ -339,10 +344,11 @@ public:
                         if( x!=0 && y!=0)
 			{
                             // Get current frame
-                            Mat curFrame = datumsPtr->at(0).cvOutputData;
-                            Size frameSize = curFrame.size();
+                           // Mat curFrame = datumsPtr->at(0).cvOutputData;
+                            Mat curFrame = syncFrame.clone();
+			    Size frameSize = curFrame.size();
 
-                            const int RANGE = 1;
+                            const int RANGE = 3;
                             int sRed = 0;
                             int sBlue = 0;
                             int sGreen = 0;
@@ -356,15 +362,17 @@ public:
 			    //cout << "x:"<<startX<<"~"<<endX<<"// y:"<<startY<<"~"<<endY<<endl;
 			    //cout << "width*height:"<<frameSize.width<<"*"<<frameSize.height<<endl;
 			    
-			    for(auto x_ = startX; x_ < endX ; x_++)
+			    for(auto y_ = startY; y_ < endY ; y_++)
                             {
-                                for(auto y_ = startY; y_ < endY ; y_++)
+				Vec3b* pixel = curFrame.ptr<Vec3b>(y);
+                                for(auto x_ = startX; x_ < endX ; x_++)
                                 {
                                     // Get RGB value about x,y point in current frame
-                                    Vec3b intensity = datumsPtr->at(0).cvOutputData.at<Vec3b>(y_,x_);                                
-                                    sRed += intensity.val[2];
-                                    sBlue += intensity.val[0];
-                                    sGreen += intensity.val[1];
+                                    //Vec3b intensity = datumsPtr->at(0).cvOutputData.at<Vec3b>(y_,x_);                                
+                                    
+				    sRed += pixel[x_][2];
+                                    sBlue += pixel[x_][0];
+                                    sGreen += pixel[x_][1];
                                     cnt++; 
                                 }
                             }	
@@ -636,7 +644,6 @@ int main(int argc, char *argv[])
         unsigned short sourcePort; // Port of datagram source
 
         clock_t last_cycle = clock();
-
         while (true) 
         {
             //Block until receive message from a client
@@ -646,9 +653,11 @@ int main(int argc, char *argv[])
 
             //cout << "Received packet from " << sourceAddress << ":" << sourcePort << endl;
             Mat rawData = Mat(1, recvMsgSize, CV_8UC3, longbuf);
-            Mat frame = imdecode(rawData, CV_LOAD_IMAGE_COLOR);
+	    Mat frame = imdecode(rawData, CV_LOAD_IMAGE_COLOR);
+	    
 	    flip(frame,frame,1);
-            if (frame.size().width == 0) 
+            
+	    if (frame.size().width == 0) 
             {
                 cerr << "decode failure!" << endl;
                 continue;

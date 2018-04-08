@@ -3,6 +3,7 @@ package csid.butterflyeffect.ui.adapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,6 +60,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         ArrayList<Integer> userColors = userInfo.getColors();
         for(int i=0;i<userColors.size();i++){
             holder.colors[i].setBackgroundColor(userColors.get(i));
+            int usercolor = userColors.get(i);
+            //Log.d("#####", "r:"+Color.red(usercolor)+"/g:"+Color.green(usercolor)+"/b:"+Color.blue(usercolor));
         }
 
     }

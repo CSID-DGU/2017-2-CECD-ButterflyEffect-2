@@ -116,7 +116,7 @@ public class ReadyFilter {
                 int bestIndex = -1;
                 int score = Integer.MIN_VALUE;
                 for(int i=0;i<keyPoints.size();i++){
-                    if(!ignore[i] && handCount[i]>score && handCount[i] >= 17){
+                    if(!ignore[i] && handCount[i]>score && handCount[i] >= 10){
                         score = handCount[i];
                         bestIndex = i;
                     }

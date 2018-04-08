@@ -1,6 +1,5 @@
 package csid.butterflyeffect.game.filter;
 
-import android.content.ContentUris;
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -34,7 +33,8 @@ public class PlayFilter {
         for(int i=0;i<userInfos.size();i++)
             userKeyPointsInfo.add(userInfos.get(i).getKeyPoint());
 
-        ArrayList<int[]> colors = getRGBFromPixels(userKeyPointsInfo);
+
+        ArrayList<int[]> colors = getRGBfromPlayerData(userKeyPointsInfo);
 
         //save user's color information for each users.
         for(int i=0;i<userInfos.size();i++){
@@ -200,6 +200,7 @@ public class PlayFilter {
             colorDiff[i] = 0;
             for(int j = 0; j < 1; j++) {
                 int candidateColor = getRGBFromPixel(candidatesKeyPoints.get(i)[Constants.COLOR_LISTS_NAME[j]]);
+
                 Log.d("#####","user "+(i+1)+"("+j+") color: "+String.valueOf(candidateColor));
                 colorDiff[i] += Math.abs(candidateColor - userColors.get(j));
             }
@@ -278,22 +279,16 @@ public class PlayFilter {
         }
     }
 
-    public ArrayList<int[]> getRGBFromPixels(ArrayList<KeyPoint> userKeyPointsInfo) {
+    public ArrayList<int[]> getRGBfromPlayerData(ArrayList<KeyPoint> userKeyPointsInfo) {
         ArrayList<int[]> colors = new ArrayList<>();
 
-       // int[] colors = new int[positions.size()];
-        Bitmap bitmap = PreviewSurface.curFrameImage();
-
         for(int i=0;i<userKeyPointsInfo.size();i++){
-            Point2D[] targets = new Point2D[Constants.USER_COLOR_LISTS_NUM];
-            for(int j=0;j<Constants.USER_COLOR_LISTS_NUM;j++)
-                targets[j] = Utils.getPureCoordinates(bitmap,userKeyPointsInfo.get(i).getSkeleton()[Constants.COLOR_LISTS_NAME[j]]);
-
+            Point2D[] targets = userKeyPointsInfo.get(i).getSkeleton();
             //it is because we will get pixel from raw frame of camera.
-            int[] userColors = new int[Constants.USER_COLOR_LISTS_NUM];
-            for(int j=0;j<Constants.USER_COLOR_LISTS_NUM;j++){
-                //TODO 이곳에서 x 가 음수면 프로그램이 죽음!
-                userColors[j] = bitmap.getPixel((int)targets[j].x, (int)targets[j].y);
+            int[] userColors = new int[Constants.COLOR_LISTS_NAME.length];
+            for(int j=0;j<Constants.COLOR_LISTS_NAME.length;j++){
+                Point2D targetArea = targets[Constants.COLOR_LISTS_NAME[j]];
+                userColors[j] = Utils.getIntFromColor(targetArea.r, targetArea.g, targetArea.b);
             }
             colors.add(userColors);
         }

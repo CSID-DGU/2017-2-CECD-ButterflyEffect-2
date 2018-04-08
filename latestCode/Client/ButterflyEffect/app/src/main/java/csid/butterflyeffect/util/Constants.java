@@ -71,13 +71,19 @@ public class Constants {
     public static final int KEYPOINT_NUM = 18;
     public static final int OFFSET = 5;
     public static final int[] COLOR_LISTS_NAME={
-            Constants.NECK
+            Constants.NECK,
+            Constants.NOSE,
+            Constants.L_SHOULDER,
+            Constants.R_SHOULDER
     };
 
     //adapter
-    public static final int USER_COLOR_LISTS_NUM = 1;
+    public static final int USER_COLOR_LISTS_NUM = 4;
     public static final int[] COLOR_LISTS={
-            R.id.view_c1
+            R.id.view_c1,
+            R.id.view_c2,
+            R.id.view_c3,
+            R.id.view_c4
     };
 
 

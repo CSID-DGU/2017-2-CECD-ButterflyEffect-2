@@ -2,22 +2,53 @@
 **2조 나비효과 - 영상인식기술을 활용한 동작인식 시스템**
 - 한승범, 나선엽, 김상연
 
-## About Project 
-- 2017.12.09 : **AWS동기화 코드** 작성
-- 2017.12.04 : **1차프로젝트 완성**
-- 2017.11.20 : **오픈포즈 서버 연동 해결** 
-- 2017.10.30 : **멘토과제#2 해결** (오픈포즈 빌드 및 분석)
-- 2017.10.05 : **멘토과제#1 해결** (서버 ,클라이언트 동영상 스트리밍, 프레임 분석)
+## Contents
+- Results
+- Our development diary
+- More
 
 ## Results
+
+#### Demo
+
 <p align="center">
-    <img src="doc/p2.gif", width="360">
-    <img src="doc/p3.gif", width="360">
-    <img src="doc/p4.gif", width="360">
+    <img src="doc/multi_game.gif", width="500">
+
 </p>
 
+#### Demo environment
 
-## Contributors
+<p align="center">
+    <img src="doc/demo_environment.png", width="360">
+</p>
+
+#### Software architecture
+
+<p align="center">
+    <img src="doc/structure.png", width="600">
+</p>
+
+#### Intenal logic
+
+<p align="center">
+    <img src="doc/structure_detail.png", width="600">
+</p>
+
+## Our development diary
+- 17.10.05 : simple client-server face tracking program
+- 17.10.30 : openpose analysis
+- 17.11.20 : applied openpose to our simple program
+- 17.12.04 : completed BattleWorms for a single player
+- 18.02.22 : changed our program architecture
+- 18.03.18 : completed BattleWorms for 3 players
+- ~ adding game effect and enhancing color-based filter 
+
+## More
+- Filter (How we distinguish players between different people)
+- Game rules
+- How BattleWorms started
+
+## OpenSource
 
 We are making our program using OpenPose!
 

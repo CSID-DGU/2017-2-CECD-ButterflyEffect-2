@@ -3,9 +3,9 @@
 - 한승범, 나선엽, 김상연
 
 ## Contents
-- Results
-- Our development diary
-- More
+1. [Results](##Results)
+2. [Our Development Diary](##Our development diary)
+3. [More Information](##More Information)
 
 ## Results
 
@@ -25,7 +25,8 @@
     <img src="doc/structure_detail.png", width="450">
 </p>
 
-## Our development diary
+## Our Development Diary
+
 - 17.10.05 : simple client-server face tracking program
 - 17.10.30 : openpose analysis
 - 17.11.20 : applied openpose to our simple program
@@ -34,7 +35,8 @@
 - 18.03.18 : completed BattleWorms for 3 players
 - ~ adding game effect and enhancing color-based filter 
 
-## More
+## More Information
+
 - Filter (How we distinguish players between different people)
 - Game rules
 - How BattleWorms started

@@ -27,7 +27,24 @@
 
 ## Our Development Diary
 
-- 17.10.05 : simple client-server face tracking program
+- **17.10.05 : simple client-server face tracking program**
+
+<p align="center">
+    <img src="doc/simple_server_client.png", width="600">
+</p>
+
+This is the program we first created for the project. 
+It is designed to create the **overall framework** of the project. 
+The framework of our project is as follows.
+   
+	1. send real-time image frames from client to server.
+	2. send the value of interpreting frame using openpose.
+	3. reflects the values in BattleWorms.
+
+AWS Server is needed because openpose requring a high-quilty-computer is difficult to develop on a personal computer. but at this program, we used **simple-face-detection-module** instead of using **openpose** since we had not yet analyzed it.
+
+---
+
 - 17.10.30 : openpose analysis
 - 17.11.20 : applied openpose to our simple program
 - 17.12.04 : completed BattleWorms for a single player

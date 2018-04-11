@@ -17,7 +17,8 @@ import android.support.v4.app.ActivityCompat;
 
 public class AppPermissions {
     public static final String[] APP_PERMISSION = {
-            Manifest.permission.CAMERA
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_EXTERNAL_STORAGE
     };
 
     public static boolean hasAppPermission(Context context) {

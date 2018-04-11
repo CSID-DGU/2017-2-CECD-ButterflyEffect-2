@@ -4,6 +4,8 @@ package csid.butterflyeffect.network;
  * Created by hanseungbeom on 2018. 1. 16..
  */
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -101,6 +103,7 @@ public class SocketClient {
                 try {
                     if (udpSocket != null) {
                         SocketAddress socketAddres = new InetSocketAddress(Constants.ADDR, Constants.PORT_NUM);
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0 , data.length);
                         udpSocket.send(new DatagramPacket(data, data.length, socketAddres));
                     }
                 } catch (IOException e) {

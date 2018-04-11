@@ -40,11 +40,16 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight="1">
+                                <!--
                                 <csid.butterflyeffect.camera.PreviewSurface
                                     android:id="@+id/sv"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent" />
-
+                                -->
+                                <ImageView
+                                    android:id="@+id/image_view"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent" />
                                 <csid.butterflyeffect.view.SkeletonView
                                     android:id="@+id/skeleton_view"
                                     android:layout_width="match_parent"

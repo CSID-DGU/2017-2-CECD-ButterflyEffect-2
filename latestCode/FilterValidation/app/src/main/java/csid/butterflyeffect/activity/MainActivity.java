@@ -25,9 +25,10 @@ import csid.butterflyeffect.network.HandleSocketError;
 import csid.butterflyeffect.network.SocketClient;
 import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Utils;
+import csid.butterflyeffect.video.VideoExtractor;
 import csid.butterflyeffect.view.SkeletonView;
 
-public class MainActivity extends AppCompatActivity implements PreviewSurface.FrameHandler, HandleSocketError {
+public class MainActivity extends AppCompatActivity implements VideoExtractor.FrameCallback, HandleSocketError {
     private PreviewSurface mPriviewSurface;
 
     private Button mBtn;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     private FrameLayout mPreview;
     private BattleWorms mBattleWorms;
     private Toast mToast;
+    private VideoExtractor extractor;
     public static boolean isSocketConnected = false;
 
     @Override
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         setContentView(R.layout.activity_main);
 
         mBtn = (Button)findViewById(R.id.btn_capture);
-        mBitmapView = (ImageView) findViewById(R.id.iv_bitmap);
+        mBitmapView = (ImageView) findViewById(R.id.image_view);
         mTcpDataView = (TextView)findViewById(R.id.tv_tcp);
         mUserAngleView = (TextView)findViewById(R.id.tv_angle);
         mSkeleton = (SkeletonView)findViewById(R.id.skeleton_view);
@@ -58,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         getWindow().setFormat(PixelFormat.UNKNOWN);
 
         mPriviewSurface = (PreviewSurface) findViewById(R.id.sv);
-        mPriviewSurface.setFrameHandler(this);
         mBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,6 +92,11 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mSocket.setErrorCallback(this);
         mSocket.setReceiveCallback(mBattleWorms);
         mSocket.startTcpService();
+
+        //init frame extractor
+        extractor = new VideoExtractor(getBaseContext(), "/Android_Studio/hd_00_00.mp4");
+        extractor.setFrameCallback(this);
+        extractor.extract();
     }
 
     public void drawSkeleton(final ArrayList<KeyPoint> keyPoints){
@@ -103,20 +109,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
                 mSkeleton.drawSkeletons(keyPoints);
 
-            }
-        });
-    }
-    @Override
-    public void getJpegFrame(final byte[] frame) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(mSocket.isConnected()) {
-                    mSocket.sendUdpPacket(frame);
-                }
-                //mBitmapView.setImageBitmap(bit);
-                Bitmap bit = BitmapFactory.decodeByteArray(frame, 0, frame.length);
-                setUserProfile(bit);
             }
         });
     }
@@ -147,5 +139,18 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             }
         });
 
+    }
+
+    @Override
+    public void getVideoFrame(final byte[] bytes) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(mSocket.isConnected()){
+                    mBitmapView.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0 , bytes.length));
+                    mSocket.sendUdpPacket(bytes);
+                }
+            }
+        });
     }
 }

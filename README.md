@@ -9,29 +9,20 @@
 
 ## Results
 
-#### Demo
+#### Demo & Environment
 
 <p align="center">
-    <img src="doc/multi_game.gif", width="500">
-
-</p>
-
-#### Demo environment
-
-<p align="center">
+    <img src="doc/multi_game.gif", width="400">
     <img src="doc/demo_environment.png", width="360">
 </p>
 
-#### Software architecture
+---
+
+#### Software architecture & Internal logic
 
 <p align="center">
-    <img src="doc/structure.png", width="600">
-</p>
-
-#### Intenal logic
-
-<p align="center">
-    <img src="doc/structure_detail.png", width="600">
+    <img src="doc/structure.png", width="400">
+    <img src="doc/structure_detail.png", width="450">
 </p>
 
 ## Our development diary

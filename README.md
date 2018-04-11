@@ -3,9 +3,9 @@
 - 한승범, 나선엽, 김상연
 
 ## Contents
-1. [Results](##Results)
-2. [Our Development Diary](##Our development diary)
-3. [More Information](##More Information)
+1. [Results](#results)
+2. [Our Development Diary](#our-development-diary)
+3. [More Information](#more-information)
 
 ## Results
 

@@ -59,8 +59,29 @@ We decided to analyze the examples here and develop our program. but It was hard
 
 ---
 
-- 17.11.20 : applied openpose to our simple program
-- 17.12.04 : completed BattleWorms for a single player
+- **17.12.04 : completed BattleWorms for a single player**
+
+<p align="center">
+    <img src="doc/completed_single_game.png", width="450">
+    <img src="doc/single_game.gif", width="400">
+	</p>
+<p align="center">
+    <img src="doc/worms.png", width="300">
+</p>
+
+We made our project BattleWorms in which one player can play. By sending a real-time camera frame, the server sends out the coordinates of the detected person's skeleton on that frame, and the client analyzes the coordinates to move the worm, which  consists of a head and a tail, and a head has theta, so it moves in the direction of theta on every frame.<br />
+<br />
+We have a problem to tackle before we extend the project to multiple people.
+
+	1. Ineffective Image Processing : we draw every tails at camara frame.
+	2. Camera and worms use same frame  : it necessary to separate the camera and game views.
+	2. Difficult to develope the intended UI
+
+It was decided to solve the first problem by unity and we thought the second problem would be simpler if we used **android.**
+	
+
+---
+
 - 18.02.22 : changed our program architecture
 - 18.03.18 : completed BattleWorms for 3 players
 - ~ adding game effect and enhancing color-based filter 

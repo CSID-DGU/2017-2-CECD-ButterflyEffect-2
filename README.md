@@ -7,13 +7,14 @@
 2. [Our Development Diary](#our-development-diary)
 3. [More Information](#more-information)
 
-## Results
+# Results
 
-#### Demo & Environment
+#### Demo
 
 <p align="center">
-    <img src="doc/multi_game.gif", width="400">
-    <img src="doc/demo_environment.png", width="360">
+	<img src="doc/demo_environment.png", width="360">
+    <img src="doc/multi_game.gif", width="500">
+
 </p>
 
 ---
@@ -24,8 +25,9 @@
     <img src="doc/structure.png", width="400">
     <img src="doc/structure_detail.png", width="450">
 </p>
-
-## Our Development Diary
+  
+  <br /><br />
+# Our Development Diary
 
 - **17.10.05 : simple client-server face tracking program**
 

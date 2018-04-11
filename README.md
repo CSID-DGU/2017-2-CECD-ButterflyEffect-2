@@ -47,7 +47,18 @@ AWS Server is needed because openpose requring a high-quilty-computer is difficu
 
 ---
 
-- 17.10.30 : openpose analysis
+- **17.10.30 : openpose analysis**
+
+The next step is to replace the **simple-face-detection-module** to **openpose**. There are three basic examples of openpose tutorial.
+
+	Running on webcam.
+	Running on video.
+	Running on images.
+
+We decided to analyze the examples here and develop our program. but It was harder than we thought. there were no examples available in the client-server structure. After much thinking, we decided to analyze and use third example because we felt we could solve the problem by replacing the image file with the frame received from the client.
+
+---
+
 - 17.11.20 : applied openpose to our simple program
 - 17.12.04 : completed BattleWorms for a single player
 - 18.02.22 : changed our program architecture

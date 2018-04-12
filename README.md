@@ -125,7 +125,7 @@ We are developing a filter so that it can function normally even if there are ma
 
 # Rules
 
-### 1) game participation
+### 1) Game participation
 
 <p align="center">
     <img src="doc/ready.gif", width="400">
@@ -135,7 +135,7 @@ We are developing a filter so that it can function normally even if there are ma
 You can play the game by **raising your hands** for a second. At this point, the user's **key colors** are stored together.
 The right picture is the **core color** of the user.
 
-### 2) How to Move an worm
+### 2) How to Move your worm
 
 <p align="center">
     <img src="doc/left.gif", width="300">

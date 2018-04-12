@@ -4,7 +4,7 @@
 
 ## Contents
 1. [Results](#results)
-2. [Our Development Diary](#development-diary)
+2. [Development Diary](#development-diary)
 3. [More Information](#more-information)
 
 # Results
@@ -96,13 +96,34 @@ To perform the same as previous clients, what we focused is as follows :
 	2. Send android camera frame 10fps, compressing it jpg bytes array. 
 	3. Develope BattleWorms in Unity and import them to Android
 
+---
 
-- 18.03.18 : completed BattleWorms for 3 players
-- ~ adding game effect and enhancing color-based filter 
+- **18.03.18 : completed BattleWorms for multi players**
+
+<p align="center">
+    <img src="doc/completed_multi_game.png", width="450">
+    <img src="doc/multi_game.gif", width="400">
+</p>
+
+We have changed the data structure to **JSON** for multiple users. <br />
+The **Filter** has been developed to extract only actual users from detected persons from frame.
+
+#### Filter : How we distinguish actual players between different people
+
+We extract the **real player** from among many people in frame as follows:
+
+	1. The previous frame player coordinates are used to determine the player in the new frame.
+	2. check the user information near the previous player's position and call them the candidates.
+	3. when (candidates.size == 1) newPlayerPosition = candidate
+	4. when (candidates.size >= 2) newPlayerPosition = candiates(mostSimilarColor)
+	5. when (candidates.size == 0) newPlayerPosition = previousFramePlayerPosition
+
+---
+
+-  **~adding game effect and enhancing filter accuracy.**
 
 ## More Information
 
-- Filter (How we distinguish players between different people)
 - Game rules
 - How BattleWorms started
 

@@ -5,7 +5,7 @@
 ## Contents
 1. [Results](#results)
 2. [Development Diary](#development-diary)
-3. [More Information](#more-information)
+3. [Rules](#rules)
 
 # Results
 
@@ -123,10 +123,30 @@ We extract the **real player** from among many people in frame as follows:
 
 We are developing a filter so that it can function normally even if there are many people in the background.
 
-## More Information
+# Rules
 
-- Game rules
-- How BattleWorms started
+### 1) game participation
+
+<p align="center">
+    <img src="doc/ready.gif", width="400">
+    <img src="doc/color_section.png", width="300">
+</p>
+
+You can play the game by **raising your hands** for a second. At this point, the user's **key colors** are stored together.
+The right picture is the **core color** of the user.
+
+### 2) How to Move an worm
+
+<p align="center">
+    <img src="doc/left.gif", width="300">
+    <img src="doc/right.gif", width="300">
+   <img src="doc/boost.gif", width="300">
+</p>
+
+If you turn your head to the left, the worm will turn left in its own direction, and vice versa.</br>
+**Tip : You can boost the your worm by raising your hands** . various strategies are available with booster!! 
+
+---
 
 ## OpenSource
 

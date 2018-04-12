@@ -29,7 +29,7 @@
   <br /><br />
 # Development Diary
 
-- **17.10.05 : simple client-server face tracking program**
+### 1) Simple client-server face tracking program (17.10.05)
 
 <p align="center">
     <img src="doc/simple_server_client.png", width="600">
@@ -47,7 +47,7 @@ AWS Server is needed because openpose requring a high-quilty-computer is difficu
 
 ---
 
-- **17.10.30 : openpose analysis**
+### 2) Openpose analysis (17.10.30)
 
 The next step is to replace the **simple-face-detection-module** to **openpose**. There are three basic examples of openpose tutorial.
 
@@ -59,7 +59,7 @@ We decided to analyze the examples here and develop our program. but It was hard
 
 ---
 
-- **17.12.04 : completed BattleWorms for a single player**
+### 3) Completed BattleWorms for a single player (17.12.04)
 
 <p align="center">
     <img src="doc/completed_single_game.png", width="450">
@@ -78,11 +78,10 @@ We have a problem to tackle before we extend the project to multiple people.
 	3. Difficult to develope the intended UI
 
 It was decided to solve the first problem by unity and we thought the second problem would be simpler if we used **android.**
-	
 
 ---
 
-- **18.02.22 : changed our program architecture**
+### 4) Changed our program architecture (18.02.22)
 
 <p align="center">
     <img src="doc/changed_architecture.png", width="450">
@@ -95,10 +94,10 @@ To perform the same as previous clients, what we focused is as follows :
 	1. Socket module to perform the same operations as c++ socket
 	2. Send android camera frame 10fps, compressing it jpg bytes array. 
 	3. Develope BattleWorms in Unity and import them to Android
-
----
-
-- **18.03.18 : completed BattleWorms for multi players**
+	
+---	
+	
+### 5) Completed BattleWorms for multi players (18.03.18)
 
 <p align="center">
     <img src="doc/completed_multi_game.png", width="450">
@@ -120,7 +119,9 @@ We extract the **real player** from among many people in frame as follows:
 
 ---
 
--  **~adding game effect and enhancing filter accuracy.**
+### 6) Adding game effect and enhancing filter accuracy (ongoing).
+
+We are developing a filter so that it can function normally even if there are many people in the background.
 
 ## More Information
 

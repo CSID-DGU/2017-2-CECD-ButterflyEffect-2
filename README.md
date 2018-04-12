@@ -4,7 +4,7 @@
 
 ## Contents
 1. [Results](#results)
-2. [Our Development Diary](#our-development-diary)
+2. [Our Development Diary](#development-diary)
 3. [More Information](#more-information)
 
 # Results
@@ -27,7 +27,7 @@
 </p>
   
   <br /><br />
-# Our Development Diary
+# Development Diary
 
 - **17.10.05 : simple client-server face tracking program**
 
@@ -39,8 +39,8 @@ This is the program we first created for the project.
 It is designed to create the **overall framework** of the project. 
 The framework of our project is as follows.
    
-	1. send real-time image frames from client to server.
-	2. send the value of interpreting frame using openpose.
+	1. send real-time image frames from client to server (UDP packets).
+	2. send the value of interpreting frame using openpose (TCP packets).
 	3. reflects the values in BattleWorms.
 
 AWS Server is needed because openpose requring a high-quilty-computer is difficult to develop on a personal computer. but at this program, we used **simple-face-detection-module** instead of using **openpose** since we had not yet analyzed it.
@@ -75,14 +75,28 @@ We have a problem to tackle before we extend the project to multiple people.
 
 	1. Ineffective Image Processing : we draw every tails at camara frame.
 	2. Camera and worms use same frame  : it necessary to separate the camera and game views.
-	2. Difficult to develope the intended UI
+	3. Difficult to develope the intended UI
 
 It was decided to solve the first problem by unity and we thought the second problem would be simpler if we used **android.**
 	
 
 ---
 
-- 18.02.22 : changed our program architecture
+- **18.02.22 : changed our program architecture**
+
+<p align="center">
+    <img src="doc/changed_architecture.png", width="450">
+    <img src="doc/changed_architecture.gif", width="400">
+</p>
+
+We have changed the existing **C++ client** to **Android client** for convenience in developing the view and unity. <br />
+To perform the same as previous clients, what we focused is as follows :
+
+	1. Socket module to perform the same operations as c++ socket
+	2. Send android camera frame 10fps, compressing it jpg bytes array. 
+	3. Develope BattleWorms in Unity and import them to Android
+
+
 - 18.03.18 : completed BattleWorms for 3 players
 - ~ adding game effect and enhancing color-based filter 
 

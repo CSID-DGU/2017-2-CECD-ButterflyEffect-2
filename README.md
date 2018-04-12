@@ -9,7 +9,7 @@
 
 # Results
 
-#### Demo
+### 1) Demo Environment & Demo video
 
 <p align="center">
 	<img src="doc/demo_environment.png", width="360">
@@ -19,7 +19,7 @@
 
 ---
 
-#### Software architecture & Internal logic
+### 2) Software architecture & Internal logic
 
 <p align="center">
     <img src="doc/structure.png", width="400">

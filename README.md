@@ -1,13 +1,19 @@
-﻿
-**2조 나비효과 - 영상인식기술을 활용한 동작인식 시스템**
-- 한승범, 나선엽, 김상연
+# BattleWorms 
+
+
+## Members
+- 한승범(Han Seung Beom) <aronix@naver.com>
+- 나선엽(Na Sun Yeop) <coinnip@gmail.com>
+- 김상연(Kim Sang Yeon) <sy0814k@gmail.com>
 
 ## Contents
 1. [Results](#results)
-2. [Development Diary](#development-diary)
-3. [Rules](#rules)
+2. [Game Rules](#game-rules)
+3. [Development Diary](#development-diary)
+4. [OpenSource](#opensource)
+5. [License](#license)
 
-# Results
+## Results
 
 ### 1) Demo Environment & Demo video
 
@@ -27,7 +33,31 @@
 </p>
   
   <br /><br />
-# Development Diary
+
+## Game Rules
+
+### 1) Game participation
+
+<p align="center">
+    <img src="doc/ready.gif", width="400">
+    <img src="doc/color_section.png", width="300">
+</p>
+
+You can play the game by **raising your hands** for a second. At this point, the user's **key colors** are stored together.
+The right picture is the **core color** of the user.
+
+### 2) How to Move your worm
+
+<p align="center">
+    <img src="doc/left.gif", width="300">
+    <img src="doc/right.gif", width="300">
+   <img src="doc/boost.gif", width="300">
+</p>
+
+If you turn your head to the left, the worm will turn left in its own direction, and vice versa.</br>
+**Tip : You can boost the your worm by raising your hands** . various strategies are available with booster!! 
+
+## Development Diary
 
 ### 1) Simple client-server face tracking program (17.10.05)
 
@@ -123,30 +153,6 @@ We extract the **real player** from among many people in frame as follows:
 
 We are developing a filter so that it can function normally even if there are many people in the background.
 
-# Rules
-
-### 1) Game participation
-
-<p align="center">
-    <img src="doc/ready.gif", width="400">
-    <img src="doc/color_section.png", width="300">
-</p>
-
-You can play the game by **raising your hands** for a second. At this point, the user's **key colors** are stored together.
-The right picture is the **core color** of the user.
-
-### 2) How to Move your worm
-
-<p align="center">
-    <img src="doc/left.gif", width="300">
-    <img src="doc/right.gif", width="300">
-   <img src="doc/boost.gif", width="300">
-</p>
-
-If you turn your head to the left, the worm will turn left in its own direction, and vice versa.</br>
-**Tip : You can boost the your worm by raising your hands** . various strategies are available with booster!! 
-
----
 
 ## OpenSource
 

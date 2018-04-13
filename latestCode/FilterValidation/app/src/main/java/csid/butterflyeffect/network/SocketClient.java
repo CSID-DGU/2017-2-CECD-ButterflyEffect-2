@@ -92,7 +92,8 @@ public class SocketClient {
         reader = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream()));
         String str;
         while ((str = reader.readLine()) != null) {
-           dataCallback.handleReceiveData(str);
+            Log.d("TCP", str);
+            dataCallback.handleReceiveData(str);
         }
     }
 

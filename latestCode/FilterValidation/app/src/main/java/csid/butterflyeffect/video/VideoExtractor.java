@@ -56,7 +56,7 @@ public class VideoExtractor {
             @Override
             public void run() {
                 try {
-                    for (long microseconds = MICROSECOND * 10; microseconds < totalMilliseconds * 1000; microseconds += MICROSECOND / FPS) {
+                    for (long microseconds = MICROSECOND; microseconds < totalMilliseconds * 1000; microseconds += MICROSECOND / FPS) {
                         bitmap = retriever.getFrameAtTime(microseconds, MediaMetadataRetriever.OPTION_CLOSEST);
                         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 30, outputStream);

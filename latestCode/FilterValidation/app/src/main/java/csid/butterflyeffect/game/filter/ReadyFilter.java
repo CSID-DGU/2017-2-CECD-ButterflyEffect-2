@@ -39,7 +39,8 @@ public class ReadyFilter {
 
     public ArrayList<KeyPoint> filter(ArrayList<KeyPoint> keyPoints){
 
-        if(list.size() == Constants.LIST_SIZE) {
+        //if(list.size() == Constants.LIST_SIZE) {
+        if(list.size() == 5) {
             //remove to keep the queue.size constant
             list.remove(list.get(0));
 
@@ -116,7 +117,7 @@ public class ReadyFilter {
                 int bestIndex = -1;
                 int score = Integer.MIN_VALUE;
                 for(int i=0;i<keyPoints.size();i++){
-                    if(!ignore[i] && handCount[i]>score && handCount[i] >= 17){
+                    if(!ignore[i] && handCount[i]>score && handCount[i] >= 1){
                         score = handCount[i];
                         bestIndex = i;
                     }

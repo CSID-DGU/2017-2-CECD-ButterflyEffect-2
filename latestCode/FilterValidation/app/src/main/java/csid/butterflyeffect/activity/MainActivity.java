@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements VideoExtractor.Fr
         mSocket.startTcpService();
 
         //init frame extractor
-        extractor = new VideoExtractor(getBaseContext(), "/Android_Studio/hd_00_00.mp4");
+        extractor = new VideoExtractor(getBaseContext(), "/Android_Studio/hd_00_01.mp4");
         extractor.setFrameCallback(this);
         extractor.extract();
     }

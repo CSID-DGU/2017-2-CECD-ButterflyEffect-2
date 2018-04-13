@@ -47,7 +47,6 @@ public class BattleWorms implements HandleReceiveData {
                 //isPlaying = true;
                 state = Constants.STATE_READY;
                 playFilter.saveFirstUserInfo();
-
                 Thread startThread = new Thread(new Runnable() {
                     @Override
                     public void run() {

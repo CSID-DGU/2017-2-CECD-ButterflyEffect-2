@@ -1,5 +1,7 @@
 package csid.butterflyeffect.game.theme;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import csid.butterflyeffect.R;
@@ -47,24 +49,10 @@ public class BattleWorms implements HandleReceiveData {
                 //isPlaying = true;
                 state = Constants.STATE_READY;
                 playFilter.saveFirstUserInfo();
-                Thread startThread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            for(int i=0;i<Constants.WAITING_TIME;i++){
-                                activity.showToast(Constants.WAITING_TIME-i+activity.getResources().getString(R.string.remaining_wait_time));
-                                Thread.sleep(1000);
-                            }
-                            Thread.sleep(1000);
-                            state = Constants.STATE_START;
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                startThread.start();
+                state = Constants.STATE_START;
             }
         } else if (state == Constants.STATE_READY) {
+            Log.d("#####","ready state!!!");
             ArrayList<KeyPoint> filteredData = readyFilter.filter(userKeyPoints);
             activity.drawSkeleton(filteredData);
         } else if (state == Constants.STATE_START) {

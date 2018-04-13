@@ -2,6 +2,7 @@ package csid.butterflyeffect.video;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -10,6 +11,8 @@ import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+
+import csid.butterflyeffect.util.Constants;
 
 /**
  * Created by sy081 on 2018-04-11.
@@ -60,6 +63,9 @@ public class VideoExtractor {
                         bitmap = retriever.getFrameAtTime(microseconds, MediaMetadataRetriever.OPTION_CLOSEST);
                         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 30, outputStream);
+
+                        Constants.CAMERA_WIDTH = bitmap.getWidth();
+                        Constants.CAMERA_HEIGHT = bitmap.getHeight();
                         outputStream.flush();
                         frameCallback.getVideoFrame(outputStream.toByteArray());
                     }

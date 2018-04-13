@@ -2,6 +2,7 @@ package csid.butterflyeffect.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -29,7 +30,7 @@ import csid.butterflyeffect.video.VideoExtractor;
 import csid.butterflyeffect.view.SkeletonView;
 
 public class MainActivity extends AppCompatActivity implements VideoExtractor.FrameCallback, HandleSocketError {
-    private PreviewSurface mPriviewSurface;
+    private FrameLayout mPriviewSurface;
 
     private Button mBtn;
     private ImageView mBitmapView;
@@ -59,14 +60,7 @@ public class MainActivity extends AppCompatActivity implements VideoExtractor.Fr
 
         getWindow().setFormat(PixelFormat.UNKNOWN);
 
-        mPriviewSurface = (PreviewSurface) findViewById(R.id.sv);
-        mBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPriviewSurface.refreshFocus();
-
-            }
-        });
+        mPriviewSurface = (FrameLayout) findViewById(R.id.sv);
 
         //get preview screen size
         ViewTreeObserver vto = mPreview.getViewTreeObserver();
@@ -147,7 +141,12 @@ public class MainActivity extends AppCompatActivity implements VideoExtractor.Fr
             @Override
             public void run() {
                 if(mSocket.isConnected()){
-                    mBitmapView.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0 , bytes.length));
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0 , bytes.length);
+                    Matrix matrix = new Matrix();
+                    matrix.preScale(-1.0f, 1.0f);
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                    mBitmapView.setImageBitmap(bitmap);
+
                     mSocket.sendUdpPacket(bytes);
                 }
             }

@@ -127,7 +127,7 @@ public class PlayFilter {
                         //double distanceNose = Utils.getDistance(nose, keyPoints[Constants.NOSE]);
                         //Select the nearest distance
                         //if(distanceNeck<Constants.PLAYER_RADIUS){
-                        if (distanceNeck < Constants.PLAYER_RADIUS && distanceNeck < minNeck) {
+                        if (distanceNeck < Constants.PLAYER_RADIUS) {
                             minNeck = distanceNeck;
                             candidatesKeyPoints.add(new KeyPoint(keyPoints));
                         }

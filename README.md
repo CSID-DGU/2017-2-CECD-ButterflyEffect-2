@@ -1,15 +1,21 @@
-﻿
-**2조 나비효과 - 영상인식기술을 활용한 동작인식 시스템**
-- 한승범, 나선엽, 김상연
+# BattleWorms 
+
+
+## Members
+- 한승범(Han Seung Beom) <aronix@naver.com>
+- 나선엽(Na Sun Yeop) <coinnip@gmail.com>
+- 김상연(Kim Sang Yeon) <sy0814k@gmail.com>
 
 ## Contents
 1. [Results](#results)
-2. [Our Development Diary](#our-development-diary)
-3. [More Information](#more-information)
+2. [Game Rules](#game-rules)
+3. [Development Diary](#development-diary)
+4. [OpenSource](#opensource)
+5. [License](#license)
 
-# Results
+## Results
 
-#### Demo
+### 1) Demo Environment & Demo video
 
 <p align="center">
 	<img src="doc/demo_environment.png", width="360">
@@ -19,7 +25,7 @@
 
 ---
 
-#### Software architecture & Internal logic
+### 2) Software architecture & Internal logic
 
 <p align="center">
     <img src="doc/structure.png", width="400">
@@ -27,9 +33,33 @@
 </p>
   
   <br /><br />
-# Our Development Diary
 
-- **17.10.05 : simple client-server face tracking program**
+## Game Rules
+
+### 1) Game participation
+
+<p align="center">
+    <img src="doc/ready.gif", width="400">
+    <img src="doc/color_section.png", width="300">
+</p>
+
+You can play the game by **raising your hands** for a second. At this point, the user's **key colors** are stored together.
+The right picture is the **core color** of the user.
+
+### 2) How to Move your worm
+
+<p align="center">
+    <img src="doc/left.gif", width="300">
+    <img src="doc/right.gif", width="300">
+   <img src="doc/boost.gif", width="300">
+</p>
+
+If you turn your head to the left, the worm will turn left in its own direction, and vice versa.</br>
+**Tip : You can boost the your worm by raising your hands** . various strategies are available with booster!! 
+
+## Development Diary
+
+### 1) Simple client-server face tracking program (17.10.05)
 
 <p align="center">
     <img src="doc/simple_server_client.png", width="600">
@@ -39,15 +69,15 @@ This is the program we first created for the project.
 It is designed to create the **overall framework** of the project. 
 The framework of our project is as follows.
    
-	1. send real-time image frames from client to server.
-	2. send the value of interpreting frame using openpose.
+	1. send real-time image frames from client to server (UDP packets).
+	2. send the value of interpreting frame using openpose (TCP packets).
 	3. reflects the values in BattleWorms.
 
 AWS Server is needed because openpose requring a high-quilty-computer is difficult to develop on a personal computer. but at this program, we used **simple-face-detection-module** instead of using **openpose** since we had not yet analyzed it.
 
 ---
 
-- **17.10.30 : openpose analysis**
+### 2) Openpose analysis (17.10.30)
 
 The next step is to replace the **simple-face-detection-module** to **openpose**. There are three basic examples of openpose tutorial.
 
@@ -59,7 +89,7 @@ We decided to analyze the examples here and develop our program. but It was hard
 
 ---
 
-- **17.12.04 : completed BattleWorms for a single player**
+### 3) Completed BattleWorms for a single player (17.12.04)
 
 <p align="center">
     <img src="doc/completed_single_game.png", width="450">
@@ -75,22 +105,54 @@ We have a problem to tackle before we extend the project to multiple people.
 
 	1. Ineffective Image Processing : we draw every tails at camara frame.
 	2. Camera and worms use same frame  : it necessary to separate the camera and game views.
-	2. Difficult to develope the intended UI
+	3. Difficult to develope the intended UI
 
 It was decided to solve the first problem by unity and we thought the second problem would be simpler if we used **android.**
-	
 
 ---
 
-- 18.02.22 : changed our program architecture
-- 18.03.18 : completed BattleWorms for 3 players
-- ~ adding game effect and enhancing color-based filter 
+### 4) Changed our program architecture (18.02.22)
 
-## More Information
+<p align="center">
+    <img src="doc/changed_architecture.png", width="450">
+    <img src="doc/changed_architecture.gif", width="400">
+</p>
 
-- Filter (How we distinguish players between different people)
-- Game rules
-- How BattleWorms started
+We have changed the existing **C++ client** to **Android client** for convenience in developing the view and unity. <br />
+To perform the same as previous clients, what we focused is as follows :
+
+	1. Socket module to perform the same operations as c++ socket
+	2. Send android camera frame 10fps, compressing it jpg bytes array. 
+	3. Develope BattleWorms in Unity and import them to Android
+	
+---	
+	
+### 5) Completed BattleWorms for multi players (18.03.18)
+
+<p align="center">
+    <img src="doc/completed_multi_game.png", width="450">
+    <img src="doc/multi_game.gif", width="400">
+</p>
+
+We have changed the data structure to **JSON** for multiple users. <br />
+The **Filter** has been developed to extract only actual users from detected persons from frame.
+
+#### Filter : How we distinguish actual players between different people
+
+We extract the **real player** from among many people in frame as follows:
+
+	1. The previous frame player coordinates are used to determine the player in the new frame.
+	2. check the user information near the previous player's position and call them the candidates.
+	3. when (candidates.size == 1) newPlayerPosition = candidate
+	4. when (candidates.size >= 2) newPlayerPosition = candiates(mostSimilarColor)
+	5. when (candidates.size == 0) newPlayerPosition = previousFramePlayerPosition
+
+---
+
+### 6) Adding game effect and enhancing filter accuracy (ongoing).
+
+We are developing a filter so that it can function normally even if there are many people in the background.
+
 
 ## OpenSource
 

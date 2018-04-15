@@ -47,7 +47,7 @@ public class BattleWorms implements HandleReceiveData {
             //it will be called before state change to play
             if (userInfos.size() == Constants.PLAYER_NUMBER) {
                 //isPlaying = true;
-                state = Constants.STATE_READY;
+                //state = Constants.STATE_READY;
                 playFilter.saveFirstUserInfo();
                 state = Constants.STATE_START;
             }

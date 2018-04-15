@@ -6,8 +6,8 @@ using System;
 
 public class HeadController : MonoBehaviour
 {
-    private GameObject food;
 
+    public GameObject food;
     private Rigidbody rb;
     private Transform curtail;
     private Transform prevtail;
@@ -15,28 +15,34 @@ public class HeadController : MonoBehaviour
     private int score = 0;
     private static AndroidJavaObject _admobPlugin;
     private int Head_index = 255;
-    private Color tail_color = Color.black;
-
-    public void foodalloc(GameObject foodobj)
-    {
-        food = foodobj;
-    }
+    private Color32 tailcolor = Color.black;
+    bool isboost = false;
 
     private float boost_mult = 1.0f;
 
     public void boost_enable()
     {
         boost_mult = 1.8f;
+        isboost = true;
     }
-    public void boost_unable(){
+    public void boost_unable() {
         boost_mult = 1.0f;
+        isboost = false;
     }
 
     public void Head_index_set(int id)
     {
-        //색 지정
         Head_index = id;
-        tail_color = Global.player_Color[id];
+    }
+
+    public void set_tail_color(Color32 worm_color)
+    {
+        tailcolor = new Color32(
+            (byte)(worm_color.r*0.95),
+            (byte)(worm_color.g*0.95),
+            (byte)(worm_color.b*0.95),
+            255);
+
     }
 
     //머리 이동 속도
@@ -45,7 +51,7 @@ public class HeadController : MonoBehaviour
     private float headcurspeed_mult = Global.init_headcurspeed_mult;
 
     //머리 회전 각도
-    private float z_rotate_angle = 180.0f;
+    private float z_rotate_angle = 0.0f;
 
     public void Z_rotate_update(float z_angle)
     {
@@ -53,37 +59,24 @@ public class HeadController : MonoBehaviour
     }
 
     Vector3 move = new Vector3(0f, 0f, 0f);
-
-
     Vector3 direction = new Vector3(0.0f, 0.0f, 0.0f);
 
     // 유니티가 동작하는 액티비티를 저장하는 변수
     public AndroidJavaObject activity;
 
-    void Awake()
-    {
-
-    }
-
     List<GameObject> tail = new List<GameObject>();
 
     //Did worm eat something?
     int ate = 2;
-
     //Did worm collide with other worms tail
     bool die = false;
 
     // Tail Prefab
     public GameObject tailPrefab;
-
-
     AndroidJavaClass jc; AndroidJavaObject jo;
-
 
     void Start()
     {
-
-
         rb = gameObject.GetComponent<Rigidbody>();
         rb.transform.localScale = new Vector3(Global.head_size, Global.head_size, Global.head_size);
 
@@ -94,15 +87,17 @@ public class HeadController : MonoBehaviour
             tail_create(rb.position);
         jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
-
-
-
-
     }
 
+    float min_distance = Global.min_distance;
+    float tail_curspeed = Global.tail_curspeed;
+    float boost_fuel = 0.2f;
     void FixedUpdate()
     {
-        rb.velocity = Vector3.zero;
+        //이거 뭔지 기억 안남
+        //rb.velocity = Vector3.zero;
+
+
         Vector3 newpose = rb.position;
 
         rb.transform.Rotate(0f, 0f, z_rotate_angle * Time.deltaTime * headcurspeed_mult);
@@ -113,9 +108,8 @@ public class HeadController : MonoBehaviour
         if (tail.Count > 0)
         {
 
-            dis = Vector3.Distance(rb.position, tail[0].transform.position) - Global.min_distance;
+            dis = Vector3.Distance(rb.position, tail[0].transform.position) - min_distance;
             float T = Time.deltaTime * (dis * dis / 160) * Global.tail_curspeed;
-
 
             if (T > 200.0f)
                 T = 200.0f;
@@ -129,20 +123,15 @@ public class HeadController : MonoBehaviour
 
             for (int i = 1; i < tail.Count; i++)
             {
-
-
-
                 curtail = tail[i].transform;
                 prevtail = tail[i - 1].transform;
 
-                dis = Vector3.Distance(prevtail.position, curtail.position) - Global.min_distance;
+                dis = Vector3.Distance(prevtail.position, curtail.position) - min_distance;
 
                 newpose = prevtail.position;
                 newpose.z = rb.position.z;
 
                 T = Time.deltaTime * (dis * dis / 160) * Global.tail_curspeed;
-
-
 
                 if (T > 200.0f)
                     T = 200.0f;
@@ -150,8 +139,11 @@ public class HeadController : MonoBehaviour
                     T = 0;
 
                 curtail.position = Vector3.MoveTowards(curtail.position, prevtail.position, T);
+            }
 
-
+            if (isboost)
+            {
+                boost_fuel -= Time.deltaTime;
             }
 
         }
@@ -162,8 +154,8 @@ public class HeadController : MonoBehaviour
         {
             tail_create(newpose);
         }
-        // 4. Collide head -> tail CHK
 
+        // 4. Collide head -> tail CHK
         if (die)
         {
             foreach(GameObject o in tail)
@@ -173,15 +165,29 @@ public class HeadController : MonoBehaviour
                 Destroy(o);
             }
 
+            if(jo!=null)
             jo.Call("updateDie", "" + Head_index);
             Destroy(gameObject);
-
 
             //지렁이가 죽었음을 Android에게 전달
         //   AndroidJavaClass unityPlayer = new AndroidJavaClass("Android(java)Function 이 있는 패키지 이름 들어갈 곳");
         //    unityPlayer.Call("함수 이름", "메세지");
-        
+
         //  Destroy()
+        }
+
+        // 5. boost fuel CHK
+  
+        if (boost_fuel < 0)
+        {
+            GameObject last_tail = tail[tail.Count - 1];
+            tail.RemoveAt(tail.Count - 1);
+
+            SpawnFood_die(last_tail.transform);
+
+            Destroy(last_tail);
+
+            boost_fuel = 0.2f;
         }
 
 
@@ -195,7 +201,7 @@ public class HeadController : MonoBehaviour
                                               newpose,
                                               Quaternion.identity);
 
-        g.GetComponent<MeshRenderer>().material.color = tail_color;
+        g.GetComponent<MeshRenderer>().material.color = tailcolor;
 
         g.name = "tail" + "[" + Head_index + "]";
 
@@ -219,12 +225,11 @@ public class HeadController : MonoBehaviour
 
     void OnTriggerEnter(Collider coll)
     {
-
         // Trigger Food?
         if (coll.name.StartsWith("FoodPrefab"))
         {
             // Get longer in next Move call
-            ate-=4;
+            ate-=2;
 
             coll.enabled = false;
 
@@ -233,6 +238,7 @@ public class HeadController : MonoBehaviour
             // Message to Android
 
             // Android에 점수 전송
+            if(jo !=null)
             jo.Call("updateScore", Head_index + " " + score * 250);
 
         }
@@ -246,6 +252,7 @@ public class HeadController : MonoBehaviour
 
             Destroy(coll.gameObject);
 
+            if(jo!=null)
             jo.Call("updateScore", Head_index + " " + score * 250);
         }
         if (coll.name.StartsWith("tail") && !coll.name.EndsWith("[" + Head_index + "]"))
@@ -265,11 +272,8 @@ public class HeadController : MonoBehaviour
 
     public void SpawnFood_die(Transform tf)
     {
-
-
-        //x position between left and right border
+        
         float x = (float)UnityEngine.Random.Range(-boost_mult, boost_mult);
-        //y position between top and bottom border
         float y = (float)UnityEngine.Random.Range(-boost_mult, boost_mult);
 
         float z = -3f;

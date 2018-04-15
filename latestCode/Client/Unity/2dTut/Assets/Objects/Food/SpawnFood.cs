@@ -12,8 +12,10 @@ public class SpawnFood : MonoBehaviour {
     public Transform border_Bottom;
     public Transform border_Left;
     public Transform border_Right;
-
     public GameObject FoodParent;
+
+    private float food_size = Global.food_size;
+    private float food_halo_size = Global.food_halo_size;
 
     //private bool isGameStart = false;
 
@@ -81,9 +83,12 @@ public class SpawnFood : MonoBehaviour {
                     int z = -2;
 
                     FoodprefabArray[i].transform.position = new Vector3(x, y, z);
-                    FoodprefabArray[i].transform.localScale = new Vector3(Global.food_size, Global.food_size, Global.food_size);
+                    FoodprefabArray[i].transform.localScale = new Vector3(food_size, food_size, food_size);
 
-                    FoodprefabArray[i].GetComponent<Light>().range = Global.food_halo_size;
+                    FoodprefabArray[i].GetComponent<Light>().color = new Color32(255, 1, 1,1);
+                    FoodprefabArray[i].GetComponent<Light>().range = food_halo_size;
+
+                    
 
 
 

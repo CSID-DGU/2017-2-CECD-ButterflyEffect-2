@@ -6,13 +6,18 @@ public static class Global
 {
     public static float ppu = 1.0f;
 
+
     //Resolution info
     public static float screen_width = (float)(Screen.width);
     public static float screen_height = (float)(Screen.height);
 
-    //Game Resolution Options
+    //Game (Defalut)Resolution Options
     public static float game_res_width = 640f;
     public static float game_res_height = 640f;
+
+    //Game (Runtime)Resoultion Options
+    public static float game_res_width_run;
+    public static float game_res_height_run;
 
     //Worms Speed
     public static float init_headspeed_mult = game_res_width / 300;
@@ -40,11 +45,9 @@ public static class Global
     public static float food_halo_size = food_halo_ratio * game_res_width;
     
 
-    public static Color skyblue = new Color(0.3f, 0.3f, 1,1);
+    public static Color skyblue = new Color(0.1f, 0.1f, 1,1);
 
     //Wroms color (readonly = final
     public static readonly Color[] player_Color = { Color.green, Color.red, skyblue , Color.yellow , Color.cyan };
-
-   
 
 }

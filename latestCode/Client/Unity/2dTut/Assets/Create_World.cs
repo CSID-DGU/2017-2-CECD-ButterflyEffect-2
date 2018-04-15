@@ -22,10 +22,11 @@ public class Create_World : MonoBehaviour
     List<GameObject> WormLightList = new List<GameObject>();
 
     public GameObject Light;
-
     public Transform Tilemap;
-
     public Head_List HList;
+
+    public float i_width;
+    public float i_height;
 
     private float[,] isWorm = new float[6, 6];
 
@@ -50,12 +51,16 @@ public class Create_World : MonoBehaviour
 
         //float i_width = (float)(Screen.width)/ (float)(Screen.width);
         //float i_height = (float)(Screen.height) / (float)(Screen.width);
-        float i_width = Global.screen_width / Global.screen_width;
-        float i_height = Global.screen_height / Global.screen_width;
+
+        Debug.Log("w : " + Global.screen_width +", h : " + Global.screen_height);
+
+        i_width = Global.screen_width / Global.screen_width;
+        i_height = Global.screen_height / Global.screen_width;
 
         //fix game resolution 640x640
         i_width *= Global.game_res_width;
         i_height *= Global.game_res_height;
+
 
         Screen.SetResolution((int)i_width, (int)i_height, true);
         Debug.Log(i_width + "," + i_height);
@@ -80,26 +85,34 @@ public class Create_World : MonoBehaviour
         camera.orthographicSize = i_height / ppu / 2;
 
         //Typing "Spawn();" to test worms in Unity here
+        Spawn("255 100 100");
+        Spawn("100 255 100");
+        Spawn("100 100 255");
+        GameStart("");
 
     }
 
     int person_num = 0;
 
     //Called by Android(java)
-    public void Spawn()
+    public void Spawn(string worm_color)
     {
+        string[] str = worm_color.Split(' ');
+        
+        Color worm_color_int = new Color32(byte.Parse(str[0]), byte.Parse(str[1]), byte.Parse(str[2]), 255);
+
         //person_num = int.Parse(player_count);
-        HList.Spawn_Head(person_num, WormLightList[person_num]);
+        HList.Spawn_Head(person_num, WormLightList[person_num], worm_color_int);
         person_num++;
 
     }
 
+
+    //Called by Android
     public void GameStart(string s)
     {
         Invoke("GameStart_S", 3.0f);
     }
-
-    //Called by Android
     public void GameStart_S()
     {
 

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Head_List : MonoBehaviour
 {
-
     public Transform border_Top;
     public Transform border_Bottom;
     public Transform border_Left;
@@ -36,42 +35,45 @@ public class Head_List : MonoBehaviour
 
     }
 
-    private bool[,] isWorm = new bool[6, 6];
-    private float w_unit = Global.screen_width / 6;
-    private float h_unit = Global.screen_height / 6;
 
-    public void Spawn_Head(int i,GameObject WormLight)
+    private bool[,] isWorm = new bool[4, 4];
+
+    public void Spawn_Head(int i,GameObject WormLight, Color worm_color)
     {
+
+        float w_unit = GetComponent<Create_World>().i_width / 12;
+        float h_unit = GetComponent<Create_World>().i_height / 12;
+
+
+        Debug.Log(w_unit + " , " + h_unit);
         while (true)
         {
             //x position between left and right border
-            int x = (int)(Random.Range(border_Left.position.x,
-                                      border_Right.position.x));
+            int x = (int)(Random.Range(0,4));
             //y position between top and bottom border
-            int y = (int)(Random.Range(border_Top.position.y,
-                                      border_Bottom.position.y));
+            int y = (int)(Random.Range(0,4));
+
+
 
             //Debug.Log("intx,inty is =" + (int)(x / w_unit) + "," + (int)(y / h_unit));
-            int z = -3;
+            int z = -10;
 
 
 
             //같은 공간에 Spawn 방지
-            if (!isWorm[(int)(x / w_unit +2), (int)(y / h_unit)+2])
+            if (!isWorm[(x), (y)])
             {
+                Debug.Log(x + " " + y);
+                isWorm[(x), (y)] = true;
+                x = (x * 3 - 5) * (int)w_unit;
+                y = (y * 3 - 5) * (int)h_unit;
                 //Debug.Log("called");
                 WormsList.Add(Instantiate(Worms, new Vector3(x, y, z), new Quaternion(0f, 0f, z, 0f)));
 
                 WormsList[i].GetComponent<HeadController>().Head_index_set(i);
-                WormsList[i].GetComponent<MeshRenderer>().material.color = Global.player_Color[i];
-
-                isWorm[(int)(x / w_unit+2), (int)(y / h_unit+2)] = true;
-
-
+                WormsList[i].GetComponent<MeshRenderer>().material.color = worm_color;
+                WormsList[i].GetComponent<HeadController>().set_tail_color(worm_color);
                 WormLight.transform.position = new Vector3(x, y, Global.head_size*(-1.3f));
-
-                WormsList[i].GetComponent<HeadController>().foodalloc(food);
-
 
                 break;
             }

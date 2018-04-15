@@ -5,108 +5,65 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context="csid.butterflyeffect.activity.MainActivity">
 
-    <LinearLayout
+
+    <FrameLayout
+        android:id="@+id/fr_preview"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
+        <Button
+            android:id="@+id/btn_load"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="load" />
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:text="send" />
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
-
-                </LinearLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
-
-                    <csid.butterflyeffect.camera.PreviewSurface
-                        android:id="@+id/sv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                    <ImageView
-                        android:id="@+id/iv_direction"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_margin="10dp"
-                        android:src="@drawable/ic_icon" />
-
-                    <Button
-                        android:id="@+id/btn_capture"
-                        android:layout_width="50dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="right"
-                        android:text="focus"
-                        android:textSize="7dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:background="@color/material_teal"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_angle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/blueGrey900"
-                            android:paddingLeft="3dp"
-                            android:text="user angle view"
-                            android:textColor="@color/white"
-                            android:textSize="7dp" />
-
-                        <TextView
-                            android:id="@+id/tv_tcp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="3dp"
-                            android:text="tcp datas come here"
-                            android:textColor="@color/white"
-                            android:textSize="7dp" />
-
-                    </LinearLayout>
-                </FrameLayout>
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/blueGrey800"
-            android:padding="10dp">
-
+            android:orientation="horizontal">
             <ImageView
-                android:id="@+id/iv_bitmap"
-                android:layout_width="match_parent"
+                android:id="@+id/iv_frame"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:visibility="invisible" />
-        </FrameLayout>
+                android:scaleType="fitXY"
+                android:layout_weight="1"/>
+            <FrameLayout
+                android:id="@+id/sv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <!--
+                <csid.butterflyeffect.camera.PreviewSurface
 
-    </LinearLayout>
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                -->
+                <TextureView
+                    android:id="@+id/texture_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY" />
+
+                <csid.butterflyeffect.view.SkeletonView
+                    android:id="@+id/skeleton_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
 
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>
+
 
 

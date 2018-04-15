@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -231,4 +232,12 @@ public class Utils {
 
         return 0xFF000000 | Red | Green | Blue; //0xFF000000 for 100% Alpha. Bitwise OR everything together.
     }
+    public static byte[] bitmapToByteArray( Bitmap bitmap ) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream() ;
+        bitmap.compress( Bitmap.CompressFormat.JPEG, 30, stream) ;
+        byte[] byteArray = stream.toByteArray() ;
+        return byteArray ;
+    }
+
+
 }

@@ -31,19 +31,18 @@ public class VideoExtractor {
     long totalMilliseconds;
 
     public interface FrameCallback{
-        void getVideoFrame(final byte[] bytes);
+        void getVideoFrame(final byte[] bytes,int now, int total);
     }
 
     public void setFrameCallback(FrameCallback frameCallback){
         this.frameCallback = frameCallback;
     }
 
-    public VideoExtractor(Context context, String videoPath){
+    public VideoExtractor(Context context, Uri videoFileUri){
         try {
-            videoFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + videoPath);
-            videoFileUri = Uri.parse(videoFile.toString());
+            this.videoFileUri = videoFileUri;
             retriever = new MediaMetadataRetriever();
-            retriever.setDataSource(videoFile.toString());
+            retriever.setDataSource(context,videoFileUri);
             mediaPlayer = MediaPlayer.create(context, videoFileUri);
             totalMilliseconds = mediaPlayer.getDuration();
         }catch(IllegalArgumentException e) {
@@ -59,16 +58,33 @@ public class VideoExtractor {
             @Override
             public void run() {
                 try {
-                    for (long microseconds = MICROSECOND; microseconds < totalMilliseconds * 1000; microseconds += MICROSECOND / FPS) {
-                        bitmap = retriever.getFrameAtTime(microseconds, MediaMetadataRetriever.OPTION_CLOSEST);
+                    int totalFrame = (int)((double)totalMilliseconds*1000 - MICROSECOND)/(MICROSECOND/FPS);
+                    int i=1;
+
+                    for(long start = MICROSECOND; start<totalMilliseconds*1000 ;start += MICROSECOND/FPS){
+                        bitmap = retriever.getFrameAtTime(start, MediaMetadataRetriever.OPTION_CLOSEST);
                         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 30, outputStream);
 
                         Constants.CAMERA_WIDTH = bitmap.getWidth();
                         Constants.CAMERA_HEIGHT = bitmap.getHeight();
                         outputStream.flush();
-                        frameCallback.getVideoFrame(outputStream.toByteArray());
+                        frameCallback.getVideoFrame(outputStream.toByteArray(),(int)i,totalFrame);
+                        i++;
+                        Thread.sleep(1000);
+
                     }
+                    /*for (long microseconds = MICROSECOND; microseconds < totalMilliseconds * 1000; microseconds += MICROSECOND / FPS) {
+                        bitmap = retriever.getFrameAtTime(microseconds, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, outputStream);
+
+                        Constants.CAMERA_WIDTH = bitmap.getWidth();
+                        Constants.CAMERA_HEIGHT = bitmap.getHeight();
+                        outputStream.flush();
+                        frameCallback.getVideoFrame(outputStream.toByteArray(),(int)i,totalFrame);
+                        i++;
+                    }*/
                 }catch (Exception e){
                     e.printStackTrace();
                 }

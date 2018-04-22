@@ -36,7 +36,7 @@ public class Bot_HeadController : MonoBehaviour {
     private float headcurspeed_mult = Global.init_headcurspeed_mult;
 
     //머리 회전 각도
-    private float z_rotate_angle = 0.0f;
+    private float z_rotate_angle = 120.0f;
 
     public void Z_rotate_update(float z_angle)
     {
@@ -77,7 +77,7 @@ public class Bot_HeadController : MonoBehaviour {
     float boost_fuel = 0.2f;
 
 	// Update is called once per frame
-	void FiexedUpdate () {
+	void FixedUpdate () {
         Vector3 newpose = rb.position;
 
         rb.transform.Rotate(0f, 0f, z_rotate_angle * Time.deltaTime * headcurspeed_mult);
@@ -182,36 +182,34 @@ public class Bot_HeadController : MonoBehaviour {
 
     public void OnTriggerEnter(Collider coll)
     {
+        // Trigger Food?
         if (coll.name.StartsWith("FoodPrefab"))
         {
+            //dis = Vector3.Distance(coll.transform.position, rb.transform.position);
             Vector3 move_force = rb.transform.position - coll.transform.position;
-
-            float T = Time.deltaTime * (1f / dis) * 5;
-
-            coll.GetComponent<Rigidbody>().AddForce(move_force);
+            coll.GetComponent<Rigidbody>().AddForce(move_force * 10);
 
             rotateFood fd = coll.gameObject.GetComponent<rotateFood>();
 
-            Action ate_Async = new Action(fd.ate_by_worm);
+            fd.ate_by_worm();
 
-            ate -= 2;
+            ate -= 4;
+
+
         }
         if (coll.name.StartsWith("fd"))
         {
-            dis = Vector3.Distance(coll.transform.position, rb.transform.position);
 
-            if(dis > 5)
-            {
-                float T = Time.deltaTime * (1f / dis) * 5;
-                coll.transform.position = Vector3.MoveTowards(coll.transform.position, rb.transform.position, T);
-            }
-            else
-            {
-                --ate;
-                coll.enabled = false;
+            //dis = Vector3.Distance(coll.transform.position, rb.transform.position);
+            Vector3 move_force = rb.transform.position - coll.transform.position;
+            coll.GetComponent<Rigidbody>().AddForce(move_force * 10);
 
-                Destroy(coll.gameObject);
-            }
+            rotateFood fd = coll.gameObject.GetComponent<rotateFood>();
+
+            fd.fd_ate_by_worm();
+
+            ate -= 1;
+
         }
 
         // When current worm collides against tail of another worm

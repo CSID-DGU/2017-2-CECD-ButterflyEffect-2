@@ -110,7 +110,7 @@ public class Head_List : MonoBehaviour
                 //Debug.Log("called");
                 BotList.Add(Instantiate(Bot, new Vector3(x, y, z), new Quaternion(0f, 0f, z, 0f)));
 
-                BotList[i].GetComponent<Bot_HeadController>().Head_index_set(i);
+                BotList[i].GetComponent<Bot_HeadController>().Head_index_set(3);
                 BotList[i].GetComponent<MeshRenderer>().material.color = worm_color;
                 BotList[i].GetComponent<Bot_HeadController>().set_tail_color(worm_color);
              
@@ -152,6 +152,5 @@ public class Head_List : MonoBehaviour
                   headController.Z_rotate_update(z_rotate_angle[i]);
             }
         }
-
     }
 }

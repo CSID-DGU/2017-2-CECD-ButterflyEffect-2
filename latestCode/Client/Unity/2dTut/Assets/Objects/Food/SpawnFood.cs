@@ -23,7 +23,7 @@ public class SpawnFood : MonoBehaviour {
 
     public int FoodMaxPool = 30;     // Food count
     private MemoryPool MPool;   // MemoryPool
-    public GameObject[] FoodprefabArray; //FoodArray Used with MemoryPool
+    private GameObject[] FoodprefabArray;   //FoodArray Used with MemoryPool
 
     public float FoodspwanDelay;
 
@@ -88,11 +88,8 @@ public class SpawnFood : MonoBehaviour {
                     FoodprefabArray[i].GetComponent<Light>().color = new Color32(255, 1, 1,1);
                     FoodprefabArray[i].GetComponent<Light>().range = food_halo_size;
 
-                    
-
-
-
                     break;
+
                 }
             }
         }
@@ -100,10 +97,11 @@ public class SpawnFood : MonoBehaviour {
         {
             if (FoodprefabArray[i])
             {
-                if (FoodprefabArray[i].GetComponent<SphereCollider>().enabled == false)
+                if (FoodprefabArray[i].activeSelf == false) 
+                //if (FoodprefabArray[i].GetComponent<SphereCollider>().enabled == false)
                 {
-                    FoodprefabArray[i].GetComponent<SphereCollider>().enabled = true;
-
+                    //FoodprefabArray[i].GetComponent<SphereCollider>().enabled = true;
+                    FoodprefabArray[i].SetActive(true);
                     MPool.RemoveItem(FoodprefabArray[i]);
                     FoodprefabArray[i] = null;
                 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using System;
+using System.Threading;
+
 
 public class HeadController : MonoBehaviour
 {
@@ -52,7 +54,7 @@ public class HeadController : MonoBehaviour
     private float headcurspeed_mult = Global.init_headcurspeed_mult;
 
     //머리 회전 각도
-    private float z_rotate_angle = 0.0f;
+    private float z_rotate_angle = 120.0f;
 
     public void Z_rotate_update(float z_angle)
     {
@@ -83,7 +85,6 @@ public class HeadController : MonoBehaviour
 
         tailPrefab.transform.localScale = new Vector3(Global.tail_size, Global.tail_size, Global.tail_size);
 
-
         for (int i = 0; i < 1; i++)
             tail_create(rb.position);
         jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
@@ -92,7 +93,7 @@ public class HeadController : MonoBehaviour
 
     float min_distance = Global.min_distance;
     float tail_curspeed = Global.tail_curspeed;
-    float boost_fuel = 0.2f;
+    float boost_fuel = 0.4f;
     void FixedUpdate()
     {
         //이거 뭔지 기억 안남
@@ -188,7 +189,7 @@ public class HeadController : MonoBehaviour
 
             Destroy(last_tail);
 
-            boost_fuel = 0.2f;
+            boost_fuel = 1f;
         }
 
 
@@ -216,8 +217,8 @@ public class HeadController : MonoBehaviour
         ate += 2;
 
         //growing worms size.
-        float tailRatio = 1.0f + (tail.Count/30f);
-        for (int i = 0; i < tail.Count;i++){
+        float tailRatio = 1.0f + (tail.Count()/30f);
+        for (int i = 0; i < tail.Count();i++){
             tail[i].transform.localScale = new Vector3(Global.tail_size*tailRatio, Global.tail_size*tailRatio, Global.tail_size*tailRatio);
         }
         rb.transform.localScale = new Vector3(Global.head_size * tailRatio, Global.head_size * tailRatio, Global.head_size * tailRatio);
@@ -231,81 +232,39 @@ public class HeadController : MonoBehaviour
         {
             //dis = Vector3.Distance(coll.transform.position, rb.transform.position);
             Vector3 move_force = rb.transform.position - coll.transform.position;
-            
-            float T = Time.deltaTime * (1f / dis) * 5;
-
-            coll.GetComponent<Rigidbody>().AddForce(move_force);
+            coll.GetComponent<Rigidbody>().AddForce(move_force*10);
 
             rotateFood fd = coll.gameObject.GetComponent<rotateFood>();
 
-            Action ate_Async = new Action(fd.ate_by_worm);
+            fd.ate_by_worm();
 
-            //ate_Async.BeginInvoke
-
-            
-
-            // Get longer in next Move call
-            ate -= 2;
+            ate -= 4;
 
             score++;
-
-            // Message to Android
-            // Android에 점수 전송
             if (jo != null)
                 jo.Call("updateScore", Head_index + " " + score * 250);
 
-            //coll.transform.position = Vector3.MoveTowards(coll.transform.position, rb.transform.position, T);
-            /*
-            if (dis > 50)
-            {
-                Debug.Log("here");
-                float T = Time.deltaTime * (1f / dis) * 5;
-
-                coll.GetComponent<Rigidbody>().AddForce(move_force);
-                //coll.transform.position = Vector3.MoveTowards(coll.transform.position, rb.transform.position, T);
-            }
-            else
-            {
-                // Get longer in next Move call
-                ate -= 2;
-                coll.enabled = false;
-                score++;
-
-                // Message to Android
-                // Android에 점수 전송
-                if (jo != null)
-                    jo.Call("updateScore", Head_index + " " + score * 250);
-            }
-            */
         }
         if (coll.name.StartsWith("fd"))
         {
-            dis = Vector3.Distance(coll.transform.position, rb.transform.position);
-            if (dis > 5)
-            {
-                float T = Time.deltaTime * (1f / dis) * 5;
-                coll.transform.position = Vector3.MoveTowards(coll.transform.position, rb.transform.position, T);
-            }
-            else
-            {
-                --ate;
-                coll.enabled = false;
-                score++;
 
-                Destroy(coll.gameObject);
-                if (jo != null)
-                    jo.Call("updateScore", Head_index + " " + score * 250);
-            }
+            //dis = Vector3.Distance(coll.transform.position, rb.transform.position);
+            Vector3 move_force = rb.transform.position - coll.transform.position;
+            coll.GetComponent<Rigidbody>().AddForce(move_force * 10);
+
+            rotateFood fd = coll.gameObject.GetComponent<rotateFood>();
+
+            fd.fd_ate_by_worm();
+
+            ate -= 1;
+
+            score++;
+            if (jo != null)
+                jo.Call("updateScore", Head_index + " " + score * 250);
         }
         if (coll.name.StartsWith("tail") && !coll.name.EndsWith("[" + Head_index + "]"))
         {
-            // Message to Android
-            // Android에 해당 지렁이가 죽었음을 전송
-            // AndroidJavaClass unityPlayer = new AndroidJavaClass("Android(java)Function 이 있는 패키지 이름 들어갈 곳");
-            // unityPlayer.Call("함수 이름", "메세지 : Index");
-
             die = true;
-
         }
         // Collided with Tail or Border
 
@@ -319,10 +278,12 @@ public class HeadController : MonoBehaviour
 
         float z = -3f;
 
+
         Transform fd =  Instantiate(food, new Vector3(tf.position.x, tf.position.y, z),
             Quaternion.identity).transform; // default rotation
 
-        fd.GetComponent<MeshRenderer>().material.color = Global.player_Color[Head_index];
+        fd.GetComponent<Light>().color = tailcolor;
+        fd.GetComponent<Light>().intensity = 2f;
 
         fd.Translate(x,y, 0);
 

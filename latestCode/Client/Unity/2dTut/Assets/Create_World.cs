@@ -11,6 +11,8 @@ public class Create_World : MonoBehaviour
     public GameObject WorldLight;
     new public Camera camera;
 
+    public GameObject Text;
+
     // Borders (Fix using resolution)
     public Transform border_Top;
     public Transform border_Bottom;
@@ -83,11 +85,7 @@ public class Create_World : MonoBehaviour
         camera.orthographicSize = i_height / ppu / 2;
 
         //Typing "Spawn();" to test worms in Unity here
-        Spawn("255 100 100");
-        Spawn("100 255 100");
-        Spawn("100 100 255");
         Spawn_Bot();
-        GameStart("");
 
     }
 
@@ -108,13 +106,14 @@ public class Create_World : MonoBehaviour
 
     public void Spawn_Bot()
     { 
-        Color worm_color_int = new Color32(0, 0, 0, 255);
+        Color worm_color_int = new Color32(255, 255, 255, 255);
         HList.Spawn_Bot(0, worm_color_int);
     }
 
     //Called by Android
     public void GameStart(string s)
     {
+        Text.GetComponent<TimeBoxScript>().game_time = int.Parse(s) + 3;
         Invoke("GameStart_S", 3.0f);
     }
     public void GameStart_S()

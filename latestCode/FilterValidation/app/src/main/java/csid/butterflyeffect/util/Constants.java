@@ -9,7 +9,7 @@ import csid.butterflyeffect.R;
 public class Constants {
 
     //about battleWorms
-    public static int PLAYER_NUMBER = 1;
+    public static int PLAYER_NUMBER = 2;
     public static final int STATE_WAIT = 0;
     public static final int STATE_READY = 1;
     public static final int STATE_START = 2;
@@ -61,9 +61,8 @@ public class Constants {
     public static float PREVIEW_HEIGHT = -1;
 
     //about filter
-    public static final int LIST_SIZE = 30;
     public static final int USER_LIST_SIZE  = 20;
-    public static final int PLAYER_RADIUS = Integer.MAX_VALUE;
+    public static final int PLAYER_RADIUS = 300;
     public static final int KEYPOINT_NUM = 18;
     public static final int OFFSET = 5;
     public static final int[] COLOR_LISTS_NAME={

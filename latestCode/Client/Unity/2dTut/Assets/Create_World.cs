@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class Create_World : MonoBehaviour
 {
 
@@ -88,6 +86,7 @@ public class Create_World : MonoBehaviour
         Spawn("255 100 100");
         Spawn("100 255 100");
         Spawn("100 100 255");
+        Spawn_Bot();
         GameStart("");
 
     }
@@ -107,6 +106,11 @@ public class Create_World : MonoBehaviour
 
     }
 
+    public void Spawn_Bot()
+    { 
+        Color worm_color_int = new Color32(0, 0, 0, 255);
+        HList.Spawn_Bot(0, worm_color_int);
+    }
 
     //Called by Android
     public void GameStart(string s)

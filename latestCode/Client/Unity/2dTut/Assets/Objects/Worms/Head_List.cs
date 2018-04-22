@@ -12,8 +12,11 @@ public class Head_List : MonoBehaviour
     public GameObject food;
 
     public GameObject Worms;
+    public GameObject Bot;
 
     List<GameObject> WormsList = new List<GameObject>();
+    List<GameObject> BotList = new List<GameObject>();
+
     private float angle = 0f;
     private float[] z_rotate_angle = { 0f, 0f, 0f };
     int person_num;
@@ -81,6 +84,42 @@ public class Head_List : MonoBehaviour
         }
     }
 
+    public void Spawn_Bot(int i, Color worm_color)
+    {
+        float w_unit = GetComponent<Create_World>().i_width / 12;
+        float h_unit = GetComponent<Create_World>().i_height / 12;
+
+        Debug.Log(w_unit + " , " + h_unit);
+        while (true)
+        {
+            //x position between left and right border
+            int x = (int)(Random.Range(0, 4));
+            //y position between top and bottom border
+            int y = (int)(Random.Range(0, 4));
+
+            //Debug.Log("intx,inty is =" + (int)(x / w_unit) + "," + (int)(y / h_unit));
+            int z = -10;
+
+            //같은 공간에 Spawn 방지
+            if (!isWorm[(x), (y)])
+            {
+                Debug.Log(x + " " + y);
+                isWorm[(x), (y)] = true;
+                x = (x * 3 - 5) * (int)w_unit;
+                y = (y * 3 - 5) * (int)h_unit;
+                //Debug.Log("called");
+                BotList.Add(Instantiate(Bot, new Vector3(x, y, z), new Quaternion(0f, 0f, z, 0f)));
+
+                BotList[i].GetComponent<Bot_HeadController>().Head_index_set(i);
+                BotList[i].GetComponent<MeshRenderer>().material.color = worm_color;
+                BotList[i].GetComponent<Bot_HeadController>().set_tail_color(worm_color);
+             
+                break;
+            }
+        }
+    }
+
+
     public void WormBoost(string boost)
     {
         //tokenize string
@@ -104,7 +143,7 @@ public class Head_List : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         for (int i = 0; i < person_num; i++)
         {

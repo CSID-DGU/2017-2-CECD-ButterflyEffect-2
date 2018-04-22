@@ -65,7 +65,7 @@
                     android:layout_gravity="center_horizontal|bottom"
                     android:textSize="20dp"
                     android:id="@+id/et_player"
-                    android:text="1"
+                    android:text="2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
@@ -158,17 +158,19 @@
         android:id="@+id/fr_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
-        android:background="@color/black_semi_transparent70">
+        android:background="@color/black_semi_transparent70"
+        android:visibility="invisible">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
             <ProgressBar
-                android:layout_gravity="center"
                 android:layout_width="50dp"
-                android:layout_height="50dp" />
+                android:layout_height="50dp"
+                android:layout_gravity="center" />
 
         </LinearLayout>
 

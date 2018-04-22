@@ -59,11 +59,7 @@ public class MainActivity extends AppCompatActivity implements VideoExtractor.Fr
     private FrameLayout mPriviewSurface;
     private SimpleExoPlayer mPlayer;
     private boolean durationSet;
-
-
     private final int REQUEST_TAKE_GALLERY_VIDEO = 1;
-
-
     private TextView mTestview;
     private Button mLoadVideoBtn, mSendFrameBtn;
     private TextureView mTextureView;
@@ -146,7 +142,6 @@ public class MainActivity extends AppCompatActivity implements VideoExtractor.Fr
     }
 
     public void settingExoPlayer() {
-
         // 1. Create a default TrackSelector
         Handler mainHandler = new Handler();
         BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
@@ -169,7 +164,6 @@ public class MainActivity extends AppCompatActivity implements VideoExtractor.Fr
             public void run() {
                 if (mBattleWorms.getState() == Constants.STATE_START)
                     mSkeleton.setPlaying(true);
-
                 mSkeleton.drawSkeletons(keyPoints);
 
             }
@@ -191,7 +185,6 @@ public class MainActivity extends AppCompatActivity implements VideoExtractor.Fr
                 mToast.show();
             }
         });
-
     }
 
     @Override
@@ -324,17 +317,19 @@ public class MainActivity extends AppCompatActivity implements VideoExtractor.Fr
 
     @Override
     public void onSeekProcessed() {
+        try {
+            Thread.sleep(500);
+            packet = mTextureView.getBitmap();
+            if (packet != null) {
+                Constants.CAMERA_WIDTH = packet.getWidth();
+                Constants.CAMERA_HEIGHT = packet.getHeight();
 
-        packet = mTextureView.getBitmap();
-        if(packet!=null) {
-            Constants.CAMERA_WIDTH = packet.getWidth();
-            Constants.CAMERA_HEIGHT = packet.getHeight();
-
-            if (mSocket.isConnected()) {
-                mSocket.sendUdpPacket(Utils.bitmapToByteArray(packet));
+                if (mSocket.isConnected()) {
+                    mSocket.sendUdpPacket(Utils.bitmapToByteArray(packet));
+                }
             }
+        }catch(InterruptedException e){
+            e.printStackTrace();
         }
     }
-
-
 }

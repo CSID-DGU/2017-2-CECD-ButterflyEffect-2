@@ -45,7 +45,7 @@ public class BattleWorms implements HandleReceiveData {
             ArrayList<KeyPoint> filteredData = readyFilter.filter(userKeyPoints);
             activity.drawSkeleton(filteredData);
             //it will be called before state change to play
-            if (userInfos.size() == Constants.PLAYER_NUMBER) {
+            if (userInfos.size() >= Constants.PLAYER_NUMBER) {
                 //isPlaying = true;
                 //state = Constants.STATE_READY;
                 playFilter.saveFirstUserInfo();

@@ -35,17 +35,16 @@ public class TimeBoxScript : MonoBehaviour {
         {
             Destroy(gameObject);
         }
-        if (game_time < 0)
-        {
-            game_end = true;
-            jo.Call("timeOut", " ");
+        else{
+            if (game_time < 0)
+            {
+                game_end = true;
+                jo.Call("timeOut", " ");
 
 
-            
+
+            }
         }
-
-
-
 	}
 
     //Called by Android

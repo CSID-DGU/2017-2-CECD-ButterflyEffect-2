@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23784941833915558}
   - component: {fileID: 54279027625679144}
   - component: {fileID: 135005310354229022}
-  - component: {fileID: 114900579704723036}
+  - component: {fileID: 114724013827471716}
   m_Layer: 0
   m_Name: Bot_Head
   m_TagString: Untagged
@@ -100,7 +100,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 1
---- !u!114 &114900579704723036
+--- !u!114 &114724013827471716
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1216312222467968}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4702e37681366f479165f8db39c0c50, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c7d6d023c2f1c44e80fbffafd1638bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   food: {fileID: 1505511404846652, guid: 13fb5a4f98bafea44a1272acc604cd20, type: 2}

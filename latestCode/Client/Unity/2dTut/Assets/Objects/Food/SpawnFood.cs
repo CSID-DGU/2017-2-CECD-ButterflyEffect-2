@@ -74,13 +74,13 @@ public class SpawnFood : MonoBehaviour {
                 {
                     FoodprefabArray[i] = MPool.NewItem();
                     //x position between left and right border
-                    int x = (int)Random.Range(border_Left.position.x,
+                    float x = (float)Random.Range(border_Left.position.x,
                                               border_Right.position.x);
                     //y position between top and bottom border
-                    int y = (int)Random.Range(border_Top.position.y,
+                    float y = (float)Random.Range(border_Top.position.y,
                                               border_Bottom.position.y);
 
-                    int z = -2;
+                    float z = -(float)food_size;
 
                     FoodprefabArray[i].transform.position = new Vector3(x, y, z);
                     FoodprefabArray[i].transform.localScale = new Vector3(food_size, food_size, food_size);
@@ -100,9 +100,9 @@ public class SpawnFood : MonoBehaviour {
         {
             if (FoodprefabArray[i])
             {
-                if (FoodprefabArray[i].GetComponent<BoxCollider>().enabled == false)
+                if (FoodprefabArray[i].GetComponent<SphereCollider>().enabled == false)
                 {
-                    FoodprefabArray[i].GetComponent<BoxCollider>().enabled = true;
+                    FoodprefabArray[i].GetComponent<SphereCollider>().enabled = true;
 
                     MPool.RemoveItem(FoodprefabArray[i]);
                     FoodprefabArray[i] = null;

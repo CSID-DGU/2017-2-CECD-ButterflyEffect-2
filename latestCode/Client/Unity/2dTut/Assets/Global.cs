@@ -38,7 +38,7 @@ public static class Global
     public static float tail_size = game_res_width * tail_size_ratio;
 
     //Food Size
-    public static float food_size_ratio = 0.005f;
+    public static float food_size_ratio = 0.04f;
     public static float food_size = food_size_ratio * game_res_width;
 
     public static float food_halo_ratio = 0.05f;

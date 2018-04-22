@@ -18,6 +18,7 @@ public class HeadController : MonoBehaviour
     private Color32 tailcolor = Color.black;
     bool isboost = false;
 
+
     private float boost_mult = 1.0f;
 
     public void boost_enable()
@@ -228,36 +229,76 @@ public class HeadController : MonoBehaviour
         // Trigger Food?
         if (coll.name.StartsWith("FoodPrefab"))
         {
-            // Get longer in next Move call
-            ate-=2;
+            //dis = Vector3.Distance(coll.transform.position, rb.transform.position);
+            Vector3 move_force = rb.transform.position - coll.transform.position;
+            
+            float T = Time.deltaTime * (1f / dis) * 5;
 
-            coll.enabled = false;
+            coll.GetComponent<Rigidbody>().AddForce(move_force);
+
+            rotateFood fd = coll.gameObject.GetComponent<rotateFood>();
+
+            Action ate_Async = new Action(fd.ate_by_worm);
+
+            //ate_Async.BeginInvoke
+
+            
+
+            // Get longer in next Move call
+            ate -= 2;
 
             score++;
 
             // Message to Android
-
             // Android에 점수 전송
-            if(jo !=null)
-            jo.Call("updateScore", Head_index + " " + score * 250);
+            if (jo != null)
+                jo.Call("updateScore", Head_index + " " + score * 250);
 
+            //coll.transform.position = Vector3.MoveTowards(coll.transform.position, rb.transform.position, T);
+            /*
+            if (dis > 50)
+            {
+                Debug.Log("here");
+                float T = Time.deltaTime * (1f / dis) * 5;
+
+                coll.GetComponent<Rigidbody>().AddForce(move_force);
+                //coll.transform.position = Vector3.MoveTowards(coll.transform.position, rb.transform.position, T);
+            }
+            else
+            {
+                // Get longer in next Move call
+                ate -= 2;
+                coll.enabled = false;
+                score++;
+
+                // Message to Android
+                // Android에 점수 전송
+                if (jo != null)
+                    jo.Call("updateScore", Head_index + " " + score * 250);
+            }
+            */
         }
         if (coll.name.StartsWith("fd"))
         {
-            --ate;
+            dis = Vector3.Distance(coll.transform.position, rb.transform.position);
+            if (dis > 5)
+            {
+                float T = Time.deltaTime * (1f / dis) * 5;
+                coll.transform.position = Vector3.MoveTowards(coll.transform.position, rb.transform.position, T);
+            }
+            else
+            {
+                --ate;
+                coll.enabled = false;
+                score++;
 
-            coll.enabled = false;
-             
-            score++;
-
-            Destroy(coll.gameObject);
-
-            if(jo!=null)
-            jo.Call("updateScore", Head_index + " " + score * 250);
+                Destroy(coll.gameObject);
+                if (jo != null)
+                    jo.Call("updateScore", Head_index + " " + score * 250);
+            }
         }
         if (coll.name.StartsWith("tail") && !coll.name.EndsWith("[" + Head_index + "]"))
         {
-
             // Message to Android
             // Android에 해당 지렁이가 죽었음을 전송
             // AndroidJavaClass unityPlayer = new AndroidJavaClass("Android(java)Function 이 있는 패키지 이름 들어갈 곳");

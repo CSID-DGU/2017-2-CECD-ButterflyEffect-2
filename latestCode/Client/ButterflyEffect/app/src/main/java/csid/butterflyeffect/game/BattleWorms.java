@@ -59,7 +59,7 @@ public class BattleWorms implements HandleReceiveData {
             if (userInfos.size() == Constants.PLAYER_NUMBER) {
                 //isPlaying = true;
                 state = Constants.STATE_READY;
-                UnityConnector.startGame();
+                UnityConnector.startGame(Constants.TIME_OUT);
                 playFilter.saveFirstUserInfo();
 
                 Thread startThread = new Thread(new Runnable() {

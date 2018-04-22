@@ -19,11 +19,13 @@ public class UnityConnector {
         UnityPlayer.UnitySendMessage("Camera","WormBoost", boosts);
     }
 
-    public static void createWorms(){
-        UnityPlayer.UnitySendMessage("Camera","Spawn","" );
+    public static void createWorms(int r,int g,int b){
+        UnityPlayer.UnitySendMessage("Camera","Spawn",r+" "+g+" "+b);
 
     }
-    public static void startGame(){
-        UnityPlayer.UnitySendMessage("Camera","GameStart", "");
+    public static void startGame(int timeOut){
+        UnityPlayer.UnitySendMessage("Camera","GameStart", String.valueOf(timeOut));
     }
+
+
 }

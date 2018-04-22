@@ -14,12 +14,12 @@ public class Constants {
     public static final int STATE_READY = 1;
     public static final int STATE_START = 2;
     public static final int WAITING_TIME = 3;
-
+    public static final int TIME_OUT = 30;
 
     //about CONNECTION
     public static int PORT_NUM = 9000;
     public static int TIME_OUT_FOR_TCP_CONNECTION = 3000;//3 sec
-    public static String ADDR = "13.125.195.240";
+    public static String ADDR = "52.78.30.89";
 
     //about CAMERA
     public static final int FRAME_RATE = 10000; //10000 = 10 fps
@@ -86,5 +86,7 @@ public class Constants {
             R.id.view_c4
     };
 
+    //firebase
+    public static final int NOT_FOUND = -1;
 
 }

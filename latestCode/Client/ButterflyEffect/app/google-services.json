@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "544808330482",
+    "firebase_url": "https://battleworms-b7e57.firebaseio.com",
+    "project_id": "battleworms-b7e57",
+    "storage_bucket": "battleworms-b7e57.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544808330482:android:16fb46367dbcb3e5",
+        "android_client_info": {
+          "package_name": "csid.butterflyeffect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544808330482-6uanv0nbasod96t6ft0sqk2s64n8tnrv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "csid.butterflyeffect",
+            "certificate_hash": "bbab1041e44e6a4e04d6e91b62b493ce2afe5340"
+          }
+        },
+        {
+          "client_id": "544808330482-771vsdaac6eg504f310ece8a7gqmrl0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBK3Ze1X0VmDvILgnAmzS5JAt_myJa5nd8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544808330482-771vsdaac6eg504f310ece8a7gqmrl0h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

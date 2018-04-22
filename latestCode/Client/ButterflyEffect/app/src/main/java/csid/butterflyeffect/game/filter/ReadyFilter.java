@@ -130,7 +130,8 @@ public class ReadyFilter {
                     userInfos.add(user);
 
                     Log.d("#####","new user added!");
-                    UnityConnector.createWorms();
+                    Point2D userNeck = user.getKeyPoint().getSkeleton()[Constants.NECK];
+                    UnityConnector.createWorms(userNeck.r,userNeck.g,userNeck.b);
                     battleWorms.requestUserUpdate();
                 }
 

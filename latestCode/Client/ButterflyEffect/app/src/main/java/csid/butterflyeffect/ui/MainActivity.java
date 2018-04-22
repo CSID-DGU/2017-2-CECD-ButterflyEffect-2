@@ -1,12 +1,9 @@
 package csid.butterflyeffect.ui;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
-import android.hardware.Camera;
-import android.media.Image;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,21 +22,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.unity3d.player.UnityPlayer;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
 
+import csid.butterflyeffect.FirebaseTasks;
 import csid.butterflyeffect.PreviewSurface;
 import csid.butterflyeffect.R;
 import csid.butterflyeffect.game.BattleWorms;
-import csid.butterflyeffect.game.Point2D;
+import csid.butterflyeffect.game.model.Famer;
 import csid.butterflyeffect.game.model.KeyPoint;
 import csid.butterflyeffect.game.model.UserInfo;
-import csid.butterflyeffect.network.HandleReceiveData;
 import csid.butterflyeffect.network.HandleSocketError;
 import csid.butterflyeffect.network.SocketClient;
+import csid.butterflyeffect.ui.adapter.FamerAdapter;
 import csid.butterflyeffect.ui.adapter.UserAdapter;
 import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Utils;
@@ -55,10 +58,14 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     private SkeletonView mSkeleton;
     private FrameLayout mPreview;
     private BattleWorms mBattleWorms;
-    private RecyclerView mRecyclerView;
-    private UserAdapter mAdapter;
+    private RecyclerView mGamerRv,mFamerRv;
+    private UserAdapter mGamerAdapter;
+    private FamerAdapter mFamerAdapter;
     private Toast mToast;
     public static boolean isSocketConnected = false;
+
+    private DatabaseReference mReference;
+    private ArrayList<Famer> mFamers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +82,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mSkeleton = (SkeletonView)findViewById(R.id.skeleton_view);
         mPreview = (FrameLayout)findViewById(R.id.fr_preview);
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.rv_user);
+        mGamerRv = (RecyclerView)findViewById(R.id.rv_user);
+        mFamerRv = (RecyclerView)findViewById(R.id.rv_fame);
 
         getWindow().setFormat(PixelFormat.UNKNOWN);
 
@@ -111,11 +119,16 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mBattleWorms = new BattleWorms(this);
 
         //setting recyclerView
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        mAdapter = new UserAdapter(this,mBattleWorms.getUserInfos());
-        mRecyclerView.setAdapter(mAdapter);
+        mGamerRv.setHasFixedSize(true);
+        mGamerRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mGamerAdapter = new UserAdapter(this,mBattleWorms.getUserInfos());
+        mGamerRv.setAdapter(mGamerAdapter);
 
+        mFamers = new ArrayList<>();
+        mFamerRv.setHasFixedSize(true);
+        mFamerRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mFamerAdapter = new FamerAdapter(this,mFamers);
+        mFamerRv.setAdapter(mFamerAdapter);
 
         // TCP & UDP 연결
         mSocket = SocketClient.getInstance();
@@ -136,7 +149,45 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         //mUnityPlayer.windowFocusChanged(true);
         mUnityPlayer.resume();
 
-        //
+
+        //setting firebase
+        mReference = FirebaseTasks.getDatabaseInstance().getReference(getString(R.string.table_famer));
+        mReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Famer famer = dataSnapshot.getValue(Famer.class);
+                Log.d("#####","here!");
+                mFamers.add(famer);
+                mFamerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Famer famer = dataSnapshot.getValue(Famer.class);
+                int index = getFamerIndex(famer.getPhoneNumber());
+                if (index != Constants.NOT_FOUND) {
+                    mFamers.get(index).setScore(famer.getScore());
+                    mFamers.get(index).setUpdatedTime(famer.getUpdatedTime());
+                    mFamers.get(index).setImageUrl(famer.getImageUrl());
+                    mGamerAdapter.notifyItemChanged(index);
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
@@ -304,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mAdapter.notifyItemChanged(position);
+                mGamerAdapter.notifyItemChanged(position);
             }
         });
     }
@@ -313,7 +364,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mAdapter.notifyDataSetChanged();
+                mGamerAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -340,11 +391,28 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         int id = Integer.parseInt(str);
         int index = getItemIndex(id);
         if(index != -1){
-            mBattleWorms.getUserInfos().get(index).setPlaying(false);
+            UserInfo user = mBattleWorms.getUserInfos().get(index);
+            user.setPlaying(false);
+            user.setScore(0);
             Log.d("#####","worms die:"+index);
         }
         updateUser();
     }
+
+    public void timeOut(String str){
+        Log.d("#####","timeOut call!!!");
+    }
+
+    //it will be called from unity when game end.
+    //variable "1 27300" "ID SCORE"
+    public void endGame(String str){
+        //게임이 끝나면 최종 승자를 위한 사진 촬영 시작
+
+
+        //사진 촬영 후 명예의 전당에 등록
+        //게임 초기화
+    }
+
 
     public int getItemIndex(int id){;
         int index = -1;
@@ -358,5 +426,15 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     }
 
 
+    public int getFamerIndex(String famerPhone) {
+        int index = Constants.NOT_FOUND;
+        for (int i = 0; i < mFamers.size(); i++) {
+            if (mFamers.get(i).getPhoneNumber().equals(famerPhone)) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
 
 }

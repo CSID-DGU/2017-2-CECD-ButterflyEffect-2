@@ -23,7 +23,7 @@ public class SpawnFood : MonoBehaviour {
 
     public int FoodMaxPool = 30;     // Food count
     private MemoryPool MPool;   // MemoryPool
-    private GameObject[] FoodprefabArray;   //FoodArray Used with MemoryPool
+    public GameObject[] FoodprefabArray;   //FoodArray Used with MemoryPool
 
     public float FoodspwanDelay;
 

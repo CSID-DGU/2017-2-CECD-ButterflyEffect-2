@@ -13,6 +13,7 @@ public class Bot_HeadController : MonoBehaviour {
     private int Head_index = 255;
     private Color32 tailcolor = Color.black;
     bool isboost = false;
+    public GameObject camera;
 
     private float boost_mult = 1.0f;
     
@@ -38,10 +39,25 @@ public class Bot_HeadController : MonoBehaviour {
     //머리 회전 각도
     private float z_rotate_angle = 120.0f;
 
+    public void get_position()
+    {
+        camera = GameObject.Find("Camera");
+        GameObject[] list = camera.GetComponent<SpawnFood>().FoodprefabArray;
+
+        
+        if (list[0] != null)
+        {
+            Vector3 v3 = list[0].transform.position;
+            Debug.Log(v3);
+        }
+    }
+
     public void Z_rotate_update(float z_angle)
     {
         //z_rotate_angle = z_angle;
         z_rotate_angle = 90;
+        Debug.Log("5");
+        get_position();
     }
 
     Vector3 move = new Vector3(0.0f, 0.0f, 0.0f);

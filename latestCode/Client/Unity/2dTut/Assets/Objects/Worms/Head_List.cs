@@ -152,5 +152,11 @@ public class Head_List : MonoBehaviour
                   headController.Z_rotate_update(z_rotate_angle[i]);
             }
         }
+
+        if (BotList[0] != null)
+        {
+            Bot_HeadController bot_HeadController = BotList[0].GetComponent<Bot_HeadController>();
+            bot_HeadController.Z_rotate_update(90);
+        }
     }
 }

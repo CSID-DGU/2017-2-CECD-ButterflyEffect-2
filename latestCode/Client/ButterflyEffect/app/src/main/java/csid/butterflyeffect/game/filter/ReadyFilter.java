@@ -127,11 +127,18 @@ public class ReadyFilter {
                     //setting user and add to userInfo
                     UserInfo user = new UserInfo(userInfos.size());
                     user.getKeyPoint().setSkeleton(keyPoints.get(bestIndex).getSkeleton());
+                    Point2D userNeck = user.getKeyPoint().getSkeleton()[Constants.NECK];
+
+                    user.setR(userNeck.r);
+                    user.setG(userNeck.g);
+                    user.setB(userNeck.b);
+
                     userInfos.add(user);
 
                     Log.d("#####","new user added!");
-                    Point2D userNeck = user.getKeyPoint().getSkeleton()[Constants.NECK];
-                    UnityConnector.createWorms(userNeck.r,userNeck.g,userNeck.b);
+
+                    UnityConnector.createWorms(user.getR(),user.getG(),user.getB());
+
                     battleWorms.requestUserUpdate();
                 }
 

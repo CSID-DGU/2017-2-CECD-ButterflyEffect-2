@@ -44,7 +44,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public void onBindViewHolder(final UserViewHolder holder, int position) {
         UserInfo userInfo = userInfos.get(position);
         holder.score.setText(String.valueOf(userInfo.getScore()));
-        holder.background.setBackgroundColor(Utils.getColor(userInfo.getUserNumber()));
+        holder.background.setBackgroundColor(Utils.getIntFromColor(userInfo.getR(),userInfo.getG(),userInfo.getB()));
         if(userInfo.getUserProfile()!=null)
             holder.profile.setImageBitmap(userInfo.getUserProfile());
 

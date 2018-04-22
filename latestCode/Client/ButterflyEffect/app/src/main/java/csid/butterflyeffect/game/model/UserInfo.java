@@ -17,6 +17,7 @@ public class UserInfo implements Comparable<UserInfo>{
     private int score;
     private ArrayList<Integer> colors;
     private Bitmap userProfile;
+    private int r,g,b;
 
     public int getScore() {
         return score;
@@ -92,4 +93,27 @@ public class UserInfo implements Comparable<UserInfo>{
         this.keyPoint = keyPoint;
     }
 
+    public int getR() {
+        return r;
+    }
+
+    public void setR(int r) {
+        this.r = r;
+    }
+
+    public int getG() {
+        return g;
+    }
+
+    public void setG(int g) {
+        this.g = g;
+    }
+
+    public int getB() {
+        return b;
+    }
+
+    public void setB(int b) {
+        this.b = b;
+    }
 }

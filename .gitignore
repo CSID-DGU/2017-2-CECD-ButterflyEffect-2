@@ -128,7 +128,6 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 ### Unity ###
-latestCode/Client/Unity/2dTut/Library/metadata/
 latestCode/Client/Unity/2dTut/Library/ShaderCache/
 latestCode/Client/Unity/2dTut/Temp/
 latestCode/Client/Unity/2dTut/Library/PlayerDataCache/

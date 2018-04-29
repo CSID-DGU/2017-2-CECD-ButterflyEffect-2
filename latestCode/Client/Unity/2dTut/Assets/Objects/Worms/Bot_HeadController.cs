@@ -14,8 +14,12 @@ public class Bot_HeadController : MonoBehaviour {
     private Color32 tailcolor = Color.black;
     bool isboost = false;
     public GameObject camera;
+    public float foodXSign = 1f;
+    public float foodYSign = 1f;
 
     private float boost_mult = 1.0f;
+    public int quadrant = 1;
+    public int food_quadrant = 1;
     
     public void Head_index_set(int id)
     {
@@ -38,26 +42,33 @@ public class Bot_HeadController : MonoBehaviour {
 
     //머리 회전 각도
     private float z_rotate_angle = 120.0f;
-
-    public void get_position()
+    float degree = -1f;
+    float distance;
+    
+    public double get_position(Vector3 curPos)
     {
         camera = GameObject.Find("Camera");
         GameObject[] list = camera.GetComponent<SpawnFood>().FoodprefabArray;
-
+        double theta = 0d;
         
         if (list[0] != null)
         {
             Vector3 v3 = list[0].transform.position;
-            Debug.Log(v3);
+            theta = (float)((Mathf.Atan2((v3.y - curPos.y), (v3.x - curPos.x)) / Math.PI) * 180f);
+            // Get distance
+            distance = Mathf.Sqrt(Mathf.Pow((v3.x - curPos.x), 2) + Mathf.Pow((v3.y-curPos.y),2));
+            return theta;
+        }
+        else
+        {   
+            return -1f;
         }
     }
 
     public void Z_rotate_update(float z_angle)
     {
         //z_rotate_angle = z_angle;
-        z_rotate_angle = 90;
-        Debug.Log("5");
-        get_position();
+        z_rotate_angle = 30;
     }
 
     Vector3 move = new Vector3(0.0f, 0.0f, 0.0f);
@@ -86,20 +97,71 @@ public class Bot_HeadController : MonoBehaviour {
 
         for (int i = 0; i < 1; i++)
             tail_create(rb.position);
+
 	}
 
     float min_distance = Global.min_distance;
     float tail_curspeed = Global.tail_curspeed;
     float boost_fuel = 0.2f;
 
-	// Update is called once per frame
-	void FixedUpdate () {
+    // Update is called once per frame
+    public float preDegree;
+    bool initialize = false;
+    void FixedUpdate () {
         Vector3 newpose = rb.position;
+        float speed = headcurspeed_mult * boost_mult;
+        
+        degree = (float)get_position(newpose);
 
-        rb.transform.Rotate(0f, 0f, z_rotate_angle * Time.deltaTime * headcurspeed_mult);
+        Debug.Log("degree is " + degree);
+        Vector3 move;
+        
+        if (degree == -1f)
+        {
+            move = new Vector3(0, 0, 0f);
+            initialize = false;
+        }
+        else
+        {
+            if(initialize == false)
+            {
+                initialize = true;
+                if (degree >= 0)
+                    preDegree = 1f;
+                else
+                    preDegree = -1f;
+            }
+            if (preDegree >= 0)
+            {
+                if (distance != 0)
+                {
+                    preDegree = preDegree + (3 * (Math.Abs(degree - preDegree) / distance));
+                    if ( preDegree > degree )
+                        preDegree = degree;
+                }
+                
+            }
+            else if (preDegree < 0)
+            {
+                if (distance != 0)
+                {
+                    preDegree = preDegree - (3 * (Math.Abs(degree - preDegree) / distance));
+                    if ( preDegree < degree )
+                        preDegree = degree;
+                }
+                
+            }
 
-        rb.transform.Translate(Mathf.Cos(Mathf.Deg2Rad * rb.transform.rotation.z) * headcurspeed_mult * boost_mult, Mathf.Sin(Mathf.Deg2Rad * rb.transform.rotation.z)* headcurspeed_mult * boost_mult, 0.0f);
-
+            Debug.Log("preDegree is " + preDegree);
+            float radian = preDegree * Mathf.Deg2Rad;
+            float x = Mathf.Cos(radian) * foodXSign;
+            float y = Mathf.Sin(radian) * foodYSign;
+            move = new Vector3(x, y, 0f) * speed;
+        }
+        
+        newpose += move;
+        rb.transform.position = newpose;
+        
         if (tail.Count > 0)
         {
             dis = Vector3.Distance(rb.position, tail[0].transform.position) - min_distance;
@@ -144,10 +206,12 @@ public class Bot_HeadController : MonoBehaviour {
         if (ate <= 0)
         {
             tail_create(newpose);
+            rb.transform.Rotate(0f, 0f, degree * 2f);
+
         }
 
         // 4. Collide haed -> tail CHK
-        if(die)
+        if (die)
         {
             foreach(GameObject o in tail)
             {

@@ -16,6 +16,7 @@
 #include <opencv/cv.h>
 #include <queue>
 #include <pthread.h>
+#include <errno.h>
 #include "opencv2/opencv.hpp"
 #include "config.h"
 #include "Keydata.h"
@@ -588,7 +589,7 @@ int main(int argc, char *argv[])
 {
     int PORT_NUM;
     int FRAME= 0;
-
+    cout << "Server v2.0" << endl;
     cout << "포트 번호를 입력하세요>> "; 
 	cin >> PORT_NUM;
 					   
@@ -601,9 +602,15 @@ int main(int argc, char *argv[])
     // Running openPoseTutorialWrapper2
     try {
         pthread_t serverThread;
-
+        int reuse;
         //TCP Socket
         int sockfd=socket(AF_INET,SOCK_STREAM,0);
+        
+        // Set socket in order to reuse its resources
+        if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(int)) == -1){
+            printf("Reuse port Error: %s\n", strerror(errno));
+        }
+
         struct sockaddr_in serverAddress;
         struct sockaddr_in clientAddress;
         memset(&serverAddress,0,sizeof(serverAddress));
@@ -612,7 +619,7 @@ int main(int argc, char *argv[])
         serverAddress.sin_port=htons(PORT_NUM);
         if(bind(sockfd,(struct sockaddr *)&serverAddress, sizeof(serverAddress)) == -1)
         {
-              printf("bind error\n");
+              printf("bind error: %s\n", strerror(errno));
               exit(1);
         }
         else
@@ -622,7 +629,7 @@ int main(int argc, char *argv[])
 
         if(listen(sockfd,5) == -1)
         {
-              printf("listen error\n");
+              printf("listen error: %s\n", strerror(errno));
               exit(1);
         }
 
@@ -653,11 +660,11 @@ int main(int argc, char *argv[])
 
             //cout << "Received packet from " << sourceAddress << ":" << sourcePort << endl;
             Mat rawData = Mat(1, recvMsgSize, CV_8UC3, longbuf);
-	    Mat frame = imdecode(rawData, CV_LOAD_IMAGE_COLOR);
+    	    Mat frame = imdecode(rawData, CV_LOAD_IMAGE_COLOR);
 	    
-	    flip(frame,frame,1);
+	        flip(frame,frame,1);
             
-	    if (frame.size().width == 0) 
+	        if (frame.size().width == 0) 
             {
                 cerr << "decode failure!" << endl;
                 continue;

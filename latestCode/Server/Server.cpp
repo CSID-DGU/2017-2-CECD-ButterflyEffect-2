@@ -664,7 +664,8 @@ int main(int argc, char *argv[])
         {
             //Block until receive message from a client
             if((recvMsgSize = sock.recvFrom(buffer, BUF_LEN, sourceAddress, sourcePort)) < 0){
-                cout << "time out" << endl;
+                cout << "Receive time out" << endl;
+                exit(1);
             }
             
             char * longbuf = new char[recvMsgSize];

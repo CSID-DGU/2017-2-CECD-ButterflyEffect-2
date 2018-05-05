@@ -590,9 +590,18 @@ int main(int argc, char *argv[])
     int PORT_NUM;
     int FRAME= 0;
     cout << "Server v2.0" << endl;
-    cout << "포트 번호를 입력하세요>> "; 
-	cin >> PORT_NUM;
-					   
+    
+    int ARGV_PORT = atoi(argv[1]);
+    if (ARGV_PORT == 0)
+    {
+        cout << "포트 번호를 입력하세요>> "; 
+    	cin >> PORT_NUM;
+    }
+	else
+    {
+        PORT_NUM = ARGV_PORT;				   
+    }
+
     cout << "현재 포트번호: " << PORT_NUM << endl;
     //namedWindow("recv", CV_WINDOW_AUTOSIZE);
     //Parsing command line flags
@@ -654,7 +663,10 @@ int main(int argc, char *argv[])
         while (true) 
         {
             //Block until receive message from a client
-            recvMsgSize = sock.recvFrom(buffer, BUF_LEN, sourceAddress, sourcePort);
+            if((recvMsgSize = sock.recvFrom(buffer, BUF_LEN, sourceAddress, sourcePort)) < 0){
+                cout << "time out" << endl;
+            }
+            
             char * longbuf = new char[recvMsgSize];
             memcpy( & longbuf[0], buffer, recvMsgSize);
 

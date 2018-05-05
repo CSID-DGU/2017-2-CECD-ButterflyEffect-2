@@ -24,6 +24,7 @@
   typedef int socklen_t;
   typedef char raw_type;       // Type used for raw data on this platform
 #else
+  #include <sys/time.h>        // For struct timeval
   #include <sys/types.h>       // For data types
   #include <sys/socket.h>      // For socket(), connect(), send(), and recv()
   #include <netdb.h>           // For gethostbyname()
@@ -286,6 +287,11 @@ UDPSocket::UDPSocket() throw(SocketException) : CommunicatingSocket(SOCK_DGRAM,
 
 UDPSocket::UDPSocket(unsigned short localPort)  throw(SocketException) : 
     CommunicatingSocket(SOCK_DGRAM, IPPROTO_UDP) {
+  struct timeval tv;
+  tv.tv_sec = 3;
+  int reuse;
+  setsockopt(sockDesc, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+  setsockopt(sockDesc, SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(int));
   setLocalPort(localPort);
   setBroadcast();
 }
@@ -341,7 +347,8 @@ int UDPSocket::recvFrom(void *buffer, int bufferLen, string &sourceAddress,
   int rtn;
   if ((rtn = recvfrom(sockDesc, (raw_type *) buffer, bufferLen, 0, 
                       (sockaddr *) &clntAddr, (socklen_t *) &addrLen)) < 0) {
-    throw SocketException("Receive failed (recvfrom())", true);
+    return -1; // if sockDesc is timeover, then return -1  
+    //throw SocketException("Receive failed (recvfrom())", true);
   }
   sourceAddress = inet_ntoa(clntAddr.sin_addr);
   sourcePort = ntohs(clntAddr.sin_port);

@@ -73,7 +73,8 @@ public class HeadController : MonoBehaviour
     int ate = 2;
     //Did worm collide with other worms tail
     bool die = false;
-
+    //Coroutine
+    Coroutine o;
     // Tail Prefab
     public GameObject tailPrefab;
     AndroidJavaClass jc; AndroidJavaObject jo;
@@ -89,6 +90,7 @@ public class HeadController : MonoBehaviour
             tail_create(rb.position);
         jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
+        o = null;
     }
 
     float min_distance = Global.min_distance;
@@ -96,9 +98,8 @@ public class HeadController : MonoBehaviour
     float boost_fuel = 0.4f;
     void FixedUpdate()
     {
-        //이거 뭔지 기억 안남
-        //rb.velocity = Vector3.zero;
-
+        //충돌시 발생하는 velocity 제거
+        rb.velocity = Vector3.zero;
 
         Vector3 newpose = rb.position;
 
@@ -107,7 +108,7 @@ public class HeadController : MonoBehaviour
         rb.transform.Translate(Mathf.Cos(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed_mult* boost_mult, Mathf.Sin(Mathf.Deg2Rad * rb.transform.rotation.z) * headspeed_mult * boost_mult, 0.0f);
 
         // 2.Move Tail to follow head
-        if (tail.Count > 0)
+        if (tail.Count > 0 && tail[0] != null)
         {
 
             dis = Vector3.Distance(rb.position, tail[0].transform.position) - min_distance;
@@ -160,26 +161,17 @@ public class HeadController : MonoBehaviour
         // 4. Collide head -> tail CHK
         if (die)
         {
-            foreach(GameObject o in tail)
-            {
-                SpawnFood_die(o.transform);
-                
-                Destroy(o);
-            }
+            
+            if( o == null ) o = StartCoroutine( Destroy_tail(tail, gameObject));
 
             if(jo!=null)
             jo.Call("updateDie", "" + Head_index);
-            Destroy(gameObject);
 
-            //지렁이가 죽었음을 Android에게 전달
-        //   AndroidJavaClass unityPlayer = new AndroidJavaClass("Android(java)Function 이 있는 패키지 이름 들어갈 곳");
-        //    unityPlayer.Call("함수 이름", "메세지");
-
-        //  Destroy()
+            die = false;
+        
         }
 
         // 5. boost fuel CHK
-  
         if (boost_fuel < 0)
         {
             GameObject last_tail = tail[tail.Count - 1];
@@ -217,16 +209,38 @@ public class HeadController : MonoBehaviour
         ate += 2;
 
         //growing worms size.
-        float tailRatio = 1.0f + (tail.Count()/30f);
-        for (int i = 0; i < tail.Count();i++){
-            tail[i].transform.localScale = new Vector3(Global.tail_size*tailRatio, Global.tail_size*tailRatio, Global.tail_size*tailRatio);
+        float tailRatio = 1.0f + (tail.Count() / 30f);
+        for (int i = 0; i < tail.Count(); i++)
+        {
+            tail[i].transform.localScale = new Vector3(Global.tail_size * tailRatio, Global.tail_size * tailRatio, Global.tail_size * tailRatio);
         }
         rb.transform.localScale = new Vector3(Global.head_size * tailRatio, Global.head_size * tailRatio, Global.head_size * tailRatio);
-       
+
+    }
+
+    public IEnumerator Destroy_tail(List<GameObject> tail_list, GameObject head)
+    {
+        head.GetComponent<SphereCollider>().enabled = false;
+        head.GetComponent<MeshRenderer>().enabled = false;
+        int count = tail_list.Count;
+        for (int i = 0; i < count; i++)
+        {
+            SpawnFood_die(tail_list[0].transform);
+            
+            Destroy(tail_list[0]);
+            tail_list.RemoveAt(0);
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        Destroy(head);
+        o = null;
+        yield return null;
     }
 
     void OnTriggerEnter(Collider coll)
     {
+        
+
         // Trigger Food?
         if (coll.name.StartsWith("FoodPrefab"))
         {
@@ -264,6 +278,7 @@ public class HeadController : MonoBehaviour
         }
         if (coll.name.StartsWith("tail") && !coll.name.EndsWith("[" + Head_index + "]"))
         {
+            
             die = true;
         }
         // Collided with Tail or Border
@@ -283,7 +298,7 @@ public class HeadController : MonoBehaviour
             Quaternion.identity).transform; // default rotation
 
         fd.GetComponent<Light>().color = tailcolor;
-        fd.GetComponent<Light>().intensity = 2f;
+        fd.GetComponent<Light>().intensity = 1.5f;
 
         fd.Translate(x,y, 0);
 

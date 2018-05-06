@@ -162,7 +162,7 @@ public class Bot_HeadController : MonoBehaviour {
         rb.transform.rotation = new Quaternion(0, 0, preDegree, distance/speed);
         rb.transform.position = newpose;
         
-        if (tail.Count > 0)
+        if (tail.Count > 0 && tail[0] != null)
         {
             dis = Vector3.Distance(rb.position, tail[0].transform.position) - min_distance;
             float T = Time.deltaTime * (dis * dis / 160) * Global.tail_curspeed;
@@ -208,28 +208,29 @@ public class Bot_HeadController : MonoBehaviour {
             tail_create(newpose);
         }
 
-        // 4. Collide haed -> tail CHK
+        // 4. Collide head -> tail CHK
         if (die)
         {
-            foreach(GameObject o in tail)
-            {
-                SpawnFood_die(o.transform);
-                Destroy(o);
-            }
+            StartCoroutine(Destroy_tail(tail, gameObject));
 
-            Destroy(gameObject);
+            die = false;
         }
 
-        if(boost_fuel < 0)
+        // 5. boost fuel CHK
+        if (boost_fuel < 0)
         {
             GameObject last_tail = tail[tail.Count - 1];
             tail.RemoveAt(tail.Count - 1);
 
             SpawnFood_die(last_tail.transform);
+
             Destroy(last_tail);
-            boost_fuel = 0.2f;
+
+            boost_fuel = 1f;
         }
-	}
+    }
+
+
 
     public void tail_create(Vector3 newpose)
     {
@@ -256,6 +257,22 @@ public class Bot_HeadController : MonoBehaviour {
             tail[i].transform.localScale = new Vector3(Global.tail_size * tailRatio, Global.tail_size * tailRatio, Global.tail_size * tailRatio);
         }
         rb.transform.localScale = new Vector3(Global.head_size * tailRatio, Global.head_size * tailRatio, Global.head_size * tailRatio);
+    }
+
+    IEnumerator Destroy_tail(List<GameObject> tail_list, GameObject head)
+    {
+        head.GetComponent<SphereCollider>().enabled = false;
+
+        foreach (GameObject tail in tail_list)
+        {
+            SpawnFood_die(tail.transform);
+            Destroy(tail);
+
+            yield return null;
+        }
+
+        Destroy(head);
+        yield return null;
     }
 
     public void OnTriggerEnter(Collider coll)

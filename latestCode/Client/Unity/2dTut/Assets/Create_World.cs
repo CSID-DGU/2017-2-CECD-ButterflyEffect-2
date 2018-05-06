@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Create_World : MonoBehaviour
 {
@@ -87,6 +88,8 @@ public class Create_World : MonoBehaviour
         //Typing "Spawn();" to test worms in Unity here
         Spawn_Bot();
 
+        GameStart("60");
+
     }
 
     int person_num = 0;
@@ -128,6 +131,12 @@ public class Create_World : MonoBehaviour
                 WormLightList[i].active = false;
 
         WorldLight.active = true;
+
+    }
+
+    public void SceneRestart(string s)
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
     }
 

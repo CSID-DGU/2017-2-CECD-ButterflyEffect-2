@@ -85,7 +85,7 @@ public class SpawnFood : MonoBehaviour {
                     FoodprefabArray[i].transform.position = new Vector3(x, y, z);
                     FoodprefabArray[i].transform.localScale = new Vector3(food_size, food_size, food_size);
 
-                    FoodprefabArray[i].GetComponent<Light>().color = new Color32(255, 1, 1,1);
+                    FoodprefabArray[i].GetComponent<Light>().color = new Color32(255, 255, 255,255);
                     FoodprefabArray[i].GetComponent<Light>().range = food_halo_size;
 
                     break;

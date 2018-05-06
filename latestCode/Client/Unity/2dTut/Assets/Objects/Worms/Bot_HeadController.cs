@@ -14,8 +14,6 @@ public class Bot_HeadController : MonoBehaviour {
     private Color32 tailcolor = Color.black;
     bool isboost = false;
     public GameObject camera;
-    public float foodXSign = 1f;
-    public float foodYSign = 1f;
 
     private float boost_mult = 1.0f;
     public int quadrant = 1;
@@ -113,7 +111,7 @@ public class Bot_HeadController : MonoBehaviour {
         
         degree = (float)get_position(newpose);
 
-        Debug.Log("degree is " + degree);
+        //Debug.Log("degree is " + degree);
         Vector3 move;
         
         if (degree == -1f)
@@ -152,10 +150,10 @@ public class Bot_HeadController : MonoBehaviour {
                 
             }
 
-            Debug.Log("preDegree is " + preDegree);
+            //Debug.Log("preDegree is " + preDegree);
             float radian = preDegree * Mathf.Deg2Rad;
-            float x = Mathf.Cos(radian) * foodXSign;
-            float y = Mathf.Sin(radian) * foodYSign;
+            float x = Mathf.Cos(radian);
+            float y = Mathf.Sin(radian);
             move = new Vector3(x, y, 0f) * speed;
         }
         

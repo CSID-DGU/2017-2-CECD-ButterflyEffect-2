@@ -107,7 +107,7 @@ public class Bot_HeadController : MonoBehaviour {
     bool initialize = false;
     void FixedUpdate () {
         Vector3 newpose = rb.position;
-        float speed = headcurspeed_mult * boost_mult;
+        float speed = headcurspeed_mult * boost_mult * 2;
         
         degree = (float)get_position(newpose);
 
@@ -155,9 +155,11 @@ public class Bot_HeadController : MonoBehaviour {
             float x = Mathf.Cos(radian);
             float y = Mathf.Sin(radian);
             move = new Vector3(x, y, 0f) * speed;
+            
         }
         
         newpose += move;
+        rb.transform.rotation = new Quaternion(0, 0, preDegree, distance/speed);
         rb.transform.position = newpose;
         
         if (tail.Count > 0)
@@ -204,8 +206,6 @@ public class Bot_HeadController : MonoBehaviour {
         if (ate <= 0)
         {
             tail_create(newpose);
-            rb.transform.Rotate(0f, 0f, degree * 2f);
-
         }
 
         // 4. Collide haed -> tail CHK

@@ -17,8 +17,8 @@ public class TimeBoxScript : MonoBehaviour {
     void Start () {
         //set game time
         Timer = GetComponent<Text>();
-        Timer.fontSize = (int)Global.food_size*2;
-        Timer.rectTransform.position = Border_Top.transform.position;
+        Timer.fontSize = (int)Global.food_size*5;
+        //Timer.rectTransform.position = Border_Top.transform.position;
 
         jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         jo = jc.GetStatic<AndroidJavaObject>("currentActivity");

@@ -137,17 +137,17 @@
                 android:layout_height="match_parent"
                >
                 <FrameLayout
-                    android:id="@+id/fr_unityView"
+                    android:id="@+id/fl_unityView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                 </FrameLayout>
                 <FrameLayout
                     android:visibility="invisible"
-                    android:id="@+id/ll_victory_photo_zone"
+                    android:id="@+id/fl_victory_photo_zone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <ImageView
-                        android:id="@+id/iv_victor_photo"
+                        android:id="@+id/iv_photozone_view"
                         android:scaleType="fitXY"
                         android:src="@drawable/image"
                         android:layout_width="match_parent"

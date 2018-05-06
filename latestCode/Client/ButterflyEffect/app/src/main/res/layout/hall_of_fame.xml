@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_gradient"
+    android:background="@drawable/bg_famer"
     android:layout_marginTop="10dp"
     >
     <FrameLayout
@@ -15,6 +15,19 @@
             android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tv_phone"
+            android:text="010****3453"
+            android:background="@color/black_semi_transparent70"
+            android:includeFontPadding="false"
+            android:layout_gravity="center_horizontal|bottom"
+            android:gravity="center"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
         <FrameLayout
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -30,7 +43,7 @@
                 android:textSize="20dp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:text="1"
+                android:text="0"
                 android:paddingBottom="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -45,31 +58,35 @@
         android:orientation="vertical"
         android:gravity="center"
         >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_score"
+                android:text="9999"
+                android:textSize="35dp"
+                android:textStyle="bold"
+                android:includeFontPadding="false"
+                android:textColor="@color/Grey900"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
         <TextView
             android:id="@+id/tv_time"
-            android:text="3 분전"
-            android:textSize="9dp"
+            android:text="시간"
+            android:includeFontPadding="false"
+            android:layout_gravity="center_horizontal"
+            android:textSize="10dp"
             android:textStyle="bold"
+            android:paddingRight="10dp"
             android:textColor="@color/Grey500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tv_score"
-            android:text="9999"
-            android:textSize="25dp"
-            android:textStyle="bold"
-            android:textColor="@color/Grey900"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-          />
-        <TextView
-            android:id="@+id/tv_phone"
-            android:text="010****3453"
-            android:textSize="9dp"
-            android:textStyle="bold"
-            android:textColor="@color/Grey500"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+
 
     </LinearLayout>
 </LinearLayout>

@@ -13,6 +13,7 @@ public class Constants {
     public static final int STATE_WAIT = 0;
     public static final int STATE_READY = 1;
     public static final int STATE_START = 2;
+    public static final int STATE_END = 3;
     public static final int WAITING_TIME = 3;
     public static final int TIME_OUT = 30;
 
@@ -54,6 +55,7 @@ public class Constants {
     public static final float LINE_WIDTH = 5;
     public static final float SPECIAL_LINE_WIDTH = 15;
     public static final int USER_FACE_CROP_DISTANCE = 40;
+    public static final int USER_CROP_DISTANCE = 40;
 
 
     //about user device GLOBAL VARIABLE

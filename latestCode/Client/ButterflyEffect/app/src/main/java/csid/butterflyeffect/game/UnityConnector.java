@@ -26,6 +26,8 @@ public class UnityConnector {
     public static void startGame(int timeOut){
         UnityPlayer.UnitySendMessage("Camera","GameStart", String.valueOf(timeOut));
     }
-
+    public static void restartGame(){
+        UnityPlayer.UnitySendMessage("Camera","SceneRestart","");
+    }
 
 }

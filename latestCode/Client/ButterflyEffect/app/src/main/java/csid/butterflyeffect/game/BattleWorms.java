@@ -111,10 +111,33 @@ public class BattleWorms implements HandleReceiveData {
             //draw skeleton
             activity.drawSkeleton(filteredKeyPoints);
         }
+        else if(state == Constants.STATE_END){
+            ArrayList<KeyPoint> filteredKeyPoints = playFilter.filter(userKeyPoints);
+            activity.drawSkeleton(filteredKeyPoints);
+
+            //TODO show winner's face to winner's photoZone
+
+        }
     }
-
-
+    public void setState(int state){
+        this.state = state;
+    }
     public int getState(){
         return state;
     }
+
+    /* remove all user from userInfos except for winner  */
+    public void setOnlyWinner(){
+        if(userInfos.size()!=0) {
+            UserInfo winner = userInfos.get(0);
+            ArrayList<UserInfo> onlyWinner = new ArrayList<>();
+            onlyWinner.add(winner);
+            userInfos = onlyWinner;
+        }
+    }
+
+    public int getPlayerNumber(){
+        return userInfos.size();
+    }
+    public UserInfo getWinner(){return userInfos.get(0);}
 }

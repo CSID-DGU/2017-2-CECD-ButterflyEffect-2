@@ -1,10 +1,12 @@
 package csid.butterflyeffect.game.model;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by hanseungbeom on 2018. 4. 22..
  */
 
-public class Famer {
+public class Famer implements Comparable<Famer>{
     private int score;
     private String phoneNumber;
     private long updatedTime;
@@ -40,5 +42,10 @@ public class Famer {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    @Override
+    public int compareTo(@NonNull Famer o) {
+        return o.score-score;
     }
 }

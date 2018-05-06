@@ -11,10 +11,12 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import csid.butterflyeffect.FirebaseTasks;
 import csid.butterflyeffect.R;
 import csid.butterflyeffect.game.model.Famer;
+import csid.butterflyeffect.util.Utils;
 
 /**
  * Created by hanseungbeom on 2018. 4. 22..
@@ -38,9 +40,11 @@ public class FamerAdapter extends RecyclerView.Adapter<FamerAdapter.FamerViewHol
     public void onBindViewHolder(final FamerViewHolder holder, int position) {
         Famer famer = famers.get(position);
         holder.score.setText(String.valueOf(famer.getScore()));
-        holder.updateTime.setText(String.valueOf(famer.getUpdatedTime()));
-        holder.phone.setText(famer.getPhoneNumber());
+        holder.updateTime.setText(Utils.getTime(famer.getUpdatedTime()));
+        holder.phone.setText(Utils.getEcryptedNumber(famer.getPhoneNumber()));
         Picasso.get().load(famer.getImageUrl()).into(holder.image);
+        holder.rank.setText(String.valueOf(position+1));
+
     }
 
     @Override
@@ -48,8 +52,8 @@ public class FamerAdapter extends RecyclerView.Adapter<FamerAdapter.FamerViewHol
         return famers.size();
     }
 
-    public void swapData() {
-
+    public void orderData() {
+        Collections.sort(famers);
     }
 
     public class FamerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -57,6 +61,7 @@ public class FamerAdapter extends RecyclerView.Adapter<FamerAdapter.FamerViewHol
         TextView score;
         TextView phone;
         ImageView image;
+        TextView rank;
 
 
         public FamerViewHolder(View itemView) {
@@ -65,6 +70,7 @@ public class FamerAdapter extends RecyclerView.Adapter<FamerAdapter.FamerViewHol
             score = (TextView)itemView.findViewById(R.id.tv_score);
             phone = (TextView)itemView.findViewById(R.id.tv_phone);
             image = (ImageView)itemView.findViewById(R.id.iv_fame_image);
+            rank = (TextView)itemView.findViewById(R.id.tv_rank);
         }
         @Override
         public void onClick(View v) {

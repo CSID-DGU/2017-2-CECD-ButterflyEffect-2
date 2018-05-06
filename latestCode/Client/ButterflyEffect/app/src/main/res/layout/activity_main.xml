@@ -97,7 +97,7 @@
             android:padding="10dp">
 
             <FrameLayout
-                android:id="@+id/fr_unityView"
+                android:id="@+id/fl_unityView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></FrameLayout>
 

@@ -38,6 +38,8 @@ import com.unity3d.player.UnityPlayer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import csid.butterflyeffect.FirebaseTasks;
 import csid.butterflyeffect.PreviewSurface;
@@ -80,7 +82,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
     private DatabaseReference mReference;
     private ArrayList<Famer> mFamers;
-
+    private TimerTask mFamerTimer;
+    private int timerPos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
         //setting firebase
         setFirebase();
-
+        setRotateFamer();
     }
     public void initRestartSetting(){
         //BattleWorms
@@ -599,5 +602,27 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     }
 
     //TODO auto recycler scroll thread
+    public void setRotateFamer() {
+        timerPos = 0;
 
+        mFamerTimer = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(mFamers.size()==0)
+                            return;
+
+                        int nextPosition = (timerPos++)%mFamers.size();
+                        if(nextPosition ==0 ) mFamerRv.scrollToPosition(nextPosition);
+                        else mFamerRv.smoothScrollToPosition(nextPosition);
+                    }
+                });
+
+            }
+        };
+
+        new Timer().schedule(mFamerTimer,3000,3000);
+    }
 }

@@ -12,7 +12,9 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.StringTokenizer;
 
 import csid.butterflyeffect.game.Point2D;
@@ -264,14 +266,17 @@ public class Utils {
     }
 
     public static String getTime(long timeStamp){
-        long second = (timeStamp / 1000) % 60;
-        long minute = (timeStamp / (1000 * 60)) % 60;
-        long hour = (timeStamp / (1000 * 60 * 60)) % 24;
+        Date date=new Date(timeStamp);
+        SimpleDateFormat hour = new SimpleDateFormat("HH");
+        SimpleDateFormat minutes = new SimpleDateFormat("mm");
+        int hourInt = Integer.parseInt(hour.format(date));
+        int minuteInt = Integer.parseInt(minutes.format(date));
+
         boolean isPm = false;
 
-        if(hour>=12) isPm = true;
-        if(hour>12) hour -= 12;
+        if(hourInt>=12) isPm = true;
+        if(hourInt>12) hourInt -= 12;
 
-        return String.format(isPm?"오후 ":"오전 "+"%02d:%02d", hour, minute);
+        return String.format((isPm?"오후 ":"오전 ")+"%02d:%02d", hourInt, minuteInt);
     }
 }

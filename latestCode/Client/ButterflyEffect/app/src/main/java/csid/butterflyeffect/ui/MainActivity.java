@@ -5,6 +5,8 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -52,6 +54,7 @@ import csid.butterflyeffect.ui.adapter.FamerAdapter;
 import csid.butterflyeffect.ui.adapter.UserAdapter;
 import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Utils;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements PreviewSurface.FrameHandler, HandleSocketError {
     private PreviewSurface mPriviewSurface;
@@ -59,10 +62,10 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     private Button mBtn;
     private FrameLayout mUnityView;
     private ImageView mPhotoZoneView;
-    private ImageView mWinnerView;
+    private CircleImageView mWinnerView;
     private LinearLayout mWinnerScoreLayout;
     private FrameLayout mPhotoZoneLayout;
-    private TextView mWinnerScore;
+    //private TextView mWinnerScore;
     private TextView mTcpDataView, mUserAngleView;
     private SocketClient mSocket;
     private UnityPlayer mUnityPlayer;
@@ -90,10 +93,10 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
         mBtn = (Button) findViewById(R.id.btn_capture);
         mPhotoZoneView = (ImageView) findViewById(R.id.iv_photozone_view);
-        mWinnerView = (ImageView) findViewById(R.id.iv_winner);
+        mWinnerView = (CircleImageView) findViewById(R.id.iv_winner);
         mWinnerScoreLayout = (LinearLayout) findViewById(R.id.ll_winner);
         mPhotoZoneLayout = (FrameLayout) findViewById(R.id.fl_victory_photo_zone);
-        mWinnerScore = (TextView) findViewById(R.id.tv_winner_score);
+        //mWinnerScore = (TextView) findViewById(R.id.tv_winner_score);
 
         mTcpDataView = (TextView) findViewById(R.id.tv_tcp);
         mUserAngleView = (TextView) findViewById(R.id.tv_angle);
@@ -171,22 +174,13 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
     }
     public void initRestartSetting(){
-        //BattleWorms 초기화
+        //BattleWorms
         mBattleWorms = new BattleWorms(this);
+        mGamerAdapter.swapData(mBattleWorms.getUserInfos());
 
-        //setting recyclerView
-        mGamerRv.setHasFixedSize(true);
-        mGamerRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        mGamerAdapter = new UserAdapter(this, mBattleWorms.getUserInfos());
-        mGamerRv.setAdapter(mGamerAdapter);
-
-        // TCP & UDP 연결
+        // TCP & UDP callback setting
         mSocket.setErrorCallback(this);
         mSocket.setReceiveCallback(mBattleWorms);
-    }
-
-    public void initUnity(){
-       //TODO
     }
 
     public void setFirebase(){
@@ -242,19 +236,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
                 mSkeleton.drawSkeletons(keyPoints);
 
-            }
-        });
-    }
-
-    public void showData(final String data) {
-        //draw skeleton
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-               /* mSkeleton.drawSkeletons(Utils.stringToKeyPoints(data));
-                mTcpDataView.setText(data);
-                String userAngle = Utils.stringToDegree(data);
-                mUserAngleView.setText(userAngle);*/
             }
         });
     }
@@ -463,14 +444,9 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         Log.d("#####", "timeOut call!!!");
         /* when game is ended , celebrating logic run */
         mBattleWorms.setState(Constants.STATE_END);
-        //TODO
-
         final UserInfo winner = mBattleWorms.getWinner();
-        //mBattleWorms.setOnlyWinner();
 
-        //sho
         // photo zone
-        //when GAME_END state, the winner's face show to photo zone.
         showPhotoZone();
 
         Thread t = new Thread(new Runnable() {
@@ -497,8 +473,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                             UnityConnector.restartGame();
                         }
                     });
-
-
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -507,17 +481,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         t.start();
 
     }
-
-    //it will be called from unity when game end.
-    //variable "1 27300" "ID SCORE"
-    public void endGame(String str) {
-        //게임이 끝나면 최종 승자를 위한 사진 촬영 시작
-
-
-        //사진 촬영 후 명예의 전당에 등록
-        //게임 초기화
-    }
-
 
     public int getItemIndex(int id) {
         int index = -1;
@@ -581,7 +544,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             @Override
             public void run() {
                 mWinnerView.setImageBitmap(bitmap);
-                mWinnerScore.setText(String.valueOf(score));
+                //mWinnerScore.setText(String.valueOf(score));
             }
         });
     }
@@ -599,35 +562,34 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             @Override
             public void run() {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("전화번호를 입력해주세요");
-
+                builder.setTitle("1등을 축하드립니다! ("+score+"점)");
+                builder.setMessage(getString(R.string.msg_request_phone_number));
                 // Set up the input
                 final EditText input = new EditText(MainActivity.this);
                 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
                 builder.setView(input);
+                Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+                builder.setIcon(drawable);
 
                 // Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getString(R.string.msg_btn_ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String phoneNumber = input.getText().toString();
                         FirebaseTasks.registerFamer(MainActivity.this,phoneNumber,score,bitmap);
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+          /*      builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
                 });
-
+*/
                 builder.show();
             }
         });
-
-
-
     }
 
     public void setWinnerCrop(Bitmap bitmap) {

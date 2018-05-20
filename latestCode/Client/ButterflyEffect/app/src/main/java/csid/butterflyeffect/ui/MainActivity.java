@@ -63,8 +63,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     private Button mBtn;
     private FrameLayout mUnityView;
     private ImageView mPhotoZoneView;
-    private CircleImageView mWinnerView;
-    private LinearLayout mWinnerScoreLayout;
     private FrameLayout mPhotoZoneLayout;
     //private TextView mWinnerScore;
     private TextView mTcpDataView, mUserAngleView;
@@ -95,8 +93,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
         mBtn = (Button) findViewById(R.id.btn_capture);
         mPhotoZoneView = (ImageView) findViewById(R.id.iv_photozone_view);
-        mWinnerView = (CircleImageView) findViewById(R.id.iv_winner);
-        mWinnerScoreLayout = (LinearLayout) findViewById(R.id.ll_winner);
         mPhotoZoneLayout = (FrameLayout) findViewById(R.id.fl_victory_photo_zone);
         //mWinnerScore = (TextView) findViewById(R.id.tv_winner_score);
 
@@ -177,7 +173,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     }
     public void initRestartSetting(){
         mPhotoZoneView.setImageResource(R.drawable.image);
-        mWinnerView.setImageResource(R.drawable.ic_user);
 
         //BattleWorms
         mBattleWorms.init();
@@ -356,7 +351,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                 if (mSocket.isConnected()) {
                     mSocket.sendUdpPacket(frame);
                     //Log.d("#####","length:"+frame.length);
-
                 }
 
                 //mBitmapView.setImageBitmap(bit);
@@ -450,45 +444,44 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
     //called when game time ended.
     public void timeOut(String str) {
-        Log.d("#####", "timeOut call!!!");
+        if(mBattleWorms.getState() == Constants.STATE_START) {
+            Log.d("#####", "timeOut call!!!");
         /* when game is ended , celebrating logic run */
-        mBattleWorms.setState(Constants.STATE_END);
-        final UserInfo winner = mBattleWorms.getWinner();
+            mBattleWorms.setState(Constants.STATE_END);
+            final UserInfo winner = mBattleWorms.getWinner();
 
-        // photo zone
-        showPhotoZone();
+            // photo zone
+            showPhotoZone();
 
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    for (int i = 0; i < Constants.WAITING_TIME; i++) {
-                        showToast((Constants.WAITING_TIME-i) + "초 뒤 사진이 촬영됩니다.");
-                        Thread.sleep(1000);
-                    }
-
-                    Bitmap picture = takePicture();
-                    setWinnerView(winner.getScore(), picture);
-
-                    for (int i = 1; i <= Constants.WAITING_TIME; i++) {
-                        Thread.sleep(1000);
-                    }
-                    uploadFamer(winner.getScore(),picture);
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            initRestartSetting();
-                            UnityConnector.restartGame();
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        for (int i = 0; i < Constants.WAITING_TIME; i++) {
+                            showToast((Constants.WAITING_TIME - i) + "초 뒤 사진이 촬영됩니다.");
+                            Thread.sleep(1000);
                         }
-                    });
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
-        t.start();
 
+                        Bitmap picture = takePicture();
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                initRestartSetting();
+                                UnityConnector.restartGame();
+                            }
+                        });
+
+                        uploadFamer(winner.getScore(), picture);
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            t.start();
+        }
     }
 
     public int getItemIndex(int id) {
@@ -520,7 +513,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             @Override
             public void run() {
                 mPhotoZoneLayout.setVisibility(View.VISIBLE);
-                mWinnerScoreLayout.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -531,7 +523,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             @Override
             public void run() {
                 mPhotoZoneLayout.setVisibility(View.INVISIBLE);
-                mWinnerScoreLayout.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -541,35 +532,23 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             @Override
             public void run() {
                 mPhotoZoneLayout.setVisibility(View.INVISIBLE);
-                mWinnerScoreLayout.setVisibility(View.INVISIBLE);
             }
         });
     }
 
 
-    public void setWinnerView(final int score, final Bitmap bitmap) {
-        showWinnerView();
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mWinnerView.setImageBitmap(bitmap);
-                //mWinnerScore.setText(String.valueOf(score));
-            }
-        });
-    }
 
     public Bitmap takePicture() {
-        mPhotoZoneView.buildDrawingCache();
-        return mPhotoZoneView.getDrawingCache();
+        return ((BitmapDrawable)mPhotoZoneView.getDrawable()).getBitmap();
     }
 
 
     public void uploadFamer(final int score, final Bitmap bitmap) {
-        hidePhotoZoneAndWinnerView();
 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                hidePhotoZoneAndWinnerView();
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("1등을 축하드립니다! ("+score+"점)");
                 builder.setMessage(getString(R.string.msg_request_phone_number));

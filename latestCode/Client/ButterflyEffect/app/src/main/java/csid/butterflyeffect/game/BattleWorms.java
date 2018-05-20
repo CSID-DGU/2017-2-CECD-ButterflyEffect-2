@@ -30,6 +30,7 @@ public class BattleWorms implements HandleReceiveData {
     }
 
     public void init(){
+        userInfos = null;
         userInfos = new ArrayList<>();
         //isPlaying = false;
         state = Constants.STATE_WAIT;
@@ -131,20 +132,12 @@ public class BattleWorms implements HandleReceiveData {
         return state;
     }
 
-    /* remove all user from userInfos except for winner  */
-    public void setOnlyWinner(){
-        if(userInfos.size()!=0) {
-            UserInfo winner = userInfos.get(0);
-            ArrayList<UserInfo> onlyWinner = new ArrayList<>();
-            onlyWinner.add(winner);
-            userInfos = onlyWinner;
-        }
-    }
-
 
     //TODO 게임이 종료되고 재 실행될때 BattleWorms가 플레이어가 교체되지 않는거 수정
     public int getPlayerNumber(){
         return userInfos.size();
     }
-    public UserInfo getWinner(){return userInfos.get(0);}
+    public UserInfo getWinner(){return
+            userInfos.get(0);
+    }
 }

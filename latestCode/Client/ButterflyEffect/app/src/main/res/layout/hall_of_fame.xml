@@ -1,92 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_famer"
-    android:layout_marginTop="10dp"
     >
-    <FrameLayout
-        android:layout_width="0dp"
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        >
-        <ImageView
-            android:id="@+id/iv_fame_image"
-            android:scaleType="fitXY"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TextView
-            android:id="@+id/tv_phone"
-            android:text="010****3453"
-            android:background="@color/black_semi_transparent70"
-            android:includeFontPadding="false"
-            android:layout_gravity="center_horizontal|bottom"
-            android:gravity="center"
-            android:textSize="12dp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <FrameLayout
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            >
-            <ImageView
-                android:src="@drawable/ic_mark"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-            <TextView
-                android:id="@+id/tv_rank"
-                android:gravity="center"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:text="0"
-                android:paddingBottom="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-        </FrameLayout>
-
-    </FrameLayout>
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center"
-        >
+        android:layout_margin="5dp"
+        app:cardCornerRadius="3dp">
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_famer"
+            >
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                >
+                <ImageView
+                    android:id="@+id/iv_fame_image"
+                    android:scaleType="fitXY"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
-            <TextView
-                android:id="@+id/tv_score"
-                android:text="9999"
-                android:textSize="35dp"
-                android:textStyle="bold"
-                android:includeFontPadding="false"
-                android:textColor="@color/Grey900"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+                <TextView
+                    android:id="@+id/tv_phone"
+                    android:text="010****3453"
+                    android:background="@color/black_semi_transparent70"
+                    android:includeFontPadding="false"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:gravity="center"
+                    android:textSize="12dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <FrameLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    >
+                    <ImageView
+                        android:src="@drawable/ic_mark"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    <TextView
+                        android:id="@+id/tv_rank"
+                        android:gravity="center"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:text="0"
+                        android:paddingBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+                </FrameLayout>
 
+            </FrameLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_score"
+                        android:text="9999"
+                        android:textSize="35dp"
+                        android:textStyle="bold"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/blueGrey900"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:text="시간"
+                    android:includeFontPadding="false"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="10dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/blueGrey800"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
         </LinearLayout>
-        <TextView
-            android:id="@+id/tv_time"
-            android:text="시간"
-            android:includeFontPadding="false"
-            android:layout_gravity="center_horizontal"
-            android:textSize="10dp"
-            android:textStyle="bold"
-            android:paddingRight="10dp"
-            android:textColor="@color/Grey500"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
+    </android.support.v7.widget.CardView>
 
-    </LinearLayout>
 </LinearLayout>

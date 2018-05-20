@@ -5,10 +5,12 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
@@ -26,7 +28,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,6 +37,8 @@ import com.unity3d.player.UnityPlayer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import csid.butterflyeffect.FirebaseTasks;
 import csid.butterflyeffect.PreviewSurface;
@@ -52,6 +55,7 @@ import csid.butterflyeffect.ui.adapter.FamerAdapter;
 import csid.butterflyeffect.ui.adapter.UserAdapter;
 import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Utils;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements PreviewSurface.FrameHandler, HandleSocketError {
     private PreviewSurface mPriviewSurface;
@@ -59,14 +63,12 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     private Button mBtn;
     private FrameLayout mUnityView;
     private ImageView mPhotoZoneView;
-    private ImageView mWinnerView;
-    private LinearLayout mWinnerScoreLayout;
     private FrameLayout mPhotoZoneLayout;
-    private TextView mWinnerScore;
+    //private TextView mWinnerScore;
     private TextView mTcpDataView, mUserAngleView;
     private SocketClient mSocket;
     private UnityPlayer mUnityPlayer;
-    private SkeletonView mSkeleton;
+    private WormsView mWorms;
     private FrameLayout mPreview;
     private BattleWorms mBattleWorms;
     private RecyclerView mGamerRv, mFamerRv;
@@ -77,7 +79,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
     private DatabaseReference mReference;
     private ArrayList<Famer> mFamers;
-
+    private TimerTask mFamerTimer;
+    private int timerPos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,14 +93,12 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
         mBtn = (Button) findViewById(R.id.btn_capture);
         mPhotoZoneView = (ImageView) findViewById(R.id.iv_photozone_view);
-        mWinnerView = (ImageView) findViewById(R.id.iv_winner);
-        mWinnerScoreLayout = (LinearLayout) findViewById(R.id.ll_winner);
         mPhotoZoneLayout = (FrameLayout) findViewById(R.id.fl_victory_photo_zone);
-        mWinnerScore = (TextView) findViewById(R.id.tv_winner_score);
+        //mWinnerScore = (TextView) findViewById(R.id.tv_winner_score);
 
         mTcpDataView = (TextView) findViewById(R.id.tv_tcp);
         mUserAngleView = (TextView) findViewById(R.id.tv_angle);
-        mSkeleton = (SkeletonView) findViewById(R.id.skeleton_view);
+        mWorms = (WormsView)findViewById(R.id.worms_view);
         mPreview = (FrameLayout) findViewById(R.id.fr_preview);
 
         mGamerRv = (RecyclerView) findViewById(R.id.rv_user);
@@ -168,25 +169,18 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
         //setting firebase
         setFirebase();
-
+        setRotateFamer();
     }
     public void initRestartSetting(){
-        //BattleWorms 초기화
-        mBattleWorms = new BattleWorms(this);
+        mPhotoZoneView.setImageResource(R.drawable.image);
 
-        //setting recyclerView
-        mGamerRv.setHasFixedSize(true);
-        mGamerRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        mGamerAdapter = new UserAdapter(this, mBattleWorms.getUserInfos());
-        mGamerRv.setAdapter(mGamerAdapter);
+        //BattleWorms
+        mBattleWorms.init();
+        mGamerAdapter.swapData(mBattleWorms.getUserInfos());
 
-        // TCP & UDP 연결
+        // TCP & UDP callback setting
         mSocket.setErrorCallback(this);
         mSocket.setReceiveCallback(mBattleWorms);
-    }
-
-    public void initUnity(){
-       //TODO
     }
 
     public void setFirebase(){
@@ -232,29 +226,20 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             }
         });
     }
-    public void drawSkeleton(final ArrayList<KeyPoint> keyPoints) {
+
+    public void drawWorms(final ArrayList<UserInfo> userInfos) {
         //draw skeleton
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mBattleWorms.getState() == Constants.STATE_START)
-                    mSkeleton.setPlaying(true);
-
-                mSkeleton.drawSkeletons(keyPoints);
-
-            }
-        });
-    }
-
-    public void showData(final String data) {
-        //draw skeleton
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-               /* mSkeleton.drawSkeletons(Utils.stringToKeyPoints(data));
-                mTcpDataView.setText(data);
-                String userAngle = Utils.stringToDegree(data);
-                mUserAngleView.setText(userAngle);*/
+                if (mBattleWorms.getState() == Constants.STATE_START) {
+                    mWorms.setPlaying(true);
+                    if (!mWorms.getIsColorSet()) {
+                        Log.d("FILTER","debug");
+                        mWorms.setColorFilters(userInfos);
+                    }
+                }
+                mWorms.drawWorms(userInfos);
             }
         });
     }
@@ -366,7 +351,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                 if (mSocket.isConnected()) {
                     mSocket.sendUdpPacket(frame);
                     //Log.d("#####","length:"+frame.length);
-
                 }
 
                 //mBitmapView.setImageBitmap(bit);
@@ -460,64 +444,45 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
     //called when game time ended.
     public void timeOut(String str) {
-        Log.d("#####", "timeOut call!!!");
+        if(mBattleWorms.getState() == Constants.STATE_START) {
+            Log.d("#####", "timeOut call!!!");
         /* when game is ended , celebrating logic run */
-        mBattleWorms.setState(Constants.STATE_END);
-        //TODO
+            mBattleWorms.setState(Constants.STATE_END);
+            final UserInfo winner = mBattleWorms.getWinner();
 
-        final UserInfo winner = mBattleWorms.getWinner();
-        //mBattleWorms.setOnlyWinner();
+            // photo zone
+            showPhotoZone();
 
-        //sho
-        // photo zone
-        //when GAME_END state, the winner's face show to photo zone.
-        showPhotoZone();
-
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    for (int i = 0; i < Constants.WAITING_TIME; i++) {
-                        showToast((Constants.WAITING_TIME-i) + "초 뒤 사진이 촬영됩니다.");
-                        Thread.sleep(1000);
-                    }
-
-                    Bitmap picture = takePicture();
-                    setWinnerView(winner.getScore(), picture);
-
-                    for (int i = 1; i <= Constants.WAITING_TIME; i++) {
-                        Thread.sleep(1000);
-                    }
-                    uploadFamer(winner.getScore(),picture);
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            initRestartSetting();
-                            UnityConnector.restartGame();
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        for (int i = 0; i < Constants.WAITING_TIME; i++) {
+                            showToast((Constants.WAITING_TIME - i) + "초 뒤 사진이 촬영됩니다.");
+                            Thread.sleep(1000);
                         }
-                    });
+
+                        Bitmap picture = takePicture();
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                initRestartSetting();
+                                UnityConnector.restartGame();
+                            }
+                        });
+
+                        uploadFamer(winner.getScore(), picture);
 
 
-                }catch (Exception e){
-                    e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
-        t.start();
-
+            });
+            t.start();
+        }
     }
-
-    //it will be called from unity when game end.
-    //variable "1 27300" "ID SCORE"
-    public void endGame(String str) {
-        //게임이 끝나면 최종 승자를 위한 사진 촬영 시작
-
-
-        //사진 촬영 후 명예의 전당에 등록
-        //게임 초기화
-    }
-
 
     public int getItemIndex(int id) {
         int index = -1;
@@ -548,7 +513,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             @Override
             public void run() {
                 mPhotoZoneLayout.setVisibility(View.VISIBLE);
-                mWinnerScoreLayout.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -559,7 +523,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             @Override
             public void run() {
                 mPhotoZoneLayout.setVisibility(View.INVISIBLE);
-                mWinnerScoreLayout.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -569,65 +532,46 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             @Override
             public void run() {
                 mPhotoZoneLayout.setVisibility(View.INVISIBLE);
-                mWinnerScoreLayout.setVisibility(View.INVISIBLE);
             }
         });
     }
 
 
-    public void setWinnerView(final int score, final Bitmap bitmap) {
-        showWinnerView();
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mWinnerView.setImageBitmap(bitmap);
-                mWinnerScore.setText(String.valueOf(score));
-            }
-        });
-    }
 
     public Bitmap takePicture() {
-        mPhotoZoneView.buildDrawingCache();
-        return mPhotoZoneView.getDrawingCache();
+        return ((BitmapDrawable)mPhotoZoneView.getDrawable()).getBitmap();
     }
 
 
     public void uploadFamer(final int score, final Bitmap bitmap) {
-        hidePhotoZoneAndWinnerView();
 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                hidePhotoZoneAndWinnerView();
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("전화번호를 입력해주세요");
-
+                builder.setTitle("1등을 축하드립니다! ("+score+"점)");
+                builder.setMessage(getString(R.string.msg_request_phone_number));
                 // Set up the input
                 final EditText input = new EditText(MainActivity.this);
                 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
                 builder.setView(input);
+                Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+                builder.setIcon(drawable);
 
                 // Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getString(R.string.msg_btn_ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String phoneNumber = input.getText().toString();
                         FirebaseTasks.registerFamer(MainActivity.this,phoneNumber,score,bitmap);
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
 
                 builder.show();
             }
         });
-
-
-
     }
 
     public void setWinnerCrop(Bitmap bitmap) {
@@ -637,5 +581,28 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     }
 
     //TODO auto recycler scroll thread
+    public void setRotateFamer() {
+        timerPos = 0;
+
+        mFamerTimer = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(mFamers.size()==0)
+                            return;
+
+                        int nextPosition = (timerPos++)%mFamers.size();
+                        if(nextPosition ==0 ) mFamerRv.scrollToPosition(nextPosition);
+                        else mFamerRv.smoothScrollToPosition(nextPosition);
+                    }
+                });
+
+            }
+        };
+
+        new Timer().schedule(mFamerTimer,3000,3000);
+    }
 
 }

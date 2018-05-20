@@ -98,5 +98,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
         }
     }
+    public void swapData(ArrayList<UserInfo> userInfos){
+        this.userInfos = userInfos;
+        notifyDataSetChanged();
+    }
 }
 

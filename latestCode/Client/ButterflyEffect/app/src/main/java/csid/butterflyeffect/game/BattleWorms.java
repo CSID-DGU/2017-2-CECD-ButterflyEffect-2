@@ -51,8 +51,6 @@ public class BattleWorms implements HandleReceiveData {
     @Override
     public void handleReceiveData(String jsonData) {
 
-        //Log.d("#####","receive:"+jsonData);
-
         //modify activity
         //activity.showData(data);
         ArrayList<KeyPoint> userKeyPoints = Utils.getKeyPointsFromJsonData(jsonData);
@@ -60,7 +58,7 @@ public class BattleWorms implements HandleReceiveData {
         if (state == Constants.STATE_WAIT) {
             //game ready logic
             ArrayList<KeyPoint> filteredData = readyFilter.filter(userKeyPoints);
-            activity.drawSkeleton(filteredData);
+            activity.drawWorms(userInfos);
 
             //it will be called before state change to play
             if (userInfos.size() == Constants.PLAYER_NUMBER) {
@@ -88,7 +86,7 @@ public class BattleWorms implements HandleReceiveData {
             }
         } else if (state == Constants.STATE_READY) {
             ArrayList<KeyPoint> filteredData = readyFilter.filter(userKeyPoints);
-            activity.drawSkeleton(filteredData);
+            activity.drawWorms(userInfos);
         } else if (state == Constants.STATE_START) {
             //game start..(at this moment, It is decided how many people will play)
             //filteredKeyPoints guarantees the order of user.
@@ -116,11 +114,11 @@ public class BattleWorms implements HandleReceiveData {
             activity.updateUser();
 
             //draw skeleton
-            activity.drawSkeleton(filteredKeyPoints);
+            activity.drawWorms(userInfos);
         }
         else if(state == Constants.STATE_END){
             ArrayList<KeyPoint> filteredKeyPoints = playFilter.filter(userKeyPoints);
-            activity.drawSkeleton(filteredKeyPoints);
+            activity.drawWorms(userInfos);
 
             //TODO show winner's face to winner's photoZone
 

@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     private TextView mTcpDataView, mUserAngleView;
     private SocketClient mSocket;
     private UnityPlayer mUnityPlayer;
-    private SkeletonView mSkeleton;
+    private WormsView mWorms;
     private FrameLayout mPreview;
     private BattleWorms mBattleWorms;
     private RecyclerView mGamerRv, mFamerRv;
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
         mTcpDataView = (TextView) findViewById(R.id.tv_tcp);
         mUserAngleView = (TextView) findViewById(R.id.tv_angle);
-        mSkeleton = (SkeletonView) findViewById(R.id.skeleton_view);
+        mWorms = (WormsView)findViewById(R.id.worms_view);
         mPreview = (FrameLayout) findViewById(R.id.fr_preview);
 
         mGamerRv = (RecyclerView) findViewById(R.id.rv_user);
@@ -231,16 +231,20 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             }
         });
     }
-    public void drawSkeleton(final ArrayList<KeyPoint> keyPoints) {
+
+    public void drawWorms(final ArrayList<UserInfo> userInfos) {
         //draw skeleton
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mBattleWorms.getState() == Constants.STATE_START)
-                    mSkeleton.setPlaying(true);
-
-                mSkeleton.drawSkeletons(keyPoints);
-
+                if (mBattleWorms.getState() == Constants.STATE_START) {
+                    mWorms.setPlaying(true);
+                    if (!mWorms.getIsColorSet()) {
+                        Log.d("FILTER","debug");
+                        mWorms.setColorFilters(userInfos);
+                    }
+                }
+                mWorms.drawWorms(userInfos);
             }
         });
     }

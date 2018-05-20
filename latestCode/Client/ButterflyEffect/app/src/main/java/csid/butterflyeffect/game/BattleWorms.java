@@ -29,6 +29,13 @@ public class BattleWorms implements HandleReceiveData {
         playFilter = new PlayFilter(userInfos, this);
     }
 
+    public void init(){
+        userInfos = new ArrayList<>();
+        //isPlaying = false;
+        state = Constants.STATE_WAIT;
+        readyFilter = new ReadyFilter(userInfos, this);
+        playFilter = new PlayFilter(userInfos, this);
+    }
     public void requestUserUpdate(int position) {
         activity.updateUser(position);
     }
@@ -136,6 +143,8 @@ public class BattleWorms implements HandleReceiveData {
         }
     }
 
+
+    //TODO 게임이 종료되고 재 실행될때 BattleWorms가 플레이어가 교체되지 않는거 수정
     public int getPlayerNumber(){
         return userInfos.size();
     }

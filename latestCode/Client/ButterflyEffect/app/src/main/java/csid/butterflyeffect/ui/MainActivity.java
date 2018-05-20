@@ -8,9 +8,9 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
@@ -27,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -177,8 +176,11 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         setRotateFamer();
     }
     public void initRestartSetting(){
+        mPhotoZoneView.setImageResource(R.drawable.image);
+        mWinnerView.setImageResource(R.drawable.ic_user);
+
         //BattleWorms
-        mBattleWorms = new BattleWorms(this);
+        mBattleWorms.init();
         mGamerAdapter.swapData(mBattleWorms.getUserInfos());
 
         // TCP & UDP callback setting
@@ -583,13 +585,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                         FirebaseTasks.registerFamer(MainActivity.this,phoneNumber,score,bitmap);
                     }
                 });
-          /*      builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-*/
+
                 builder.show();
             }
         });
@@ -625,4 +621,5 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
         new Timer().schedule(mFamerTimer,3000,3000);
     }
+
 }

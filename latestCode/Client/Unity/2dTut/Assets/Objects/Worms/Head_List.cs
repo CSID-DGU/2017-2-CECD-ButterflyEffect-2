@@ -17,7 +17,7 @@ public class Head_List : MonoBehaviour
     List<GameObject> WormsList = new List<GameObject>();
     List<GameObject> BotList = new List<GameObject>();
 
-    private float angle = 0f;
+    //private float angle = 0f;
     private float[] z_rotate_angle = { 0f, 0f, 0f };
     int person_num;
 

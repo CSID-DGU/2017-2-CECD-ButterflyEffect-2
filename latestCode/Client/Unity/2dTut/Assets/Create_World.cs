@@ -28,21 +28,15 @@ public class Create_World : MonoBehaviour
 
     public float i_width;
     public float i_height;
+    
 
-    private float[,] isWorm = new float[6, 6];
-
-    private float w_unit = Global.screen_width / 6;
-    private float h_unit = Global.screen_height / 6;
+    //private float w_unit = Global.screen_width / 6;
+    //private float h_unit = Global.screen_height / 6;
 
     //Scene 실행 전 수행 (초기화)
     private void Awake()
     {
-        /*
-        for (int i = 0; i < 6; i++)
-            for (int j = 0; j < 6; i++)
-                Debug.Log(isWorm[i,j]);
-                */
-
+        
         for (int i = 0; i < 3; i++)
             WormLightList.Add(Instantiate(Light, new Vector3(0f, 0f, 0f), new Quaternion(0f, 0f, 0f,0f)));
 
@@ -82,14 +76,13 @@ public class Create_World : MonoBehaviour
         //Tile Map Scale edit
         Tilemap.transform.localScale = new Vector3(i_width / 5, i_height / 5, 1);
 
+        
+
         //화면 Size 조정. 높이 * pixel per unit /2;        
         camera.orthographicSize = i_height / ppu / 2;
 
         //Typing "Spawn();" to test worms in Unity here
         Spawn_Bot();
-
-        GameStart("60");
-
     }
 
     int person_num = 0;
@@ -116,8 +109,8 @@ public class Create_World : MonoBehaviour
     //Called by Android
     public void GameStart(string s)
     {
-        Text.GetComponent<TimeBoxScript>().game_time = int.Parse(s) + 3;
-        Invoke("GameStart_S", 3.0f);
+        Text.GetComponent<TimeBoxScript>().game_time = int.Parse(s);
+        Invoke("GameStart_S", 0.0f);
     }
     public void GameStart_S()
     {

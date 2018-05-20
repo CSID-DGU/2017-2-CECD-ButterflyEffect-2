@@ -17,6 +17,7 @@ public class HeadController : MonoBehaviour
     private int score = 0;
     private static AndroidJavaObject _admobPlugin;
     private int Head_index = 255;
+    private Color32 headcolor = Color.black;
     private Color32 tailcolor = Color.black;
     bool isboost = false;
 
@@ -40,11 +41,8 @@ public class HeadController : MonoBehaviour
 
     public void set_tail_color(Color32 worm_color)
     {
-        tailcolor = new Color32(
-            (byte)(worm_color.r*0.95),
-            (byte)(worm_color.g*0.95),
-            (byte)(worm_color.b*0.95),
-            255);
+        headcolor = worm_color;
+        tailcolor = (Color)worm_color * 0.98f;
 
     }
 
@@ -53,16 +51,21 @@ public class HeadController : MonoBehaviour
     //머리 회전 속도
     private float headcurspeed_mult = Global.init_headcurspeed_mult;
 
+    //머리 크기
+    private Vector3 headSize = new Vector3(Global.head_size, Global.head_size, Global.head_size);
+    //꼬리 크기
+
+    private Vector3 tailSize = new Vector3(Global.tail_size, Global.tail_size, Global.tail_size);
     //머리 회전 각도
-    private float z_rotate_angle = 120.0f;
+    private float z_rotate_angle = 60.0f;
 
     public void Z_rotate_update(float z_angle)
     {
         z_rotate_angle = z_angle;
     }
 
-    Vector3 move = new Vector3(0f, 0f, 0f);
-    Vector3 direction = new Vector3(0.0f, 0.0f, 0.0f);
+    //Vector3 move = new Vector3(0f, 0f, 0f);
+    //Vector3 direction = new Vector3(0.0f, 0.0f, 0.0f);
 
     // 유니티가 동작하는 액티비티를 저장하는 변수
     public AndroidJavaObject activity;
@@ -82,22 +85,27 @@ public class HeadController : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
-        rb.transform.localScale = new Vector3(Global.head_size, Global.head_size, Global.head_size);
+        rb.transform.localScale = headSize;
 
-        tailPrefab.transform.localScale = new Vector3(Global.tail_size, Global.tail_size, Global.tail_size);
+        tailPrefab.transform.localScale = tailSize;
 
         for (int i = 0; i < 1; i++)
             tail_create(rb.position);
+        o = null;
+
+
         jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
-        o = null;
     }
 
     float min_distance = Global.min_distance;
     float tail_curspeed = Global.tail_curspeed;
-    float boost_fuel = 0.4f;
+    float boost_fuel = 1.0f;
+    float TailSizeIncreaseFactor = Global.TailSizeIncreaseFactor;
+
     void FixedUpdate()
     {
+        MeshRenderer mr;
         //충돌시 발생하는 velocity 제거
         rb.velocity = Vector3.zero;
 
@@ -112,7 +120,7 @@ public class HeadController : MonoBehaviour
         {
 
             dis = Vector3.Distance(rb.position, tail[0].transform.position) - min_distance;
-            float T = Time.deltaTime * (dis * dis / 160) * Global.tail_curspeed;
+            float T = Time.deltaTime * (dis * dis / 160) * tail_curspeed;
 
             if (T > 200.0f)
                 T = 200.0f;
@@ -122,10 +130,27 @@ public class HeadController : MonoBehaviour
             // float temp = rb.transform.localScale.x * Global.tail_ratio;
             tail[0].transform.position = Vector3.MoveTowards(tail[0].transform.position, newpose, T);
 
+
+            mr = tail[0].GetComponent<MeshRenderer>();
+            if (isboost)
+            {
+                mr.material.color = (Color)tailcolor * (1 + boost_fuel);
+            }
+            else
+            {
+                mr.material.color = (Color)tailcolor * (1f);
+            }
+
             //  tail[0].transform.localScale = new Vector3(temp, temp, temp);
 
             for (int i = 1; i < tail.Count; i++)
             {
+                if(gameObject.GetComponent<MeshRenderer>().enabled == false)
+                {
+
+                    break;
+                }
+
                 curtail = tail[i].transform;
                 prevtail = tail[i - 1].transform;
 
@@ -134,7 +159,7 @@ public class HeadController : MonoBehaviour
                 newpose = prevtail.position;
                 newpose.z = rb.position.z;
 
-                T = Time.deltaTime * (dis * dis / 160) * Global.tail_curspeed;
+                T = Time.deltaTime * (dis * dis / 160) * tail_curspeed;
 
                 if (T > 200.0f)
                     T = 200.0f;
@@ -142,13 +167,18 @@ public class HeadController : MonoBehaviour
                     T = 0;
 
                 curtail.position = Vector3.MoveTowards(curtail.position, prevtail.position, T);
-            }
 
-            if (isboost)
-            {
-                boost_fuel -= Time.deltaTime;
+                mr = curtail.GetComponent<MeshRenderer>();
+                if (isboost)
+                {
+                    mr.material.color = (Color)tailcolor * (1 + boost_fuel);
+                }
+                else
+                {
+                    boost_fuel = 1f;
+                    mr.material.color = (Color)tailcolor * (1f);
+                }
             }
-
         }
 
         // 3. Food CHK
@@ -162,7 +192,7 @@ public class HeadController : MonoBehaviour
         if (die)
         {
             
-            if( o == null ) o = StartCoroutine( Destroy_tail(tail, gameObject));
+            if(gameObject.GetComponent<SphereCollider>().enabled == true ) o = StartCoroutine( Destroy_tail(tail, gameObject));
 
             if(jo!=null)
             jo.Call("updateDie", "" + Head_index);
@@ -170,7 +200,7 @@ public class HeadController : MonoBehaviour
             die = false;
         
         }
-
+        
         // 5. boost fuel CHK
         if (boost_fuel < 0)
         {
@@ -183,9 +213,19 @@ public class HeadController : MonoBehaviour
 
             boost_fuel = 1f;
         }
+        
+        mr = GetComponent<MeshRenderer>();
+        if (isboost)
+        {
+            boost_fuel -= Time.deltaTime * 0.5f;
+            mr.material.color = (Color)headcolor * (1 + boost_fuel);
+        }
+        else
+        {
+            boost_fuel = 1f;
+            mr.material.color = (Color)headcolor * (1f);
+        }
 
-
-        //if (boost_mult >= 1.0f) boost_mult *= 0.9f * Time.deltaTime;
     }
 
     void tail_create(Vector3 newpose)
@@ -206,34 +246,46 @@ public class HeadController : MonoBehaviour
         tail.Insert(tail.Count, g);
 
         // Reset the flag
-        ate += 2;
+        ate += 3;
 
         //growing worms size.
         float tailRatio = 1.0f + (tail.Count() / 30f);
         for (int i = 0; i < tail.Count(); i++)
         {
-            tail[i].transform.localScale = new Vector3(Global.tail_size * tailRatio, Global.tail_size * tailRatio, Global.tail_size * tailRatio);
+            //tail[i].transform.localScale = new Vector3(Global.tail_size * tailRatio, Global.tail_size * tailRatio, Global.tail_size * tailRatio);
+            tail[i].transform.localScale = tailSize * TailSizeIncreaseFactor * tailRatio;
         }
-        rb.transform.localScale = new Vector3(Global.head_size * tailRatio, Global.head_size * tailRatio, Global.head_size * tailRatio);
+        //rb.transform.localScale = new Vector3(Global.head_size * tailRatio, Global.head_size * tailRatio, Global.head_size * tailRatio);
+        rb.transform.localScale = headSize * TailSizeIncreaseFactor * tailRatio;
 
     }
 
     public IEnumerator Destroy_tail(List<GameObject> tail_list, GameObject head)
     {
+
         head.GetComponent<SphereCollider>().enabled = false;
-        head.GetComponent<MeshRenderer>().enabled = false;
-        int count = tail_list.Count;
-        for (int i = 0; i < count; i++)
+        foreach (GameObject tail in tail_list)
         {
-            SpawnFood_die(tail_list[0].transform);
-            
-            Destroy(tail_list[0]);
-            tail_list.RemoveAt(0);
-            yield return new WaitForSeconds(0.2f);
+            tail.GetComponent<SphereCollider>().enabled = false;
         }
 
-        Destroy(head);
-        o = null;
+            headspeed_mult = 0f;
+        score = 0;
+        //jo.Call("updateScore", Head_index + " " + score * 250);
+        //head.GetComponent<MeshRenderer>().enabled = true;
+        int count = tail_list.Count;
+        for (int i = count -1; i >= 0; i--)
+        {
+            SpawnFood_die(tail_list[i].transform);
+            
+            Destroy(tail_list[i]);
+            tail_list.RemoveAt(i);
+            yield return new WaitForSeconds(0.04f);
+        }
+        headspeed_mult = Global.init_headspeed_mult;
+        //Destroy(head);
+
+        head.GetComponent<SphereCollider>().enabled = true;
         yield return null;
     }
 
@@ -258,8 +310,10 @@ public class HeadController : MonoBehaviour
             if (jo != null)
                 jo.Call("updateScore", Head_index + " " + score * 250);
 
+            return;
+
         }
-        if (coll.name.StartsWith("fd"))
+        else if (coll.name.StartsWith("fd"))
         {
 
             //dis = Vector3.Distance(coll.transform.position, rb.transform.position);
@@ -275,11 +329,14 @@ public class HeadController : MonoBehaviour
             score++;
             if (jo != null)
                 jo.Call("updateScore", Head_index + " " + score * 250);
+
+            return;
         }
-        if (coll.name.StartsWith("tail") && !coll.name.EndsWith("[" + Head_index + "]"))
+        if(coll.name.StartsWith("tail") && !coll.name.EndsWith("[" + Head_index + "]"))
         {
-            
+            //Debug.Log("남의 꼬리 콜리더 엔터");
             die = true;
+            return;
         }
         // Collided with Tail or Border
 

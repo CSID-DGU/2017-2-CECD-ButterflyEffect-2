@@ -32,7 +32,7 @@ public class rotateFood: MonoBehaviour {
             if (modifier < 0.9)
                 flag = 1;
         }
-        food.transform.Rotate(0.0f, 0.0f, 1.0f);
+        food.transform.Rotate(2.0f, 2.0f, 1.0f);
         food.velocity *= 1.2f;
     }
 

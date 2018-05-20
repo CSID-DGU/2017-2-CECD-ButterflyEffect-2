@@ -27,9 +27,9 @@ public class Bot_HeadController : MonoBehaviour {
     public void set_tail_color(Color32 worm_color)
     {
         tailcolor = new Color32(
-            (byte)(worm_color.r*0.95),
-            (byte)(worm_color.g*0.95),
-            (byte)(worm_color.b*0.95), 255);
+            (byte)(worm_color.r*1),
+            (byte)(worm_color.g*1),
+            (byte)(worm_color.b*1), 255);
     }
 
     //머리 이동 속도
@@ -68,10 +68,7 @@ public class Bot_HeadController : MonoBehaviour {
         //z_rotate_angle = z_angle;
         z_rotate_angle = 30;
     }
-
-    Vector3 move = new Vector3(0.0f, 0.0f, 0.0f);
-    Vector3 direction = new Vector3(0.0f, 0.0f, 0.0f);
-
+    
     //  유니티가 동작하는 액티비티를 저장하는 변수
     public AndroidJavaObject activity;
 
@@ -101,6 +98,13 @@ public class Bot_HeadController : MonoBehaviour {
     float min_distance = Global.min_distance;
     float tail_curspeed = Global.tail_curspeed;
     float boost_fuel = 0.2f;
+
+    float TailSizeIncreaseFactor = Global.TailSizeIncreaseFactor;
+
+    //머리 크기
+    private Vector3 headSize = new Vector3(Global.head_size, Global.head_size, Global.head_size);
+    //꼬리 크기
+    private Vector3 tailSize = new Vector3(Global.tail_size, Global.tail_size, Global.tail_size);
 
     // Update is called once per frame
     public float preDegree;
@@ -254,9 +258,9 @@ public class Bot_HeadController : MonoBehaviour {
         float tailRatio = 1.0f + (tail.Count / 30f);
         for(int i =0; i < tail.Count; i++)
         {
-            tail[i].transform.localScale = new Vector3(Global.tail_size * tailRatio, Global.tail_size * tailRatio, Global.tail_size * tailRatio);
+            tail[i].transform.localScale = tailSize * TailSizeIncreaseFactor * tailRatio;
         }
-        rb.transform.localScale = new Vector3(Global.head_size * tailRatio, Global.head_size * tailRatio, Global.head_size * tailRatio);
+        rb.transform.localScale = tailSize * TailSizeIncreaseFactor * tailRatio;
     }
 
     IEnumerator Destroy_tail(List<GameObject> tail_list, GameObject head)

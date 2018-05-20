@@ -2,6 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+ public enum FoodType{
+    none,
+    apple,
+    avocado,
+    banana,
+    cherries,
+    lemon,
+    peach,
+    peanut,
+    pear,
+    strawberry,
+    watermelon
+}
+
 public class SpawnFood : MonoBehaviour {
 
     // Food Prefab
@@ -88,6 +102,7 @@ public class SpawnFood : MonoBehaviour {
                     FoodprefabArray[i].GetComponent<Light>().color = new Color32(255, 255, 255,255);
                     FoodprefabArray[i].GetComponent<Light>().range = food_halo_size;
 
+                    FoodprefabArray[i].GetComponent<foodinfo>().type = (FoodType)Random.Range(0, 11);
                     break;
 
                 }
@@ -98,9 +113,7 @@ public class SpawnFood : MonoBehaviour {
             if (FoodprefabArray[i])
             {
                 if (FoodprefabArray[i].activeSelf == false) 
-                //if (FoodprefabArray[i].GetComponent<SphereCollider>().enabled == false)
                 {
-                    //FoodprefabArray[i].GetComponent<SphereCollider>().enabled = true;
                     FoodprefabArray[i].SetActive(true);
                     MPool.RemoveItem(FoodprefabArray[i]);
                     FoodprefabArray[i] = null;

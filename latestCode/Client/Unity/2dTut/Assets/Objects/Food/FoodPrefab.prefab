@@ -24,6 +24,8 @@ GameObject:
   - component: {fileID: 114217890394840698}
   - component: {fileID: 108485730625122422}
   - component: {fileID: 135614792817496406}
+  - component: {fileID: 114918497044623352}
+  - component: {fileID: 33551633745831972}
   m_Layer: 0
   m_Name: FoodPrefab
   m_TagString: Untagged
@@ -58,7 +60,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 2629bdb5f95d3aa4c8ff0bbc8840c7a5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -78,6 +80,13 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!33 &33551633745831972
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1505511404846652}
+  m_Mesh: {fileID: 0}
 --- !u!54 &54340747982801034
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -140,6 +149,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ee283aa317bfd147a48a21bbc578a9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114918497044623352
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1505511404846652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bda229b75d1f8142b837fbbc4dd4fcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MeshType:
+  - {fileID: 4300016, guid: 3f4d2118f6a772542a1635ef5bfa6982, type: 3}
+  - {fileID: 4300000, guid: 3f4d2118f6a772542a1635ef5bfa6982, type: 3}
+  - {fileID: 4300014, guid: 3f4d2118f6a772542a1635ef5bfa6982, type: 3}
+  - {fileID: 4300012, guid: 3f4d2118f6a772542a1635ef5bfa6982, type: 3}
+  - {fileID: 4300002, guid: 3f4d2118f6a772542a1635ef5bfa6982, type: 3}
+  - {fileID: 4300012, guid: 3f4d2118f6a772542a1635ef5bfa6982, type: 3}
+  - {fileID: 4300010, guid: 3f4d2118f6a772542a1635ef5bfa6982, type: 3}
+  - {fileID: 4300018, guid: 3f4d2118f6a772542a1635ef5bfa6982, type: 3}
+  - {fileID: 4300006, guid: 3f4d2118f6a772542a1635ef5bfa6982, type: 3}
+  - {fileID: 4300004, guid: 3f4d2118f6a772542a1635ef5bfa6982, type: 3}
+  - {fileID: 4300008, guid: 3f4d2118f6a772542a1635ef5bfa6982, type: 3}
 --- !u!135 &135614792817496406
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -150,5 +182,5 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.4
+  m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}

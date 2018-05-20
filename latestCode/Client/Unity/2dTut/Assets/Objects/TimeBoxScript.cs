@@ -7,7 +7,7 @@ using UnityEngine;
 public class TimeBoxScript : MonoBehaviour {
 
     Text Timer;
-    public float game_time = 5f;
+    private float game_time;
     public GameObject Border_Top;
     AndroidJavaClass jc; AndroidJavaObject jo;
 
@@ -24,16 +24,15 @@ public class TimeBoxScript : MonoBehaviour {
         //Timer.rectTransform.position = Border_Top.transform.position;
 
 
-        Invoke("timeCountStart", 3.0f);
-
         jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
         
     }
 
-    public void timeCountStart()
+    public void timeCountStart(float time)
     {
         game_start = true;
+        game_time = time;
     }
 	
 	// Update is called once per frame

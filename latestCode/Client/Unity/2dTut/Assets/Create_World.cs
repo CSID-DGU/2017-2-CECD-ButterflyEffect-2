@@ -83,6 +83,8 @@ public class Create_World : MonoBehaviour
 
         //Typing "Spawn();" to test worms in Unity here
         Spawn_Bot();
+
+        GameStart("1110");
     }
 
     int person_num = 0;
@@ -106,17 +108,23 @@ public class Create_World : MonoBehaviour
         HList.Spawn_Bot(0, worm_color_int);
     }
 
+
+    float time;
     //Called by Android
     public void GameStart(string s)
     {
-        Text.GetComponent<TimeBoxScript>().game_time = int.Parse(s);
-        Invoke("GameStart_S", 0.0f);
+
+        time = float.Parse(s);
+        Invoke("GameStart_S", 3.0f);
+        
     }
+    
     public void GameStart_S()
     {
 
+        Text.GetComponent<TimeBoxScript>().timeCountStart(time);
         SpawnFood spfood = camera.GetComponent<SpawnFood>();
-
+        
         spfood.FoodSpawnStart();
 
         for (int i = 0; i < 3; i++)

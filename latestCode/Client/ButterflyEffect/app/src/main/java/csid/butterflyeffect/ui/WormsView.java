@@ -33,6 +33,15 @@ public class WormsView extends View
     private Bitmap btmBody, newBtmBody;
     private Bitmap btmHead, newBtmHead;
     private ArrayList<ColorFilter> colorFilters;
+    private int viewMode; // 0: worms, 1: skeleton
+
+    public void setViewMode(int viewMode){
+        this.viewMode = viewMode;
+    }
+
+    public int getViewMode(){
+        return this.viewMode;
+    }
 
     public void setColorFilters(ArrayList<UserInfo> userInfos){
         for(int user_idx = 0; user_idx < userInfos.size(); user_idx++) {
@@ -60,6 +69,7 @@ public class WormsView extends View
         colorFilters = new ArrayList<>();
         btmBody = BitmapFactory.decodeResource(getResources(), R.drawable.worm_body);
         btmHead = BitmapFactory.decodeResource(getResources(), R.drawable.worm_head);
+        viewMode = 0;
     }
 
     protected void onDraw(Canvas canvas)
@@ -84,40 +94,82 @@ public class WormsView extends View
                         canvas.drawText("[ PLAYER "+(user_idx+1)+" ]", (float)userPoints[Constants.NECK].x, (float)userPoints[Constants.NECK].y, paint);
                     }
                 }
+                // Playing
                 else
                 {
-                    paint.setColorFilter(getColorFilter(user_idx));
-                    if (isAvailable(userPoints[Constants.R_HIP], userPoints[Constants.L_HIP]))
+                    if(this.viewMode == 0)
                     {
-                        double rhx = userPoints[Constants.R_HIP].x;
-                        double rhy = userPoints[Constants.R_HIP].y;
+                        paint.setColorFilter(getColorFilter(user_idx));
+                        // Draw body worms
+                        if (isAvailable(userPoints[Constants.R_HIP], userPoints[Constants.L_HIP])) {
+                            double rhx = userPoints[Constants.R_HIP].x;
+                            double rhy = userPoints[Constants.R_HIP].y;
 
-                        double lhx = userPoints[Constants.L_HIP].x;
-                        double lhy = userPoints[Constants.L_HIP].y;
+                            double lhx = userPoints[Constants.L_HIP].x;
+                            double lhy = userPoints[Constants.L_HIP].y;
 
-                        double mhx = (lhx+rhx)/2;
-                        double mhy = (lhy+rhy)/2;
+                            double mhx = (lhx + rhx) / 2;
+                            double mhy = (lhy + rhy) / 2;
 
-                        Point2D middle_hip = new Point2D(mhx, mhy);
+                            Point2D middle_hip = new Point2D(mhx, mhy);
 
-                        if (isAvailable(userPoints[Constants.NECK], middle_hip))
-                        {
-                            double distance = Utils.getDistance(userPoints[Constants.NECK], middle_hip);
-                            int target_size = (int)(distance/3);
+                            if (isAvailable(userPoints[Constants.NECK], middle_hip)) {
+                                double distance = Utils.getDistance(userPoints[Constants.NECK], middle_hip);
+                                int target_size = (int) (distance / 3);
 
-                            newBtmBody = Bitmap.createScaledBitmap(btmBody, target_size, target_size, false);
+                                newBtmBody = Bitmap.createScaledBitmap(btmBody, target_size, target_size, false);
 
-                            canvas.drawBitmap(newBtmBody, (int)(userPoints[Constants.NECK].x-(target_size/2)), (int)(userPoints[Constants.NECK].y-(target_size/2)), paint);
-                            canvas.drawBitmap(newBtmBody, (int)((mhx + userPoints[Constants.NECK].x)/2-(target_size/2)), (int)((mhy+userPoints[Constants.NECK].y)/2-(target_size/2)), paint);
-                            canvas.drawBitmap(newBtmBody, (int)(mhx-(target_size/2)), (int)(mhy-(target_size/2)), paint);
+                                canvas.drawBitmap(newBtmBody, (int) (userPoints[Constants.NECK].x - (target_size / 2)), (int) (userPoints[Constants.NECK].y - (target_size / 2)), paint);
+                                canvas.drawBitmap(newBtmBody, (int) ((mhx + userPoints[Constants.NECK].x) / 2 - (target_size / 2)), (int) ((mhy + userPoints[Constants.NECK].y) / 2 - (target_size / 2)), paint);
+                                canvas.drawBitmap(newBtmBody, (int) (mhx - (target_size / 2)), (int) (mhy - (target_size / 2)), paint);
+                            }
+                        }
+
+                        // Draw face worms
+                        if (isAvailable(userPoints[Constants.L_EAR], userPoints[Constants.R_EAR], userPoints[Constants.NOSE])) {
+                            double distance = Utils.getDistance(userPoints[Constants.L_EAR], userPoints[Constants.R_EAR]);
+                            int target_size = (int) (distance * 2);
+                            newBtmHead = Bitmap.createScaledBitmap(btmHead, target_size, target_size, false);
+                            canvas.drawBitmap(newBtmHead, (int) (userPoints[Constants.NOSE].x - (target_size / 2)), (int) (userPoints[Constants.NOSE].y - (target_size / 2)), paint);
                         }
                     }
-                    if(isAvailable(userPoints[Constants.L_EAR], userPoints[Constants.R_EAR], userPoints[Constants.NOSE]))
+                    else if(this.viewMode == 1)
                     {
-                        double distance = Utils.getDistance(userPoints[Constants.L_EAR], userPoints[Constants.R_EAR]);
-                        int target_size = (int)(distance*2);
-                        newBtmHead = Bitmap.createScaledBitmap(btmHead, target_size, target_size, false);
-                        canvas.drawBitmap(newBtmHead, (int)(userPoints[Constants.NOSE].x-(target_size/2)), (int)(userPoints[Constants.NOSE].y-(target_size/2)), paint);
+                        paint.setStrokeWidth(Constants.LINE_WIDTH);
+                        paint.setColor(Utils.getColor(user_idx));
+                        Utils.drawLine(canvas, paint, userPoints[Constants.NOSE], userPoints[Constants.L_EYE]);
+                        Utils.drawLine(canvas, paint, userPoints[Constants.NOSE], userPoints[Constants.R_EYE]);
+                        Utils.drawLine(canvas, paint, userPoints[Constants.L_EYE], userPoints[Constants.L_EAR]);
+                        Utils.drawLine(canvas, paint, userPoints[Constants.R_EYE], userPoints[Constants.R_EAR]);
+
+                        Utils.drawLine(canvas, paint, userPoints[Constants.NECK], userPoints[Constants.L_SHOULDER]);
+                        Utils.drawLine(canvas, paint, userPoints[Constants.NECK], userPoints[Constants.R_SHOULDER]);
+                        Utils.drawLine(canvas, paint, userPoints[Constants.NECK], userPoints[Constants.L_SHOULDER]);
+                        Utils.drawLine(canvas, paint, userPoints[Constants.NECK], userPoints[Constants.R_HIP]);
+                        Utils.drawLine(canvas, paint, userPoints[Constants.NECK], userPoints[Constants.L_HIP]);
+                        Utils.drawLine(canvas, paint, userPoints[Constants.R_SHOULDER], userPoints[Constants.R_ELBOW]);
+                        Utils.drawLine(canvas, paint, userPoints[Constants.L_SHOULDER], userPoints[Constants.L_ELBOW]);
+                        Utils.drawLine(canvas, paint, userPoints[Constants.R_ELBOW], userPoints[Constants.R_WRIST]);
+                        Utils.drawLine(canvas, paint, userPoints[Constants.L_ELBOW], userPoints[Constants.L_WRIST]);
+                        Utils.drawLine(canvas, paint, userPoints[Constants.R_KNEE], userPoints[Constants.R_HIP]);
+                        Utils.drawLine(canvas, paint, userPoints[Constants.R_KNEE], userPoints[Constants.R_ANKLE]);
+                        Utils.drawLine(canvas, paint, userPoints[Constants.L_KNEE], userPoints[Constants.L_HIP]);
+                        Utils.drawLine(canvas, paint, userPoints[Constants.L_KNEE], userPoints[Constants.L_ANKLE]);
+
+                        paint.setStrokeWidth(Constants.SPECIAL_LINE_WIDTH);
+                        paint.setColor(Color.WHITE);
+                        Utils.drawLine(canvas, paint, userPoints[Constants.NOSE], userPoints[Constants.NECK]);
+                        paint.setStrokeWidth(Constants.LINE_WIDTH);
+
+                        for (int j = 0; j < userPoints.length; j++) {
+                            if (!(userPoints[j].x == 0 || userPoints[j].y == 0)) {
+                                paint.setColor(Color.WHITE);
+                                canvas.drawCircle((float) userPoints[j].x, (float) userPoints[j].y, Constants.BIG_CIRCLE_RADIUS, paint);
+                                int RGB = android.graphics.Color.rgb(userPoints[j].r, userPoints[j].g, userPoints[j].b);
+                                paint.setColor(RGB);
+                                canvas.drawCircle((float) userPoints[j].x, (float) userPoints[j].y, Constants.CIRCLE_RADIUS, paint);
+                            }
+                        }
                     }
                 }
             }

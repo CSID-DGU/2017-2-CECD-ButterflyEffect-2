@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     private PreviewSurface mPriviewSurface;
 
     private Button mBtn;
+    private Button mViewMode;
     private FrameLayout mUnityView;
     private ImageView mPhotoZoneView;
     private FrameLayout mPhotoZoneLayout;
@@ -92,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mUnityView = (FrameLayout) findViewById(R.id.fl_unityView);
 
         mBtn = (Button) findViewById(R.id.btn_capture);
+        mViewMode = (Button) findViewById(R.id.btn_view_mode);
+
         mPhotoZoneView = (ImageView) findViewById(R.id.iv_photozone_view);
         mPhotoZoneLayout = (FrameLayout) findViewById(R.id.fl_victory_photo_zone);
         //mWinnerScore = (TextView) findViewById(R.id.tv_winner_score);
@@ -117,6 +120,12 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             }
         });
 
+        mViewMode.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mWorms.setViewMode((mWorms.getViewMode() == 0)? 1: 0);
+            }
+        });
 
         //get preview screen size
         ViewTreeObserver vto = mPreview.getViewTreeObserver();

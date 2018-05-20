@@ -67,15 +67,15 @@ public class FirebaseTasks {
                 Log.d("#####",phoneNumber+"image upload completed!");
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                long currentTime = System.currentTimeMillis();
+
                 Famer famer = new Famer();
                 famer.setPhoneNumber(phoneNumber);
                 famer.setImageUrl(downloadUrl.toString());
-                famer.setUpdatedTime(currentTime);
+                famer.setUpdatedTime(System.currentTimeMillis());
                 famer.setScore(score);
 
                 DatabaseReference databaseRef = getDatabaseInstance().getReference(context.getString(R.string.table_famer));
-                databaseRef = databaseRef.child(String.valueOf(currentTime));
+                databaseRef = databaseRef.child(String.valueOf(System.currentTimeMillis()));
                 databaseRef.setValue(famer);
             }
         });

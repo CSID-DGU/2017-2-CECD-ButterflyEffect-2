@@ -37,13 +37,14 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:layout_weight="0.7">
+                            android:layout_weight="1">
                             <android.support.v7.widget.RecyclerView
                                 android:id="@+id/rv_fame"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
 
                             </android.support.v7.widget.RecyclerView>
+
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -77,8 +78,8 @@
                                     android:id="@+id/sv"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent" />
-                                <csid.butterflyeffect.ui.WormsView
-                                    android:id="@+id/worms_view"
+                                <csid.butterflyeffect.ui.SkeletonView
+                                    android:id="@+id/skeleton_view"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     />
@@ -167,29 +168,28 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_win">
+                    android:background="@drawable/bg_gradient">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <ImageView
+                        android:scaleType="fitXY"
                         android:id="@+id/iv_winner"
-                        android:layout_margin="3dp"
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        app:civ_border_width="10dp"
-                        app:civ_border_color="@color/white"
                         android:src="@drawable/ic_user"
-                        />
-
+                        android:layout_width="150dp"
+                        android:layout_height="150dp" />
                     <TextView
-                        android:visibility="gone"
-                        android:background="@android:color/black"
                         android:id="@+id/tv_winner_score"
-                        android:textColor="@color/white"
-                        android:textSize="60dp"
+                        android:paddingTop="10dp"
+                        android:textColor="@color/Grey900"
+                        android:textSize="50dp"
                         android:textStyle="bold"
-                        android:gravity="center"
                         android:text="9999 점"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textColor="@color/Grey700"
+                        android:textSize="15dp"
+                        android:text="@string/celebrate"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
             </FrameLayout>

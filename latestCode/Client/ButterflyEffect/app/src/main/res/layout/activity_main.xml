@@ -4,124 +4,85 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="csid.butterflyeffect.ui.MainActivity"
     android:gravity="center"
-    >
+    tools:context="csid.butterflyeffect.ui.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
+
         <LinearLayout
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            >
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:background="@color/blueGrey900"
-                    >
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="0.7">
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/rv_fame"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                    android:layout_weight="1">
 
-                        </android.support.v7.widget.RecyclerView>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        >
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/rv_user"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@android:color/black">
-                        </android.support.v7.widget.RecyclerView>
-
-                    </LinearLayout>
                 </LinearLayout>
+
                 <FrameLayout
-                    android:id="@+id/fr_preview"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
-                    >
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1">
-                            <csid.butterflyeffect.PreviewSurface
-                                android:id="@+id/sv"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
-                            <csid.butterflyeffect.ui.SkeletonView
-                                android:id="@+id/skeleton_view"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                />
-                        </FrameLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/material_teal"
-                            android:layout_gravity="bottom"
-                            android:orientation="vertical"
-                            android:visibility="gone">
-                            <TextView
-                                android:textSize="7dp"
-                                android:background="@color/blueGrey900"
-                                android:paddingLeft="3dp"
-                                android:textColor="@color/white"
-                                android:id="@+id/tv_angle"
-                                android:text="user angle view"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"/>
-                            <TextView
-                                android:textSize="7dp"
-                                android:paddingLeft="3dp"
-                                android:textColor="@color/white"
-                                android:id="@+id/tv_tcp"
-                                android:text="tcp datas come here"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"/>
+                    android:layout_weight="1">
 
-                        </LinearLayout>
-                    </LinearLayout>
+                    <csid.butterflyeffect.PreviewSurface
+                        android:id="@+id/sv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_direction"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/ic_icon" />
 
                     <Button
-                        android:text="focus"
-                        android:layout_gravity="right"
                         android:id="@+id/btn_capture"
-                        android:textSize="7dp"
                         android:layout_width="50dp"
-                        android:layout_height="30dp" />
+                        android:layout_height="30dp"
+                        android:layout_gravity="right"
+                        android:text="focus"
+                        android:textSize="7dp" />
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:background="@color/material_teal"
+                        android:orientation="vertical">
 
+                        <TextView
+                            android:id="@+id/tv_angle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/blueGrey900"
+                            android:paddingLeft="3dp"
+                            android:text="user angle view"
+                            android:textColor="@color/white"
+                            android:textSize="7dp" />
+
+                        <TextView
+                            android:id="@+id/tv_tcp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="3dp"
+                            android:text="tcp datas come here"
+                            android:textColor="@color/white"
+                            android:textSize="7dp" />
+
+                    </LinearLayout>
                 </FrameLayout>
             </LinearLayout>
 
@@ -129,69 +90,23 @@
         </LinearLayout>
 
         <FrameLayout
-            android:padding="10dp"
-            android:background="@color/blueGrey800"
             android:layout_width="0dp"
-            android:layout_weight="2"
             android:layout_height="match_parent"
-            >
+            android:layout_weight="1"
+            android:background="@color/blueGrey800"
+            android:padding="10dp">
+
             <FrameLayout
                 android:id="@+id/fl_unityView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </FrameLayout>
-            <FrameLayout
-                android:visibility="invisible"
-                android:id="@+id/fl_victory_photo_zone"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:id="@+id/iv_photozone_view"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-                <ImageView
-                    android:src="@drawable/ic_photo"
-                    android:layout_margin="10dp"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="right"
-                    />
-            </FrameLayout>
+                android:layout_height="match_parent"></FrameLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_winner"
-                android:visibility="invisible"
+            <ImageView
+                android:id="@+id/iv_bitmap"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:background="@drawable/bg_win">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_winner"
-                    android:layout_margin="3dp"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    app:civ_border_width="10dp"
-                    app:civ_border_color="@color/white"
-                    android:src="@drawable/ic_user"
-                    />
-
-                <TextView
-                    android:visibility="gone"
-                    android:background="@android:color/black"
-                    android:id="@+id/tv_winner_score"
-                    android:textColor="@color/white"
-                    android:textSize="60dp"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:text="9999 점"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                android:scaleType="centerCrop"
+                android:visibility="invisible" />
         </FrameLayout>
 
     </LinearLayout>

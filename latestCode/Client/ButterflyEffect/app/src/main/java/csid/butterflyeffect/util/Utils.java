@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -14,6 +15,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.StringTokenizer;
 
@@ -260,13 +262,13 @@ public class Utils {
         if (phoneNumber.length() < 11)
             return phoneNumber;
 
-        String encryptedNum = phoneNumber.substring(0,3)+"****"+phoneNumber.substring(7);
+        String encryptedNum = phoneNumber.substring(0, 3) + "****" + phoneNumber.substring(7);
         return encryptedNum;
 
     }
 
-    public static String getTime(long timeStamp){
-        Date date=new Date(timeStamp);
+    public static String getTime(long timeStamp) {
+        Date date = new Date(timeStamp);
         SimpleDateFormat hour = new SimpleDateFormat("HH");
         SimpleDateFormat minutes = new SimpleDateFormat("mm");
         int hourInt = Integer.parseInt(hour.format(date));
@@ -274,9 +276,28 @@ public class Utils {
 
         boolean isPm = false;
 
-        if(hourInt>=12) isPm = true;
-        if(hourInt>12) hourInt -= 12;
+        if (hourInt >= 12) isPm = true;
+        if (hourInt > 12) hourInt -= 12;
 
-        return String.format((isPm?"오후 ":"오전 ")+"%02d:%02d", hourInt, minuteInt);
+        return String.format((isPm ? "오후 " : "오전 ") + "%02d:%02d", hourInt, minuteInt);
+    }
+
+    public static int calcPlayerRadius(ArrayList<UserInfo> userinfos)
+    {
+        double min_x, max_x, max_y;
+        ArrayList<Double> xs = new ArrayList<>();
+        for(UserInfo info : userinfos){
+            Point2D[] userPoints = info.getKeyPoint().getSkeleton();
+            Point2D neck = userPoints[Constants.NECK];
+            xs.add(neck.x);
+        }
+
+        // Sort for figuring out maximum and minimum value
+        Collections.sort(xs);
+
+        min_x = xs.get(0);
+        max_x = xs.get(xs.size()-1);
+        int radius = (int)((max_x - min_x)/10);
+        return radius;
     }
 }

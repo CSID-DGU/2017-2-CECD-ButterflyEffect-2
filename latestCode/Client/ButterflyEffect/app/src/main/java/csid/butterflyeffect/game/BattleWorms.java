@@ -68,6 +68,10 @@ public class BattleWorms implements HandleReceiveData {
                 UnityConnector.startGame(Constants.TIME_OUT);
                 playFilter.saveFirstUserInfo();
 
+                // If the number of players is over 1, then calculate appropriate player radius of them
+                if (Constants.PLAYER_NUMBER > 1) {
+                    Constants.PLAYER_RADIUS = Utils.calcPlayerRadius(userInfos);
+                }
                 Thread startThread = new Thread(new Runnable() {
                     @Override
                     public void run() {

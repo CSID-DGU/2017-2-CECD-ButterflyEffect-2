@@ -100,7 +100,7 @@ public class Utils {
             degree += 360;
         }
         //각도 계산
-        return degree-10;
+        return degree;
     }
 
     //if two elbows points are above your body.

@@ -133,7 +133,7 @@ public class WormsView extends View
                             int target_size = (int) (distance * 2);
                             Matrix rotate = new Matrix();
                             float degree = (float)(Utils.getDegree(userInfos.get(user_idx).getKeyPoint().getSkeleton()));
-                            rotate.postRotate(degree);
+                            rotate.postRotate(degree + 180);
                             Log.d("Degree", "degree: "+degree);
                             newBtmHead = Bitmap.createScaledBitmap(btmHead, target_size, target_size, false);
                             newBtmHead = Bitmap.createBitmap(newBtmHead, 0, 0, newBtmHead.getWidth(), newBtmHead.getHeight(), rotate, true);

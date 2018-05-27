@@ -87,11 +87,8 @@ public class Utils {
     public static double getDegree(Point2D[] keyPoints) {
         double degree = 0;
         Point2D nose = keyPoints[Constants.NOSE];
-        //Point2D leftShoulder = keyPoints[Constants.L_SHOULDER];
-        //Point2D rightShoulder = keyPoints[Constants.R_SHOULDER];
-        double offset = 50;
-        Point2D leftShoulder = new Point2D(Constants.PREVIEW_WIDTH - offset, Constants.PREVIEW_HEIGHT - offset);
-        Point2D rightShoulder = new Point2D(offset, Constants.PREVIEW_HEIGHT-offset);
+        Point2D leftShoulder = keyPoints[Constants.L_SHOULDER];
+        Point2D rightShoulder = keyPoints[Constants.R_SHOULDER];
         Point2D mid = new Point2D(Math.abs((rightShoulder.x + leftShoulder.x) / 2), Math.abs((rightShoulder.y + leftShoulder.y) / 2));
         double angle1 = Math.atan2(leftShoulder.y - leftShoulder.y, leftShoulder.x - rightShoulder.x); //프레임과 동일한 수직선
         double angle2 = Math.atan2(mid.y - nose.y, mid.x - nose.x);

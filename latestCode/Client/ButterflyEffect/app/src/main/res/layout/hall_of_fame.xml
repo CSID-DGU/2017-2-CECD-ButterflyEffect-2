@@ -13,7 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_famer"
+            android:background="@drawable/bg_gradient"
             >
             <FrameLayout
                 android:layout_width="0dp"
@@ -26,18 +26,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-                <TextView
-                    android:id="@+id/tv_phone"
-                    android:text="010****3453"
-                    android:background="@color/black_semi_transparent70"
-                    android:includeFontPadding="false"
-                    android:layout_gravity="center_horizontal|bottom"
-                    android:gravity="center"
-                    android:textSize="12dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+
                 <FrameLayout
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -68,6 +57,15 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 >
+                <TextView
+                    android:id="@+id/tv_phone"
+                    android:text="010****3453"
+                    android:includeFontPadding="false"
+                    android:gravity="center"
+                    android:textSize="7dp"
+                    android:textColor="@color/Grey700"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -76,23 +74,24 @@
                     <TextView
                         android:id="@+id/tv_score"
                         android:text="9999"
-                        android:textSize="35dp"
+                        android:textSize="25dp"
                         android:textStyle="bold"
                         android:includeFontPadding="false"
-                        android:textColor="@color/blueGrey900"
+                        android:textColor="@color/Grey900"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         />
 
                 </LinearLayout>
+
                 <TextView
                     android:id="@+id/tv_time"
                     android:text="시간"
                     android:includeFontPadding="false"
                     android:layout_gravity="center_horizontal"
-                    android:textSize="10dp"
+                    android:textSize="8dp"
                     android:textStyle="bold"
-                    android:textColor="@color/blueGrey800"
+                    android:textColor="@color/Grey500"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

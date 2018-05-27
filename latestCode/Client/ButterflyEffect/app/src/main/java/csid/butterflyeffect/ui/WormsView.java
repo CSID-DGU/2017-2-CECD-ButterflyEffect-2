@@ -87,11 +87,12 @@ public class WormsView extends View
                 if(!isPlaying)
                 {
                     paint.setColor(Utils.getColor(user_idx));
-                    if((userPoints[Constants.NECK].x == 0 || userPoints[Constants.NECK].y == 0))
+                    if(! (userPoints[Constants.NECK].x == 0 || userPoints[Constants.NECK].y == 0))
                     {
                         paint.setTextSize(Constants.PLAYER_TEXT_SIZE);
                         paint.setTextAlign(Paint.Align.CENTER);
                         canvas.drawText("[ PLAYER "+(user_idx+1)+" ]", (float)userPoints[Constants.NECK].x, (float)userPoints[Constants.NECK].y, paint);
+
                     }
                 }
                 // Playing

@@ -91,4 +91,9 @@ public class Constants {
     //firebase
     public static final int NOT_FOUND = -1;
 
+    // user color 1: Red, 2: Blue, 3: Green
+    public static final int[] userR = {255, 0, 0};
+    public static final int[] userG = {0, 255, 0};
+    public static final int[] userB = {0, 0, 255};
+
 }

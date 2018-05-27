@@ -25,8 +25,9 @@ public class ReadyFilter {
     public ReadyFilter(ArrayList<UserInfo> userInfos,BattleWorms battleWorms){
         this.userInfos = userInfos;
         this.battleWorms = battleWorms;
-        list = new ArrayList<>();
-        userKeypoints = new ArrayList<>();
+        this.list = new ArrayList<>();
+        this.userKeypoints = new ArrayList<>();
+
         for(int i=0;i<Constants.PLAYER_NUMBER;i++){
             KeyPoint keyPoint = new KeyPoint();
             Point2D[] plain = new Point2D[Constants.KEYPOINT_NUM];
@@ -129,9 +130,9 @@ public class ReadyFilter {
                     user.getKeyPoint().setSkeleton(keyPoints.get(bestIndex).getSkeleton());
                     Point2D userNeck = user.getKeyPoint().getSkeleton()[Constants.NECK];
 
-                    user.setR(userNeck.r);
-                    user.setG(userNeck.g);
-                    user.setB(userNeck.b);
+                    user.setR(Constants.userR[userInfos.size()]);
+                    user.setG(Constants.userG[userInfos.size()]);
+                    user.setB(Constants.userB[userInfos.size()]);
 
                     userInfos.add(user);
 
@@ -152,6 +153,4 @@ public class ReadyFilter {
         }
         return userKeypoints;
     }
-
-
 }

@@ -7,11 +7,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import csid.butterflyeffect.R;
@@ -130,7 +131,12 @@ public class WormsView extends View
                         if (isAvailable(userPoints[Constants.L_EAR], userPoints[Constants.R_EAR], userPoints[Constants.NOSE])) {
                             double distance = Utils.getDistance(userPoints[Constants.L_EAR], userPoints[Constants.R_EAR]);
                             int target_size = (int) (distance * 2);
+                            Matrix rotate = new Matrix();
+                            float degree = (float)(Utils.getDegree(userInfos.get(user_idx).getKeyPoint().getSkeleton()));
+                            rotate.postRotate(degree);
+                            Log.d("Degree", "degree: "+degree);
                             newBtmHead = Bitmap.createScaledBitmap(btmHead, target_size, target_size, false);
+                            newBtmHead = Bitmap.createBitmap(newBtmHead, 0, 0, newBtmHead.getWidth(), newBtmHead.getHeight(), rotate, true);
                             canvas.drawBitmap(newBtmHead, (int) (userPoints[Constants.NOSE].x - (target_size / 2)), (int) (userPoints[Constants.NOSE].y - (target_size / 2)), paint);
                         }
                     }

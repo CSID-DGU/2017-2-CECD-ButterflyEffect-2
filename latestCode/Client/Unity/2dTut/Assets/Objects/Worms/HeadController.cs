@@ -305,8 +305,10 @@ public class HeadController : MonoBehaviour
         this.transform.position = new Vector3((x * 3 - 5) * (int)w_unit, (y * 3 - 5) * (int)h_unit, rb.position.z);
 
         WormLight.GetComponent<Transform>().position = new Vector3((x * 3 - 5) * (int)w_unit, (y * 3 - 5) * (int)h_unit, Global.head_size * (-0.5f));
+        WormLight.GetComponent<Light>().intensity = 4f;
         WormLight.SetActive(true);
         WormLight.GetComponent<Light>().enabled = true;
+
 
         yield return new WaitForSeconds(WaitForRevive);
 

@@ -39,7 +39,7 @@ public class SpawnFood : MonoBehaviour {
     private MemoryPool MPool;   // MemoryPool
     public GameObject[] FoodprefabArray;   //FoodArray Used with MemoryPool
 
-    public float FoodspwanDelay;
+    private float FoodspwanDelay = Global.FoodSpawnDelay;
 
     // Called when game is closed 게임이 종료되면 자동으로 호출되는 함수
     private void OnApplicationQuit()
@@ -130,10 +130,63 @@ public class SpawnFood : MonoBehaviour {
         FoodSpwanState = true;
     }
 
+
     public void FoodSpawnStart()
     {
         FoodSpwanState = true;
     }
+
+    public void spawnfood()
+    {
+        for (int i = 0; i < FoodMaxPool; i++)
+        {
+            if (FoodprefabArray[i] == null)
+            {
+                FoodprefabArray[i] = MPool.NewItem();
+                //x position between left and right border
+                float x = (float)Random.Range(border_Left.position.x,
+                                          border_Right.position.x);
+                //y position between top and bottom border
+                float y = (float)Random.Range(border_Top.position.y,
+                                          border_Bottom.position.y);
+
+                float z = -(float)food_size;
+
+                FoodprefabArray[i].transform.position = new Vector3(x, y, z);
+                FoodprefabArray[i].transform.localScale = new Vector3(food_size, food_size, food_size);
+
+                FoodprefabArray[i].GetComponent<Light>().color = new Color32(255, 255, 255, 255);
+                FoodprefabArray[i].GetComponent<Light>().range = food_halo_size;
+
+                FoodprefabArray[i].GetComponent<foodinfo>().type = (FoodType)Random.Range(0, 11);
+                break;
+
+            }
+        }
+    }
+
+    //public void spawnfood(float x, float y, FoodType type)
+    //{
+    //    for (int i = 0; i < FoodMaxPool; i++)
+    //    {
+    //        if (FoodprefabArray[i] == null)
+    //        {
+    //            FoodprefabArray[i] = MPool.NewItem();
+
+    //            float z = -(float)food_size;
+
+    //            FoodprefabArray[i].transform.position = new Vector3(x, y, z);
+    //            FoodprefabArray[i].transform.localScale = new Vector3(food_size, food_size, food_size);
+
+    //            FoodprefabArray[i].GetComponent<Light>().color = new Color32(255, 255, 255, 255);
+    //            FoodprefabArray[i].GetComponent<Light>().range = food_halo_size;
+
+    //            FoodprefabArray[i].GetComponent<foodinfo>().type = type;
+    //            break;
+
+    //        }
+    //    }
+    //}
 
 
     /* Food don't need to be updated per frame

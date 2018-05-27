@@ -60,4 +60,8 @@ public static class Global
     //Wroms color (readonly = final
     public static readonly Color[] player_Color = { Color.green, Color.red, skyblue , Color.yellow , Color.cyan };
 
+    //Food Spawn Food Delay
+
+    public static float FoodSpawnDelay = 3f;
+
 }

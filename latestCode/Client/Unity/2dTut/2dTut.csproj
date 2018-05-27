@@ -288,7 +288,6 @@
   <ItemGroup>
     <Compile Include="Assets\Create_World.cs" />
     <Compile Include="Assets\Global.cs" />
-    <Compile Include="Assets\Low Poly Fruits\resources\fruits_tester.cs" />
     <Compile Include="Assets\MemoryPool.cs" />
     <Compile Include="Assets\Objects\Food\foodinfo.cs" />
     <Compile Include="Assets\Objects\Food\rotateFood.cs" />
@@ -299,6 +298,7 @@
     <Compile Include="Assets\Objects\Worms\Head_List.cs" />
     <Compile Include="Assets\Objects\Worms\HeadController.cs" />
     <Compile Include="Assets\Objects\Worms\PlayerTextBox.cs" />
+    <Compile Include="Assets\Resource\Low Poly Fruits\resources\fruits_tester.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

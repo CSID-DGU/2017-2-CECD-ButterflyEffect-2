@@ -66,8 +66,8 @@
                             android:layout_marginRight="5dp"
                             android:layout_marginTop="5dp"
                             android:layout_gravity="left"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp" />
+                            android:layout_width="40dp"
+                            android:layout_height="40dp" />
                     </FrameLayout>
 
                     <LinearLayout

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public static class Global
 {
     public static float ppu = 1.0f;
@@ -48,6 +49,10 @@ public static class Global
 
     public static float TailSizeIncreaseFactor = 0.3f;
 
+
+    //Worms Revive time
+    public static float WaitForLightTime = 1f;
+    public static float WaitForRevive = 3f;
 
 
     public static Color skyblue = new Color(0.1f, 0.1f, 1,1);

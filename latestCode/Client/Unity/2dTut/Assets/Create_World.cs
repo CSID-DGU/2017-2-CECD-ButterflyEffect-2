@@ -28,7 +28,7 @@ public class Create_World : MonoBehaviour
 
     public float i_width;
     public float i_height;
-    
+
 
     //private float w_unit = Global.screen_width / 6;
     //private float h_unit = Global.screen_height / 6;
@@ -36,9 +36,14 @@ public class Create_World : MonoBehaviour
     //Scene 실행 전 수행 (초기화)
     private void Awake()
     {
-        
+
         for (int i = 0; i < 3; i++)
-            WormLightList.Add(Instantiate(Light, new Vector3(0f, 0f, 0f), new Quaternion(0f, 0f, 0f,0f)));
+        {
+            WormLightList.Add(Instantiate(Light, new Vector3(0f, 0f, 0f), new Quaternion(0f, 0f, 0f, 0f)));
+            WormLightList[i].name = "Light[" + i + "]";
+        }
+
+
 
 
         //Black Screen 방지
@@ -47,7 +52,7 @@ public class Create_World : MonoBehaviour
         //float i_width = (float)(Screen.width)/ (float)(Screen.width);
         //float i_height = (float)(Screen.height) / (float)(Screen.width);
 
-        Debug.Log("w : " + Global.screen_width +", h : " + Global.screen_height);
+        Debug.Log("w : " + Global.screen_width + ", h : " + Global.screen_height);
 
         i_width = Global.screen_width / Global.screen_width;
         i_height = Global.screen_height / Global.screen_width;
@@ -76,7 +81,7 @@ public class Create_World : MonoBehaviour
         //Tile Map Scale edit
         Tilemap.transform.localScale = new Vector3(i_width / 5, i_height / 5, 1);
 
-        
+
 
         //화면 Size 조정. 높이 * pixel per unit /2;        
         camera.orthographicSize = i_height / ppu / 2;
@@ -84,6 +89,11 @@ public class Create_World : MonoBehaviour
         //Typing "Spawn();" to test worms in Unity here
         Spawn_Bot();
 
+        Spawn("255 0 0");
+        Spawn("0 255 0");
+        Spawn("0 0 255");
+
+        GameStart("1110");
     }
 
     int person_num = 0;
@@ -92,7 +102,7 @@ public class Create_World : MonoBehaviour
     public void Spawn(string worm_color)
     {
         string[] str = worm_color.Split(' ');
-        
+
         Color worm_color_int = new Color32(byte.Parse(str[0]), byte.Parse(str[1]), byte.Parse(str[2]), 255);
 
         //person_num = int.Parse(player_count);
@@ -102,7 +112,7 @@ public class Create_World : MonoBehaviour
     }
 
     public void Spawn_Bot()
-    { 
+    {
         Color worm_color_int = new Color32(255, 255, 255, 255);
         HList.Spawn_Bot(0, worm_color_int);
     }
@@ -115,22 +125,22 @@ public class Create_World : MonoBehaviour
 
         time = float.Parse(s);
         Invoke("GameStart_S", 3.0f);
-        
+
     }
-    
+
     public void GameStart_S()
     {
 
         Text.GetComponent<TimeBoxScript>().timeCountStart(time);
         SpawnFood spfood = camera.GetComponent<SpawnFood>();
-        
+
         spfood.FoodSpawnStart();
 
         for (int i = 0; i < 3; i++)
-            if(WormLightList[i]!=null)
-                WormLightList[i].active = false;
+            if (WormLightList[i] != null)
+                WormLightList[i].SetActive(false);
 
-        WorldLight.active = true;
+        WorldLight.SetActive(true);
 
     }
 

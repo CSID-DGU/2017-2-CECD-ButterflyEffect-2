@@ -18,7 +18,6 @@ public class foodinfo : MonoBehaviour {
         set
         {
             food_type = value;
-            Debug.Log(food_type);
             this.GetComponent<MeshFilter>().mesh = MeshType[(uint)food_type];
             //this.GetComponent<Rigidbody>().local
         }

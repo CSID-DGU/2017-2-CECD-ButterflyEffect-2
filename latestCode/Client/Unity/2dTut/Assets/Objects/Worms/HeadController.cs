@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using System;
 using System.Threading;
 
 
@@ -19,8 +18,13 @@ public class HeadController : MonoBehaviour
     private int Head_index = 255;
     private Color32 headcolor = Color.black;
     private Color32 tailcolor = Color.black;
+    private MeshRenderer thisMesh;
     bool isboost = false;
 
+    private float WaitForLight = Global.WaitForLightTime;
+    private float WaitForRevive = Global.WaitForRevive;
+
+    private GameObject WormLight;
 
     private float boost_mult = 1.0f;
 
@@ -42,7 +46,7 @@ public class HeadController : MonoBehaviour
     public void set_tail_color(Color32 worm_color)
     {
         headcolor = worm_color;
-        tailcolor = (Color)worm_color * 0.98f;
+        tailcolor = (Color)worm_color * 0.90f;
 
     }
 
@@ -57,15 +61,12 @@ public class HeadController : MonoBehaviour
 
     private Vector3 tailSize = new Vector3(Global.tail_size, Global.tail_size, Global.tail_size);
     //머리 회전 각도
-    private float z_rotate_angle = 60.0f;
+    private float z_rotate_angle = 120.0f;
 
     public void Z_rotate_update(float z_angle)
     {
         z_rotate_angle = z_angle;
     }
-
-    //Vector3 move = new Vector3(0f, 0f, 0f);
-    //Vector3 direction = new Vector3(0.0f, 0.0f, 0.0f);
 
     // 유니티가 동작하는 액티비티를 저장하는 변수
     public AndroidJavaObject activity;
@@ -93,9 +94,15 @@ public class HeadController : MonoBehaviour
             tail_create(rb.position);
         o = null;
 
+        thisMesh = gameObject.GetComponent<MeshRenderer>();
+
+
+        WormLight =GameObject.Find("Light[" + Head_index + "]");
 
         jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
+
+
     }
 
     float min_distance = Global.min_distance;
@@ -127,9 +134,11 @@ public class HeadController : MonoBehaviour
             else if (T < 0f)
                 T = 0;
 
-            // float temp = rb.transform.localScale.x * Global.tail_ratio;
-            tail[0].transform.position = Vector3.MoveTowards(tail[0].transform.position, newpose, T);
-
+            if (thisMesh.enabled == true)
+            {
+                // float temp = rb.transform.localScale.x * Global.tail_ratio;
+                tail[0].transform.position = Vector3.MoveTowards(tail[0].transform.position, newpose, T);
+            }
 
             mr = tail[0].GetComponent<MeshRenderer>();
             if (isboost)
@@ -145,9 +154,8 @@ public class HeadController : MonoBehaviour
 
             for (int i = 1; i < tail.Count; i++)
             {
-                if(gameObject.GetComponent<MeshRenderer>().enabled == false)
+                if(thisMesh.enabled == false)
                 {
-
                     break;
                 }
 
@@ -195,7 +203,7 @@ public class HeadController : MonoBehaviour
             if(gameObject.GetComponent<SphereCollider>().enabled == true ) o = StartCoroutine( Destroy_tail(tail, gameObject));
 
             if(jo!=null)
-            jo.Call("updateDie", "" + Head_index);
+            jo.Call("updateDie", "" + Head_index + " " + (WaitForRevive + WaitForLight));
 
             die = false;
         
@@ -282,10 +290,36 @@ public class HeadController : MonoBehaviour
             tail_list.RemoveAt(i);
             yield return new WaitForSeconds(0.04f);
         }
+
+        head.GetComponent<MeshRenderer>().enabled =false;
+        yield return new WaitForSeconds(1f);
+
+        //x position between left and right border
+        int x = (int)(Random.Range(0, 4));
+        //y position between top and bottom border
+        int y = (int)(Random.Range(0, 4));
+
+        float w_unit = GameObject.Find("Camera").GetComponent<Create_World>().i_width / 12;
+        float h_unit = GameObject.Find("Camera").GetComponent<Create_World>().i_height / 12;
+
+        this.transform.position = new Vector3((x * 3 - 5) * (int)w_unit, (y * 3 - 5) * (int)h_unit, rb.position.z);
+
+        WormLight.GetComponent<Transform>().position = new Vector3((x * 3 - 5) * (int)w_unit, (y * 3 - 5) * (int)h_unit, Global.head_size * (-0.5f));
+        WormLight.SetActive(true);
+        WormLight.GetComponent<Light>().enabled = true;
+
+        yield return new WaitForSeconds(3f);
+
+        head.GetComponent<MeshRenderer>().enabled = true;
+
         headspeed_mult = Global.init_headspeed_mult;
         //Destroy(head);
 
         head.GetComponent<SphereCollider>().enabled = true;
+
+        ate -= 4;
+
+        WormLight.SetActive(false);
         yield return null;
     }
 
@@ -334,7 +368,7 @@ public class HeadController : MonoBehaviour
         }
         if(coll.name.StartsWith("tail") && !coll.name.EndsWith("[" + Head_index + "]"))
         {
-            //Debug.Log("남의 꼬리 콜리더 엔터");
+
             die = true;
             return;
         }

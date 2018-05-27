@@ -77,12 +77,14 @@ public class Head_List : MonoBehaviour
                 WormsList[i].GetComponent<HeadController>().Head_index_set(i);
                 WormsList[i].GetComponent<MeshRenderer>().material.color = worm_color;
                 WormsList[i].GetComponent<HeadController>().set_tail_color(worm_color);
-                WormLight.transform.position = new Vector3(x, y, Global.head_size*(-1.3f));
+                WormLight.GetComponent<Light>().color = worm_color;
+                WormLight.transform.position = new Vector3(x- Global.head_size * (-0.04f), y+ Global.head_size * (-0.18f), Global.head_size*(-0.5f));
 
                 break;
             }
         }
     }
+    
 
     public void Spawn_Bot(int i, Color worm_color)
     {
@@ -103,7 +105,6 @@ public class Head_List : MonoBehaviour
             //같은 공간에 Spawn 방지
             if (!isWorm[(x), (y)])
             {
-                Debug.Log(x + " " + y);
                 isWorm[(x), (y)] = true;
                 x = (x * 3 - 5) * (int)w_unit;
                 y = (y * 3 - 5) * (int)h_unit;

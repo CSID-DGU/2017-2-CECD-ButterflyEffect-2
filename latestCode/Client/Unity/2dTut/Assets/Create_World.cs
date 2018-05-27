@@ -88,12 +88,6 @@ public class Create_World : MonoBehaviour
 
         //Typing "Spawn();" to test worms in Unity here
         Spawn_Bot();
-
-        Spawn("255 0 0");
-        Spawn("0 255 0");
-        Spawn("0 0 255");
-
-        GameStart("1110");
     }
 
     int person_num = 0;

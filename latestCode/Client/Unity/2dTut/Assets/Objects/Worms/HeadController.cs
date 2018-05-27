@@ -203,7 +203,7 @@ public class HeadController : MonoBehaviour
             if(gameObject.GetComponent<SphereCollider>().enabled == true ) o = StartCoroutine( Destroy_tail(tail, gameObject));
 
             if(jo!=null)
-            jo.Call("updateDie", "" + Head_index + " " + (WaitForRevive + WaitForLight));
+            jo.Call("updateDie", "" + Head_index);
 
             die = false;
         
@@ -292,7 +292,7 @@ public class HeadController : MonoBehaviour
         }
 
         head.GetComponent<MeshRenderer>().enabled =false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(WaitForLight);
 
         //x position between left and right border
         int x = (int)(Random.Range(0, 4));
@@ -308,7 +308,7 @@ public class HeadController : MonoBehaviour
         WormLight.SetActive(true);
         WormLight.GetComponent<Light>().enabled = true;
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(WaitForRevive);
 
         head.GetComponent<MeshRenderer>().enabled = true;
 
@@ -320,7 +320,15 @@ public class HeadController : MonoBehaviour
         ate -= 4;
 
         WormLight.SetActive(false);
+
+
+        if (jo != null)
+            jo.Call("updateRevive", "" + Head_index);
+
+
         yield return null;
+
+
     }
 
     void OnTriggerEnter(Collider coll)

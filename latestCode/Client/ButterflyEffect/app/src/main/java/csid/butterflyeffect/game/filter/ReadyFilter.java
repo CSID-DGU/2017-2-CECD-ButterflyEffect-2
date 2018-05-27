@@ -1,5 +1,6 @@
 package csid.butterflyeffect.game.filter;
 
+import android.graphics.Color;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -126,13 +127,14 @@ public class ReadyFilter {
                 //create userInfo
                 if(bestIndex!=-1){
                     //setting user and add to userInfo
-                    UserInfo user = new UserInfo(userInfos.size());
+                    int userIndex = userInfos.size();
+                    UserInfo user = new UserInfo(userIndex);
                     user.getKeyPoint().setSkeleton(keyPoints.get(bestIndex).getSkeleton());
                     Point2D userNeck = user.getKeyPoint().getSkeleton()[Constants.NECK];
 
-                    user.setR(Constants.userR[userInfos.size()]);
-                    user.setG(Constants.userG[userInfos.size()]);
-                    user.setB(Constants.userB[userInfos.size()]);
+                    user.setR(Color.red(Utils.getColor(userIndex)));
+                    user.setG(Color.green(Utils.getColor(userIndex)));
+                    user.setB(Color.blue(Utils.getColor(userIndex)));
 
                     userInfos.add(user);
 

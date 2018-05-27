@@ -18,7 +18,7 @@ public class Constants {
     public static final int TIME_OUT = 100;
 
     //about CONNECTION
-    public static int PORT_NUM = 9000;
+    public static int PORT_NUM = 4000;
     public static int TIME_OUT_FOR_TCP_CONNECTION = 3000;//3 sec
     public static String ADDR = "52.78.30.89";
 
@@ -90,10 +90,4 @@ public class Constants {
 
     //firebase
     public static final int NOT_FOUND = -1;
-
-    // user color 1: Red, 2: Blue, 3: Green
-    public static final int[] userR = {255, 0, 0};
-    public static final int[] userG = {0, 255, 0};
-    public static final int[] userB = {0, 0, 255};
-
 }

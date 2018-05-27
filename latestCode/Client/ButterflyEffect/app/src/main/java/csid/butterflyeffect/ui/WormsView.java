@@ -87,7 +87,7 @@ public class WormsView extends View
 
                 if(!isPlaying)
                 {
-                    paint.setColor(Utils.getColor(user_idx));
+                    paint.setColor(Utils.getColor(userInfos.get(user_idx).getUserNumber()));
                     if(! (userPoints[Constants.NECK].x == 0 || userPoints[Constants.NECK].y == 0))
                     {
                         paint.setTextSize(Constants.PLAYER_TEXT_SIZE);
@@ -101,7 +101,7 @@ public class WormsView extends View
                 {
                     if(this.viewMode == 0)
                     {
-                        paint.setColorFilter(getColorFilter(user_idx));
+                        paint.setColorFilter(getColorFilter(userInfos.get(user_idx).getUserNumber()));
                         // Draw body worms
                         if (isAvailable(userPoints[Constants.R_HIP], userPoints[Constants.L_HIP])) {
                             double rhx = userPoints[Constants.R_HIP].x;
@@ -143,7 +143,7 @@ public class WormsView extends View
                     else if(this.viewMode == 1)
                     {
                         paint.setStrokeWidth(Constants.LINE_WIDTH);
-                        paint.setColor(Utils.getColor(user_idx));
+                        paint.setColor(Utils.getColor(userInfos.get(user_idx).getUserNumber()));
                         Utils.drawLine(canvas, paint, userPoints[Constants.NOSE], userPoints[Constants.L_EYE]);
                         Utils.drawLine(canvas, paint, userPoints[Constants.NOSE], userPoints[Constants.R_EYE]);
                         Utils.drawLine(canvas, paint, userPoints[Constants.L_EYE], userPoints[Constants.L_EAR]);

@@ -93,7 +93,7 @@ public class PreviewSurface extends CameraSurface implements
         Camera.Parameters params = camera.getParameters();
 
         List<Size> sizeList = params.getSupportedPreviewSizes();
-        Camera.Size bestSize = sizeList.get(set? 1: (sizeList.size()-1)-sizeList.size()/7); // 9/10 index.
+        Camera.Size bestSize = sizeList.get(set? 5: (sizeList.size()-1)-sizeList.size()/7); // 9/10 index.
 
         //setting middle of available size.
         params.setPreviewSize(bestSize.width,bestSize.height);

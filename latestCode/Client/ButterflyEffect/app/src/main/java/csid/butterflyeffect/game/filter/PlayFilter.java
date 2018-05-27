@@ -17,23 +17,23 @@ public class PlayFilter {
     private ArrayList<ArrayList<KeyPoint>> userInfoList;
     private BattleWorms battleWorms;
 
-    public PlayFilter(ArrayList<UserInfo> userInfos,BattleWorms battleWorms) {
+    public PlayFilter(ArrayList<UserInfo> userInfos, BattleWorms battleWorms) {
         this.battleWorms = battleWorms;
         this.userInfos = userInfos;
         userInfoList = new ArrayList<>();
     }
 
     //add init value of useres
-    public void saveFirstUserInfo(){
+    public void saveFirstUserInfo() {
         userInfoList.add(Utils.getPlainKeyPoint(userInfos));
         ArrayList<KeyPoint> userKeyPointsInfo = new ArrayList<>();
-        for(int i=0;i<userInfos.size();i++)
+        for (int i = 0; i < userInfos.size(); i++)
             userKeyPointsInfo.add(userInfos.get(i).getKeyPoint());
         ArrayList<int[]> colors = getRGBfromPlayerData(userKeyPointsInfo);
         //save user's color information for each users.
-        for(int i=0;i<userInfos.size();i++){
+        for (int i = 0; i < userInfos.size(); i++) {
             int[] userColors = colors.get(i);
-            for(int j=0; j < Constants.USER_COLOR_LISTS_NUM; j++){
+            for (int j = 0; j < Constants.USER_COLOR_LISTS_NUM; j++) {
                 userInfos.get(i).addColor(userColors[j]);
             }
         }
@@ -96,52 +96,46 @@ public class PlayFilter {
         Point2D[][] result = new Point2D[userInfos.size()][Constants.KEYPOINT_NUM];
         for (int user = 0; user < userSize; user++) {
             int userNumber = userInfos.get(user).getUserNumber();
-            if (!userInfos.get(user).isPlaying()) {
-                result[userNumber] = getNominalKeyPoint();
-            }
-            else{
-                Point2D neck = userInfos.get(user).getKeyPoint().getSkeleton()[Constants.NECK];
-                //ArrayList<Point2D[]> candidatesKeyPoints = new ArrayList<>();
-                ArrayList<KeyPoint> candidatesKeyPoints = new ArrayList<>();
-                //int candidate = -1;
-                int peopleSize = peopleKeyPoints.size();
 
-                //TODO if that player is died player then add diedPoint.
-                //If the OpenPose didn't detect correctly key points or User died
-                if (neck.x == 0 && neck.y == 0) {
+            Point2D neck = userInfos.get(user).getKeyPoint().getSkeleton()[Constants.NECK];
+            //ArrayList<Point2D[]> candidatesKeyPoints = new ArrayList<>();
+            ArrayList<KeyPoint> candidatesKeyPoints = new ArrayList<>();
+            //int candidate = -1;
+            int peopleSize = peopleKeyPoints.size();
+
+            //TODO if that player is died player then add diedPoint.
+            //If the OpenPose didn't detect correctly key points or User died
+            if (neck.x == 0 && neck.y == 0) {
+                //If the user had died
+                result[userNumber] = getRecentUserInfo(userNumber);
+            }
+            //If the OpenPose correctly detected the key points
+            else {
+                //Check all key points in frame to detect user
+                for (int people = 0; people < peopleSize; people++) {
+                    Point2D[] keyPoints = peopleKeyPoints.get(people).getSkeleton();
+                    //Calculate the distance between user neck and person's neck in frame
+                    double distanceNeck = Utils.getDistance(neck, keyPoints[Constants.NECK]);
+                    //Select the nearest distance
+                    //if(distanceNeck<Constants.PLAYER_RADIUS){
+                    if (distanceNeck < Constants.PLAYER_RADIUS) {
+                        candidatesKeyPoints.add(new KeyPoint(keyPoints));
+                    }
+                }
+                Log.d("#####", "candidates:" + candidatesKeyPoints.size());
+                //If the filter didn't find the targeted user as the user was died or previous distance was too small.
+                if (candidatesKeyPoints.size() == 0) {
                     //If the user had died
                     result[userNumber] = getRecentUserInfo(userNumber);
-                }
-                //If the OpenPose correctly detected the key points
-                else {
-                    //Check all key points in frame to detect user
-                    for (int people = 0; people < peopleSize; people++) {
-                        Point2D[] keyPoints = peopleKeyPoints.get(people).getSkeleton();
-                        //Calculate the distance between user neck and person's neck in frame
-                        double distanceNeck = Utils.getDistance(neck, keyPoints[Constants.NECK]);
-                        //Select the nearest distance
-                        //if(distanceNeck<Constants.PLAYER_RADIUS){
-                        if (distanceNeck < Constants.PLAYER_RADIUS) {
-                            candidatesKeyPoints.add(new KeyPoint(keyPoints));
-                        }
-                    }
-                    Log.d("#####","candidates:"+candidatesKeyPoints.size());
-                    //If the filter didn't find the targeted user as the user was died or previous distance was too small.
-                    if (candidatesKeyPoints.size() == 0) {
-                        //If the user had died
-                        result[userNumber] = getRecentUserInfo(userNumber);
-                    }
-                    else if(candidatesKeyPoints.size() == 1){
-                        //TODO 색 정보 갱신하는 것도 생각해보기
-                        //If the filter find the targeted user
-                        result[userNumber] = candidatesKeyPoints.get(0).getSkeleton();
-                        deleteFromKeyPoints(peopleKeyPoints,result[userNumber][Constants.NECK]);
-                    }
-                    else {//multiple candidate, so color filter applied
-                        Log.d("DEBUG", "Color filter");
-                        result[userNumber] = colorFilter(userInfos.get(user).getColors(), candidatesKeyPoints);
-                        deleteFromKeyPoints(peopleKeyPoints,result[userNumber][Constants.NECK]);
-                    }
+                } else if (candidatesKeyPoints.size() == 1) {
+                    //TODO 색 정보 갱신하는 것도 생각해보기
+                    //If the filter find the targeted user
+                    result[userNumber] = candidatesKeyPoints.get(0).getSkeleton();
+                    deleteFromKeyPoints(peopleKeyPoints, result[userNumber][Constants.NECK]);
+                } else {//multiple candidate, so color filter applied
+                    Log.d("DEBUG", "Color filter");
+                    result[userNumber] = colorFilter(userInfos.get(user).getColors(), candidatesKeyPoints);
+                    deleteFromKeyPoints(peopleKeyPoints, result[userNumber][Constants.NECK]);
                 }
             }
         }
@@ -162,11 +156,11 @@ public class PlayFilter {
         return rtnPoints;
     }
 
-    public void deleteFromKeyPoints(ArrayList<KeyPoint> peopleKeyPoints,Point2D targetUserNeck){
+    public void deleteFromKeyPoints(ArrayList<KeyPoint> peopleKeyPoints, Point2D targetUserNeck) {
         int index = -1;
-        for(int i=0;i<peopleKeyPoints.size();i++){
+        for (int i = 0; i < peopleKeyPoints.size(); i++) {
             Point2D neck = peopleKeyPoints.get(i).getSkeleton()[Constants.NECK];
-            if(neck.x ==targetUserNeck.x && neck.y == targetUserNeck.y){
+            if (neck.x == targetUserNeck.x && neck.y == targetUserNeck.y) {
                 index = i;
                 break;
             }
@@ -183,37 +177,39 @@ public class PlayFilter {
         //Calculate color difference
         ArrayList<int[]> colors = getRGBfromPlayerData(candidatesKeyPoints);
 
-        for(int user = 0; user < candidatesKeyPoints.size(); user++) {
+        for (int user = 0; user < candidatesKeyPoints.size(); user++) {
             int[] color = colors.get(user);
-            red = 0; green = 0; blue = 0;
+            red = 0;
+            green = 0;
+            blue = 0;
             for (int bodyPart = 0; bodyPart < Constants.COLOR_LISTS_NAME.length; bodyPart++) {
                 red += Color.red(color[bodyPart]) - Color.red(userColors.get(bodyPart));
                 green += Color.green(color[bodyPart]) - Color.green(userColors.get(bodyPart));
                 blue += Color.blue(color[bodyPart]) - Color.blue(userColors.get(bodyPart));
             }
-            colorDistance[user] = Math.sqrt(Math.pow(red,2) + Math.pow(green,2) + Math.pow(blue, 2));
+            colorDistance[user] = Math.sqrt(Math.pow(red, 2) + Math.pow(green, 2) + Math.pow(blue, 2));
         }
 
         //Pick minimum diff
         double minDistance = Double.MAX_VALUE;
-        for(int i = 0; i < candidatesKeyPoints.size(); i++){
+        for (int i = 0; i < candidatesKeyPoints.size(); i++) {
             if (colorDistance[i] < minDistance) {
                 minDistance = colorDistance[i];
                 result = i;
             }
         }
-        Log.d("DEBUG", ""+minDistance);
+        Log.d("DEBUG", "" + minDistance);
         return candidatesKeyPoints.get(result).getSkeleton();
     }
 
     public ArrayList<int[]> getRGBfromPlayerData(ArrayList<KeyPoint> userKeyPointsInfo) {
         ArrayList<int[]> colors = new ArrayList<>();
 
-        for(int i=0;i<userKeyPointsInfo.size();i++){
+        for (int i = 0; i < userKeyPointsInfo.size(); i++) {
             Point2D[] targets = userKeyPointsInfo.get(i).getSkeleton();
             //it is because we will get pixel from raw frame of camera.
             int[] userColors = new int[Constants.COLOR_LISTS_NAME.length];
-            for(int j=0; j < Constants.COLOR_LISTS_NAME.length; j++){
+            for (int j = 0; j < Constants.COLOR_LISTS_NAME.length; j++) {
                 Point2D targetArea = targets[Constants.COLOR_LISTS_NAME[j]];
                 userColors[j] = Utils.getIntFromColor(targetArea.r, targetArea.g, targetArea.b);
             }

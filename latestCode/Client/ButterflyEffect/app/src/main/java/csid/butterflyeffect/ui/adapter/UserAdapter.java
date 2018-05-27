@@ -46,17 +46,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public void onBindViewHolder(final UserViewHolder holder, int position) {
         UserInfo userInfo = userInfos.get(position);
         holder.score.setText(String.valueOf(userInfo.getScore()));
-        holder.background.setBackgroundColor(Utils.getIntFromColor(userInfo.getR(),userInfo.getG(),userInfo.getB()));
         if(userInfo.getUserProfile()!=null)
             holder.profile.setImageBitmap(userInfo.getUserProfile());
 
-        //boost view
-        boolean isBoost = userInfo.isBoost();
-        if(isBoost){
-            holder.boost.setBackgroundColor(mContext.getResources().getColor(R.color.material_red));
-        }
-        else
-            holder.boost.setBackgroundColor(mContext.getResources().getColor(R.color.black_semi_transparent70));
 
         if(position == 0){
             holder.one.setVisibility(View.VISIBLE);
@@ -64,6 +56,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         else
             holder.one.setVisibility(View.INVISIBLE);
 
+        if(userInfo.isPlaying()){
+            holder.dieView.setVisibility(View.INVISIBLE);
+        }
+        else
+            holder.dieView.setVisibility(View.VISIBLE);
+
+        holder.scoreColorView.setBackgroundColor(Utils.getIntFromColor(userInfo.getR(),userInfo.getG(),userInfo.getB()));
        /* //user color view
         ArrayList<Integer> userColors = userInfo.getColors();
         for(int i=0;i<userColors.size();i++){
@@ -87,8 +86,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         TextView score;
         ImageView profile;
         ImageView one;
-        LinearLayout background;
-        LinearLayout boost;
+        LinearLayout dieView;
+        LinearLayout scoreColorView;
         //View colors[] = new View[Constants.USER_COLOR_LISTS_NUM];
 
         public UserViewHolder(View itemView) {
@@ -97,8 +96,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             score = (TextView)itemView.findViewById(R.id.tv_score);
            // profile = (CircleImageView)itemView.findViewById(R.id.iv_user_profile);
             profile = (ImageView)itemView.findViewById(R.id.iv_user_profile);
-            background = (LinearLayout) itemView.findViewById(R.id.ll_bg_score);
-            boost = (LinearLayout)itemView.findViewById(R.id.ll_boost_view);
+            dieView = (LinearLayout) itemView.findViewById(R.id.ll_die_view);
+            scoreColorView = (LinearLayout)itemView.findViewById(R.id.ll_score_color_view);
 
           /*  for(int i=0;i< Constants.USER_COLOR_LISTS_NUM;i++)
                 colors[i] = (View)itemView.findViewById(Constants.COLOR_LISTS[i]);

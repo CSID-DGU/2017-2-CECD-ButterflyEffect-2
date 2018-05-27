@@ -127,9 +127,9 @@ public class Utils {
     public static int getColor(int index) {
         switch (index) {
             case 0:
-                return Color.GREEN;
-            case 1:
                 return Color.RED;
+            case 1:
+                return Color.GREEN;
             case 2:
                 return Color.BLUE;
             default:

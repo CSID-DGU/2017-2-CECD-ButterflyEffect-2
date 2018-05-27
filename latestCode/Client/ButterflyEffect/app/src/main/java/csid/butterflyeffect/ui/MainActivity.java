@@ -448,13 +448,22 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         int index = getItemIndex(id);
         if (index != -1) {
             UserInfo user = mBattleWorms.getUserInfos().get(index);
-            //user.setPlaying(false);
+            user.setPlaying(false);
             user.setScore(0);
             Log.d("#####", "worms die:" + index);
         }
         updateUser();
     }
 
+    public void updateRevive(String str){
+        int id = Integer.parseInt(str);
+        int index = getItemIndex(id);
+        if(index != -1){
+            UserInfo user = mBattleWorms.getUserInfos().get(index);
+            user.setPlaying(true);
+        }
+        updateUser();
+    }
     //called when game time ended.
     public void timeOut(String str) {
         if(mBattleWorms.getState() == Constants.STATE_START) {
@@ -475,7 +484,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                             showToast((Constants.WAITING_TIME - i) + "초 뒤 사진이 촬영됩니다.");
                             Thread.sleep(1000);
                         }
-
 
                         Bitmap picture = takePicture();
 
@@ -618,5 +626,12 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         };
 
         new Timer().schedule(mFamerTimer,3000,3000);
+    }
+
+    public void test(View view) {
+        mBattleWorms.getUserInfos().add(new UserInfo(0));
+        mBattleWorms.getUserInfos().add(new UserInfo(1));
+        mBattleWorms.getUserInfos().add(new UserInfo(2));
+        mGamerAdapter.notifyDataSetChanged();
     }
 }

@@ -9,12 +9,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import csid.butterflyeffect.R;
+import csid.butterflyeffect.game.BattleWorms;
 import csid.butterflyeffect.game.model.UserInfo;
 import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Utils;
@@ -56,13 +58,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         else
             holder.boost.setBackgroundColor(mContext.getResources().getColor(R.color.black_semi_transparent70));
 
-        //user color view
+        if(position == 0){
+            holder.one.setVisibility(View.VISIBLE);
+        }
+        else
+            holder.one.setVisibility(View.INVISIBLE);
+
+       /* //user color view
         ArrayList<Integer> userColors = userInfo.getColors();
         for(int i=0;i<userColors.size();i++){
             holder.colors[i].setBackgroundColor(userColors.get(i));
             int usercolor = userColors.get(i);
             //Log.d("#####", "r:"+Color.red(usercolor)+"/g:"+Color.green(usercolor)+"/b:"+Color.blue(usercolor));
-        }
+        }*/
 
     }
 
@@ -77,21 +85,24 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView score;
-        CircleImageView profile;
+        ImageView profile;
+        ImageView one;
         LinearLayout background;
         LinearLayout boost;
-        View colors[] = new View[Constants.USER_COLOR_LISTS_NUM];
+        //View colors[] = new View[Constants.USER_COLOR_LISTS_NUM];
 
         public UserViewHolder(View itemView) {
             super(itemView);
+            one = (ImageView)itemView.findViewById(R.id.iv_one);
             score = (TextView)itemView.findViewById(R.id.tv_score);
-            profile = (CircleImageView)itemView.findViewById(R.id.iv_user_profile);
-            background = (LinearLayout) itemView.findViewById(R.id.ll_color_view);
+           // profile = (CircleImageView)itemView.findViewById(R.id.iv_user_profile);
+            profile = (ImageView)itemView.findViewById(R.id.iv_user_profile);
+            background = (LinearLayout) itemView.findViewById(R.id.ll_bg_score);
             boost = (LinearLayout)itemView.findViewById(R.id.ll_boost_view);
 
-            for(int i=0;i< Constants.USER_COLOR_LISTS_NUM;i++)
+          /*  for(int i=0;i< Constants.USER_COLOR_LISTS_NUM;i++)
                 colors[i] = (View)itemView.findViewById(Constants.COLOR_LISTS[i]);
-
+            */
         }
         @Override
         public void onClick(View v) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:layout_width="80dp"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
         android:id="@+id/ll_boost_view"
@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -63,7 +63,7 @@
                     android:layout_marginBottom="2dp"
                     android:background="@color/Grey300"/>
 
-            </LinearLayout>
+            </LinearLayout>-->
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -78,7 +78,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="2">
-
+                        <ImageView
+                            android:visibility="invisible"
+                            android:src="@drawable/ic_one1"
+                            android:id="@+id/iv_one"
+                            android:layout_marginRight="2dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_gravity="right"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp" />
                         <LinearLayout
                             android:id="@+id/ll_color_view"
                             android:layout_width="match_parent"
@@ -96,9 +104,12 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp">
-                                <de.hdodenhof.circleimageview.CircleImageView
+                                >
+                                <ImageView
+                                    android:id="@+id/iv_user_profile"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent" />
+                               <!-- <de.hdodenhof.circleimageview.CircleImageView
 
                                     android:layout_margin="3dp"
                                     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -108,13 +119,14 @@
                                     app:civ_border_width="1dp"
                                     app:civ_border_color="@color/white"
                                     android:src="@drawable/ic_user"
-                                    />
+                                    />-->
 
                             </LinearLayout>
                         </LinearLayout>
                     </FrameLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_bg_score"
                         android:background="@color/blueGrey900"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"

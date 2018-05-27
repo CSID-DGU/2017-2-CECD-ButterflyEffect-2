@@ -15,7 +15,7 @@ public class Constants {
     public static final int STATE_START = 2;
     public static final int STATE_END = 3;
     public static final int WAITING_TIME = 3;
-    public static final int TIME_OUT = 30;
+    public static final int TIME_OUT = 100;
 
     //about CONNECTION
     public static int PORT_NUM = 9000;
@@ -68,7 +68,7 @@ public class Constants {
     public static final int LIST_SIZE = 30;
     public static final int QUEUE_SIZE = 20;
     public static final int USER_LIST_SIZE  = 20;
-    public static final int PLAYER_RADIUS = 100;
+    public static int PLAYER_RADIUS = 50;
     public static final int RAISING_HAND_C = 50;
     public static final int KEYPOINT_NUM = 18;
     public static final int OFFSET = 5;
@@ -81,12 +81,12 @@ public class Constants {
 
     //adapter
     public static final int USER_COLOR_LISTS_NUM = 4;
-    public static final int[] COLOR_LISTS={
+/*    public static final int[] COLOR_LISTS={
             R.id.view_c1,
             R.id.view_c2,
             R.id.view_c3,
             R.id.view_c4
-    };
+    };*/
 
     //firebase
     public static final int NOT_FOUND = -1;

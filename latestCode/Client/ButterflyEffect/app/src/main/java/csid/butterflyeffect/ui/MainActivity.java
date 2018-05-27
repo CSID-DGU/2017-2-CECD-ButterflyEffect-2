@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
@@ -59,6 +60,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements PreviewSurface.FrameHandler, HandleSocketError {
     private PreviewSurface mPriviewSurface;
+
+    boolean test = false;
 
     private Button mBtn;
     private Button mViewMode;
@@ -148,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
         //setting recyclerView
         mGamerRv.setHasFixedSize(true);
-        mGamerRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mGamerRv.setLayoutManager(new GridLayoutManager(this,3));
         mGamerAdapter = new UserAdapter(this, mBattleWorms.getUserInfos());
         mGamerRv.setAdapter(mGamerAdapter);
 
@@ -181,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         setRotateFamer();
     }
     public void initRestartSetting(){
+        mPriviewSurface.setGoodQuailityCamera(false);
         mPhotoZoneView.setImageResource(R.drawable.image);
 
         //BattleWorms
@@ -459,6 +463,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             mBattleWorms.setState(Constants.STATE_END);
             final UserInfo winner = mBattleWorms.getWinner();
 
+            mPriviewSurface.setGoodQuailityCamera(true);
             // photo zone
             showPhotoZone();
 
@@ -470,6 +475,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                             showToast((Constants.WAITING_TIME - i) + "초 뒤 사진이 촬영됩니다.");
                             Thread.sleep(1000);
                         }
+
 
                         Bitmap picture = takePicture();
 
@@ -613,5 +619,4 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
         new Timer().schedule(mFamerTimer,3000,3000);
     }
-
 }

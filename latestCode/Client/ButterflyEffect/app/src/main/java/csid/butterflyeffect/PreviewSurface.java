@@ -5,6 +5,7 @@ package csid.butterflyeffect;
  */
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -48,9 +49,6 @@ public class PreviewSurface extends CameraSurface implements
         //Log.d("#####", "size:" + paramArrayOfByte.length);
         try {
             Size size = paramCamera.getParameters().getPreviewSize();
-            // use "image.compressToJpeg()" to change image data format from "YUV" to "jpg"
-            //Bitmap bitmap = BitmapFactory.decodeByteArray(paramArrayOfByte, 0, paramArrayOfByte.length);
-            //bitmap = bitmap.createScaledBitmap(bitmap, Constants.FRAME_WIDTH, Constants.FRAME_HEIGHT, false);
             Constants.CAMERA_WIDTH = size.width;
             Constants.CAMERA_HEIGHT = size.height;
 
@@ -77,6 +75,7 @@ public class PreviewSurface extends CameraSurface implements
     }
 
     public void surfaceDestroyed(SurfaceHolder paramSurfaceHolder) {
+        Log.d(TAG,"surfaceDestroyed..");
         this.camera.setPreviewCallback(null);
         super.surfaceDestroyed(paramSurfaceHolder);
     }
@@ -88,5 +87,20 @@ public class PreviewSurface extends CameraSurface implements
     public static Bitmap curFrameImage(){
         byte[] imageBytes = outstream.toByteArray();
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+    }
+    public void setGoodQuailityCamera(boolean set){
+        camera.stopPreview();
+        Camera.Parameters params = camera.getParameters();
+
+        List<Size> sizeList = params.getSupportedPreviewSizes();
+        Camera.Size bestSize = sizeList.get(set? 1: (sizeList.size()-1)-sizeList.size()/7); // 9/10 index.
+
+        //setting middle of available size.
+        params.setPreviewSize(bestSize.width,bestSize.height);
+        params.setPreviewFpsRange(Constants.FRAME_RATE,Constants.FRAME_RATE);
+
+        camera.setParameters(params);
+        camera.startPreview();
+        this.camera.setPreviewCallback(this);
     }
 }

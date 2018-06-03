@@ -127,12 +127,7 @@ public class BattleWorms implements HandleReceiveData {
             activity.drawWorms(userInfos);
         }
         else if(state == Constants.STATE_END){
-           /* if(isCameraChanged) {
-                ArrayList<KeyPoint> filteredKeyPoints = playFilter.filter(userKeyPoints);
-                activity.drawWorms(userInfos);
-            }*/
             //TODO show winner's face to winner's photoZone
-
         }
     }
     public void setState(int state){

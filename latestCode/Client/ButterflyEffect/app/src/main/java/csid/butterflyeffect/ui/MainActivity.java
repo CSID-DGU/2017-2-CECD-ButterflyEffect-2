@@ -586,7 +586,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             public void run() {
                 hidePhotoZoneAndWinnerView();
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("1등을 축하드립니다! ("+score+"점)");
+                builder.setTitle("축하드립니다! ("+score+"점)");
                 builder.setMessage(getString(R.string.msg_request_phone_number));
                 // Set up the input
                 final EditText input = new EditText(MainActivity.this);

@@ -9,8 +9,6 @@ public class Head_List : MonoBehaviour
     public Transform border_Left;
     public Transform border_Right;
 
-    public GameObject food;
-
     public GameObject Worms;
     public GameObject Bot;
 
@@ -86,7 +84,7 @@ public class Head_List : MonoBehaviour
     }
     
 
-    public void Spawn_Bot(int i, Color worm_color)
+    public void Spawn_Bot(int i, Color worm_color, int BotId)
     {
         float w_unit = GetComponent<Create_World>().i_width / 12;
         float h_unit = GetComponent<Create_World>().i_height / 12;
@@ -114,7 +112,9 @@ public class Head_List : MonoBehaviour
                 BotList[i].GetComponent<Bot_HeadController>().Head_index_set(3);
                 BotList[i].GetComponent<MeshRenderer>().material.color = worm_color;
                 BotList[i].GetComponent<Bot_HeadController>().set_tail_color(worm_color);
-             
+
+                BotList[i].GetComponent<Bot_HeadController>().Head_index_set(BotId);
+
                 break;
             }
         }
@@ -152,12 +152,6 @@ public class Head_List : MonoBehaviour
                   HeadController headController = WormsList[i].GetComponent<HeadController>();
                   headController.Z_rotate_update(z_rotate_angle[i]);
             }
-        }
-
-        if (BotList[0] != null)
-        {
-            Bot_HeadController bot_HeadController = BotList[0].GetComponent<Bot_HeadController>();
-            bot_HeadController.Z_rotate_update(90);
         }
     }
 }

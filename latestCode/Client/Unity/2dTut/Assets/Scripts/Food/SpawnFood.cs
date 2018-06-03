@@ -165,6 +165,21 @@ public class SpawnFood : MonoBehaviour {
         }
     }
 
+    public void SpawnFood_die(Transform tf, Color color)
+    {
+        float z = -3f;
+        Transform fd = Instantiate(
+            food,
+            new Vector3(tf.position.x, tf.position.y, z),
+            Quaternion.identity).transform; // default rotation
+
+        fd.GetComponent<Light>().color = color;
+        fd.GetComponent<Light>().intensity = 1.5f;
+
+        fd.name = "fd";
+    }
+
+
     //public void spawnfood(float x, float y, FoodType type)
     //{
     //    for (int i = 0; i < FoodMaxPool; i++)

@@ -286,11 +286,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Resource\Low Poly Fruits\resources\fruits_tester.cs" />
     <Compile Include="Assets\Scripts\Food\foodinfo.cs" />
-    <Compile Include="Assets\Scripts\Food\foodmagnetScript.cs" />
     <Compile Include="Assets\Scripts\Food\rotateFood.cs" />
     <Compile Include="Assets\Scripts\Food\SpawnFood.cs" />
+    <Compile Include="Assets\Scripts\Sound\SFXScript.cs" />
     <Compile Include="Assets\Scripts\System\Create_World.cs" />
     <Compile Include="Assets\Scripts\System\Global.cs" />
     <Compile Include="Assets\Scripts\System\MemoryPool.cs" />

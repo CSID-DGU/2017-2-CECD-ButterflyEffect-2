@@ -21,13 +21,19 @@ public class Create_World : MonoBehaviour
     public Transform border_Right;
 
     List<GameObject> WormLightList = new List<GameObject>();
+    List<GameObject> BotLightList = new List<GameObject>();
 
     public GameObject Light;
     public Transform Tilemap;
     public Head_List HList;
+    public GameObject ReviveText;
+
+    SFXScript SFXplayer;
 
     public float i_width;
     public float i_height;
+
+    int BotCount = 0;
 
 
     //private float w_unit = Global.screen_width / 6;
@@ -36,16 +42,7 @@ public class Create_World : MonoBehaviour
     //Scene 실행 전 수행 (초기화)
     private void Awake()
     {
-
-        for (int i = 0; i < 3; i++)
-        {
-            WormLightList.Add(Instantiate(Light, new Vector3(0f, 0f, 0f), new Quaternion(0f, 0f, 0f, 0f)));
-            WormLightList[i].name = "Light[" + i + "]";
-        }
-
-
-
-
+        SFXplayer = GameObject.Find("SoundComponent").GetComponent<SFXScript>();
         //Black Screen 방지
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
@@ -87,11 +84,7 @@ public class Create_World : MonoBehaviour
         camera.orthographicSize = i_height / ppu / 2;
 
         //Typing "Spawn();" to test worms in Unity here
-        Spawn_Bot();
-        Spawn("255 0 0");
-        Spawn("0 0 255");
-        Spawn("255 255 0");
-        GameStart("32");
+        SFXplayer.PlayWaitBGM();        
     }
 
     int person_num = 0;
@@ -99,6 +92,11 @@ public class Create_World : MonoBehaviour
     //Called by Android(java)
     public void Spawn(string worm_color)
     {
+        WormLightList.Add(Instantiate(Light, new Vector3(0f, 0f, 0f), new Quaternion(0f, 0f, 0f, 0f)));
+        WormLightList[person_num].name = "Light[" + person_num + "]";
+        Instantiate(ReviveText, WormLightList[person_num].transform);
+        ReviveText.GetComponent<TextMesh>().fontSize = (int)(Global.FontSize);
+        ReviveText.GetComponent<TextMesh>().text = "Wait For Player";
         string[] str = worm_color.Split(' ');
 
         Color worm_color_int = new Color32(byte.Parse(str[0]), byte.Parse(str[1]), byte.Parse(str[2]), 255);
@@ -109,10 +107,15 @@ public class Create_World : MonoBehaviour
 
     }
 
-    public void Spawn_Bot()
+    public void Spawn_Bot(int BotId)
     {
+        WormLightList.Add(Instantiate(Light, new Vector3(0f, 0f, 0f), new Quaternion(0f, 0f, 0f, 0f)));
+        WormLightList[BotId].name = "BotLight[" + BotId + "]";
+        
+
         Color worm_color_int = new Color32(255, 255, 255, 255);
-        HList.Spawn_Bot(0, worm_color_int);
+        HList.Spawn_Bot(0, worm_color_int, BotId);
+        
     }
 
 
@@ -120,7 +123,7 @@ public class Create_World : MonoBehaviour
     //Called by Android
     public void GameStart(string s)
     {
-
+        Spawn_Bot(person_num);
         time = float.Parse(s);
         Invoke("GameStart_S", 3.0f);
 
@@ -139,7 +142,7 @@ public class Create_World : MonoBehaviour
                 WormLightList[i].SetActive(false);
 
         WorldLight.SetActive(true);
-
+        SFXplayer.PlayGameBGM();
     }
 
     public void SceneRestart(string s)

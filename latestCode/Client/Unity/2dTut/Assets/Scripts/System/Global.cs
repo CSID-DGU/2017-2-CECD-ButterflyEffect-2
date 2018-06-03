@@ -64,4 +64,7 @@ public static class Global
 
     public static float FoodSpawnDelay = 3f;
 
+    //Text GUI
+    public static float FontSize = 80f;
+
 }

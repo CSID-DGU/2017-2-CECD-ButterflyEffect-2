@@ -20,7 +20,7 @@ public class TimeBoxScript : MonoBehaviour {
         //set game time
         Timer = GetComponent<Text>();
         Timer.text = "";
-        Timer.fontSize = (int)(Global.food_size*1.5f);
+        Timer.fontSize = (int)(Global.FontSize*0.9);
         //Timer.rectTransform.position = Border_Top.transform.position;
 
 

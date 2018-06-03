@@ -156,10 +156,9 @@ public class Utils {
 
     public static Bitmap getUserFace(Bitmap wholePicture, Point2D userNose) {
         //TODO fix
-        Point2D pureXY = getPureCoordinates(wholePicture, userNose);
         Bitmap userFace = Bitmap.createBitmap(wholePicture,
-                (int) pureXY.x - Constants.USER_FACE_CROP_DISTANCE,
-                (int) pureXY.y - Constants.USER_FACE_CROP_DISTANCE,
+                (int) userNose.x - Constants.USER_FACE_CROP_DISTANCE,
+                (int) userNose.y - Constants.USER_FACE_CROP_DISTANCE,
                 2 * Constants.USER_FACE_CROP_DISTANCE,
                 2 * Constants.USER_FACE_CROP_DISTANCE);
 
@@ -169,32 +168,15 @@ public class Utils {
     public static Bitmap getUserRectangle(Bitmap wholePicture, Point2D[] skeleton) {
         if (skeleton == null) return null;
 
-        Point2D nose = getPureCoordinates(wholePicture, skeleton[Constants.NOSE]);
-        Point2D neck = getPureCoordinates(wholePicture, skeleton[Constants.NECK]);
-        Point2D leftShoulder = getPureCoordinates(wholePicture, skeleton[Constants.L_SHOULDER]);
-        Point2D rightShoulder = getPureCoordinates(wholePicture, skeleton[Constants.R_SHOULDER]);
-
-        int width = (int) (rightShoulder.x - leftShoulder.x) + Constants.USER_CROP_DISTANCE;
-        int height = (int) (neck.y - nose.y) + Constants.USER_CROP_DISTANCE;
+        int width = (int) (skeleton[Constants.R_SHOULDER].x - skeleton[Constants.L_SHOULDER].x) + Constants.USER_CROP_DISTANCE;
+        int height = (int) (skeleton[Constants.NECK].y - skeleton[Constants.NOSE].y) + Constants.USER_CROP_DISTANCE;
         Bitmap userRectangle = Bitmap.createBitmap(wholePicture,
-                (int) leftShoulder.x - Constants.USER_CROP_DISTANCE,
-                (int) nose.y - Constants.USER_FACE_CROP_DISTANCE,
+                (int) skeleton[Constants.L_SHOULDER].x - Constants.USER_CROP_DISTANCE,
+                (int) skeleton[Constants.NOSE].y - Constants.USER_FACE_CROP_DISTANCE,
                 width,
                 height);
 
         return userRectangle;
-    }
-
-    public static Point2D getPureCoordinates(Bitmap bitmap, Point2D ratioXY) {
-        //the reason why x is minus is frame that is received from camera is reverse shot.
-        double x = (Constants.PREVIEW_WIDTH - ratioXY.x) * bitmap.getWidth() / Constants.PREVIEW_WIDTH;
-
-        //because x must be <bitmap.width()
-        if (x == bitmap.getWidth())
-            x -= 1;
-
-        double y = ratioXY.y * bitmap.getHeight() / Constants.PREVIEW_HEIGHT;
-        return new Point2D(x, y);
     }
 
     public static ArrayList<KeyPoint> getKeyPointsFromJsonData(String jsonData) {

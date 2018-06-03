@@ -156,7 +156,7 @@
                     android:layout_height="match_parent">
                 </FrameLayout>
                 <FrameLayout
-                    android:visibility="visible"
+                    android:visibility="invisible"
                     android:id="@+id/fl_rankingview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

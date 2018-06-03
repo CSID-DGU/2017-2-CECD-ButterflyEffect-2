@@ -189,6 +189,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         //setting firebase
         setFirebase();
         setRotateFamer();
+
+        mRankingView.setVisibility(View.VISIBLE);
     }
     public void initRestartSetting(){
         mPriviewSurface.setGoodQuailityCamera(false);

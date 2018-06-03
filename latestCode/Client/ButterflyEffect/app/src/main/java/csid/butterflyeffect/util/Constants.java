@@ -16,7 +16,7 @@ public class Constants {
     public static final int STATE_END = 3;
     public static final int GAME_WAITING_TIME = 3;
     public static final int PHOTO_WAITING_TIME = 10;
-    public static final int TIME_OUT = 10;
+    public static final int TIME_OUT = 90;
 
     //about CONNECTION
     public static int PORT_NUM = 4000;

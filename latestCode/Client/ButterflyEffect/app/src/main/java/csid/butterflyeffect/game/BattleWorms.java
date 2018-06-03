@@ -144,4 +144,11 @@ public class BattleWorms implements HandleReceiveData {
     public UserInfo getWinner(){return
             userInfos.get(0);
     }
+
+    public void showRankingView(){
+        activity.showRankingView();
+    }
+    public void hideRankingView(){
+        activity.hideRankingView();
+    }
 }

@@ -137,7 +137,7 @@ public class ReadyFilter {
                     user.setB(Color.blue(Utils.getColor(userIndex)));
 
                     userInfos.add(user);
-
+                    battleWorms.hideRankingView();
                     Log.d("#####","new user added!");
 
                     UnityConnector.createWorms(user.getR(),user.getG(),user.getB());

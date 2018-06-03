@@ -53,6 +53,7 @@ import csid.butterflyeffect.game.model.UserInfo;
 import csid.butterflyeffect.network.HandleSocketError;
 import csid.butterflyeffect.network.SocketClient;
 import csid.butterflyeffect.ui.adapter.FamerAdapter;
+import csid.butterflyeffect.ui.adapter.RankingAdapter;
 import csid.butterflyeffect.ui.adapter.UserAdapter;
 import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Utils;
@@ -75,14 +76,16 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
     private WormsView mWorms;
     private FrameLayout mPreview;
     private BattleWorms mBattleWorms;
-    private RecyclerView mGamerRv, mFamerRv;
+    private RecyclerView mGamerRv, mFamerRv, mRankingRv;
     private UserAdapter mGamerAdapter;
     private FamerAdapter mFamerAdapter;
+    private FrameLayout mRankingView;
+    private RankingAdapter mRankingAdapter;
     private Toast mToast;
     public static boolean isSocketConnected = false;
 
     private DatabaseReference mReference;
-    private ArrayList<Famer> mFamers;
+    private ArrayList<Famer> mFamers,mRanking;
     private TimerTask mFamerTimer;
     private int timerPos;
     @Override
@@ -109,7 +112,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
         mGamerRv = (RecyclerView) findViewById(R.id.rv_user);
         mFamerRv = (RecyclerView) findViewById(R.id.rv_fame);
-
+        mRankingRv = (RecyclerView) findViewById(R.id.rv_ranking);
+        mRankingView = (FrameLayout)findViewById(R.id.fl_rankingview);
         getWindow().setFormat(PixelFormat.UNKNOWN);
 
 
@@ -161,6 +165,11 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         mFamerAdapter = new FamerAdapter(this, mFamers);
         mFamerRv.setAdapter(mFamerAdapter);
 
+        mRankingRv.setHasFixedSize(true);
+        mRankingRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mRankingAdapter = new RankingAdapter(this,mFamers);
+        mRankingRv.setAdapter(mRankingAdapter);
+
         // TCP & UDP 연결
         mSocket = SocketClient.getInstance();
         mSocket.setErrorCallback(this);
@@ -204,8 +213,9 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                 Log.d("#####", "onChildAdded!");
                 Famer famer = dataSnapshot.getValue(Famer.class);
                 mFamers.add(famer);
-                mFamerAdapter.orderData();
+                orderFamers();
                 mFamerAdapter.notifyDataSetChanged();
+                mRankingAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -217,9 +227,9 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                     mFamers.get(index).setScore(famer.getScore());
                     mFamers.get(index).setUpdatedTime(famer.getUpdatedTime());
                     mFamers.get(index).setImageUrl(famer.getImageUrl());
-                    mFamerAdapter.orderData();
+                    orderFamers();
                     mFamerAdapter.notifyDataSetChanged();
-
+                    mRankingAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -589,6 +599,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                     public void onClick(DialogInterface dialog, int which) {
                         String phoneNumber = input.getText().toString();
                         FirebaseTasks.registerFamer(MainActivity.this,phoneNumber,score,bitmap);
+                        showRankingView();
                     }
                 });
 
@@ -628,10 +639,25 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         new Timer().schedule(mFamerTimer,3000,3000);
     }
 
-    public void test(View view) {
-        mBattleWorms.getUserInfos().add(new UserInfo(0));
-        mBattleWorms.getUserInfos().add(new UserInfo(1));
-        mBattleWorms.getUserInfos().add(new UserInfo(2));
-        mGamerAdapter.notifyDataSetChanged();
+    public void orderFamers(){
+        Collections.sort(mFamers);
+    }
+
+    public void showRankingView(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mRankingView.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    public void hideRankingView(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mRankingView.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 }

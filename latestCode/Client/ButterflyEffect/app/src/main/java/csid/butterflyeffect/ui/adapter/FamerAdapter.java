@@ -52,10 +52,6 @@ public class FamerAdapter extends RecyclerView.Adapter<FamerAdapter.FamerViewHol
         return famers.size();
     }
 
-    public void orderData() {
-        Collections.sort(famers);
-    }
-
     public class FamerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView updateTime;
         TextView score;

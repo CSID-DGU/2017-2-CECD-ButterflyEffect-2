@@ -63,6 +63,7 @@
                             android:visibility="invisible"
                             android:src="@drawable/ic_1st"
                             android:id="@+id/iv_one"
+
                             android:layout_marginRight="5dp"
                             android:layout_marginTop="5dp"
                             android:layout_gravity="left"

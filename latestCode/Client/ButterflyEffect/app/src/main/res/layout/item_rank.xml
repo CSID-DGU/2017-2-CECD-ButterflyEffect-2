@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    >
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="1dp"
+        app:cardCornerRadius="3dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            >
+            <FrameLayout
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                >
+                <ImageView
+                    android:id="@+id/iv_mark"
+                    android:src="@drawable/ic_mark"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:id="@+id/tv_rank"
+                    android:gravity="center"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:text="0"
+                    android:paddingBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+            </FrameLayout>
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/iv_fame_image"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_user"
+         />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_score"
+                    android:text="9999"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:paddingRight="10dp"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/blue"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    />
+                <TextView
+                    android:id="@+id/tv_phone"
+                    android:text="010****3453"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Grey700"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

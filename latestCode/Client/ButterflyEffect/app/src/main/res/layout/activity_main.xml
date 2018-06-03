@@ -77,8 +77,8 @@
                                 android:id="@+id/sv"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
-                            <csid.butterflyeffect.ui.SkeletonView
-                                android:id="@+id/skeleton_view"
+                            <csid.butterflyeffect.ui.WormsView
+                                android:id="@+id/worms_view"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 />
@@ -121,6 +121,21 @@
                         android:layout_width="50dp"
                         android:layout_height="30dp" />
 
+                    <Button
+                        android:id="@+id/btn_view_mode"
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="left"
+                        android:text="view"
+                        android:textSize="7dp" />
+
+                    <Button
+                        android:onClick="test"
+                        android:textSize="7dp"
+                        android:text="TEST"
+                        android:layout_width="50dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="bottom"/>
 
                 </FrameLayout>
             </LinearLayout>
@@ -139,6 +154,17 @@
                 android:id="@+id/fl_unityView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+            </FrameLayout>
+            <FrameLayout
+                android:visibility="visible"
+                android:id="@+id/fl_rankingview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_gradient">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_ranking"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
             </FrameLayout>
             <FrameLayout
                 android:visibility="invisible"

@@ -84,7 +84,9 @@ public class Create_World : MonoBehaviour
         camera.orthographicSize = i_height / ppu / 2;
 
         //Typing "Spawn();" to test worms in Unity here
-        SFXplayer.PlayWaitBGM();        
+        SFXplayer.PlayWaitBGM();
+
+        GameStart("10");
     }
 
     int person_num = 0;
@@ -115,6 +117,7 @@ public class Create_World : MonoBehaviour
 
         Color worm_color_int = new Color32(255, 255, 255, 255);
         HList.Spawn_Bot(0, worm_color_int, BotId);
+        person_num++;
         
     }
 
@@ -137,9 +140,10 @@ public class Create_World : MonoBehaviour
 
         spfood.FoodSpawnStart();
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < person_num; i++)
             if (WormLightList[i] != null)
                 WormLightList[i].SetActive(false);
+
 
         WorldLight.SetActive(true);
         SFXplayer.PlayGameBGM();

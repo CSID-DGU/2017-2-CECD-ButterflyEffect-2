@@ -604,7 +604,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                         FirebaseTasks.registerFamer(MainActivity.this,phoneNumber,score,bitmap);
                         showRankingView();
                     }
-                });
+                })
+                .setCancelable(false);
 
                 builder.show();
             }

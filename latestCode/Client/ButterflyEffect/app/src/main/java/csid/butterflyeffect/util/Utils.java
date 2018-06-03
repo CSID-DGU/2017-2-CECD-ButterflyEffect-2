@@ -42,7 +42,8 @@ public class Utils {
 
     //sub method
     //transfer Point2D[] to degree
-    public static double getDegree(Point2D[] keyPoints) {
+    public static double getDegree(Point2D[] keyPoints)
+    {
         double degree = 0;
         Point2D nose = keyPoints[Constants.NOSE];
         Point2D leftShoulder = keyPoints[Constants.L_SHOULDER];
@@ -51,7 +52,8 @@ public class Utils {
         double angle1 = Math.atan2(leftShoulder.y - leftShoulder.y, leftShoulder.x - rightShoulder.x); //프레임과 동일한 수직선
         double angle2 = Math.atan2(mid.y - nose.y, mid.x - nose.x);
         degree = (angle2 - angle1) * 180 / Math.PI;
-        if (degree < 0) {
+        if (degree < 0)
+        {
             degree += 360;
         }
         //각도 계산

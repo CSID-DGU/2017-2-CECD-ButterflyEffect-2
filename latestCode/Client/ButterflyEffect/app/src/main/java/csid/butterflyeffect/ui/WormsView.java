@@ -95,7 +95,7 @@ public class WormsView extends View
                         paint.setTextSize(Constants.PLAYER_TEXT_SIZE);
                         paint.setTextAlign(Paint.Align.CENTER);
                         canvas.drawText("[ PLAYER "+(user_idx+1)+" ]", (float)userPoints[Constants.NECK].x, (float)userPoints[Constants.NECK].y, paint);
-                        Log.d("DEBUG", "x: "+userPoints[Constants.NECK].x+", y:" + userPoints[Constants.NECK].y);
+                        //Log.d("DEBUG", "x: "+userPoints[Constants.NECK].x+", y:" + userPoints[Constants.NECK].y);
                     }
                 }
                 // Playing
@@ -133,13 +133,9 @@ public class WormsView extends View
                         if (isAvailable(userPoints[Constants.L_EAR], userPoints[Constants.R_EAR], userPoints[Constants.NOSE])) {
                             double distance = Utils.getDistance(userPoints[Constants.L_EAR], userPoints[Constants.R_EAR]);
                             int target_size = (int) (distance * 2);
-                            Matrix rotate = new Matrix();
-                            float degree = (float)(Utils.getDegree(userInfos.get(user_idx).getKeyPoint().getSkeleton()));
-                            rotate.postRotate(degree + 180);
-                            Log.d("Degree", "degree: "+degree);
                             newBtmHead = Bitmap.createScaledBitmap(btmHead, target_size, target_size, false);
-                            newBtmHead = Bitmap.createBitmap(newBtmHead, 0, 0, newBtmHead.getWidth(), newBtmHead.getHeight(), rotate, true);
                             canvas.drawBitmap(newBtmHead, (int) (userPoints[Constants.NOSE].x - (target_size / 2)), (int) (userPoints[Constants.NOSE].y - (target_size / 2)), paint);
+
                         }
                     }
                     else if(this.viewMode == 1)

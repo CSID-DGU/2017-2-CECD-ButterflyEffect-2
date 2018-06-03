@@ -1,5 +1,7 @@
 package csid.butterflyeffect.game;
 
+import android.hardware.Camera;
+
 import java.util.ArrayList;
 
 import csid.butterflyeffect.R;
@@ -17,6 +19,7 @@ public class BattleWorms implements HandleReceiveData {
     private ArrayList<UserInfo> userInfos;
     private PlayFilter playFilter;
     private ReadyFilter readyFilter;
+    private boolean isCameraChanged;
     //private boolean isPlaying;
     private int state;
 
@@ -27,6 +30,7 @@ public class BattleWorms implements HandleReceiveData {
         state = Constants.STATE_WAIT;
         readyFilter = new ReadyFilter(userInfos, this);
         playFilter = new PlayFilter(userInfos, this);
+        isCameraChanged = false;
     }
 
     public void init(){
@@ -36,6 +40,7 @@ public class BattleWorms implements HandleReceiveData {
         state = Constants.STATE_WAIT;
         readyFilter = new ReadyFilter(userInfos, this);
         playFilter = new PlayFilter(userInfos, this);
+        isCameraChanged = false;
     }
     public void requestUserUpdate(int position) {
         activity.updateUser(position);
@@ -76,8 +81,8 @@ public class BattleWorms implements HandleReceiveData {
                     @Override
                     public void run() {
                         try {
-                            for(int i=0;i<Constants.WAITING_TIME;i++){
-                                activity.showToast(Constants.WAITING_TIME-i+activity.getResources().getString(R.string.remaining_wait_time));
+                            for(int i = 0; i<Constants.GAME_WAITING_TIME; i++){
+                                activity.showToast(Constants.GAME_WAITING_TIME -i+activity.getResources().getString(R.string.remaining_wait_time));
                                 Thread.sleep(1000);
                             }
                             Thread.sleep(1000);
@@ -122,9 +127,10 @@ public class BattleWorms implements HandleReceiveData {
             activity.drawWorms(userInfos);
         }
         else if(state == Constants.STATE_END){
-            ArrayList<KeyPoint> filteredKeyPoints = playFilter.filter(userKeyPoints);
-            activity.drawWorms(userInfos);
-
+           /* if(isCameraChanged) {
+                ArrayList<KeyPoint> filteredKeyPoints = playFilter.filter(userKeyPoints);
+                activity.drawWorms(userInfos);
+            }*/
             //TODO show winner's face to winner's photoZone
 
         }
@@ -150,5 +156,13 @@ public class BattleWorms implements HandleReceiveData {
     }
     public void hideRankingView(){
         activity.hideRankingView();
+    }
+
+    public void changeForceUserCoordinates(Camera.Size before, Camera.Size after){
+        for(UserInfo users : userInfos){
+            Point2D[] afterSkeleton = Utils.cvtKeyPointToRatio(before,after, users.getKeyPoint().getSkeleton());
+            users.getKeyPoint().setSkeleton(afterSkeleton);
+        }
+        isCameraChanged = true;
     }
 }

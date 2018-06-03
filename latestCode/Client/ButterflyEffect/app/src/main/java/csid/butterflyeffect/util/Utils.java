@@ -3,7 +3,9 @@ package csid.butterflyeffect.util;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.hardware.Camera;
 import android.provider.ContactsContract;
 import android.util.Log;
 
@@ -42,8 +44,7 @@ public class Utils {
 
     //sub method
     //transfer Point2D[] to degree
-    public static double getDegree(Point2D[] keyPoints)
-    {
+    public static double getDegree(Point2D[] keyPoints) {
         double degree = 0;
         Point2D nose = keyPoints[Constants.NOSE];
         Point2D leftShoulder = keyPoints[Constants.L_SHOULDER];
@@ -52,8 +53,7 @@ public class Utils {
         double angle1 = Math.atan2(leftShoulder.y - leftShoulder.y, leftShoulder.x - rightShoulder.x); //프레임과 동일한 수직선
         double angle2 = Math.atan2(mid.y - nose.y, mid.x - nose.x);
         degree = (angle2 - angle1) * 180 / Math.PI;
-        if (degree < 0)
-        {
+        if (degree < 0) {
             degree += 360;
         }
         //각도 계산
@@ -156,27 +156,50 @@ public class Utils {
         return userKeypoints;
     }
 
-    public static Bitmap getUserFace(Bitmap wholePicture, Point2D userNose) {
-        //TODO fix
-        Bitmap userFace = Bitmap.createBitmap(wholePicture,
-                (int) userNose.x - Constants.USER_FACE_CROP_DISTANCE,
-                (int) userNose.y - Constants.USER_FACE_CROP_DISTANCE,
-                2 * Constants.USER_FACE_CROP_DISTANCE,
-                2 * Constants.USER_FACE_CROP_DISTANCE);
 
-        return userFace;
+    public static Bitmap getBodyRectangle(Bitmap wholePicture, Point2D[] skeleton) {
+        if (skeleton == null) return null;
+
+        Matrix sideInversion = new Matrix();
+        sideInversion.setScale(-1, 1);
+
+        int distance = (int)(skeleton[Constants.L_SHOULDER].x-skeleton[Constants.R_SHOULDER].x);
+
+        Bitmap reverseWhole= Bitmap.createBitmap(wholePicture, 0, 0,
+                wholePicture.getWidth(), wholePicture.getHeight(), sideInversion, false);
+
+
+        Bitmap userRectangle = Bitmap.createBitmap(reverseWhole,
+                (int) skeleton[Constants.NECK].x - distance,
+                (int) skeleton[Constants.NECK].y - distance,
+                2*distance,
+                2*distance);
+
+
+        reverseWhole.recycle();
+
+        return userRectangle;
     }
-
     public static Bitmap getUserRectangle(Bitmap wholePicture, Point2D[] skeleton) {
         if (skeleton == null) return null;
 
-        int width = (int) (skeleton[Constants.R_SHOULDER].x - skeleton[Constants.L_SHOULDER].x) + Constants.USER_CROP_DISTANCE;
-        int height = (int) (skeleton[Constants.NECK].y - skeleton[Constants.NOSE].y) + Constants.USER_CROP_DISTANCE;
-        Bitmap userRectangle = Bitmap.createBitmap(wholePicture,
-                (int) skeleton[Constants.L_SHOULDER].x - Constants.USER_CROP_DISTANCE,
-                (int) skeleton[Constants.NOSE].y - Constants.USER_FACE_CROP_DISTANCE,
-                width,
-                height);
+        Matrix sideInversion = new Matrix();
+        sideInversion.setScale(-1, 1);
+
+        int distance = (int)(skeleton[Constants.NECK].y-skeleton[Constants.NOSE].y);
+
+        Bitmap reverseWhole= Bitmap.createBitmap(wholePicture, 0, 0,
+                wholePicture.getWidth(), wholePicture.getHeight(), sideInversion, false);
+
+
+        Bitmap userRectangle = Bitmap.createBitmap(reverseWhole,
+                (int) skeleton[Constants.NOSE].x - distance,
+                (int) skeleton[Constants.NOSE].y - distance,
+                2*distance,
+                2*distance);
+
+
+        reverseWhole.recycle();
 
         return userRectangle;
     }
@@ -257,4 +280,18 @@ public class Utils {
         return new_keypoints;
     }
 
+    public static Point2D[] cvtKeyPointToRatio(Camera.Size before, Camera.Size after, Point2D[] keyPoints){
+        float ratioX = (float)after.width/before.width;
+        float ratioY = (float)after.height/before.height;
+        Point2D[] new_keypoints = new Point2D[Constants.KEYPOINT_NUM];
+        for(int i = 0; i < Constants.KEYPOINT_NUM; i++){
+            new_keypoints[i] = new Point2D(0, 0);
+        }
+        for(int i = 0; i < Constants.KEYPOINT_NUM; i++){
+            new_keypoints[i].x = keyPoints[i].x * ratioX;
+            new_keypoints[i].y = keyPoints[i].y * ratioY;
+            //Log.d("DEBUG", "x: "+keypoints[i].x+", y: "+keypoints[i].y);
+        }
+        return new_keypoints;
+    }
 }

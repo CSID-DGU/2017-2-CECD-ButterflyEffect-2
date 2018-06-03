@@ -19,6 +19,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import csid.butterflyeffect.game.Point2D;
 import csid.butterflyeffect.network.HandleReceiveData;
 import csid.butterflyeffect.ui.MainActivity;
 import csid.butterflyeffect.util.Constants;
@@ -101,6 +102,15 @@ public class PreviewSurface extends CameraSurface implements
 
         camera.setParameters(params);
         camera.startPreview();
+        params = camera.getParameters();
+        Size size = params.getPreviewSize();
+        Constants.CAMERA_WIDTH = size.width;
+        Constants.CAMERA_HEIGHT = size.height;
         this.camera.setPreviewCallback(this);
+    }
+    public Size getCameraWidthHeight(){
+        Camera.Parameters params = camera.getParameters();
+        Size size = params.getPreviewSize();
+        return size;
     }
 }

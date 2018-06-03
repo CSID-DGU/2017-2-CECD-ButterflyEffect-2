@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -25,7 +26,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +48,6 @@ import csid.butterflyeffect.game.BattleWorms;
 import csid.butterflyeffect.game.Point2D;
 import csid.butterflyeffect.game.UnityConnector;
 import csid.butterflyeffect.game.model.Famer;
-import csid.butterflyeffect.game.model.KeyPoint;
 import csid.butterflyeffect.game.model.UserInfo;
 import csid.butterflyeffect.network.HandleSocketError;
 import csid.butterflyeffect.network.SocketClient;
@@ -57,7 +56,6 @@ import csid.butterflyeffect.ui.adapter.RankingAdapter;
 import csid.butterflyeffect.ui.adapter.UserAdapter;
 import csid.butterflyeffect.util.Constants;
 import csid.butterflyeffect.util.Utils;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements PreviewSurface.FrameHandler, HandleSocketError {
     private PreviewSurface mPriviewSurface;
@@ -372,8 +370,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             @Override
             public void run() {
                 if (mSocket.isConnected()) {
-                    mSocket.sendUdpPacket(frame);
-                    //Log.d("#####","length:"+frame.length);
+                    if(mBattleWorms.getState() != Constants.STATE_END)
+                        mSocket.sendUdpPacket(frame);
                 }
 
                 //mBitmapView.setImageBitmap(bit);
@@ -392,7 +390,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         for (int i = 0; i < users.size(); i++) {
             UserInfo user = users.get(i);
             if (user.getUserProfile() == null) {
-                user.setUserProfile(Utils.getUserFace(wholePicture, user.getKeyPoint().getSkeleton()[Constants.NOSE]));
+                user.setUserProfile(Utils.getUserRectangle(wholePicture, user.getKeyPoint().getSkeleton()));
                 updateUser(i);
             }
         }
@@ -459,7 +457,6 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
         if (index != -1) {
             UserInfo user = mBattleWorms.getUserInfos().get(index);
             user.setPlaying(false);
-            user.setScore(0);
             Log.d("#####", "worms die:" + index);
         }
         updateUser();
@@ -482,7 +479,11 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
             mBattleWorms.setState(Constants.STATE_END);
             final UserInfo winner = mBattleWorms.getWinner();
 
+            Camera.Size beforeSize = mPriviewSurface.getCameraWidthHeight();
             mPriviewSurface.setGoodQuailityCamera(true);
+            Camera.Size afterSize = mPriviewSurface.getCameraWidthHeight();
+            mBattleWorms.changeForceUserCoordinates(beforeSize,afterSize);
+
             // photo zone
             showPhotoZone();
 
@@ -490,8 +491,8 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
                 @Override
                 public void run() {
                     try {
-                        for (int i = 0; i < Constants.WAITING_TIME; i++) {
-                            showToast((Constants.WAITING_TIME - i) + "초 뒤 사진이 촬영됩니다.");
+                        for (int i = 0; i < Constants.PHOTO_WAITING_TIME; i++) {
+                            showToast((Constants.PHOTO_WAITING_TIME - i) + "초 뒤 사진이 촬영됩니다.");
                             Thread.sleep(1000);
                         }
 
@@ -610,7 +611,7 @@ public class MainActivity extends AppCompatActivity implements PreviewSurface.Fr
 
     public void setWinnerCrop(Bitmap bitmap) {
         Point2D[] winnerSkeleton = mBattleWorms.getWinner().getKeyPoint().getSkeleton();
-        Bitmap croppedWinner = Utils.getUserRectangle(bitmap, winnerSkeleton);
+        Bitmap croppedWinner = Utils.getBodyRectangle(bitmap, winnerSkeleton);
         mPhotoZoneView.setImageBitmap(croppedWinner);
     }
 

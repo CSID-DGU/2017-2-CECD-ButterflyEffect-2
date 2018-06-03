@@ -40,48 +40,6 @@ public class Utils {
         return buff.array();
     }
 
-    //main method
-    //transfer server string to "2 45.5 130.2"
-    public static String stringToDegree(String str) {
-        ArrayList<Point2D[]> userKeypoints = stringToKeyPoints(str);
-        double degrees[] = new double[userKeypoints.size()];
-        for (int i = 0; i < userKeypoints.size(); i++) {
-            degrees[i] = getDegree(userKeypoints.get(i));
-        }
-        return degreesToStr(degrees);
-    }
-
-    //sub method
-    //transfer serverString to Point2D[] arraylists
-    public static ArrayList<Point2D[]> stringToKeyPoints(String serverStr) {
-        //Log.d("STRING", serverStr);
-
-        //TODO we have to sure that the data decided before we use it.
-        float ratio_X = Constants.PREVIEW_WIDTH / Constants.CAMERA_WIDTH;
-        float ratio_Y = Constants.PREVIEW_HEIGHT / Constants.CAMERA_HEIGHT;
-
-
-        //TODO 이부분 수정하기
-
-        ArrayList<Point2D[]> rtnArray = new ArrayList<>();
-        int len = serverStr.length();
-        String strNumOfDetectedPeople = serverStr.substring(0, 1);
-        int numOfDetectedPeople = Integer.parseInt(strNumOfDetectedPeople);
-        serverStr = serverStr.substring(3, len);
-
-        String[] detected = serverStr.split("; ");
-        for (int i = 0; i < numOfDetectedPeople; i++) {
-            String[] tokens = detected[i].split(",");
-            Point2D[] points = new Point2D[tokens.length / 2];
-            for (int j = 0; j < Constants.KEYPOINT_NUM; j++) {
-                points[j] = new Point2D(Double.parseDouble(tokens[j * 2]) * ratio_X, Double.parseDouble(tokens[j * 2 + 1]) * ratio_Y);
-            }
-            rtnArray.add(points);
-        }
-
-        return rtnArray;
-    }
-
     //sub method
     //transfer Point2D[] to degree
     public static double getDegree(Point2D[] keyPoints) {
@@ -244,9 +202,6 @@ public class Utils {
         Type listType = new TypeToken<ArrayList<KeyPoint>>() {
         }.getType();
         ArrayList<KeyPoint> keyPoints = gson.fromJson(jsonData, listType);
-        for (int i = 0; i < keyPoints.size(); i++) {
-            keyPoints.get(i).applyRatio();
-        }
         return keyPoints;
     }
 
@@ -300,4 +255,22 @@ public class Utils {
         int radius = (int)((max_x - min_x)/10);
         return radius;
     }
+
+    public static Point2D[] cvtKeypointsRatio(Point2D[] keypoints, float camera_width, float camera_height, float view_width, float view_height)
+    {
+        float ratio_x =  camera_width / view_width;
+        float ratio_y =  camera_height / view_height;
+        //Log.d("DEBUG", "ratio x: "+ratio_x+", ratio y: "+ratio_y);
+        Point2D[] new_keypoints = new Point2D[Constants.KEYPOINT_NUM];
+        for(int i = 0; i < Constants.KEYPOINT_NUM; i++){
+            new_keypoints[i] = new Point2D(0, 0);
+        }
+        for(int i = 0; i < Constants.KEYPOINT_NUM; i++){
+            new_keypoints[i].x = keypoints[i].x * ratio_x;
+            new_keypoints[i].y = keypoints[i].y * ratio_y;
+            //Log.d("DEBUG", "x: "+keypoints[i].x+", y: "+keypoints[i].y);
+        }
+        return new_keypoints;
+    }
+
 }

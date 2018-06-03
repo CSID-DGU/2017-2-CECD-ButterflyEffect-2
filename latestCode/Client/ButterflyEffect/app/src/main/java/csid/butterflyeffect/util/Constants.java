@@ -23,7 +23,7 @@ public class Constants {
     public static String ADDR = "52.78.30.89";
 
     //about CAMERA
-    public static final int FRAME_RATE = 10000; //10000 = 10 fps
+    public static final int FRAME_RATE = 15000; //10000 = 10 fps
     public static final int COMPRESS_QUAILITY = 60; //100 -> same quaility
 
     //about skeleton

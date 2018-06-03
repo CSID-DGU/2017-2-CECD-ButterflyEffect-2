@@ -29,13 +29,4 @@ public class KeyPoint {
     public Point2D[] getSkeleton(){
         return skeleton;
     }
-    public void applyRatio(){
-        float ratio_X = Constants.PREVIEW_WIDTH / Constants.CAMERA_WIDTH;
-        float ratio_Y = Constants.PREVIEW_HEIGHT / Constants.CAMERA_HEIGHT;
-        for(int i=0;i<skeleton.length;i++){
-            skeleton[i].x *= ratio_X;
-            skeleton[i].y *= ratio_Y;
-        }
-    }
-
 }

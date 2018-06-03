@@ -83,7 +83,9 @@ public class WormsView extends View
             {
                 Paint paint = new Paint();
 
-                Point2D[] userPoints = userInfos.get(user_idx).getKeyPoint().getSkeleton();
+                Point2D[] userPoints = Utils.cvtKeypointsRatio(userInfos.get(user_idx).getKeyPoint().getSkeleton(), Constants.PREVIEW_WIDTH, Constants.PREVIEW_HEIGHT, Constants.CAMERA_WIDTH, Constants.CAMERA_HEIGHT);
+
+                //Log.d("DEBUG", "x: "+userPoints[Constants.NECK].x+", y:" + userPoints[Constants.NECK].y);
 
                 if(!isPlaying)
                 {
@@ -93,7 +95,7 @@ public class WormsView extends View
                         paint.setTextSize(Constants.PLAYER_TEXT_SIZE);
                         paint.setTextAlign(Paint.Align.CENTER);
                         canvas.drawText("[ PLAYER "+(user_idx+1)+" ]", (float)userPoints[Constants.NECK].x, (float)userPoints[Constants.NECK].y, paint);
-
+                        Log.d("DEBUG", "x: "+userPoints[Constants.NECK].x+", y:" + userPoints[Constants.NECK].y);
                     }
                 }
                 // Playing

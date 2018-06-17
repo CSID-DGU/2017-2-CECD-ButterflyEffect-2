@@ -87,13 +87,13 @@ public class Utils {
     public static int getColor(int index) {
         switch (index) {
             case 0:
-                return Color.RED;
-            case 1:
-                return Color.GREEN;
-            case 2:
-                return Color.BLUE;
-            default:
                 return Color.MAGENTA;
+            case 1:
+                return Color.CYAN;
+            case 2:
+                return Color.YELLOW;
+            default:
+                return Color.BLUE;
         }
     }
 
@@ -259,7 +259,7 @@ public class Utils {
 
         min_x = xs.get(0);
         max_x = xs.get(xs.size()-1);
-        int radius = (int)((max_x - min_x)/10);
+        int radius = (int)((max_x - min_x)/5);
         return radius;
     }
 

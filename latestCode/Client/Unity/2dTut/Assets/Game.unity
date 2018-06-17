@@ -1596,7 +1596,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 5
-  far clip plane: 101
+  far clip plane: 301
   field of view: 112.2
   orthographic: 1
   orthographic size: 76.43
@@ -1622,7 +1622,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 867615166}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -100}
+  m_LocalPosition: {x: 0, y: 0, z: -300}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1671,7 +1671,6 @@ MonoBehaviour:
   border_Right: {fileID: 800702278}
   FoodParent: {fileID: 881574902}
   FoodMaxPool: 30
-  FoodprefabArray: []
 --- !u!114 &867615173
 MonoBehaviour:
   m_ObjectHideFlags: 0

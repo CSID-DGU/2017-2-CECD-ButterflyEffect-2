@@ -112,10 +112,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   food: {fileID: 1505511404846652, guid: 13fb5a4f98bafea44a1272acc604cd20, type: 2}
-  camera: {fileID: 0}
+  WormLight: {fileID: 0}
+  tailPrefab: {fileID: 1312380224646624, guid: 1898f40fd4b863c4d8053111f615392d, type: 2}
   quadrant: 1
   food_quadrant: 1
-  tailPrefab: {fileID: 1312380224646624, guid: 1898f40fd4b863c4d8053111f615392d, type: 2}
+  HC: {fileID: 0}
   preDegree: 0
 --- !u!135 &135005310354229022
 SphereCollider:

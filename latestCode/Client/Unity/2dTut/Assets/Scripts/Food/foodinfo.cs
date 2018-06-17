@@ -5,7 +5,7 @@ using UnityEngine;
 public class foodinfo : MonoBehaviour {
 
     public Mesh[] MeshType;
-    public int score { get; set; }
+    public int score;
     private FoodType food_type = FoodType.none;
 
     public FoodType type
@@ -19,7 +19,7 @@ public class foodinfo : MonoBehaviour {
         {
             food_type = value;
             this.GetComponent<MeshFilter>().mesh = MeshType[(uint)food_type];
-            score = 70 + (int)food_type*4;
+            score = 130 + (int)food_type*4;
             //this.GetComponent<Rigidbody>().local
         }
     }

@@ -76,7 +76,7 @@ public class HeadController : MonoBehaviour
     protected List<GameObject> tail = new List<GameObject>();
 
     //ATE SCORE
-    protected int ate = 100;
+    protected int ate = 0;
     //Did worm collide with other worms tail
     protected bool die = false;
     //Coroutine
@@ -99,8 +99,8 @@ public class HeadController : MonoBehaviour
 
         tailPrefab.transform.localScale = tailSize;
 
-        for (int i = 0; i < 1; i++)
-            TailCreate(rb.position);
+        ate = -100;
+
         o = null;
 
         thisMesh = gameObject.GetComponent<MeshRenderer>();
@@ -336,7 +336,7 @@ public class HeadController : MonoBehaviour
 
         head.GetComponent<SphereCollider>().enabled = true;
 
-        ate = -200;
+        ate = -100;
 
         WormLight.SetActive(false);
 

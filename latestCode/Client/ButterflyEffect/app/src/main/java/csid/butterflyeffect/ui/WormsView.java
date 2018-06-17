@@ -130,6 +130,7 @@ public class WormsView extends View
                         }
 
                         // Draw face worms
+                        /*
                         if (isAvailable(userPoints[Constants.L_EAR], userPoints[Constants.R_EAR], userPoints[Constants.NOSE])) {
                             double distance = Utils.getDistance(userPoints[Constants.L_EAR], userPoints[Constants.R_EAR]);
                             int target_size = (int) (distance * 2);
@@ -137,6 +138,16 @@ public class WormsView extends View
                             canvas.drawBitmap(newBtmHead, (int) (userPoints[Constants.NOSE].x - (target_size / 2)), (int) (userPoints[Constants.NOSE].y - (target_size / 2)), paint);
 
                         }
+                        */
+                        if (isAvailable(userPoints[Constants.L_EYE], userPoints[Constants.R_EYE], userPoints[Constants.NOSE])) {
+                            double distance = Utils.getDistance(userPoints[Constants.L_EYE], userPoints[Constants.R_EYE]);
+                            int target_size = (int) (distance * 3);
+                            if(target_size>0) {
+                                newBtmHead = Bitmap.createScaledBitmap(btmHead, target_size, target_size, false);
+                                canvas.drawBitmap(newBtmHead, (int) (userPoints[Constants.NOSE].x - (target_size / 2)), (int) (userPoints[Constants.NOSE].y - (target_size / 2)), paint);
+                            }
+                        }
+
                     }
                     else if(this.viewMode == 1)
                     {

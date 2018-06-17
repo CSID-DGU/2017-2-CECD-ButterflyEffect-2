@@ -26,6 +26,8 @@ public static class Global
     public static float init_headspeed_mult = resolution_fix / 300;
     public static float init_headcurspeed_mult = 1.5f;
 
+    public static float init_botHeadSpeed = init_headspeed_mult * 1.2f;
+
     //tail option 
     public static float tail_curspeed = 100f;
     public static float min_distance = 0.01f* resolution_fix;

@@ -5,7 +5,7 @@ using UnityEngine;
 public class foodinfo : MonoBehaviour {
 
     public Mesh[] MeshType;
-    public int score { get; set; }
+    public int score;
     private FoodType food_type = FoodType.none;
 
     public FoodType type

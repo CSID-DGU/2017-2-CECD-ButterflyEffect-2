@@ -9,7 +9,7 @@ public class Bot_HeadController : HeadController {
     public int food_quadrant = 1;
 
     GameObject GameCamera;
-    GameObject[] list;
+    SpawnFood SpawnFoodScript;
 
     public  HeadController HC;
 
@@ -30,9 +30,9 @@ public class Bot_HeadController : HeadController {
     {
         double theta = 0d;
         
-        if (list[0] != null)
+        if (SpawnFoodScript.FoodprefabArray[0] != null)
         {
-            Vector3 v3 = list[0].transform.position;
+            Vector3 v3 = SpawnFoodScript.FoodprefabArray[0].transform.position;
             theta = (float)((Mathf.Atan2((v3.y - curPos.y), (v3.x - curPos.x)) / Math.PI) * 180f);
             // Get distance
             distance = Mathf.Sqrt(Mathf.Pow((v3.x - curPos.x), 2) + Mathf.Pow((v3.y-curPos.y),2));
@@ -47,7 +47,7 @@ public class Bot_HeadController : HeadController {
     // Use this for initialization
     private void Start () {
         GameCamera = GameObject.Find("Camera");
-        list = GameCamera.GetComponent<SpawnFood>().FoodprefabArray;
+        SpawnFoodScript = GameCamera.GetComponent<SpawnFood>();
         rb = gameObject.GetComponent<Rigidbody>();
         rb.transform.localScale = new Vector3(Global.head_size, Global.head_size, Global.head_size);
         tailPrefab.transform.localScale = new Vector3(Global.tail_size, Global.tail_size, Global.tail_size);
@@ -59,9 +59,11 @@ public class Bot_HeadController : HeadController {
 
         for (int i = 0; i < 1; i++)
             TailCreate(rb.position);
-        
-        
-	}
+
+        headspeed_mult = Global.init_botHeadSpeed;
+
+
+    }
 
     private void FixedUpdate () {
 
@@ -70,7 +72,7 @@ public class Bot_HeadController : HeadController {
 
         MeshRenderer mr;
         Vector3 newpose = rb.position;
-        float speed = headcurspeed_mult * 1.2f;
+        float speed = headspeed_mult * 1.2f;
         degree = (float)GetPosition(newpose);
 
         //Debug.Log("degree is " + degree);
@@ -212,9 +214,7 @@ public class Bot_HeadController : HeadController {
 
             fd.ate_by_worm();
 
-            ate -= 4;
-
-
+            ate -= 50;
         }
         if (coll.name.StartsWith("fd"))
         {
@@ -227,8 +227,7 @@ public class Bot_HeadController : HeadController {
 
             fd.fd_ate_by_worm();
 
-            ate -= 1;
-
+            ate -= 45;
         }
 
         // When current worm collides against tail of another worm
@@ -284,12 +283,12 @@ public class Bot_HeadController : HeadController {
 
         head.GetComponent<MeshRenderer>().enabled = true;
 
-        headspeed_mult = Global.init_headspeed_mult;
+        headspeed_mult = Global.init_botHeadSpeed;
         //Destroy(head);
 
         head.GetComponent<SphereCollider>().enabled = true;
 
-        ate -= 4;
+        ate -= 200;
 
         WormLight.SetActive(false);
 

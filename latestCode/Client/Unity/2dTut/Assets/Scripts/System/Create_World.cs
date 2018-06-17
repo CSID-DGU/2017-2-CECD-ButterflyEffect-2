@@ -86,7 +86,6 @@ public class Create_World : MonoBehaviour
         //Typing "Spawn();" to test worms in Unity here
         SFXplayer.PlayWaitBGM();
 
-        GameStart("10");
     }
 
     int person_num = 0;

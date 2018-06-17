@@ -24,7 +24,7 @@ public static class Global
 
     //Worms Speed
     public static float init_headspeed_mult = resolution_fix / 300;
-    public static float init_headcurspeed_mult = 2.0f;
+    public static float init_headcurspeed_mult = 1.5f;
 
     public static float init_botHeadSpeed = init_headspeed_mult * 1.2f;
 

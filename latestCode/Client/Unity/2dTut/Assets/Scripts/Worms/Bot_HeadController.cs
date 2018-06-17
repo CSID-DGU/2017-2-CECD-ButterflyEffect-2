@@ -214,7 +214,7 @@ public class Bot_HeadController : HeadController {
 
             fd.ate_by_worm();
 
-            ate -= 50;
+            ate -= 24;
         }
         if (coll.name.StartsWith("fd"))
         {
@@ -227,7 +227,7 @@ public class Bot_HeadController : HeadController {
 
             fd.fd_ate_by_worm();
 
-            ate -= 45;
+            ate -= 20;
         }
 
         // When current worm collides against tail of another worm

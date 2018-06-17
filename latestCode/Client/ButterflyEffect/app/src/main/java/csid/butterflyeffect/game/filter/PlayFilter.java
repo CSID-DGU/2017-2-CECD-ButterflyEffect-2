@@ -184,11 +184,11 @@ public class PlayFilter {
             green = 0;
             blue = 0;
             for (int bodyPart = 0; bodyPart < Constants.COLOR_LISTS_NAME.length; bodyPart++) {
-                red += Color.red(color[bodyPart]) - Color.red(userColors.get(bodyPart));
-                green += Color.green(color[bodyPart]) - Color.green(userColors.get(bodyPart));
-                blue += Color.blue(color[bodyPart]) - Color.blue(userColors.get(bodyPart));
+                red += Math.abs(Color.red(color[bodyPart]) - Color.red(userColors.get(bodyPart)));
+                green += Math.abs(Color.green(color[bodyPart]) - Color.green(userColors.get(bodyPart)));
+                blue += Math.abs(Color.blue(color[bodyPart]) - Color.blue(userColors.get(bodyPart)));
             }
-            colorDistance[user] = Math.sqrt(Math.pow(red, 2) + Math.pow(green, 2) + Math.pow(blue, 2));
+            colorDistance[user] = red + green + blue;
         }
 
         //Pick minimum diff

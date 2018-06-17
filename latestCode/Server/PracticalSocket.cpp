@@ -287,11 +287,11 @@ UDPSocket::UDPSocket() throw(SocketException) : CommunicatingSocket(SOCK_DGRAM,
 
 UDPSocket::UDPSocket(unsigned short localPort)  throw(SocketException) : 
     CommunicatingSocket(SOCK_DGRAM, IPPROTO_UDP) {
-  struct timeval tv;
-  tv.tv_sec = 180;
-  int reuse;
-  setsockopt(sockDesc, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
-  setsockopt(sockDesc, SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(int));
+  //struct timeval tv;
+  //tv.tv_sec = 180;
+  //int reuse;
+  //setsockopt(sockDesc, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+  //setsockopt(sockDesc, SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(int));
   setLocalPort(localPort);
   setBroadcast();
 }

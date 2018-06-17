@@ -9,14 +9,14 @@ import csid.butterflyeffect.R;
 public class Constants {
 
     //about battleWorms
-    public static int PLAYER_NUMBER = 1;
+    public static int PLAYER_NUMBER = 3;
     public static final int STATE_WAIT = 0;
     public static final int STATE_READY = 1;
     public static final int STATE_START = 2;
     public static final int STATE_END = 3;
     public static final int GAME_WAITING_TIME = 3;
     public static final int PHOTO_WAITING_TIME = 3;
-    public static final int TIME_OUT = 10;
+    public static final int TIME_OUT = 90;
 
     //about CONNECTION
     public static int PORT_NUM = 4000;

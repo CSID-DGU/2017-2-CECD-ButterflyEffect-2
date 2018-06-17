@@ -62,8 +62,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         else
             holder.dieView.setVisibility(View.VISIBLE);
 
-        holder.scoreColorView.setBackgroundColor(Utils.getIntFromColor(userInfo.getR(),userInfo.getG(),userInfo.getB()));
-       /* //user color view
+        //holder.scoreColorView.setBackgroundColor(Utils.getIntFromColor(userInfo.getR(),userInfo.getG(),userInfo.getB()));
+        holder.scoreColorView.setBackgroundColor(Utils.getColor(userInfo.getUserNumber()));
+
+        /* //user color view
         ArrayList<Integer> userColors = userInfo.getColors();
         for(int i=0;i<userColors.size();i++){
             holder.colors[i].setBackgroundColor(userColors.get(i));

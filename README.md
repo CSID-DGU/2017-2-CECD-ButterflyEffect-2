@@ -19,7 +19,7 @@
 
 <p align="center">
 	<img src="doc/demo_environment.png", width="360">
-    <img src="doc/multi_game.gif", width="500">
+    <img src="doc/latest_version.gif", width="500">
 
 </p>
 
@@ -149,10 +149,16 @@ We extract the **real player** from among many people in frame as follows:
 
 ---
 
-### 6) Adding game effect and enhancing filter accuracy (ongoing).
+### 6) Adding game effect and enhancing filter accuracy (18.06.17)
+<p align="center">
+    <img src="doc/latest_version.gif", width="400">
+    <img src="doc/filter.gif", width="200">
+</p>
 
-We are developing a filter so that it can function normally even if there are many people in the background.
+- We added game elements such as sound and graphics.
+- We improved our filter so that it can function normally even if there are many people in the background.
 
+### Thank you!
 
 ## OpenSource
 

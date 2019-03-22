@@ -2,9 +2,9 @@
 
 
 ## Members
-- 한승범(Han Seung Beom) <aronix@naver.com>
-- 나선엽(Na Sun Yeop) <coinnip@gmail.com>
-- 김상연(Kim Sang Yeon) <sy0814k@gmail.com>
+- 한승범(Han SeungBeom) <aronix@naver.com>
+- 나선엽(Na SunYeop) <coinnip@gmail.com>
+- 김상연(Kim SangYeon) <sy0814k@gmail.com>
 
 ## Contents
 1. [Results](#results)
